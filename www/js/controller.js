@@ -1,7 +1,7 @@
 var altamiraAppControllers = angular.module('altamiraAppControllers', []);
 
 altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
-        function($scope, $http) {
+        function($scope, $http, $location) {
             $scope.currentPage = 1;
             $scope.pageSize = 1;
             $scope.loadBom = function() {
@@ -16,4 +16,11 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
             };
             // default
             $scope.loadBom();
+            $scope.newProcess = function() {
+                $location.path('/manufacturing/process/create');
+            }
+        });
+altamiraAppControllers.controller('ManufacturingProcsCreateCtrl',
+        function($scope, $http, $location) {
+
         });

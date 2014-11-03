@@ -24,6 +24,9 @@ altamiraApp.config(['$routeProvider',
       when('/manufacturing/process', {
         templateUrl: 'templates/mf-process-list.html',
         controller: 'ManufacturingProcsSearchCtrl'
+      }).when('/manufacturing/process/create', {
+        templateUrl: 'templates/mf-create.html',
+        controller: 'ManufacturingProcsCreateCtrl'
       }).otherwise({
         redirectTo: '/manufacturing/process'
       });

@@ -24,6 +24,16 @@
     font-size: 24px;
     color: #00ABA9;
 }
+.fa-full-arrow-right:before {
+    font-family: "fontawesome";
+    content: "\f060";
+    font-size: 24px;
+}
+.fa-full-arrow-right:before {
+    font-family: "fontawesome";
+    content: "\f060";
+    font-size: 24px;
+}
 .btn-separator:after {
     background: none repeat scroll 0 0 #ddd;
     content: " ";
@@ -54,4 +64,7 @@
 }
 .font-grey{
     color: #666666;
+}
+.text-bold{
+    font-weight: bold;
 }

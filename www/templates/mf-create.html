@@ -12,25 +12,23 @@
         <div class="row">
             <div class="col">
                 <div class="list">
-
-                    <div class="item item-input-inset">
-                        <label class="item-input-wrapper">
-                            <input type="text" placeholder="search" ng-model="q">
-                        </label>
-                        <button class="button button-small">
-                            Submit
-                        </button>
-                    </div>
-
+                    <span class="input-label text-bold">Codigo</span>
+                    <label class="item item-input">
+                        <input type="text" placeholder="Codigo">
+                    </label>
+                    <span class="input-label text-bold">Descricao</span>
+                    <label class="item item-input">
+                        <input type="text" placeholder="Descricao">
+                    </label>
                 </div>
             </div>
         </div>
-        <div class="row desktop-view">
+<!--        <div class="row desktop-view">
             <div class="col">
                 <div class="list list-inset" dir-paginate="process in processes | filter:q | itemsPerPage: pageSize" current-page="currentPage">
                     <a class="item item-icon-right" href="#">
                         <div class="list-start-bar"></div>
-                        <span class="text-center-middle"><span class="font-grey">{{process.id}}|{{process.code}}</span> {{process.description}}</span>
+                        <span class="text-center-middle"><span class="font-grey">{{process.code}}</span> {{process.description}}</span>
                         <i class="icon fa-arrow-right"></i>
                     </a>
                 </div>
@@ -49,6 +47,6 @@
                 </div>
             </div>
         </div>
-        <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="templates/dirPagination.tpl.html"></dir-pagination-controls>
+        <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="templates/dirPagination.tpl.html"></dir-pagination-controls>-->
     </ion-content>
 </ion-pane>
