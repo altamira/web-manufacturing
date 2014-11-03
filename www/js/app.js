@@ -21,13 +21,13 @@ var altamiraApp = angular.module('altamira', ['ionic','altamiraAppControllers', 
 altamiraApp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
-      when('/manufacturing/process', {
+      when('/manufacturing/process/:start', {
         templateUrl: 'templates/mf-process-list.html',
         controller: 'ManufacturingProcsSearchCtrl'
       }).when('/manufacturing/process/create', {
         templateUrl: 'templates/mf-create.html',
         controller: 'ManufacturingProcsCreateCtrl'
       }).otherwise({
-        redirectTo: '/manufacturing/process'
+        redirectTo: '/manufacturing/process/0'
       });
   }]);

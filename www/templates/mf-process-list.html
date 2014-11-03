@@ -27,21 +27,31 @@
         </div>
         <div class="row desktop-view">
             <div class="col">
-                <div class="list list-inset" dir-paginate="process in processes | filter:q | itemsPerPage: pageSize" current-page="currentPage">
+                <div class="list list-inset" ng-repeat="process in processes">
                     <a class="item item-icon-right" href="#">
-                        <div class="list-start-bar"></div>
-                        <span class="text-center-middle"><span class="font-grey">{{process.id}}|{{process.code}}</span> {{process.description}}</span>
+                        <!--<div class="list-start-bar"></div>-->
+                        <span class="text-center-middle"><span class="font-grey">{{process.code}}</span> {{process.description}}</span>
                         <i class="icon fa-arrow-right"></i>
                     </a>
                 </div>
 
             </div>
         </div>
+        <div class="row desktop-view">
+            <div class="col col-33 col-offset-67">
+                <div class="list list-inset">
+                    <div class="button-bar">
+                        <a  class="button button-light" ng-repeat="n in pageStack" ng-click="goPage(n)">{{n}}</a>
+                        <a  class="button button-light" ng-click="nextPage()">Next</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row small-screen-view">
             <div class="col">
                 <div class="list list-inset" ng-repeat="process in processes | filter:searchData.search | itemsPerPage: pageSize" current-page="currentPage">
                     <a class="item item-icon-right" href="#">
-                        <div class="list-start-bar"></div>
+                        <!--<div class="list-start-bar"></div>-->
                         <span class="text-center-middle font-grey">{{process.code}}</span><br/>
                         <span class="text-center-middle">{{process.description}}</span>
                         <i class="icon fa-arrow-right"></i>
@@ -49,6 +59,6 @@
                 </div>
             </div>
         </div>
-        <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="templates/dirPagination.tpl.html"></dir-pagination-controls>
+        <!--<dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="templates/dirPagination.tpl.html"></dir-pagination-controls>-->
     </ion-content>
 </ion-pane>
