@@ -1,0 +1,57 @@
+@font-face {
+    font-family: 'fontawesome';
+    src:url('../fonts/fontawesome-webfont.eot');
+    src:url('../fonts/fontawesome-webfont.eot') format('embedded-opentype'),
+        url('../fonts/fontawesome-webfont.woff') format('woff'),
+        url('../fonts/fontawesome-webfont.ttf') format('truetype'),
+        url('../fonts/fontawesome-webfont.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+.fa-bars:before {
+    font-family: "fontawesome";
+    content: "\f0c9";
+    font-size: 24px;
+}
+.fa-plus:before {
+    font-family: "fontawesome";
+    content: "\f067";
+    font-size: 24px;
+}
+.fa-arrow-right:before {
+    font-family: "fontawesome";
+    content: "\f054";
+    font-size: 24px;
+    color: #00ABA9;
+}
+.btn-separator:after {
+    background: none repeat scroll 0 0 #ddd;
+    content: " ";
+    display: block;
+    float: left;
+    margin: 0;
+    min-height: 40px;
+    position: relative;
+    width: 1px;
+}
+.mf-page-titles{
+    color: #ffffff;
+    font-weight: bold;
+}
+.list-start-bar:after {
+    background: none repeat scroll 0 0 #00ABA9;
+    content: " ";
+    display: block;
+    float: left;
+    margin-right: 10px;
+    min-height: 40px;
+    position: relative;
+    width: 8px;
+}
+.text-center-middle{
+    vertical-align: middle;
+    width: 100%;
+}
+.font-grey{
+    color: #666666;
+}

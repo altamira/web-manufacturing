@@ -1,0 +1,26 @@
+<div class="row desktop-view">
+    <div class="col col-33 col-offset-67">
+        <div class="list list-inset">
+            <div class="button-bar" ng-if="1 < pages.length">
+                <a class="button button-light" ng-if="boundaryLinks" ng-class="{ disabled : pagination.current == 1 }" href="" ng-click="setCurrent(1)">&laquo;</a>
+                <a  class="button button-light" ng-if="directionLinks" ng-class="{ disabled : pagination.current == 1 }" href="" ng-click="setCurrent(pagination.current - 1)">&lsaquo;</a>
+                <a  class="button button-light" ng-repeat="pageNumber in pages track by $index" ng-class="{ active : pagination.current == pageNumber, disabled : pageNumber == '...' }" href="" ng-click="setCurrent(pageNumber)">{{ pageNumber }}</a>
+                <a  class="button button-light" ng-if="directionLinks" ng-class="{ disabled : pagination.current == pagination.last }" href="" ng-click="setCurrent(pagination.current + 1)">&rsaquo;</a>
+                <a  class="button button-light" ng-if="boundaryLinks"  ng-class="{ disabled : pagination.current == pagination.last }" href="" ng-click="setCurrent(pagination.last)">&raquo;</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row small-screen-view">
+    <div class="col">
+        <div class="list list-inset">
+            <div class="button-bar" ng-if="1 < pages.length">
+                <a class="button button-light" ng-if="boundaryLinks" ng-class="{ disabled : pagination.current == 1 }" href="" ng-click="setCurrent(1)">&laquo;</a>
+                <a  class="button button-light" ng-if="directionLinks" ng-class="{ disabled : pagination.current == 1 }" href="" ng-click="setCurrent(pagination.current - 1)">&lsaquo;</a>
+                <a  class="button button-light" ng-repeat="pageNumber in pages track by $index" ng-class="{ active : pagination.current == pageNumber, disabled : pageNumber == '...' }" href="" ng-click="setCurrent(pageNumber)">{{ pageNumber }}</a>
+                <a  class="button button-light" ng-if="directionLinks" ng-class="{ disabled : pagination.current == pagination.last }" href="" ng-click="setCurrent(pagination.current + 1)">&rsaquo;</a>
+                <a  class="button button-light" ng-if="boundaryLinks"  ng-class="{ disabled : pagination.current == pagination.last }" href="" ng-click="setCurrent(pagination.last)">&raquo;</a>
+            </div>
+        </div>
+    </div>
+</div>

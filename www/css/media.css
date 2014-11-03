@@ -1,0 +1,16 @@
+@media (max-width: 640px){
+    .small-screen-view{
+        display: '';
+    }
+    .desktop-view{
+        display:none;
+    }
+}
+@media (min-width: 641px){
+    .small-screen-view{
+        display: none;
+    }
+    .desktop-view{
+        display:'';
+    }
+}
