@@ -34,6 +34,16 @@
     content: "\f1da";
     font-size: 24px;
 }
+.fa-download:before {
+    font-family: "fontawesome";
+    content: "\f019";
+    font-size: 24px;
+}
+.fa-search:before {
+    font-family: "fontawesome";
+    content: "\f002";
+    font-size: 24px;
+}
 .btn-separator:after {
     background: none repeat scroll 0 0 #ddd;
     content: " ";
