@@ -1,60 +1,51 @@
 <ion-pane>
     <ion-header-bar class="bar-calm">
         <div class="buttons header-margin">
-            <button class="button fa-bars"></button>
+            <button class="button fa-arrow-left" ng-click="goBack()"></button>
             <span class="btn-separator"></span>
-            <h4 class="mf-page-titles">&nbsp;Processo de Fabricação&nbsp;</h4>
+            <h4 class="mf-page-titles"></h4>
             <span class="btn-separator"></span>
-            <button class="button fa-plus" ng-click="newProcess()"></button>
+            <!--<button class="button fa-check" ng-click="submitted=true" ></button>-->
+            <button class="button fa-check" ng-click="submitCreateProcess(true)" ></button>
         </div>
     </ion-header-bar>
-    <ion-content class="content-body">
+    <ion-content>
         <div class="row">
             <div class="col">
                 <div class="list">
-                    <span class="input-label text-bold">Codigo</span>
-                    <label class="item item-input">
-                        <input type="text" placeholder="Codigo">
-                    </label>
-                    <span class="input-label text-bold">Descricao</span>
-                    <label class="item item-input">
-                        <input type="text" placeholder="Descricao">
-                    </label>
+                    <form name="processCreateForm" novalidate ng-submit="submitCreateProcess(processCreateForm.$valid)">
+                        <span class="input-label text-bold">Codigo</span>
+                        <label class="item item-input" style="background-color: whitesmoke;border: 1px solid #000;border-radius: 5px;height: 35px;">
+                            <input type="text" name="code" ng-model="processData.code">
+                        </label>
+                        <span class="input-label text-bold">Descricao</span>
+                        <label class="item item-input" style="background-color: whitesmoke;border: 1px solid #000;border-radius: 5px;height: 35px;">
+                            <input type="text" name="description" ng-model="processData.description">
+                        </label>
+                    </form>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="margin-top: 20px;">
             <div class="col">
-
-                    <a class="item-icon-left" href="#">
+                <div class="list">
+                    <a class="item item-icon-left" href="#">
+                        Revisões
                         <i class="icon fa-history"></i>
-                        Check mail
                     </a>
+                </div>
             </div>
-            <!--        <div class="row desktop-view">
-                        <div class="col">
-                            <div class="list list-inset" dir-paginate="process in processes | filter:q | itemsPerPage: pageSize" current-page="currentPage">
-                                <a class="item item-icon-right" href="#">
-                                    <div class="list-start-bar"></div>
-                                    <span class="text-center-middle"><span class="font-grey">{{process.code}}</span> {{process.description}}</span>
-                                    <i class="icon fa-arrow-right"></i>
-                                </a>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="row small-screen-view">
-                        <div class="col">
-                            <div class="list list-inset" ng-repeat="process in processes | filter:searchData.search | itemsPerPage: pageSize" current-page="currentPage">
-                                <a class="item item-icon-right" href="#">
-                                    <div class="list-start-bar"></div>
-                                    <span class="text-center-middle font-grey">{{process.code}}</span><br/>
-                                    <span class="text-center-middle">{{process.description}}</span>
-                                    <i class="icon fa-arrow-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="templates/dirPagination.tpl.html"></dir-pagination-controls>-->
+        </div>
+        <div class="row" style="margin-top: 20px;">
+            <div class="col">
+                <div class="list">
+                    <a class="item item-icon-left item-icon-right" href="#">
+                        <i class="icon fa-cogs"></i>
+                        Operações
+                        <i class="icon fa-plus-circle"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
     </ion-content>
 </ion-pane>

@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-var altamiraApp = angular.module('altamira', ['ionic','altamiraAppControllers', 'ngRoute','angularUtils.directives.dirPagination'])
+var altamiraApp = angular.module('altamira', ['ionic','altamiraAppControllers', 'ngRoute'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -24,9 +24,9 @@ altamiraApp.config(['$routeProvider',
       when('/manufacturing/process/:start', {
         templateUrl: 'templates/mf-process-list.html',
         controller: 'ManufacturingProcsSearchCtrl'
-      }).when('/manufacturing/process/create', {
+      }).when('/manufacturing/create/process', {
         templateUrl: 'templates/mf-create.html',
-        controller: 'ManufacturingProcsCreateCtrl'
+        controller: 'ManufacturingProcessCreateCtrl'
       }).otherwise({
         redirectTo: '/manufacturing/process/0'
       });
