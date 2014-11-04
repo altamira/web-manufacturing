@@ -1,6 +1,6 @@
 <ion-header-bar class="bar-calm">
 	<div class="buttons header-margin">
-		<button class="button fa-bars" ></button>
+		<button class="button fa-bars"></button>
 		<span class="btn-separator"></span>
 		<h1 class="title">Lista de Material</h1>
 		<span class="btn-separator"></span>
@@ -13,16 +13,12 @@
 		<div class="item item-input-inset">
 			<label class="item-input-wrapper">
 				<!--<i class="fa fa-search placeholder-icon"></i>-->
-				<input type="search" placeholder="Search" ng-model="searchData.search" value="{{searchData.search}}">
+				<input type="search" placeholder="Busca..." ng-model="search.criteria" value="{{search.criteria}}">
 			</label>
-			<button class="button button-icon" ng-click="search()"><i class="fa fa-search"></i></button>
+			<button class="button button-icon" ng-click="search.run()"><i class="fa fa-search"></i></button>
 		</div>
-		<!--<div class="item item-icon-right" ng-repeat="order in orders | filter: searchData.search">
-			<p class="no-item-margin-border" ng-click="goDetail({{order.number}})">{{order.number}} {{order.customer}}</p>
-			<i class="icon fa fa-times-circle-o" ng-click="deleteOrder($index,{{order.number}})"></i>
-		</div>-->
-		<div class="item item-icon-right" ng-repeat="order in orders | filter: searchData.search">
-			<p class="no-item-margin-border" ng-click="goDetail(order.id)">{{order.number}} {{order.customer}}</p>
+		<div class="item item-icon-right" ng-repeat="order in orders | filter: criteria">
+			<p ng-click="edit(order.id)">{{order.number}} {{order.customer}}</p>
 			<i class="icon" ng-click="check(order.id)">
 				<label>
 					<div class="checkbox checkbox-input-hidden disable-pointer-events">
