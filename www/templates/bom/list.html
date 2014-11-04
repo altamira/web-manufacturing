@@ -17,23 +17,23 @@
 			</label>
 			<button class="button button-icon" ng-click="search.run()"><i class="fa fa-search"></i></button>
 		</div>
-		<div class="item item-icon-right" ng-repeat="order in orders | filter: criteria">
-			<p ng-click="edit(order.id)">{{order.number}} {{order.customer}}</p>
-			<i class="icon" ng-click="check(order.id)">
+		<div class="item item-icon-right" ng-repeat="item in search.pages[search.page] | filter: search.criteria">
+			<p ng-click="edit(item.id)">{{item.number}} {{item.customer}}</p>
+			<i class="icon" ng-click="check(item.id)">
 				<label>
 					<div class="checkbox checkbox-input-hidden disable-pointer-events">
-						<input type="checkbox" ng-checked="order.checked" readonly class="checked">
+						<input type="checkbox" ng-checked="item.checked" readonly class="checked">
 						<i class="checkbox-icon"></i>
 					</div>
 				</label>
 			</i>
 		</div>
 		<ul class="pagination">
-			<li ng-repeat="n in range()" ng-class="{active: n == currentPage}" ng-click="setPage(n)">
-				<a href="#">{{n+1}}</a>
+			<li ng-repeat="i in search.pages track by $index" ng-class="{active: n == search.page}">
+				<a href ng-click="search.go($index)">{{$index+1}}</a>
 			</li>
-			<li ng-class="nextPageDisabled()">
-				<a href ng-click="nextPage()">Next »</a>
+			<li ng-show="search.forward && search.pages.length && search.pages[search.pages.length - 1].length == search.size">
+				<a href ng-click="search.next()">Next »</a>
 			</li>
 		</ul>		
 	</ion-list>       

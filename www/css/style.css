@@ -61,6 +61,11 @@
     font-size: 24px;
     color: #00ABA9;
 }
+.fa-download:before {
+    font-family: "fontawesome";
+    content: "\f019";
+    font-size: 24px;
+}
 .btn-separator:after {
     background: none repeat scroll 0 0 #ddd;
     content: " ";
