@@ -24,42 +24,15 @@
     font-size: 24px;
     color: #00ABA9;
 }
-.fa-arrow-left:before {
-    font-family: "fontawesome";
-    content: "\f060";
-    font-size: 24px;
-}
 .fa-full-arrow-right:before {
     font-family: "fontawesome";
     content: "\f060";
-    font-size: 24px;
-}
-.fa-check:before {
-    font-family: "fontawesome";
-    content: "\f00c";
     font-size: 24px;
 }
 .fa-history:before {
     font-family: "fontawesome";
     content: "\f1da";
     font-size: 24px;
-}
-.fa-search:before {
-    font-family: "fontawesome";
-    content: "\f002";
-    font-size: 28px;
-    color: #00ABA9;
-}
-.fa-cogs:before {
-    font-family: "fontawesome";
-    content: "\f085";
-    font-size: 24px;
-}
-.fa-plus-circle:before {
-    font-family: "fontawesome";
-    content: "\f055";
-    font-size: 24px;
-    color: #00ABA9;
 }
 .btn-separator:after {
     background: none repeat scroll 0 0 #ddd;

@@ -14,13 +14,12 @@
                 <div class="list">
 
                     <div class="item item-input-inset">
-                        <label class="input-search-wrapper">
-                            <input type="text" placeholder="search" ng-model="searchText">
+                        <label class="item-input-wrapper">
+                            <input type="text" placeholder="search" ng-model="q">
                         </label>
-                        <i class="icon fa-search"></i>
-<!--                        <button class="button fa-history" ng-click="searchProcess(searchText)">
+                        <button class="button button-small">
                             Submit
-                        </button>-->
+                        </button>
                     </div>
 
                 </div>
@@ -50,7 +49,7 @@
         </div>
         <div class="row small-screen-view">
             <div class="col">
-                <div class="list list-inset" ng-repeat="process in processes">
+                <div class="list list-inset" ng-repeat="process in processes | filter:searchData.search | itemsPerPage: pageSize" current-page="currentPage">
                     <a class="item item-icon-right" href="#">
                         <!--<div class="list-start-bar"></div>-->
                         <span class="text-center-middle font-grey">{{process.code}}</span><br/>
