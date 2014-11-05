@@ -176,26 +176,30 @@ altamiraAppControllers.controller('ManufacturingProcessOperationCtrl', ['$scope'
         $scope.submitOperationForm = function(isValid) {
             if (isValid) {
                 $scope.postdata = {};
-                $scope.postdata.sequence = $scope.operationData.sequence;
+                $scope.postdata.sequence = parseInt($scope.operationData.sequence);
                 $scope.postdata.name = $scope.operationData.name;
                 $scope.postdata.description = $scope.operationData.description;
                 $scope.postdata.sketch = $scope.operationData.sketch;
+//                $scope.postdata.sketch = "/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wgARCAAeAB4DASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAABAUGAgP/xAAXAQEAAwAAAAAAAAAAAAAAAAACAAQF/9oADAMBAAIQAxAAAAF0FPYz6ndA3EaHftVrIM/UTjn/xAAdEAABBAMBAQAAAAAAAAAAAAABAAIDEgQREyEi/9oACAEBAAEFAu9U7JDlNtSXv1uvqxBaG+EjTm+MyE8rLgZwkj5iQ/BZs//EABcRAQEBAQAAAAAAAAAAAAAAAAEAERL/2gAIAQMBAT8B7YkyG//EABsRAAEEAwAAAAAAAAAAAAAAAAABAhESITFR/9oACAECAQE/Aa9G4JRdjYP/xAAiEAABBAEDBQEAAAAAAAAAAAABAAIRITEDEmEQQVFisYH/2gAIAQEABj8Cu+ERj8VQVu0rOFlXKvaPqJ3WfCbMyMrT7zlS0V0a1oiz8Kbw5EeqK//EAB4QAQEBAQACAgMAAAAAAAAAAAERACFRcYGxMWHB/9oACAEBAAE/ISbwD5aiD4Ssoec8YOFhUl3BOVcPIP1rbp5L1ocB+g/ekXpQukePWLIWqrqfC80QWfZfzFW+nw42axF1sT8u/9oADAMBAAIAAwAAABA76ND/xAAXEQADAQAAAAAAAAAAAAAAAAAAAREx/9oACAEDAQE/EEw3WQFj/8QAFxEBAQEBAAAAAAAAAAAAAAAAAQARIf/aAAgBAgEBPxDsyAOnZxkI4X//xAAhEAEAAgICAgIDAAAAAAAAAAABESEAQTFRYYFxkaHB8P/aAAgBAQABPxBUI7lPs4IBtfYzFx6y6ZBrIHneMSyCBBvjqRyXVKnl1zixNJGJDXM4uWUwQaOzV7qsAHAp0+QMYM8iKRBB+3nEGgtzI19YRjANFtN/3OA0lgBSrfGBQXKHSb5Zh+OsU0UpFUmvOQdolVZv5xmYdxn/2Q==";
+                $scope.postdata.consume = [];
+                $scope.postdata.produce = [];
                 console.log(JSON.stringify($scope.postdata));
-//                $http({
-//                    method: 'PUT',
-//                    url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.postdata.id,
-//                    data: $scope.postdata, // pass in data as strings
-//                    headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
-//                }).success(function(data, status, headers, config) {
-//
-//                    $location.path('/manufacturing/update/process/' + data.id);
-//
-//                }).error(function(data, status, headers, config) {
-//                    console.log(data);
-//                    console.log(status);
-//                    console.log(headers);
-//                    console.log(config);
-//                });
+//                {"id":446,"sequence":23,"name":"asd fasdf asdfasdf","description":"asdfasdf asf asdf asdf","sketch":"","consume":[],"produce":[]}
+                $http({
+                    method: 'POST',
+                    url: 'http://data.altamira.com.br/manufacturing/process/'+$scope.processId+'/operation',
+                    data: $scope.postdata, // pass in data as strings
+                    headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                }).success(function(data, status, headers, config) {
+
+                    console.log(data);
+
+                }).error(function(data, status, headers, config) {
+                    console.log(data);
+                    console.log(status);
+                    console.log(headers);
+                    console.log(config);
+                });
             }
         };
         $scope.goBack = function() {

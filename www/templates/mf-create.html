@@ -15,11 +15,11 @@
                 <div class="list">
                     <form name="processCreateForm" novalidate ng-submit="submitCreateProcess(processCreateForm.$valid)">
                         <span class="input-label text-bold">Codigo</span>
-                        <label class="item item-input" style="background-color: whitesmoke;border: 1px solid #000;border-radius: 5px;height: 35px;">
+                        <label class="item item-input" style="background-color: #eeeeee;border: 1px solid #dddddd;border-radius: 5px;height: 35px; margin-bottom:15px;">
                             <input type="text" name="code" ng-model="processData.code">
                         </label>
                         <span class="input-label text-bold">Descricao</span>
-                        <label class="item item-input" style="background-color: whitesmoke;border: 1px solid #000;border-radius: 5px;height: 35px;">
+                        <label class="item item-input" style="background-color: #eeeeee;border: 1px solid #dddddd;border-radius: 5px;height: 35px;">
                             <input type="text" name="description" ng-model="processData.description">
                         </label>
                     </form>
@@ -29,9 +29,9 @@
         <div class="row" style="margin-top: 20px;">
             <div class="col">
                 <div class="list">
-                    <a class="item item-icon-left" href="#">
+                    <a class="process-item-list item-icon-left" href="#">
                         Revisões
-                        <i class="icon fa-history"></i>
+                        <i class="icon fa-history left-icon"></i>
                     </a>
                 </div>
             </div>
@@ -39,10 +39,10 @@
         <div class="row" style="margin-top: 20px;">
             <div class="col">
                 <div class="list">
-                    <a class="item item-icon-left item-icon-right" href="#">
-                        <i class="icon fa-cogs"></i>
+                    <a class="process-item-list item-icon-left item-icon-right">
+                        <i class="icon left-icon fa-cogs"></i>
                         Operações
-                        <i class="icon fa-plus-circle"></i>
+                        <i class="icon plus-icon fa-plus-circle"></i>
                     </a>
                 </div>
             </div>
