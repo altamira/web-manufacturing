@@ -20,23 +20,32 @@ var altamiraApp = angular.module('altamira', ['ionic','altamiraAppControllers', 
 
 altamiraApp.config(['$routeProvider',
   function($routeProvider) {
-    $routeProvider.
-      when('/manufacturing/process/:start', {
+    $routeProvider
+      .when('/manufacturing/process', {
         templateUrl: 'templates/mf-process-list.html',
         controller: 'ManufacturingProcsSearchCtrl'
-      }).when('/manufacturing/create/process', {
+      })
+      .when('/manufacturing/process/0', {
         templateUrl: 'templates/mf-create.html',
         controller: 'ManufacturingProcessCreateCtrl'
-      }).when('/manufacturing/update/process/:processId', {
+      })
+      .when('/manufacturing/process/:processId', {
         templateUrl: 'templates/mf-update.html',
         controller: 'ManufacturingProcessUpdateCtrl'
-      }).when('/manufacturing/process/operation/:processId', {
-        templateUrl: 'templates/mf-operation.html',
-        controller: 'ManufacturingProcessOperationCtrl'
-      }).when('/manufacturing/process/operation/type/uso', {
+      })
+      .when('/manufacturing/process/:processId/operation', {
+        templateUrl: 'templates/mf-operation-create.html',
+        controller: 'ManufacturingProcessOperationCreateCtrl'
+      })
+      .when('/manufacturing/process/:processId/operation/:operationId', {
+        templateUrl: 'templates/mf-operation-update.html',
+        controller: 'ManufacturingProcessOperationUpdateCtrl'
+      })
+      .when('/manufacturing/process/:processId/operation/:operationId/uso', {
         templateUrl: 'templates/mf-operation-uso.html',
-        controller: 'ManufacturingProcessOperationUsoCtrl'
-      }).otherwise({
-        redirectTo: '/manufacturing/process/0'
+        controller: 'ManufacturingProcessOperationUsoCreateCtrl'
+      })
+      .otherwise({
+        redirectTo: '/manufacturing/process'
       });
   }]);

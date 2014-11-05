@@ -1,0 +1,92 @@
+<ion-pane>
+    <ion-header-bar class="bar-calm">
+        <div class="buttons header-margin">
+            <button class="button fa-arrow-left" ng-click="goBack()"></button>
+            <span class="btn-separator"></span>
+            <h4 class="mf-page-titles"></h4>
+            <span class="btn-separator"></span>
+            <!--<button class="button fa-check" ng-click="submitted=true" ></button>-->
+            <button class="button fa-check" ng-click="submitOperationForm(true)" ></button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <div class="row">
+            <div class="col">
+
+                <form name="operationForm" novalidate ng-submit="submitOperationForm(operationForm.$valid)" enctype="multipart/form-data">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Seqüência</span>
+                        <label class="item item-input" style="background-color: #eeeeee;border: 1px solid #dddddd;border-radius: 5px;height: 35px;">
+                            <input type="text" name="sequence" ng-model="operationData.sequence">
+                        </label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Operação</span>
+                        <label class="item item-select item-select-box">
+                            <select name="operation" ng-model="operationData.name" class="select-box">
+                                <option value="ESTAMPARIA">ESTAMPARIA</option>
+                                <option value="PERFILAMENTO">PERFILAMENTO</option>
+                                <option value="SOLDA">SOLDA</option>
+                                <option value="DOBRA">DOBRA</option>
+                                <option value="MONTAGEM">MONTAGEM</option>
+                                <option value="PINTURA">PINTURA</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Descrição</span>
+                        <textarea name="description" ng-model="operationData.description" style="background-color: #eeeeee;border: 1px solid #dddddd;border-radius: 5px;height: 100px; resize: none; padding:10px 10px"></textarea>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Croqui</span>
+                        <div id="uploadBtn">
+                            <button class="upload-btn" type="button"></button>
+                            <input type='file' id="input-file" image-convert/>
+                        </div>
+
+                        <button class="remove-btn" id="removeBtn" type="button" cancel-upload></button>
+                        <button class="remove-btn1" id="removeBtn1" type="button"></button>
+
+
+                        <div class="show-upload-img" id="uploadedImg">
+                        <img id="img" src="" class="croqui-img"/></div>
+                        <textarea id="base" ng-model="operationData.sketch" ng-hide="true"></textarea>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col listing-operation">
+                <div class="list list-row">
+                    <a class="item operation-item item-icon-left item-icon-right" >
+                       <span>U</span>
+                        Uso
+                        <i class="icon plus-icon fa-plus-circle" ng-click="updateUso()"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col listing-operation">
+                <div class="list list-row">
+                    <a class="item operation-item item-icon-left item-icon-right" >
+                        <span class="consumo">C</span>
+                        Consumo
+                        <i class="icon fa-plus-circle"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col listing-operation">
+                <div class="list list-row">
+                    <a class="item operation-item item-icon-left item-icon-right" >
+                       <span class="produto">P</span>
+                        Produto
+                        <i class="icon fa-plus-circle"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-pane>
