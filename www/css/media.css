@@ -1,16 +1,1 @@
-@media (max-width: 640px){
-    .small-screen-view{
-        display: '';
-    }
-    .desktop-view{
-        display:none;
-    }
-}
-@media (min-width: 641px){
-    .small-screen-view{
-        display: none;
-    }
-    .desktop-view{
-        display:'';
-    }
-}
+@media (max-width: 1023px){.item-input-search {width: 93%;}}@media (max-width: 640px){    .small-screen-view{        display: '';    }    .desktop-view{        display:none;    }}@media (max-width: 480px){    .scroll {padding: 0 15px; }    .item-input-search {    width: 87%;}.font-grey {display: block; }.mf-page-titles { font-size:14px; margin-top:10px;}}@media (max-width: 320px){			}

@@ -1,7 +1,7 @@
 var altamiraAppControllers = angular.module('altamiraAppControllers', []);
 
 altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
-        function($scope, $http, $location, $routeParams) {
+        function($scope, $http, $location, $routeParams, $localStorage) {
             $scope.startPage = $routeParams.start;
             $scope.maxRecord = 2;
             $scope.currentPage = 1;
@@ -11,15 +11,33 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
 
             $scope.loadBom = function(searchText) {
                 var url = '';
-                $scope.searchText = searchText;
-                if (searchText == '')
+
+                $scope.$storage = $localStorage.$default({
+                    x: ''
+                });
+                $scope.deleteX = function() {
+                    delete $scope.$storage.x;
+                };
+                $scope.searchText = $scope.$storage.x;
+                if (searchText != '')
+                {
+                    $scope.deleteX();
+                    $scope.$storage = $localStorage.$default({
+                        x: searchText
+                    });
+                } else
+                {
+                    $scope.deleteX();
+                }
+                if ($scope.$storage.x == '' || $scope.$storage.x == undefined)
                 {
                     url = 'http://data.altamira.com.br/manufacturing/process?start=' + $scope.startPage + '&max=' + $scope.maxRecord;
                 }
                 else
                 {
-                    url = 'http://data.altamira.com.br/manufacturing/process/search?search=' + searchText + '&start=' + $scope.startPage + '&max=' + $scope.maxRecord;
+                    url = 'http://data.altamira.com.br/manufacturing/process/search?search=' + $scope.$storage.x + '&start=' + $scope.startPage + '&max=' + $scope.maxRecord;
                 }
+
                 var httpRequest = $http({
                     method: 'GET',
                     url: url,
@@ -51,8 +69,8 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                 var nextPage = parseInt(pageNumber) - 1;
                 $location.path('/manufacturing/process/' + nextPage);
             }
-            $scope.nextPage = function() {
-                var nextPage = parseInt($scope.startPage) + parseInt($scope.maxRecord);
+            $scope.nextPage = function(len) {
+                var nextPage = parseInt(len);
                 $location.path('/manufacturing/process/' + nextPage);
             }
             $scope.prevPage = function(nextPage) {
@@ -147,51 +165,22 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl', ['$scope', '
             $location.path('/manufacturing/process/operation/' + $scope.processId);
         };
     }]);
-altamiraAppControllers.controller('ManufacturingProcessOperationCtrl', ['$scope', '$http', '$location', '$routeParams','$upload',
-    function($scope, $http, $location, $routeParams,$upload) {
+altamiraAppControllers.controller('ManufacturingProcessOperationCtrl', ['$scope', '$http', '$location', '$routeParams', '$upload',
+    function($scope, $http, $location, $routeParams, $upload) {
         $scope.processId = $routeParams.processId;
-        $scope.submitOperation = function(isValid) {
+        $scope.operationData = {};
+        $scope.operationData.sequence = '';
+        $scope.operationData.name = '';
+        $scope.operationData.description = '';
+        $scope.operationData.sketch = '';
+        $scope.submitOperationForm = function(isValid) {
             if (isValid) {
                 $scope.postdata = {};
-
                 $scope.postdata.sequence = $scope.operationData.sequence;
                 $scope.postdata.name = $scope.operationData.name;
                 $scope.postdata.description = $scope.operationData.description;
                 $scope.postdata.sketch = $scope.operationData.sketch;
                 console.log(JSON.stringify($scope.postdata));
-                $scope.onFileSelect = function($files) {
-                    alert(1);
-                    //$files: an array of files selected, each file has name, size, and type.
-                    for (var i = 0; i < $files.length; i++) {
-                        var file = $files[i];
-                        $scope.upload = $upload.upload({
-                            url: 'www/', //upload.php script, node.js route, or servlet url
-                            //method: 'POST' or 'PUT',
-                            //headers: {'header-key': 'header-value'},
-                            //withCredentials: true,
-                            data: {myObj: $scope.myModelObj},
-                            file: file, // or list of files ($files) for html5 only
-                            //fileName: 'doc.jpg' or ['1.jpg', '2.jpg', ...] // to modify the name of the file(s)
-                            // customize file formData name ('Content-Disposition'), server side file variable name.
-                            //fileFormDataName: myFile, //or a list of names for multiple files (html5). Default is 'file'
-                            // customize how data is added to formData. See #40#issuecomment-28612000 for sample code
-                            //formDataAppender: function(formData, key, val){}
-                        }).progress(function(evt) {
-                            console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-                        }).success(function(data, status, headers, config) {
-                            // file is uploaded successfully
-                            console.log(data);
-                        });
-                        //.error(...)
-                        //.then(success, error, progress);
-                        // access or attach event listeners to the underlying XMLHttpRequest.
-                        //.xhr(function(xhr){xhr.upload.addEventListener(...)})
-                    }
-                    /* alternative way of uploading, send the file binary with the file's content-type.
-                     Could be used to upload files to CouchDB, imgur, etc... html5 FileReader is needed.
-                     It could also be used to monitor the progress of a normal http post/put request with large data*/
-                    // $scope.upload = $upload.http({...})  see 88#issuecomment-31366487 for sample code.
-                };
 //                $http({
 //                    method: 'PUT',
 //                    url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.postdata.id,
@@ -212,4 +201,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationCtrl', ['$scope'
         $scope.goBack = function() {
             $location.path('/manufacturing/update/process/' + $scope.processId);
         };
+    }]);
+altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$scope', '$http', '$location', '$routeParams', '$upload',
+    function($scope, $http, $location, $routeParams, $upload) {
     }]);

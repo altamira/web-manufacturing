@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-var altamiraApp = angular.module('altamira', ['ionic','altamiraAppControllers', 'ngRoute','angularFileUpload'])
+var altamiraApp = angular.module('altamira', ['ionic','altamiraAppControllers', 'ngRoute','angularFileUpload','altamiraAppDirectives','ngStorage'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -33,51 +33,9 @@ altamiraApp.config(['$routeProvider',
       }).when('/manufacturing/process/operation/:processId', {
         templateUrl: 'templates/mf-operation.html',
         controller: 'ManufacturingProcessOperationCtrl'
-
-      // ----------------- Bill of Material Routes -----------------------------------------------------
-      }).when('/manufacturing/bom', {
-        templateUrl: 'templates/bom/list.html',
-        controller: 'BOMListCtrl'
-      }).when('/manufacturing/bom/edit', {
-        templateUrl: 'templates/bom/edit.html',
-        controller: 'BOMEditCtrl',
-        resolve: {
-          bom: function() {
-            var dt = new Date();
-            dt.setHours(0,0,0,0);
-            return {'id': 0, 'number': '', 'customer': '', 'representative': '', 'created': dt.getTime(), 'delivery': dt.getTime(), 'quotation': '', 'comment': '', 'finish': '', 'project': 0, 'checked': 0, 'items' : []};
-          }
-        }
-      }).when('/manufacturing/bom/edit/:id', {
-        templateUrl: 'templates/bom/edit.html',
-        controller: 'BOMEditCtrl',
-        resolve: {
-            bom: function($http, $route) {
-                return $http({
-                    method: 'GET',
-                    url: 'http://data.altamira.com.br/manufacturing/bom/' + $route.current.params.id,
-                    headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
-                }).then(function(response) {
-                    return response.data;
-                });
-            }
-        }
-      }).when('/manufacturing/bom/:id', {
-        templateUrl: 'templates/bom/view.html',
-        controller: 'BOMListCtrl',
-        resolve: {
-            bom: function($http, $route) {
-                return $http({
-                    method: 'GET',
-                    url: 'http://data.altamira.com.br/manufacturing/bom/' + $route.current.params.id,
-                    headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
-                }).then(function(response) {
-                    return response.data;
-                });
-            }
-        }
-        // ----------------- Bill of Material Routes -----------------------------------------------------
-
+      }).when('/manufacturing/process/operation/type/uso', {
+        templateUrl: 'templates/mf-operation-uso.html',
+        controller: 'ManufacturingProcessOperationUsoCtrl'
       }).otherwise({
         redirectTo: '/manufacturing/process/0'
       });

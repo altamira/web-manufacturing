@@ -1,102 +1,1 @@
-@font-face {
-    font-family: 'fontawesome';
-    src:url('../fonts/fontawesome-webfont.eot');
-    src:url('../fonts/fontawesome-webfont.eot') format('embedded-opentype'),
-        url('../fonts/fontawesome-webfont.woff') format('woff'),
-        url('../fonts/fontawesome-webfont.ttf') format('truetype'),
-        url('../fonts/fontawesome-webfont.svg') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-.fa-bars:before {
-    font-family: "fontawesome";
-    content: "\f0c9";
-    font-size: 24px;
-}
-.fa-plus:before {
-    font-family: "fontawesome";
-    content: "\f067";
-    font-size: 24px;
-}
-.fa-arrow-right:before {
-    font-family: "fontawesome";
-    content: "\f054";
-    font-size: 24px;
-    color: #00ABA9;
-}
-.fa-arrow-left:before {
-    font-family: "fontawesome";
-    content: "\f060";
-    font-size: 24px;
-}
-.fa-full-arrow-right:before {
-    font-family: "fontawesome";
-    content: "\f060";
-    font-size: 24px;
-}
-.fa-check:before {
-    font-family: "fontawesome";
-    content: "\f00c";
-    font-size: 24px;
-}
-.fa-history:before {
-    font-family: "fontawesome";
-    content: "\f1da";
-    font-size: 24px;
-}
-.fa-search:before {
-    font-family: "fontawesome";
-    content: "\f002";
-    font-size: 28px;
-    color: #00ABA9;
-}
-.fa-cogs:before {
-    font-family: "fontawesome";
-    content: "\f085";
-    font-size: 24px;
-}
-.fa-plus-circle:before {
-    font-family: "fontawesome";
-    content: "\f055";
-    font-size: 24px;
-    color: #00ABA9;
-}
-.fa-download:before {
-    font-family: "fontawesome";
-    content: "\f019";
-    font-size: 24px;
-}
-.btn-separator:after {
-    background: none repeat scroll 0 0 #ddd;
-    content: " ";
-    display: block;
-    float: left;
-    margin: 0;
-    min-height: 40px;
-    position: relative;
-    width: 1px;
-}
-.mf-page-titles{
-    color: #ffffff;
-    font-weight: bold;
-}
-.list-start-bar:after {
-    background: none repeat scroll 0 0 #00ABA9;
-    content: " ";
-    display: block;
-    float: left;
-    margin-right: 10px;
-    min-height: 40px;
-    position: relative;
-    width: 8px;
-}
-.text-center-middle{
-    vertical-align: middle;
-    width: 100%;
-}
-.font-grey{
-    color: #666666;
-}
-.text-bold{
-    font-weight: bold;
-}
+@font-face {    font-family: 'fontawesome';    src:url('../fonts/fontawesome-webfont.eot');    src:url('../fonts/fontawesome-webfont.eot') format('embedded-opentype'),        url('../fonts/fontawesome-webfont.woff') format('woff'),        url('../fonts/fontawesome-webfont.ttf') format('truetype'),        url('../fonts/fontawesome-webfont.svg') format('svg');    font-weight: normal;    font-style: normal;}.fa-bars:before {    font-family: "fontawesome";    content: "\f0c9";    font-size: 24px;}.fa-plus:before {    font-family: "fontawesome";    content: "\f067";    font-size: 24px;}.fa-arrow-right:before {    font-family: "fontawesome";    content: "\f054";    font-size: 24px;    color: #00ABA9;}.fa-arrow-left:before {    font-family: "fontawesome";    content: "\f060";    font-size: 24px;}.fa-full-arrow-right:before {    font-family: "fontawesome";    content: "\f060";    font-size: 24px;}.fa-check:before {    font-family: "fontawesome";    content: "\f00c";    font-size: 24px;}.fa-history:before {    font-family: "fontawesome";    content: "\f1da";    font-size: 24px;}.fa-search:before {    font-family: "fontawesome";    content: "\f002";    font-size: 28px;    color: #00ABA9;}.fa-small-search:before {    font-family: "fontawesome";    content: "\f002";    font-size: 14px;    color: #000; float: left; margin: 7px 8px 0 0;}.fa-md-search:before {    font-family: "fontawesome";    content: "\f002";    font-size: 21px;    color: #666666; float: left; margin: -1px 8px 0 0; cursor:pointer;}.fa-cogs:before {    font-family: "fontawesome";    content: "\f085";    font-size: 24px;}.fa-plus-circle:before {    font-family: "fontawesome";    content: "\f055";    font-size: 30px;    color: #00ABA9;}.btn-separator:after {    background: none repeat scroll 0 0 #ddd;    content: " ";    display: block;    float: left;    margin: 0;    min-height: 44px;    position: relative;    width: 1px; margin-top:-5px;}.mf-page-titles{    color: #ffffff;    font-weight: bold; margin-top:7px;}.list-start-bar:after {    background: none repeat scroll 0 0 #00ABA9;    content: " ";    display: block;    float: left;    margin-right: 10px;    min-height: 40px;    position: relative;    width: 8px;}.text-center-middle{    vertical-align: middle;    width: 100%;}.font-grey{    color: #666666;}.text-bold{    font-weight: bold;}.croqui-img{    display: none;}.page {    display: inline-block;    padding: 5px 10px;    margin-right: 5px;    border-radius: 5px;    border: solid 1px #00ABA9;    background: #fff;    font-size: 20px;    text-decoration: none;    color: #00ABA9; cursor:pointer;}.page:hover, .page.gradient:hover {    background: #00ABA9;color: #fff;}.page.active {    border: none;    background: #00ABA9;    color: #fff;}.pagination {float: right; text-align: right; width: 100%; margin-top: 10px; }.arrow-right { margin: 0 -3px 0 9px; width: 15px; }.plus-icon { cursor:pointer;}.upload-btn { border:1px dashed #dddddd; background:url(../img/upload-img.jpg) no-repeat #fff 99.7% 7px; width:100%; min-height:80px; cursor:pointer;  border-radius: 7px;}#input-file { position:absolute !important; top:40px !important; width:100%; min-height:72px; opacity:0; left:0; cursor:pointer;}

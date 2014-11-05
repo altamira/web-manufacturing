@@ -1,92 +1,1 @@
-<ion-pane>
-    <ion-header-bar class="bar-calm">
-        <div class="buttons header-margin">
-            <button class="button fa-arrow-left" ng-click="goBack()"></button>
-            <span class="btn-separator"></span>
-            <h4 class="mf-page-titles"></h4>
-            <span class="btn-separator"></span>
-            <!--<button class="button fa-check" ng-click="submitted=true" ></button>-->
-            <button class="button fa-check" ng-click="submitCreateProcess(true)" ></button>
-        </div>
-    </ion-header-bar>
-    <ion-content>
-        <div class="row">
-            <div class="col">
-
-                <form name="operationForm" novalidate ng-submit="submitOperationForm(operationForm.$valid)" enctype="multipart/form-data">
-                    <div class="list">
-                        <span class="input-label text-bold">Seqüência</span>
-                        <label class="item item-input" style="background-color: whitesmoke;border: 1px solid #000;border-radius: 5px;height: 35px;">
-                            <input type="text" name="sequence" ng-model="operationData.sequence">
-                        </label>
-                    </div>
-                    <div class="list">
-                        <span class="input-label text-bold">Operação</span>
-                        <label class="item item-select">
-                            <select name="operation" ng-model="operationData.name">
-                                <option value="ESTAMPARIA">ESTAMPARIA</option>
-                                <option value="PERFILAMENTO">PERFILAMENTO</option>
-                                <option value="SOLDA">SOLDA</option>
-                                <option value="DOBRA">DOBRA</option>
-                                <option value="MONTAGEM">MONTAGEM</option>
-                                <option value="PINTURA">PINTURA</option>
-                            </select>
-                        </label>
-                    </div>
-                    <div class="list">
-                        <span class="input-label text-bold">Descrição</span>
-                        <textarea name="description" ng-model="operationData.description" style="background-color: whitesmoke;border: 1px solid #000;border-radius: 5px;height: 100px"></textarea>
-                    </div>
-                    <div class="list">
-                        <span class="input-label text-bold">Croqui</span>
-<!--                        <label class="item item-input" style="background-color: whitesmoke;border: 1px solid #000;border-radius: 5px;height: 35px;">
-                            <input type="file" name="sketch" ng-model="operationData.sketch">
-                        </label>-->
-                        <input type="text" ng-model="myModelObj">
-                        <input type="file" ng-file-select="onFileSelect($files)">
-                        <input type="file" ng-file-select="onFileSelect($files)" multiple accept="image/*">
-                        <div class="button" ng-file-select="onFileSelect($files)" data-multiple="true"></div>
-                        <div ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="optional-css-class-name-or-function"
-                             ng-show="dropSupported">drop files here</div>
-                        <div ng-file-drop-available="dropSupported=true"
-                             ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
-                        <button ng-click="upload.abort()">Cancel Upload</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="row" style="margin-top: 20px;">
-            <div class="col">
-                <div class="list">
-                    <a class="item item-icon-left item-icon-right" href="#">
-                        <i class="icon fa-cogs"></i>
-                        Uso
-                        <i class="icon fa-plus-circle"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="row" style="margin-top: 20px;">
-            <div class="col">
-                <div class="list">
-                    <a class="item item-icon-left item-icon-right" href="#">
-                        <i class="icon fa-cogs"></i>
-                        Consumo
-                        <i class="icon fa-plus-circle"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="row" style="margin-top: 20px;">
-            <div class="col">
-                <div class="list">
-                    <a class="item item-icon-left item-icon-right" href="#">
-                        <i class="icon fa-cogs"></i>
-                        Produto
-                        <i class="icon fa-plus-circle"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </ion-content>
-</ion-pane>
+<ion-pane>    <ion-header-bar class="bar-calm">        <div class="buttons header-margin">            <button class="button fa-arrow-left" ng-click="goBack()"></button>            <span class="btn-separator"></span>            <h4 class="mf-page-titles"></h4>            <span class="btn-separator"></span>            <!--<button class="button fa-check" ng-click="submitted=true" ></button>-->            <button class="button fa-check" ng-click="submitOperationForm(true)" ></button>        </div>    </ion-header-bar>    <ion-content>        <div class="row">            <div class="col">                <form name="operationForm" novalidate ng-submit="submitOperationForm(operationForm.$valid)" enctype="multipart/form-data">                    <div class="list list-row">                        <span class="input-label text-bold">Seqüência</span>                        <label class="item item-input" style="background-color: #eeeeee;border: 1px solid #dddddd;border-radius: 5px;height: 35px;">                            <input type="text" name="sequence" ng-model="operationData.sequence">                        </label>                    </div>                    <div class="list list-row">                        <span class="input-label text-bold">Operação</span>                        <label class="item item-select item-select-box">                            <select name="operation" ng-model="operationData.name" class="select-box">                                <option value="ESTAMPARIA">ESTAMPARIA</option>                                <option value="PERFILAMENTO">PERFILAMENTO</option>                                <option value="SOLDA">SOLDA</option>                                <option value="DOBRA">DOBRA</option>                                <option value="MONTAGEM">MONTAGEM</option>                                <option value="PINTURA">PINTURA</option>                            </select>                        </label>                    </div>                    <div class="list list-row">                        <span class="input-label text-bold">Descrição</span>                        <textarea name="description" ng-model="operationData.description" style="background-color: #eeeeee;border: 1px solid #dddddd;border-radius: 5px;height: 100px; resize: none; padding:10px 10px"></textarea>                    </div>                    <div class="list list-row">                        <span class="input-label text-bold">Croqui</span>                        <button class="upload-btn"></button>                        <input type='file' id="input-file" image-convert/>                        <img id="img" src="" style="height: 100px;width: 100px;" class="croqui-img"/>                        <textarea id="base" ng-model="operationData.sketch"></textarea>                    </div>                </form>            </div>        </div>        <div class="row">            <div class="col listing-operation">                <div class="list list-row">                    <a class="item operation-item item-icon-left item-icon-right" href="#">                       <span>U</span>                        Uso                        <i class="icon fa-plus-circle"></i>                    </a>                </div>            </div>        </div>        <div class="row">            <div class="col listing-operation">                <div class="list list-row">                    <a class="item operation-item item-icon-left item-icon-right" href="#">                        <span class="consumo">C</span>                        Consumo                        <i class="icon fa-plus-circle"></i>                    </a>                </div>            </div>        </div>        <div class="row">            <div class="col listing-operation">                <div class="list list-row">                    <a class="item operation-item item-icon-left item-icon-right" href="#">                       <span class="produto">P</span>                        Produto                        <i class="icon fa-plus-circle"></i>                    </a>                </div>            </div>        </div>    </ion-content></ion-pane>

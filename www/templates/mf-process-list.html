@@ -13,53 +13,31 @@
             <div class="col">
                 <div class="list">
 
-                    <div class="item item-input-inset">
+                    <div class="item item-input-search">
                         <label class="input-search-wrapper">
-                            <input type="text" placeholder="search" ng-model="searchText">
+                            <i class="icon fa-small-search"></i>
+                            <input type="text" placeholder="search" ng-model="searchText" value="$storage.x">
                         </label>
-                        <i class="icon fa-search" ng-click="searchProcess(searchText)"></i>
-<!--                        <button class="button fa-history" ng-click="searchProcess(searchText)">
-                            Submit
-                        </button>-->
                     </div>
-
+                    <i class="icon fa-search search-icon" ng-click="searchProcess(searchText)"></i>
                 </div>
             </div>
         </div>
-        <div class="row desktop-view">
+        <div class="row">
             <div class="col">
-                <div class="list list-inset" ng-repeat="process in processes">
-                    <a class="item item-icon-right" ng-click="goUpdate({{process.id}})">
-                        <!--<div class="list-start-bar"></div>-->
-                        <span class="text-center-middle"><span class="font-grey">{{process.id}} | {{process.code}}</span> {{process.description}}</span>
-                        <i class="icon fa-arrow-right"></i>
-                    </a>
-                </div>
-
-            </div>
-        </div>
-        <div class="row desktop-view">
-            <div class="col col-33 col-offset-67">
-                <div class="list list-inset">
-                    <div class="button-bar">
-                        <a  class="button button-light" ng-repeat="n in pageStack" ng-click="goPage(n)">{{n}}</a>
-                        <a  class="button button-light" ng-click="nextPage()">Next</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row small-screen-view">
-            <div class="col">
-                <div class="list list-inset" ng-repeat="process in processes">
-                    <a class="item item-icon-right" href="#">
-                        <!--<div class="list-start-bar"></div>-->
-                        <span class="text-center-middle font-grey">{{process.code}}</span><br/>
-                        <span class="text-center-middle">{{process.description}}</span>
-                        <i class="icon fa-arrow-right"></i>
+                <div class="list list-inset listing-col" ng-repeat="process in processes track by process.id">
+                    <a class="item-list item-icon-right" ng-click="goUpdate({{process.id}})">
+                        <span class="text-center-middle"><span class="font-grey">{{process.code}}</span> {{process.description}}</span>
+                        <i class="icon fa-arrow-right arrow-right"></i>
                     </a>
                 </div>
             </div>
         </div>
-        <!--<dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="templates/dirPagination.tpl.html"></dir-pagination-controls>-->
+        <div class="row">
+            <div class="pagination">
+                <a  class="page" ng-repeat="n in pageStack" ng-click="goPage(n)">{{n}}</a>
+                <a  class="page" ng-click="nextPage(pageStack.length)">Next</a>
+            </div>
+        </div>
     </ion-content>
 </ion-pane>
