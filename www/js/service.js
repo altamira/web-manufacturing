@@ -6,6 +6,8 @@ altamiraApp.directive('imageConvert', function() {
     return function(scope, elm, attrs) {
 
         elm.bind('change', function() {
+
+
             if (this.files && this.files[0]) {
                 var FR = new FileReader();
                 console.log(FR);
@@ -32,32 +34,10 @@ altamiraApp.directive('imageConvert', function() {
 altamiraApp.directive('base64ToImage', function() {
     return function(scope, elm, attrs) {
 
-        document.getElementById("uploadedImg").style.display = 'block';
-//        document.getElementById("img").style.display = 'inline-block';
-        document.getElementById("removeBtn").style.display = 'block';
-        document.getElementById("removeBtn1").style.display = 'block';
-        document.getElementById("uploadBtn").style.display = 'none';
-        document.getElementById("removeBtn").style.display = 'block';
-        var newImage = new Image();
-        newImage.id = 'newImg';
-//        newImage.src = 'data:image/jpg;base64,'+scope.operationData.sketch;
-        newImage.src = scope.operationData.sketch;
-        document.getElementById("uploadedImg").appendChild(newImage);
+        elm.bind('change', function() {
 
-
-    }
-});
-altamiraApp.directive('cancelUpdateUpload', function() {
-    return function(scope, elm, attrs) {
-
-        elm.bind('click', function() {
-            document.getElementById("uploadedImg").style.display = 'none';
-            document.getElementById("removeBtn").style.display = 'none';
-            document.getElementById("removeBtn1").style.display = 'none';
-            document.getElementById("newImg").style.display = 'none';
-            document.getElementById("uploadBtn").style.display = 'block';
-            document.getElementById("base").value = '';
         });
+
     }
 });
 altamiraApp.directive('cancelUpload', function() {
@@ -67,8 +47,9 @@ altamiraApp.directive('cancelUpload', function() {
             document.getElementById("uploadedImg").style.display = 'none';
             document.getElementById("removeBtn").style.display = 'none';
             document.getElementById("removeBtn1").style.display = 'none';
+//            document.getElementById("img").src = e.target.result;
             document.getElementById("uploadBtn").style.display = 'block';
-            document.getElementById("base").value = '';
+//            document.getElementById("removeBtn").style.display = 'block';
         });
     }
 });

@@ -3,7 +3,7 @@
         <div class="buttons header-margin">
             <button class="button fa-arrow-left" ng-click="goBack()"></button>
             <span class="btn-separator"></span>
-            <h4 class="mf-page-titles"></h4>
+            <h4 class="mf-page-titles">&nbsp;<span ng-bind="operationData.sequence"></span> - <span ng-bind="operationData.name"></span>&nbsp;</h4>
             <span class="btn-separator"></span>
             <!--<button class="button fa-check" ng-click="submitted=true" ></button>-->
             <button class="button fa-check" ng-click="submitOperationForm(true)" ></button>
@@ -44,13 +44,17 @@
                             <input type='file' id="input-file" image-convert/>
                         </div>
 
-                        <button class="remove-btn" id="removeBtn" type="button" cancel-upload></button>
-                        <button class="remove-btn1" id="removeBtn1" type="button"></button>
+                        <button class="remove-btn fa-remove" id="removeBtn" type="button" cancel-update-upload></button>
+                        <button class="remove-btn1 fa-upload" id="removeBtn1" type="button"></button>
 
 
                         <div class="show-upload-img" id="uploadedImg">
-                        <img id="img" src="" class="croqui-img"/></div>
-                        <textarea id="base" ng-model="operationData.sketch" ng-hide="true"></textarea>
+                            <img id="img" src="" class="croqui-img"/>
+                        </div>
+                        <div ng-if="operationData.sketch != ''">
+                            <textarea id="base" ng-model="operationData.sketch" ng-hide="true" base64-to-image></textarea>
+                        </div>
+
                     </div>
                 </form>
             </div>
@@ -58,10 +62,10 @@
         <div class="row">
             <div class="col listing-operation">
                 <div class="list list-row">
-                    <a class="item operation-item item-icon-left item-icon-right" >
-                       <span>U</span>
+                    <a class="item operation-item item-icon-left item-icon-right">
+                        <span>U</span>
                         Uso
-                        <i class="icon plus-icon fa-plus-circle" ng-click="updateUso()"></i>
+                        <i class="icon fa-plus-circle" ng-click='createUso()'></i>
                     </a>
                 </div>
             </div>
@@ -69,10 +73,10 @@
         <div class="row">
             <div class="col listing-operation">
                 <div class="list list-row">
-                    <a class="item operation-item item-icon-left item-icon-right" >
+                    <a class="item operation-item item-icon-left item-icon-right">
                         <span class="consumo">C</span>
                         Consumo
-                        <i class="icon fa-plus-circle"></i>
+                        <i class="icon fa-plus-circle" ng-click='createConsume()'></i>
                     </a>
                 </div>
             </div>
@@ -80,10 +84,10 @@
         <div class="row">
             <div class="col listing-operation">
                 <div class="list list-row">
-                    <a class="item operation-item item-icon-left item-icon-right" >
-                       <span class="produto">P</span>
+                    <a class="item operation-item item-icon-left item-icon-right">
+                        <span class="produto">P</span>
                         Produto
-                        <i class="icon fa-plus-circle"></i>
+                        <i class="icon fa-plus-circle" ng-click='createProduce()'></i>
                     </a>
                 </div>
             </div>

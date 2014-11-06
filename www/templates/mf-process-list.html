@@ -25,7 +25,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <div class="list list-inset listing-col" ng-repeat="process in processes track by process.id">
+                <div class="list list-inset listing-col" ng-repeat="process in processes">
                     <a class="item-list item-icon-right" ng-click="goUpdate({{process.id}})">
                         <span class="text-center-middle"><span class="font-grey">{{process.code}}</span> {{process.description}}</span>
                         <i class="icon fa-arrow-right arrow-right"></i>
@@ -35,8 +35,15 @@
         </div>
         <div class="row">
             <div class="pagination">
-                <a  class="page" ng-repeat="n in pageStack" ng-click="goPage(n)">{{n}}</a>
-                <a  class="page fa-arrow-right" ng-click="nextPage(pageStack.length)"></a>
+                <a ng-repeat="n in pageStack" ng-click="goPage(n)">
+                    <span ng-if='n != (pageStack.length)'>
+                        <span class="page">{{n}}</span>
+                    </span>
+                    <span ng-if='n == (pageStack.length)'>
+                        <span class="page active">{{n}}</span>
+                    </span>
+                </a>
+                <a  class="page fa-arrow-right next-arrow" ng-click="nextPage(pageStack.length)"></a>
             </div>
         </div>
     </ion-content>
