@@ -33,10 +33,6 @@ altamiraApp.config(['$routeProvider',
             templateUrl: 'templates/mf-process-update.html',
             controller: 'ManufacturingProcessUpdateCtrl'
         })
-                .when('/manufacturing/update_check/process/:processId', {
-            templateUrl: 'templates/mf-update.html',
-            controller: 'ManufacturingProcessUpdateCtrl'
-        })
                 .when('/manufacturing/process/operation/:processId', {
             templateUrl: 'templates/mf-operation-create.html',
             controller: 'ManufacturingProcessOperationCtrl'

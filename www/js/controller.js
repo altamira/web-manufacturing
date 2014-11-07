@@ -129,62 +129,62 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl', ['$scope', '
                 url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId,
                 headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
             }).success(function(data) {
-//                console.log(data);
+
                 $scope.processData.id = data.id;
                 $scope.processData.code = data.code;
                 $scope.processData.description = data.description;
                 $scope.processData.revisions = data.revision;
                 $scope.processData.operations = data.operation;
                 $scope.orderProp = 'id';
-//                console.log($scope.processData.operations);
+
                 $scope.operationDetail = {};
                 var counter = 1;
                 var mainCounter = 1;
-                for(var i in $scope.processData.operations)
+                for (var i in $scope.processData.operations)
+                {
+                    $scope.operationDetail[mainCounter] = {};
+                    $scope.operationDetail[mainCounter]["id"] = $scope.processData.operations[i].id;
+                    $scope.operationDetail[mainCounter]["sequence"] = $scope.processData.operations[i].sequence;
+                    $scope.operationDetail[mainCounter]["name"] = $scope.processData.operations[i].name;
+                    $scope.operationDetail[mainCounter]["description"] = $scope.processData.operations[i].description;
+                    $scope.operationDetail[mainCounter].item = {};
+                    $scope.operationDetail[mainCounter].class = '';
+                    if ((mainCounter % 2) == 0)
                     {
-                        $scope.operationDetail[mainCounter] = {};
-                        $scope.operationDetail[mainCounter]["id"] = $scope.processData.operations[i].id;
-                        $scope.operationDetail[mainCounter]["sequence"] = $scope.processData.operations[i].sequence;
-                        $scope.operationDetail[mainCounter]["name"] = $scope.processData.operations[i].name;
-                        $scope.operationDetail[mainCounter]["description"] = $scope.processData.operations[i].description;
-                        $scope.operationDetail[mainCounter].item = {};
-                        $scope.operationDetail[mainCounter].class = '';
-                        if((mainCounter % 2) == 0)
-                            {
-                                $scope.operationDetail[mainCounter].class = 'last';
-                            }
-                        for(var j in $scope.processData.operations[i])
+                        $scope.operationDetail[mainCounter].class = 'last';
+                    }
+                    for (var j in $scope.processData.operations[i])
+                    {
+                        if (j == 'produce')
                         {
-                            if(j == 'produce')
+                            $scope.temp = {};
+                            for (var k in $scope.processData.operations[i][j])
                             {
-                                $scope.temp = {};
-                                for(var k in $scope.processData.operations[i][j])
-                                {
-                                    $scope.temp = $scope.processData.operations[i][j][k];
-                                    $scope.temp['type'] = 'produto';
-                                    $scope.temp['alias'] = 'P';
-                                    $scope.operationDetail[mainCounter].item[counter] = $scope.temp;
-                                    counter++;
-                                }
+                                $scope.temp = $scope.processData.operations[i][j][k];
+                                $scope.temp['type'] = 'produto';
+                                $scope.temp['alias'] = 'P';
+                                $scope.operationDetail[mainCounter].item[counter] = $scope.temp;
+                                counter++;
                             }
-                            if(j == 'consume')
+                        }
+                        if (j == 'consume')
+                        {
+                            $scope.temp = {};
+                            for (var k in $scope.processData.operations[i][j])
                             {
-                                $scope.temp = {};
-                                for(var k in $scope.processData.operations[i][j])
-                                {
-                                    $scope.temp = $scope.processData.operations[i][j][k];
-                                    $scope.temp['type'] = 'consumo';
-                                    $scope.temp['alias'] = 'C';
-                                    $scope.operationDetail[mainCounter].item[counter] = $scope.temp;
-                                    counter++;
-                                }
+                                $scope.temp = $scope.processData.operations[i][j][k];
+                                $scope.temp['type'] = 'consumo';
+                                $scope.temp['alias'] = 'C';
+                                $scope.operationDetail[mainCounter].item[counter] = $scope.temp;
+                                counter++;
                             }
-
                         }
 
-                        mainCounter++;
                     }
-                    console.log($scope.operationDetail);
+
+                    mainCounter++;
+                }
+                console.log($scope.operationDetail);
             });
         };
         $scope.loadProcess();
@@ -217,6 +217,27 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl', ['$scope', '
         };
         $scope.updateOperation = function() {
             $location.path('/manufacturing/process/operation/' + $scope.processId);
+        };
+        $scope.goUpdateOperation = function(operationId) {
+            $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + operationId);
+        };
+        $scope.goUpdateOperationType = function(operationType, operationTypeId, operationId) {
+            if (operationType == 'produto')
+            {
+                $location.path('/manufacturing/process/operation/produce/update/' + $scope.processId + '/' + operationId + '/' + operationTypeId);
+            }
+            if (operationType == 'consumo')
+            {
+                $location.path('/manufacturing/process/operation/consume/update/' + $scope.processId + '/' + operationId + '/' + operationTypeId);
+            }
+        };
+        $scope.removeOperation = function(operationId) {
+            $http({
+                method: 'DELETE',
+                url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + operationId,
+            }).success(function(data) {
+                $location.path('/manufacturing/update/process/' + $scope.processId);
+            });
         };
     }]);
 
@@ -282,7 +303,8 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl', ['$
                     $scope.operationData.name = data.name;
                     $scope.operationData.description = data.description;
                     $scope.operationData.sketch = data.sketch;
-                    console.log(data.sketch);
+                    $scope.operationData.consume = data.consume;
+                    $scope.operationData.produce = data.produce;
                 }
             });
         };
@@ -326,6 +348,28 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl', ['$
             $location.path('/manufacturing/process/operation/consume/' + $scope.processId + '/' + $scope.operationId);
         };
         $scope.createProduce = function() {
+            $location.path('/manufacturing/process/operation/produce/' + $scope.processId + '/' + $scope.operationId);
+        };
+        $scope.removeOperationType = function(type, typeId) {
+            if (type == 'consume')
+            {
+                $http({
+                    method: 'DELETE',
+                    url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/consume/' + typeId,
+                }).success(function(data) {
+                    $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
+                });
+            }
+            if (type == 'produce')
+            {
+                $http({
+                    method: 'DELETE',
+                    url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/produce/' + typeId,
+                }).success(function(data) {
+                    $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
+                });
+            }
+
             $location.path('/manufacturing/process/operation/produce/' + $scope.processId + '/' + $scope.operationId);
         };
     }]);

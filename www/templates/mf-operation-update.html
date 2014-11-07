@@ -70,6 +70,7 @@
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col listing-operation">
                 <div class="list list-row">
@@ -81,6 +82,21 @@
                 </div>
             </div>
         </div>
+        <div class="manufacturing-box">
+            <div class="row">
+                <div class="left-col">
+                    <div class="list">
+                        <div class="row" style="margin-top: 20px;">
+                            <ul>
+                                <li ng-repeat='consume in operationData.consume'>
+                                    <div><div class="text-wrap">{{consume.code}}</div><i class="icon plus-icon fa-plus-cross-circle-2" confirmation-needed ng-click='removeOperationType("consume",consume.id)'></i></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col listing-operation">
                 <div class="list list-row">
@@ -89,6 +105,21 @@
                         Produto
                         <i class="icon fa-plus-circle" ng-click='createProduce()'></i>
                     </a>
+                </div>
+            </div>
+        </div>
+        <div class="manufacturing-box">
+            <div class="row">
+                <div class="left-col">
+                    <div class="list">
+                        <div class="row" style="margin-top: 20px;">
+                            <ul>
+                                <li ng-repeat='produce in operationData.produce'>
+                                    <div><div class="text-wrap">{{produce.code}}</div><i class="icon plus-icon fa-plus-cross-circle-2" confirmation-needed ng-click='removeOperationType("produce",produce.id)'></i></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
