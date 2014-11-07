@@ -26,10 +26,14 @@ altamiraApp.config(['$routeProvider',
             controller: 'ManufacturingProcsSearchCtrl'
         })
                 .when('/manufacturing/create/process', {
-            templateUrl: 'templates/mf-create.html',
+            templateUrl: 'templates/mf-process-create.html',
             controller: 'ManufacturingProcessCreateCtrl'
         })
                 .when('/manufacturing/update/process/:processId', {
+            templateUrl: 'templates/mf-process-update.html',
+            controller: 'ManufacturingProcessUpdateCtrl'
+        })
+                .when('/manufacturing/update_check/process/:processId', {
             templateUrl: 'templates/mf-update.html',
             controller: 'ManufacturingProcessUpdateCtrl'
         })

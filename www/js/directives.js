@@ -40,8 +40,8 @@ altamiraApp.directive('base64ToImage', function() {
         document.getElementById("removeBtn").style.display = 'block';
         var newImage = new Image();
         newImage.id = 'newImg';
-//        newImage.src = 'data:image/jpg;base64,'+scope.operationData.sketch;
-        newImage.src = scope.operationData.sketch;
+        newImage.src = 'data:image/jpg;base64,' + scope.operationData.sketch;
+//        newImage.src = scope.operationData.sketch;
         document.getElementById("uploadedImg").appendChild(newImage);
 
 
@@ -70,6 +70,15 @@ altamiraApp.directive('cancelUpload', function() {
             document.getElementById("uploadBtn").style.display = 'block';
             document.getElementById("base").value = '';
         });
+    }
+});
+altamiraApp.directive('sortList', function() {
+    return function(scope, elm, attrs) {
+        var elems = $('.processList').children('li').remove();
+        elems.sort(function(a, b) {
+            return parseInt(a.id) > parseInt(b.id);
+        });
+        $('.processList').append(elems);
     }
 });
 
