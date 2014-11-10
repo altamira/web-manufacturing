@@ -1,132 +1,1 @@
-<ion-header-bar class="bar-calm">
-	<div class="buttons header-margin">
-		<a href="#/app/checklists" class="button button-icon"><i class="fa fa-chevron-left"></i></a>
-		<span class="btn-separator"></span>
-		<h4 class="mfg-page-titles">&nbsp;&nbsp;Pedido {{order.number}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
-		<span class="btn-separator"></span>
-		<button ng-show="!order.checked" ng-click="checkedOrder(order.id)" class="button button-icon"><i class="fa fa-check"></i></button>
-		<button class="button button-icon" ng-click="deleteOrder(order.id)"><i class="fa fa-times"></i></button>
-		<button ng-click="openReport({{order.number}})" class="button button-icon"><i class="fa fa-print"></i></button>		
-	</div>
-</ion-header-bar>
-<ion-content has-header="true" class="content-body" >
-	<!--Order Related Headers-->
-	<br/>
-		<div class="row responsive-sm order-row-custom-styles" >
-			<div class="col col-80 col-bg-color">
-				<div class="row responsive-sm" >
-					<div class="col col-33">
-						<label  class="label-font-style">CLIENTE</label>				
-					</div>
-					<div class="col col-67">
-						{{order.customer}}				
-					</div>
-				</div>
-				<div class="row responsive-sm" >
-					<div class="col col-33">
-						<label  class="label-font-style">REPRESENTANTE</label>				
-					</div>
-					<div class="col col col-67">
-						{{order.representative}}				
-					</div>
-				</div>
-			</div>		
-			<div class="col col-bg-color" style="padding-top:20px;padding-bottom:10px;">
-				<label style="padding:10px;">PEDIDO</label>
-				<p style="padding:10px;">{{order.number}}</p>
-			</div>
-		</div>
-		<div class="row responsive-sm order-row-custom-styles">
-			<div class="col col-10 col-bg-color col-padding">
-				<label  class="label-font-style">DATA PEDIDO</label>
-				<p>{{orderDate(order.created)}}</p>
-			</div>
-			<div class="col col-40  col-bg-color col-padding">
-				<label  class="label-font-style">PRAZO DE ENTREGA(SEMANA/ANO)</label>
-				<p>{{getWeek(order.delivery)}}</p>
-			</div>			
-			<div class="col col-20 col-bg-color col-padding">
-				<label  class="label-font-style">ORCAMENTO</label>
-				<p>{{order.quotation}}</p>
-			</div>
-			<div class="col col-20 col-bg-color col-padding">
-				<label  class="label-font-style">PROJETO</label>
-				<p>{{order.project}}</p>
-			</div>
-			<div class="col col-40 col-bg-color">
-				<label  class="label-font-style">ACABAMENTO</label>
-				<p>{{order.finish}}</p>
-			</div>
-		</div>
-		<!--End-->
-		<br/>		
-		<!--Loop Through All Order Items-->
-		<!--<div ng-repeat="item in order.item | orderBy:'item'">-->
-		<div ng-repeat="item in order.items | orderBy:'item'" >
-			<!--row to show item no-->
-			<div class="row order-row-custom-styles" >
-				<div class="col col-bg-color">
-					<p>ITEM {{item.item}}</p>
-				</div>				
-			</div>
-			<!--row to show item description-->
-			<div class="row order-row-custom-styles" >
-				<div class="col col-bg-color">
-					<p class="space-wrap">{{item.description}}</p>
-				</div>					
-			</div>
-			<!--row to show product headers -->
-			<div id="no-more-tables">
-				<table class="order-row-custom-styles" style="width:100%;">
-					<thead>
-						<tr class="row order-row-custom-styles">
-							<th class="col col-bg-color col-padding max-50"></th>
-							<th class="col col-10 col-bg-color col-padding text-align-cener label-font-style">QUANTIDE</th>
-							<th class="col col-bg-color col-padding text-align-left label-font-style">DESCRICAO DO MATERIAL</th>
-							<th class="col col-10 col-bg-color col-padding text-align-cener label-font-style">COR</th>
-							<th class="col col-10 col-bg-color col-padding text-align-right label-font-style">PESO</th>
-							<th class="col col-10 col-bg-color text-align-right label-font-style">PESO TOTAL</th>
-						</tr>
-					</thead>
-					<tbody>
-						<!--Loop Through All Item Products-->	
-						<tr ng-repeat="product in item.parts" class="row order-row-custom-styles">
-							<td class="col col-bg-color col-padding max-50">
-								<div class="checkbox" style="border-collapse: separate;padding:0px;">
-										<input type="checkbox" class="calm">
-								</div>
-							</td>
-							<td data-title="QUANTIDE" class="col col-10 col-bg-color col-padding text-align-cener"><p>{{product.quantity | number:0}}</p></td>
-							<td data-title="DESCRICAO DO MATERIAL" class="col col-bg-color col-padding"><p>{{product.description}}</p>	</td>
-							<td data-title="COR" class="col col-10 col-bg-color col-padding text-align-cener"><p>{{product.color}}</p></td>
-							<td data-title="PESO" class="col col-10 col-bg-color col-padding text-align-right"><p>{{product.weight / product.quantity | number:2}}</p></td>
-							<td data-title="PESO TOTAL" class="col col-10 col-bg-color text-align-right"><p>{{product.weight | number:2}}</p></td>
-							<!--<td data-title="PESO" class="col col-10 col-bg-color col-padding text-align-right"><p>{{product.weight | number:2}}</p></td>
-							<td data-title="PESO TOTAL" class="col col-10 col-bg-color text-align-right"><p>{{product.weight * product.quantity | number:2}}</p></td>-->
-						</tr>
-						<tr class="row order-row-custom-styles">
-							<td id="calc-title" class="col col-90 col-bg-color col-padding text-align-right label-font-style">PESO TOTAL(kg)</td>
-							<td data-title="PESO TOTAL(kg)"  class="col col-bg-color text-align-right"><p>{{getItemTotal(item) | number:2}}</p></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<br/>				
-		</div>
-		<div id="no-more-tables">
-			<table class="order-row-custom-styles" style="width:100%;">
-				<tbody>
-					<tr class="row order-row-custom-styles">
-						<td id="calc-title" class="col col-90 col-bg-color col-padding text-align-right label-font-style">PESO TOTAL DO PEDIDO(kg)</td>
-						<td data-title="PESO TOTAL DO PEDIDO(kg)"  class="col col-bg-color text-align-right"><p>{{total | number:2}}</p></td>
-					</tr>
-				</tbody>
-			</table>			
-		</div>
-		<br/>				
-		<div class="row order-row-custom-styles">
-			<div class="col col-bg-color">
-				<p><b>OBSERVACOES DO PEDIDO</b><br>{{order.comments}}</p>					
-			</div>			
-		</div>
-</ion-content>
+<ion-pane>    <ion-header-bar class="bar-calm">        <div class="buttons header-margin">            <button class="button fa-arrow-left" ng-click="goBack()"></button>            <span class="btn-separator"></span>            <h4 class="mf-page-titles" ng-bind='consumeData.code'></h4>            <span class="btn-separator"></span>            <!--<button class="button fa-check" ng-click="submitted=true" ></button>-->            <button class="button fa-check" ng-click="submitConsumeForm(true)" ></button>        </div>    </ion-header-bar>    <ion-content>        <form name="consumeForm" novalidate ng-submit="submitConsumeForm(consumeForm.$valid)" class="edit-content">            <div class="row">                <div class="col">                    <div class="list list-row col-50">                        <span class="input-label text-bold">Pedido</span>                        <label class="item item-input" >                            <input type="text" name="code" ng-model="consumeData.code">                            <i class="icon ion-ios7-search fa-md-search"></i>                        </label>                    </div>                    <div class="list list-row">                        <span class="input-label text-bold">Cliente</span>                        <label class="item item-input" >                            <input type="text" name="code" ng-model="consumeData.code">                            <i class="icon ion-ios7-search fa-md-search"></i>                        </label>                    </div>                                    </div>            </div>            <div class="row">                <div class="col col-50">                    <div class="list list-row">                        <span class="input-label text-bold">Representante</span>                        <label class="item item-input" >                            <input type="text" name="code" ng-model="consumeData.code">                            <i class="icon ion-ios7-search fa-md-search"></i>                        </label>                    </div>                </div>                <div class="col col-50">                    <div class="list list-row">                        <span class="input-label text-bold">Acabamento</span>                        <label class="item item-input" >                            <input type="text" name="code" ng-model="consumeData.code">                            <i class="icon ion-ios7-search fa-md-search"></i>                        </label>                    </div>                </div>            </div>            <div class="row">                <div class="col col-25">                    <div class="list list-row">                        <span class="input-label text-bold">Orcamento</span>                        <label class="item item-input" >                            <input type="text" name="code" ng-model="consumeData.code">                            <i class="icon ion-ios7-search fa-md-search"></i>                        </label>                    </div>                </div>                <div class="col col-25">                    <div class="list list-row">                        <span class="input-label text-bold">Projecto</span>                        <label class="item item-input" >                            <input type="text" name="code" ng-model="consumeData.code">                        </label>                    </div>                </div>                <div class="col col-25">                    <div class="list list-row">                        <span class="input-label text-bold">Data Pedido</span>                        <label class="item item-input" >                            <input type="text" name="code" ng-model="consumeData.code">                            <i class="icon ion-ios7-search fa-calender"></i>                        </label>                    </div>                </div>                <div class="col col-25">                    <div class="list list-row">                        <span class="input-label text-bold">Data Entrega </span>                        <label class="item item-input" >                            <input type="text" name="code" ng-model="consumeData.code">                            <i class="icon ion-ios7-search fa-calender"></i>                        </label>                    </div>                </div>            </div>            <div class="row">      <div class="col">        <div class="list"> <a class="process-item-list item-icon-left item-icon-right"> <i class="icon left-icon fa-list"></i> Componentes <i class="icon plus-icon fa-plus"></i> </a> </div>      </div>    </div>    <div class="row">            <div class="col">                <div class="list"> <a class="process-item-list item-icon-right" style="padding-left:0px;">Operações <i ng-click="updateOperation()" class="icon plus-icon fa-plus-circle plus-small-icon"></i> </a> </div>            </div>        </div>        </form>    </ion-content></ion-pane>

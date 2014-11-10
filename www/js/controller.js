@@ -592,3 +592,11 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
             $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
         };
     }]);
+altamiraAppControllers.controller('BomItemCreateCtrl', ['$scope', '$http', '$location', '$routeParams', '$upload',
+    function($scope, $http, $location, $routeParams, $upload) {
+
+    }]);
+altamiraAppControllers.controller('BomPartCreateCtrl', ['$scope', '$http', '$location', '$routeParams', '$upload',
+    function($scope, $http, $location, $routeParams, $upload) {
+
+    }]);

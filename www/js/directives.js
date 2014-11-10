@@ -97,3 +97,23 @@ altamiraApp.directive('confirmationNeeded', function() {
         }
     };
 });
+altamiraApp.directive('toggleCheckClass', function() {
+    return function(scope, elm, attrs) {
+        elm.bind('click', function() {
+            //alert(this.next().hasClass('fa-square-o'))
+            if(elm.next().hasClass('fa-square-o'))
+            {
+                alert($(this).next().attr('class'));
+               $(this).next().addClass('fa-check-square-o');
+//                elm.next().removeClass('fa-square-o');
+//                elm.next().addClass('fa-check-square-o');
+            }
+            if(elm.next().hasClass('fa-check-square-o'))
+            {
+                elm.next().attr('class','fa-square-o');
+//                elm.next().removeClass('fa-check-square-o');
+//                elm.next().addClass('fa-square-o');
+            }
+        });
+    }
+});
