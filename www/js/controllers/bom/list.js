@@ -56,7 +56,9 @@ angular.module('altamiraAppControllers')
             this.get(0);
         }
     }
-
+    $scope.edit = function (bomId) {
+      $location.path('/bom/edit/' + bomId);
+    };
     // first load
     $scope.search.run();
     $scope.checkBtn = 0;

@@ -8,8 +8,11 @@ altamiraApp.directive('imageConvert', function() {
         elm.bind('change', function() {
             if (this.files && this.files[0]) {
                 var FR = new FileReader();
+                var filetype = this.files[0].type.split('/');
+                var imagename = this.files[0].name;
                 console.log(FR);
                 FR.onload = function(e) {
+
                     document.getElementById("img").src = e.target.result;
                     document.getElementById("uploadedImg").style.display = 'block';
                     document.getElementById("img").style.display = 'inline-block';
@@ -18,9 +21,16 @@ altamiraApp.directive('imageConvert', function() {
                     document.getElementById("uploadBtn").style.display = 'none';
                     document.getElementById("removeBtn").style.display = 'block';
                     var base64string = e.target.result.split(',');
-                    document.getElementById("base").value = base64string[1];
+
+//                    document.getElementById("format").value = base64string[0];
+//                    document.getElementById("base").value = base64string[1];
+//                    document.getElementById("filename").value = imagename;
+//                    document.getElementById("filetype").value = filetype[1];
                     scope.$apply(function() {
+                        scope.operationData.format = base64string[0];
                         scope.operationData.sketch = base64string[1];
+                        scope.operationData.filename = imagename;
+                        scope.operationData.filetype = filetype[1];
                     });
                 };
                 FR.readAsDataURL(this.files[0]);
@@ -33,14 +43,14 @@ altamiraApp.directive('base64ToImage', function() {
     return function(scope, elm, attrs) {
 
         document.getElementById("uploadedImg").style.display = 'block';
-//        document.getElementById("img").style.display = 'inline-block';
+        document.getElementById("img").style.display = 'none';
         document.getElementById("removeBtn").style.display = 'block';
         document.getElementById("removeBtn1").style.display = 'block';
         document.getElementById("uploadBtn").style.display = 'none';
         document.getElementById("removeBtn").style.display = 'block';
         var newImage = new Image();
         newImage.id = 'newImg';
-        newImage.src = 'data:image/jpg;base64,' + scope.operationData.sketch;
+        newImage.src = scope.operationData.format + ',' + scope.operationData.sketch;
 //        newImage.src = scope.operationData.sketch;
         document.getElementById("uploadedImg").appendChild(newImage);
 
@@ -57,6 +67,9 @@ altamiraApp.directive('cancelUpdateUpload', function() {
             document.getElementById("newImg").style.display = 'none';
             document.getElementById("uploadBtn").style.display = 'block';
             document.getElementById("base").value = '';
+            document.getElementById("format").value = '';
+            document.getElementById("filename").value = '';
+            document.getElementById("filetype").value = '';
         });
     }
 });
@@ -97,23 +110,16 @@ altamiraApp.directive('confirmationNeeded', function() {
         }
     };
 });
-altamiraApp.directive('toggleCheckClass', function() {
+altamiraApp.directive('toggleClass', function() {
     return function(scope, elm, attrs) {
         elm.bind('click', function() {
-            //alert(this.next().hasClass('fa-square-o'))
-            if(elm.next().hasClass('fa-square-o'))
-            {
-                alert($(this).next().attr('class'));
-               $(this).next().addClass('fa-check-square-o');
-//                elm.next().removeClass('fa-square-o');
-//                elm.next().addClass('fa-check-square-o');
-            }
-            if(elm.next().hasClass('fa-check-square-o'))
-            {
-                elm.next().attr('class','fa-square-o');
-//                elm.next().removeClass('fa-check-square-o');
-//                elm.next().addClass('fa-square-o');
-            }
+            elm.next().toggleClass('fa-check-square-o');
+        });
+    }
+});
+altamiraApp.directive('showUnchecked', function() {
+    return function(scope, elm, attrs) {
+        elm.bind('click', function() {
         });
     }
 });

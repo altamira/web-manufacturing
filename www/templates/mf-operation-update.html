@@ -14,6 +14,7 @@
             <div class="col">
 
                 <form name="operationForm" novalidate ng-submit="submitOperationForm(operationForm.$valid)" enctype="multipart/form-data">
+                    <input type="text" name="operationVersion" ng-model="operationData.operationVersion" ng-hide='true'>
                     <div class="list list-row">
                         <span class="input-label text-bold">Seqüência</span>
                         <label class="item item-input" style="background-color: #eeeeee;border: 1px solid #dddddd;border-radius: 5px;height: 35px;">
@@ -53,6 +54,11 @@
                         </div>
                         <div ng-if="operationData.sketch != ''">
                             <textarea id="base" ng-model="operationData.sketch" ng-hide="true" base64-to-image></textarea>
+                            <input type="text" ng-model="operationData.sketchVersion" ng-hide="true">
+                            <input id="sketchId" type="text" ng-model="operationData.sketchId" ng-hide="true">
+                            <input id="format" type="text" ng-model="operationData.format" ng-hide="true">
+                            <input id="filename" type="text" ng-model="operationData.filename" ng-hide="true">
+                            <input id="filetype" type="text" ng-model="operationData.filetype" ng-hide="true">
                         </div>
 
                     </div>

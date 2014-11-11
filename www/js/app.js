@@ -51,12 +51,12 @@ altamiraApp.config(['$routeProvider',
             templateUrl: 'templates/mf-operation-produce.html',
             controller: 'ManufacturingProcessOperationProduceCtrl'
         })
-                .when('/manufacturing/process/operation/uso/:processId/:operationId', {
-            templateUrl: 'templates/mf-operation-uso.html',
+                .when('/manufacturing/process/operation/use/:processId/:operationId', {
+            templateUrl: 'templates/mf-operation-use.html',
             controller: 'ManufacturingProcessOperationUsoCtrl'
         })
-                .when('/manufacturing/process/operation/uso/update/:processId/:operationId/:usoId', {
-            templateUrl: 'templates/mf-operation-uso.html',
+                .when('/manufacturing/process/operation/use/update/:processId/:operationId/:useId', {
+            templateUrl: 'templates/mf-operation-use.html',
             controller: 'ManufacturingProcessOperationUsoCtrl'
         })
         /* manufacturing/process  End */
@@ -64,7 +64,7 @@ altamiraApp.config(['$routeProvider',
             templateUrl: 'templates/bom/list.html',
             controller: 'BomListCtrl'
         })
-                .when('/bom/edit', {
+                .when('/bom/edit/:bomId', {
             templateUrl: 'templates/bom/edit.html',
             controller: 'BomEditCtrl'
         })

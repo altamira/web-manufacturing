@@ -23,23 +23,31 @@
             </div>
         </div>
         <div class="bom-list">
-        <div class="row">
-            <div class="col">
-                <div class="item-list1 item-icon-right" ng-repeat="item in search.pages[search.page] | filter: search.criteria">
-                    <p class="text-center-middle1" ng-click="edit(item.id)">{{item.number}} {{item.customer}}</p>
-                    <i class="icon">
-                        <label>
-                            <div class="checkbox checkbox-input-hidden disable-pointer-events">
-                                <!--<input type="checkbox" checklist-model="checked.items" checklist-value="item.id" readonly toggle-check-class>-->
-                                <input type="checkbox" checklist-model="checked.items" checklist-value="item.id" readonly >
-                                <i class="fa-square-o" ng-class='{"fa-square-o":tog==1,"fa-check-square-o":tog==0}' ng-click="tog = !tog" ></i>
-                            </div>
-                        </label>
-                    </i>
+            <div class="row">
+                <div class="col">
+                    <div class="item-list1 item-icon-right" ng-repeat="item in search.pages[search.page] | filter: search.criteria">
+                        <p class="text-center-middle1" ng-click="edit(item.id)">{{item.number}} {{item.customer}}</p>
+                        <i class="icon">
+                            <label>
+                                <div class="checkbox checkbox-input-hidden disable-pointer-events">
+                                    <input type="checkbox" checklist-model="checked.items" checklist-value="item.id" readonly toggle-class>
+                                    <i class="fa-square-o"></i>
+                                </div>
+                            </label>
+                        </i>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="pagination">
+                <a ng-repeat="i in search.pages track by $index" >
+                    <span class="page" ng-class="{active: i == search.page.length}" ng-click="search.go($index)">{{$index+1}}</span>
+                </a>
+                <a ng-show="search.forward && search.pages.length && search.pages[search.pages.length - 1].length == search.size">
+                    <span class="page fa-arrow-right next-arrow" ng-click="search.next()"></span>
+                </a>
+            </div>
         </div>
-        <pre>{{checked.items}}</pre>
     </ion-content>
 </ion-pane>
