@@ -258,7 +258,6 @@ altamiraAppControllers.controller('ManufacturingProcessOperationCtrl', ['$scope'
                 $scope.postdata.sequence = parseInt($scope.operationData.sequence);
                 $scope.postdata.name = $scope.operationData.name;
                 $scope.postdata.description = $scope.operationData.description;
-//                $scope.postdata.sketch = $scope.operationData.sketch;
                 $scope.postdata.sketch = {
                     "version": 0,
                     "format": $scope.operationData.format,
@@ -622,12 +621,4 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
         $scope.goBack = function() {
             $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
         };
-    }]);
-altamiraAppControllers.controller('BomItemCreateCtrl', ['$scope', '$http', '$location', '$routeParams', '$upload',
-    function($scope, $http, $location, $routeParams, $upload) {
-
-    }]);
-altamiraAppControllers.controller('BomPartCreateCtrl', ['$scope', '$http', '$location', '$routeParams', '$upload',
-    function($scope, $http, $location, $routeParams, $upload) {
-
     }]);

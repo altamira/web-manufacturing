@@ -5,6 +5,19 @@ angular.module('altamiraAppControllers')
     $scope.checked = {
         items: []
     };
+    $scope.status = function(itemId) {
+        if (itemId != '' && itemId != undefined)
+        {
+            $http({
+                method: 'PUT',
+                url: 'http://data.altamira.com.br/manufacturing/bom/'+ itemId +'/checked',
+                headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+            }).success(function(response) {
+                $location.path('/bom/list');
+            });
+        }
+
+    };
     $scope.search = {
         criteria: '', // search criteria
         page: 0, // current page
@@ -42,10 +55,11 @@ angular.module('altamiraAppControllers')
             } else {
                 $http({
                     method: 'GET',
-                    url: 'http://data.altamira.com.br/manufacturing/bom/',
+                    url: 'http://data.altamira.com.br/manufacturing/bom/search/',
                     params: {"start": page, "max": this.size},
                     headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
                 }).then(function(response) {
+                    console.log(response);
                     $scope.search.last = response.data;
                 });
             }
@@ -56,8 +70,9 @@ angular.module('altamiraAppControllers')
             this.get(0);
         }
     }
-    $scope.edit = function (bomId) {
-      $location.path('/bom/edit/' + bomId);
+
+    $scope.edit = function(bomId) {
+        $location.path('/bom/edit/' + bomId);
     };
     // first load
     $scope.search.run();

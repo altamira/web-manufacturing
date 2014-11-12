@@ -30,8 +30,15 @@
                         <i class="icon">
                             <label>
                                 <div class="checkbox checkbox-input-hidden disable-pointer-events">
-                                    <input type="checkbox" checklist-model="checked.items" checklist-value="item.id" readonly toggle-class>
-                                    <i class="fa-square-o"></i>
+                                    <div ng-if="item.checked != ''">
+                                        <i class="fa-check-square-o"></i>
+                                    </div>
+                                    <div ng-if="item.checked == ''" >
+                                        <input type="checkbox" ng-click='status(item.id)' confirmation-needed>
+                                        <i class="fa-square-o"></i>
+                                    </div>
+<!--                                    <input type="checkbox" checklist-model="checked.items" checklist-value="item.id" readonly toggle-class>
+                                    <i class="fa-square-o"></i>-->
                                 </div>
                             </label>
                         </i>
