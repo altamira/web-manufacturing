@@ -1,3 +1,9 @@
+<div class="loding_div" ng-show="loading">
+    <div id="loadingProgressG">
+        <div id="loadingProgressG_1" class="loadingProgressG">
+        </div>
+    </div>
+</div>
 <ion-pane>
     <ion-header-bar class="bar-calm">
         <div class="buttons header-margin">
@@ -26,7 +32,7 @@
             <div class="row">
                 <div class="col">
                     <div class="item-list1 item-icon-right" ng-repeat="item in search.pages[search.page] | filter: search.criteria">
-                        <p class="text-center-middle1" ng-click="edit(item.id)">{{item.number}} {{item.customer}}</p>
+                        <p class="text-center-middle1" ng-click="view(item.id)">{{item.number}} {{item.customer}}</p>
                         <i class="icon">
                             <label>
                                 <div class="checkbox checkbox-input-hidden disable-pointer-events">

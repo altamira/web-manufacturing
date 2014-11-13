@@ -64,6 +64,10 @@ altamiraApp.config(['$routeProvider',
             templateUrl: 'templates/bom/list.html',
             controller: 'BomListCtrl'
         })
+                .when('/bom/view/:bomId', {
+            templateUrl: 'templates/bom/view.html',
+            controller: 'BomViewCtrl'
+        })
                 .when('/bom/edit/:bomId', {
             templateUrl: 'templates/bom/edit.html',
             controller: 'BomEditCtrl'
@@ -79,6 +83,10 @@ altamiraApp.config(['$routeProvider',
                 .when('/bom/part/create/:bomId/:itemId', {
             templateUrl: 'templates/bom/part-create.html',
             controller: 'BomPartCreateCtrl'
+        })
+                .when('/bom/part/update/:bomId/:itemId/:partId', {
+            templateUrl: 'templates/bom/part-update.html',
+            controller: 'BomPartUpdateCtrl'
         })
                 .otherwise({
             redirectTo: '/manufacturing/process/0'

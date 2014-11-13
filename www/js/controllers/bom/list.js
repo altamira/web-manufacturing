@@ -44,21 +44,25 @@ angular.module('altamiraAppControllers')
             page = page === undefined ? 0 : page;
 
             if (this.criteria.trim().length > 0) {
+                $scope.loading = true;
                 $http({
                     method: 'GET',
                     url: 'http://data.altamira.com.br/manufacturing/bom/search/',
                     params: {"search": this.criteria, "start": page, "max": this.size},
                     headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
                 }).then(function(response) {
+                    $scope.loading = false;
                     $scope.search.last = response.data;
                 });
             } else {
+                $scope.loading = true;
                 $http({
                     method: 'GET',
-                    url: 'http://data.altamira.com.br/manufacturing/bom/search/',
+                    url: 'http://data.altamira.com.br/manufacturing/bom',
                     params: {"start": page, "max": this.size},
                     headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
                 }).then(function(response) {
+                    $scope.loading = false;
                     console.log(response);
                     $scope.search.last = response.data;
                 });

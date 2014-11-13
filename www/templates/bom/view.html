@@ -1,132 +1,179 @@
-<ion-header-bar class="bar-calm">
-	<div class="buttons header-margin">
-		<a href="#/app/checklists" class="button button-icon"><i class="fa fa-chevron-left"></i></a>
-		<span class="btn-separator"></span>
-		<h4 class="mfg-page-titles">&nbsp;&nbsp;Pedido {{order.number}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
-		<span class="btn-separator"></span>
-		<button ng-show="!order.checked" ng-click="checkedOrder(order.id)" class="button button-icon"><i class="fa fa-check"></i></button>
-		<button class="button button-icon" ng-click="deleteOrder(order.id)"><i class="fa fa-times"></i></button>
-		<button ng-click="openReport({{order.number}})" class="button button-icon"><i class="fa fa-print"></i></button>		
-	</div>
-</ion-header-bar>
-<ion-content has-header="true" class="content-body" >
-	<!--Order Related Headers-->
-	<br/>
-		<div class="row responsive-sm order-row-custom-styles" >
-			<div class="col col-80 col-bg-color">
-				<div class="row responsive-sm" >
-					<div class="col col-33">
-						<label  class="label-font-style">CLIENTE</label>				
-					</div>
-					<div class="col col-67">
-						{{order.customer}}				
-					</div>
-				</div>
-				<div class="row responsive-sm" >
-					<div class="col col-33">
-						<label  class="label-font-style">REPRESENTANTE</label>				
-					</div>
-					<div class="col col col-67">
-						{{order.representative}}				
-					</div>
-				</div>
-			</div>		
-			<div class="col col-bg-color" style="padding-top:20px;padding-bottom:10px;">
-				<label style="padding:10px;">PEDIDO</label>
-				<p style="padding:10px;">{{order.number}}</p>
-			</div>
-		</div>
-		<div class="row responsive-sm order-row-custom-styles">
-			<div class="col col-10 col-bg-color col-padding">
-				<label  class="label-font-style">DATA PEDIDO</label>
-				<p>{{orderDate(order.created)}}</p>
-			</div>
-			<div class="col col-40  col-bg-color col-padding">
-				<label  class="label-font-style">PRAZO DE ENTREGA(SEMANA/ANO)</label>
-				<p>{{getWeek(order.delivery)}}</p>
-			</div>			
-			<div class="col col-20 col-bg-color col-padding">
-				<label  class="label-font-style">ORCAMENTO</label>
-				<p>{{order.quotation}}</p>
-			</div>
-			<div class="col col-20 col-bg-color col-padding">
-				<label  class="label-font-style">PROJETO</label>
-				<p>{{order.project}}</p>
-			</div>
-			<div class="col col-40 col-bg-color">
-				<label  class="label-font-style">ACABAMENTO</label>
-				<p>{{order.finish}}</p>
-			</div>
-		</div>
-		<!--End-->
-		<br/>		
-		<!--Loop Through All Order Items-->
-		<!--<div ng-repeat="item in order.item | orderBy:'item'">-->
-		<div ng-repeat="item in order.items | orderBy:'item'" >
-			<!--row to show item no-->
-			<div class="row order-row-custom-styles" >
-				<div class="col col-bg-color">
-					<p>ITEM {{item.item}}</p>
-				</div>				
-			</div>
-			<!--row to show item description-->
-			<div class="row order-row-custom-styles" >
-				<div class="col col-bg-color">
-					<p class="space-wrap">{{item.description}}</p>
-				</div>					
-			</div>
-			<!--row to show product headers -->
-			<div id="no-more-tables">
-				<table class="order-row-custom-styles" style="width:100%;">
-					<thead>
-						<tr class="row order-row-custom-styles">
-							<th class="col col-bg-color col-padding max-50"></th>
-							<th class="col col-10 col-bg-color col-padding text-align-cener label-font-style">QUANTIDE</th>
-							<th class="col col-bg-color col-padding text-align-left label-font-style">DESCRICAO DO MATERIAL</th>
-							<th class="col col-10 col-bg-color col-padding text-align-cener label-font-style">COR</th>
-							<th class="col col-10 col-bg-color col-padding text-align-right label-font-style">PESO</th>
-							<th class="col col-10 col-bg-color text-align-right label-font-style">PESO TOTAL</th>
-						</tr>
-					</thead>
-					<tbody>
-						<!--Loop Through All Item Products-->	
-						<tr ng-repeat="product in item.parts" class="row order-row-custom-styles">
-							<td class="col col-bg-color col-padding max-50">
-								<div class="checkbox" style="border-collapse: separate;padding:0px;">
-										<input type="checkbox" >
-								</div>
-							</td>
-							<td data-title="QUANTIDE" class="col col-10 col-bg-color col-padding text-align-cener"><p>{{product.quantity | number:0}}</p></td>
-							<td data-title="DESCRICAO DO MATERIAL" class="col col-bg-color col-padding"><p>{{product.description}}</p>	</td>
-							<td data-title="COR" class="col col-10 col-bg-color col-padding text-align-cener"><p>{{product.color}}</p></td>
-							<td data-title="PESO" class="col col-10 col-bg-color col-padding text-align-right"><p>{{product.weight / product.quantity | number:2}}</p></td>
-							<td data-title="PESO TOTAL" class="col col-10 col-bg-color text-align-right"><p>{{product.weight | number:2}}</p></td>
-							<!--<td data-title="PESO" class="col col-10 col-bg-color col-padding text-align-right"><p>{{product.weight | number:2}}</p></td>
-							<td data-title="PESO TOTAL" class="col col-10 col-bg-color text-align-right"><p>{{product.weight * product.quantity | number:2}}</p></td>-->
-						</tr>
-						<tr class="row order-row-custom-styles">
-							<td id="calc-title" class="col col-90 col-bg-color col-padding text-align-right label-font-style">PESO TOTAL(kg)</td>
-							<td data-title="PESO TOTAL(kg)"  class="col col-bg-color text-align-right"><p>{{getItemTotal(item) | number:2}}</p></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<br/>				
-		</div>
-		<div id="no-more-tables">
-			<table class="order-row-custom-styles" style="width:100%;">
-				<tbody>
-					<tr class="row order-row-custom-styles">
-						<td id="calc-title" class="col col-90 col-bg-color col-padding text-align-right label-font-style">PESO TOTAL DO PEDIDO(kg)</td>
-						<td data-title="PESO TOTAL DO PEDIDO(kg)"  class="col col-bg-color text-align-right"><p>{{total | number:2}}</p></td>
-					</tr>
-				</tbody>
-			</table>			
-		</div>
-		<br/>				
-		<div class="row order-row-custom-styles">
-			<div class="col col-bg-color">
-				<p><b>OBSERVACOES DO PEDIDO</b><br>{{order.comments}}</p>					
-			</div>			
-		</div>
-</ion-content>
+<div class="loding_div" ng-show="loading">
+    <div id="loadingProgressG">
+        <div id="loadingProgressG_1" class="loadingProgressG">
+        </div>
+    </div>
+</div>
+<ion-pane>
+    <ion-header-bar class="bar-calm">
+        <div class="buttons header-margin">
+            <button class="button fa-align-justify-header" ng-click="goBack()"></button>
+            <span class="btn-separator"></span>
+            <button class="button fa-check-square-o-header"></button>
+            <button class="button fa-pencil-header" ng-click="edit()" ></button>
+            <button class="button fa-remove-header"></button>
+            <a href="http://report.altamira.com.br/webapi/manufacturing/bom/{{bomId}}" target="_blank">
+                <button class="button fa-print-header"></button>
+            </a>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <div class="view-content">
+            <div class="row">
+                <div class="col">
+                    <div class="list list-row col-75">
+                        <span class="input-label text-bold">Pedido</span>
+                        <label class="item item-input plain-text">
+                            {{bomData.number}}
+                        </label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Cliente</span>
+                        <label class="item item-input" >
+                            {{bomData.customer}}
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-50">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Representante</span>
+                        <label class="item item-input" >
+                            {{bomData.representative}}
+                        </label>
+                    </div>
+                </div>
+                <div class="col col-50">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Acabamento</span>
+                        <label class="item item-input" >
+                            {{bomData.finish}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-25">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Orcamento</span>
+                        <label class="item item-input" >
+                            {{bomData.quotation}}
+                        </label>
+                    </div>
+                </div>
+                <div class="col col-25">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Projecto</span>
+                        <label class="item item-input" >
+                            {{bomData.project}}
+                        </label>
+                    </div>
+                </div>
+                <div class="col col-25">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Data Pedido</span>
+                        <label class="item item-input" >
+                            {{bomData.created}}
+                        </label>
+                    </div>
+                </div>
+                <div class="col col-25">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Data Entrega </span>
+                        <label class="item item-input" >
+                            {{bomData.delivery}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="list">
+                        <a class="process-item-list item-icon-left item-icon-right">
+                            <i class="icon left-icon fa-list"></i>
+                            Itens
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="item_repeat" class="desktop-view" ng-repeat='data in bomData.items'>
+                <div class="row" style="margin-top:-15px;">
+                    <div class="col">
+                        <div class="list"> <a class="process-item-list item-icon-right " style="padding-left:0px;" ng-click='updateItem(data.id)'>ITEM {{data.item}}  </a> </div>
+                    </div>
+                </div>
+                <div class="edit-item">
+                    <div class="col row">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td colspan="6" style="padding-left:30px; padding-bottom:10px; font-size:16px;">{{data.description}}</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td class="edit-item-title" style="text-align: center"><i class="fa-list-ol"></i> <span>Quantidade</span></td>
+                                <td class="edit-item-title"> Descrição</td>
+                                <td class="edit-item-title"><i class="fa-pencil"></i> <span>Cor</span></td>
+                                <td class="edit-item-title"><i class="fa-tachometer"></i> <span>Peso</span></td>
+                                <td class="edit-item-title"><i class="fa-tachometer"></i> <span>Peso</span></td>
+                                <td width="3%" class="edit-item-title">&nbsp;</td>
+                            </tr>
+                            <tr ng-repeat='dataPart in data.parts'>
+                                <td class="edit-info" style="text-align: center">{{dataPart.quantity}} unid</td>
+                                <td class="edit-text">{{dataPart.description}}</td>
+                                <td class="edit-text">{{dataPart.color}}</td>
+                                <td class="edit-info" style="text-align: right">{{dataPart.weight/dataPart.quantity | setDecimal:3}} kg</td>
+                                <td class="edit-info" style="text-align: right">{{dataPart.weight | setDecimal:2}} kg</td>
+                                <td class="edit-text"><i class="icon plus-icon fa-check-square-o" ng-click="updatePart(data.id, dataPart.id)"></i></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="item_repeat" class="mobile-view" ng-repeat='data in bomData.items'>
+                <div class="row" style="margin-top:-15px;">
+                    <div class="col">
+                        <div class="list"> <a class="process-item-list item-icon-right " style="padding-left:0px;" ng-click='updateItem(data.id)'>ITEM {{data.item}}</a></div>
+                    </div>
+                </div>
+                <div class="col" ng-repeat='dataPart in data.parts'>
+                    <div class="components-col">
+                        <div class="components-title ">
+                            <h4>{{data.description}}<i class="icon plus-icon fa-check-viewpage"></i> </h4>
+                            <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                <tbody><tr>
+                                        <td width="50%"><span>{{dataPart.code}}</span></td>
+                                        <td><i class="fa fa-pencil"></i></td>
+                                        <td align="right">{{dataPart.color}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                            <tbody><tr>
+                                    <td width="25%"><i class="fa fa-arrows-h"></i></td>
+                                    <td width="25%" valign="top">{{dataPart.length}} mm</td>
+                                    <td width="25%" valign="top"><i class="fa fa-list-ol"></i></td>
+                                    <td valign="top" align="right">{{dataPart.quantity}} unid</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-arrows-v"></i></td>
+                                    <td valign="top">{{dataPart.height}} mm</td>
+                                    <td valign="top"><i class="fa fa-tachometer"></i></td>
+                                    <td valign="top" align="right">{{dataPart.weight/dataPart.quantity | setDecimal:3}} kg</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-expand"></i></td>
+                                    <td valign="top">{{dataPart.width}} mm</td>
+                                    <td valign="top"><i class="fa fa-tachometer"></i></td>
+                                    <td valign="top" align="right">{{dataPart.weight | setDecimal:2}} kg</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-pane>
