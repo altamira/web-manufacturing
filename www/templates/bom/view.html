@@ -7,11 +7,16 @@
 <ion-pane>
     <ion-header-bar class="bar-calm">
         <div class="buttons header-margin">
-            <button class="button fa-align-justify-header" ng-click="goBack()"></button>
+            <button class="button fa-arrow-left" ng-click="goBack()"></button>
             <span class="btn-separator"></span>
-            <button class="button fa-check-square-o-header"></button>
+            <span ng-if="bomData.checked == ''">
+                <button class="button fa-square-o-header" ng-click='makeChecked()'></button>
+            </span>
+            <span ng-if="bomData.checked != ''">
+                <button class="button fa-check-square-o-header" ng-click='makeUnchecked()'></button>
+            </span>
             <button class="button fa-pencil-header" ng-click="edit()" ></button>
-            <button class="button fa-remove-header"></button>
+            <button class="button fa-remove-header" confirmation-needed ng-click="removeBom()"></button>
             <a href="http://report.altamira.com.br/webapi/manufacturing/bom/{{bomId}}" target="_blank">
                 <button class="button fa-print-header"></button>
             </a>

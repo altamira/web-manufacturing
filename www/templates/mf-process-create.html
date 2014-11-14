@@ -1,11 +1,14 @@
+<div class="loding_div" ng-show="loading">
+    <div id="loadingProgressG">
+        <div id="loadingProgressG_1" class="loadingProgressG">
+        </div>
+    </div>
+</div>
 <ion-pane>
     <ion-header-bar class="bar-calm">
         <div class="buttons header-margin">
             <button class="button fa-arrow-left" ng-click="goBack()"></button>
             <span class="btn-separator"></span>
-            <h4 class="mf-page-titles"></h4>
-            <span class="btn-separator"></span>
-            <!--<button class="button fa-check" ng-click="submitted=true" ></button>-->
             <button class="button fa-check" ng-click="submitCreateProcess(true)" ></button>
         </div>
     </ion-header-bar>
@@ -26,7 +29,7 @@
                 </div>
             </div>
         </div>
-        <div class="row" style="margin-top: 20px;">
+<!--        <div class="row" style="margin-top: 20px;">
             <div class="col">
                 <div class="list">
                     <a class="process-item-list item-icon-left" href="#">
@@ -46,6 +49,6 @@
                     </a>
                 </div>
             </div>
-        </div>
+        </div>-->
     </ion-content>
 </ion-pane>

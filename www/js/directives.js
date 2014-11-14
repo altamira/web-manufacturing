@@ -117,6 +117,13 @@ altamiraApp.directive('toggleClass', function() {
         });
     }
 });
+altamiraApp.directive('makeActive', function() {
+    return function(scope, elm, attrs) {
+        elm.bind('click', function() {
+            elm.toggleClass('make-active');
+        });
+    }
+});
 altamiraApp.directive('showUnchecked', function() {
     return function(scope, elm, attrs) {
         elm.bind('click', function() {

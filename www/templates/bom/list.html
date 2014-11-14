@@ -11,7 +11,7 @@
             <span class="btn-separator"></span>
             <h4 class="mf-page-titles">&nbsp;Lista de Material&nbsp;</h4>
             <span class="btn-separator"></span>
-            <button class="button fa-download" ng-click="newProcess()"></button>
+            <button class="button fa-download" ng-click="importOrder()"></button>
         </div>
     </ion-header-bar>
     <ion-content class="content-body">
@@ -37,10 +37,11 @@
                             <label>
                                 <div class="checkbox checkbox-input-hidden disable-pointer-events">
                                     <div ng-if="item.checked != ''">
+                                        <input type="checkbox" ng-click='makeUnchecked(item.id,item.number)'>
                                         <i class="fa-check-square-o"></i>
                                     </div>
                                     <div ng-if="item.checked == ''" >
-                                        <input type="checkbox" ng-click='status(item.id)' confirmation-needed>
+                                        <input type="checkbox" ng-click='makeChecked(item.id,item.number)'>
                                         <i class="fa-square-o"></i>
                                     </div>
 <!--                                    <input type="checkbox" checklist-model="checked.items" checklist-value="item.id" readonly toggle-class>

@@ -1,4 +1,4 @@
-var altamiraApp = angular.module('altamira', ['ionic', 'altamiraAppControllers', 'ngRoute', 'angularFileUpload', 'altamiraAppDirectives', 'ngStorage','checklist-model'])
+var altamiraApp = angular.module('altamira', ['ionic', 'altamiraAppControllers', 'ngRoute', 'angularFileUpload', 'altamiraAppDirectives', 'ngStorage','checklist-model', 'restangular'])
 
         .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -29,7 +29,7 @@ altamiraApp.config(['$routeProvider',
         })
                 .when('/manufacturing/process/operation/:processId', {
             templateUrl: 'templates/mf-operation-create.html',
-            controller: 'ManufacturingProcessOperationCtrl'
+            controller: 'ManufacturingProcessCreateOperationCtrl'
         })
                 .when('/manufacturing/process/operation/update/:processId/:operationId', {
             templateUrl: 'templates/mf-operation-update.html',

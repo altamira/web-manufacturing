@@ -1,3 +1,9 @@
+<div class="loding_div" ng-show="loading">
+    <div id="loadingProgressG">
+        <div id="loadingProgressG_1" class="loadingProgressG">
+        </div>
+    </div>
+</div>
 <ion-pane>
     <ion-header-bar class="bar-calm">
         <div class="buttons header-margin">
@@ -7,12 +13,12 @@
             <span class="btn-separator"></span>
             <!--<button class="button fa-check" ng-click="submitted=true" ></button>-->
             <button class="button fa-check" ng-click="submitOperationForm(true)" ></button>
+            <button class="button fa-remove-header" confirmation-needed ng-click="removeOperation()" ></button>
         </div>
     </ion-header-bar>
     <ion-content>
         <div class="row">
             <div class="col">
-
                 <form name="operationForm" novalidate ng-submit="submitOperationForm(operationForm.$valid)" enctype="multipart/form-data">
                     <input type="text" name="operationVersion" ng-model="operationData.operationVersion" ng-hide='true'>
                     <div class="list list-row">
@@ -36,7 +42,7 @@
                     </div>
                     <div class="list list-row">
                         <span class="input-label text-bold">Descrição</span>
-                        <textarea name="description" ng-model="operationData.description" style="background-color: #eeeeee;border: 1px solid #dddddd;border-radius: 5px;height: 100px; resize: none; padding:10px 10px"></textarea>
+                        <textarea name="description" ng-model="operationData.description" style="width: 100%;background-color: #eeeeee;border: 1px solid #dddddd;border-radius: 5px;height: 100px; resize: none; padding:10px 10px"></textarea>
                     </div>
                     <div class="list list-row">
                         <span class="input-label text-bold">Croqui</span>
@@ -70,13 +76,27 @@
                 <div class="list list-row">
                     <a class="item operation-item item-icon-left item-icon-right">
                         <span>U</span>
-                        Uso
-                        <i class="icon fa-plus-circle" ng-click='createUso()'></i>
+                        Use
+                        <i class="icon fa-plus-circle" ng-click='createUse()'></i>
                     </a>
                 </div>
             </div>
         </div>
-
+        <div class="manufacturing-box" ng-if="operationData.use != ''">
+<!--            <div class="row">-->
+                <div class="full-col">
+                    <div class="list mouse-pointer">
+                        <div style="margin-top: 20px;">
+                            <ul>
+                                <li ng-repeat='use in operationData.use'>
+                                    <div><div class="text-wrap" ng-click='updateUse(use.id)'>{{use.code}}</div><i class="icon plus-icon fa-plus-cross-circle-2" confirmation-needed ng-click='removeOperationType("use",use.id)'></i></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            <!--</div>-->
+        </div>
         <div class="row">
             <div class="col listing-operation">
                 <div class="list list-row">
@@ -88,20 +108,20 @@
                 </div>
             </div>
         </div>
-        <div class="manufacturing-box">
-            <div class="row">
+        <div class="manufacturing-box" ng-if="operationData.consume != ''">
+            <!--<div class="row">-->
                 <div class="full-col">
-                    <div class="list">
+                    <div class="list mouse-pointer">
                         <div style="margin-top: 20px;">
                             <ul>
                                 <li ng-repeat='consume in operationData.consume'>
-                                    <div><div class="text-wrap">{{consume.code}}</div><i class="icon plus-icon fa-plus-cross-circle-2" confirmation-needed ng-click='removeOperationType("consume",consume.id)'></i></div>
+                                    <div><div class="text-wrap" ng-click='updateConsume(consume.id)'>{{consume.code}}</div><i class="icon plus-icon fa-plus-cross-circle-2" confirmation-needed ng-click='removeOperationType("consume",consume.id)'></i></div>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-            </div>
+            <!--</div>-->
         </div>
         <div class="row">
             <div class="col listing-operation">
@@ -114,14 +134,14 @@
                 </div>
             </div>
         </div>
-        <div class="manufacturing-box">
+        <div class="manufacturing-box" ng-if="operationData.produce != ''">
             <div class="row">
-                <div class="left-col">
-                    <div class="list">
-                        <div class="row" style="margin-top: 20px;">
+                <div class="full-col">
+                    <div class="list mouse-pointer">
+                        <div style="margin-top: 20px;">
                             <ul>
                                 <li ng-repeat='produce in operationData.produce'>
-                                    <div><div class="text-wrap">{{produce.code}}</div><i class="icon plus-icon fa-plus-cross-circle-2" confirmation-needed ng-click='removeOperationType("produce",produce.id)'></i></div>
+                                    <div><div class="text-wrap" ng-click='updateProduce(produce.id)'>{{produce.code}}</div><i class="icon plus-icon fa-plus-cross-circle-2" confirmation-needed ng-click='removeOperationType("produce",produce.id)'></i></div>
                                 </li>
                             </ul>
                         </div>
