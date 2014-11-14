@@ -526,8 +526,8 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
             $scope.consumeData.code = '';
             $scope.consumeData.version = '';
             $scope.consumeData.description = '';
-            $scope.consumeData.quantity = '';
-            $scope.consumeData.unit = '';
+            $scope.consumeData.quantity = 1;
+            $scope.consumeData.unit = 'unid';
         }
 
         $scope.submitConsumeForm = function(isValid) {
@@ -554,14 +554,14 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
                     headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
                 }).success(function(data, status, headers, config) {
                     $scope.loading = false;
-                    if ($scope.action == 'create')
+                    /*if ($scope.action == 'create')
                     {
                         $location.path('/manufacturing/process/operation/consume/update/' + $scope.processId + '/' + $scope.operationId + '/' + data.id);
                     }
                     else
-                    {
+                    {*/
                         $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
-                    }
+                    //}
 
                 }).error(function(data, status, headers, config) {
                     $scope.loading = false;
@@ -620,8 +620,8 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
             $scope.produceData.code = '';
             $scope.produceData.version = '';
             $scope.produceData.description = '';
-            $scope.produceData.quantity = '';
-            $scope.produceData.unit = '';
+            $scope.produceData.quantity = 1;
+            $scope.produceData.unit = 'unid';
         }
 
         $scope.submitProduceForm = function(isValid) {
@@ -648,14 +648,14 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
                     headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
                 }).success(function(data, status, headers, config) {
                     $scope.loading = false;
-                    if ($scope.action == 'create')
+                    /*if ($scope.action == 'create')
                     {
                         $location.path('/manufacturing/process/operation/produce/update/' + $scope.processId + '/' + $scope.operationId + '/' + data.id);
                     }
                     else
-                    {
+                    {*/
                         $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
-                    }
+                    //}
 
                 }).error(function(data, status, headers, config) {
                     $scope.loading = false;
@@ -714,8 +714,8 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
             $scope.useData.code = '';
             $scope.useData.version = '';
             $scope.useData.description = '';
-            $scope.useData.quantity = '';
-            $scope.useData.unit = '';
+            $scope.useData.quantity = 1;
+            $scope.useData.unit = 'unid';
         }
 
         $scope.submitUseForm = function(isValid) {
@@ -742,14 +742,14 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
                     headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
                 }).success(function(data, status, headers, config) {
                     $scope.loading = false;
-                    if ($scope.action == 'create')
+                    /*if ($scope.action == 'create')
                     {
                         $location.path('/manufacturing/process/operation/use/update/' + $scope.processId + '/' + $scope.operationId + '/' + data.id);
                     }
                     else
-                    {
+                    {*/
                         $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
-                    }
+                    //}
 
                 }).error(function(data, status, headers, config) {
                     $scope.loading = false;
