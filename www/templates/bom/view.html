@@ -160,19 +160,19 @@
                                     <td width="25%"><i class="fa fa-arrows-h"></i></td>
                                     <td width="25%" valign="top">{{dataPart.length}} mm</td>
                                     <td width="25%" valign="top"><i class="fa fa-list-ol"></i></td>
-                                    <td valign="top" align="right">{{dataPart.quantity}} unid</td>
+                                    <td valign="top" align="right">{{dataPart.quantity.value}} unid</td>
                                 </tr>
                                 <tr>
                                     <td><i class="fa fa-arrows-v"></i></td>
                                     <td valign="top">{{dataPart.height}} mm</td>
                                     <td valign="top"><i class="fa fa-tachometer"></i></td>
-                                    <td valign="top" align="right">{{dataPart.weight/dataPart.quantity | setDecimal:3}} kg</td>
+                                    <td valign="top" align="right">{{dataPart.weight/dataPart.quantity.value | setDecimal:3}} kg</td>
                                 </tr>
                                 <tr>
                                     <td><i class="fa fa-expand"></i></td>
                                     <td valign="top">{{dataPart.width}} mm</td>
                                     <td valign="top"><i class="fa fa-tachometer"></i></td>
-                                    <td valign="top" align="right">{{dataPart.weight | setDecimal:2}} kg</td>
+                                    <td valign="top" align="right">{{dataPart.weight.value | setDecimal:2}} kg</td>
                                 </tr>
                             </tbody>
                         </table>
