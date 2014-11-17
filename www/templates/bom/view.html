@@ -16,7 +16,7 @@
                 <button class="button fa-check-square-o-header" ng-click='makeUnchecked()'></button>
             </span>
             <button class="button fa-pencil-header" ng-click="edit()" ></button>
-            <button class="button fa-remove-header" confirmation-needed ng-click="removeBom()"></button>
+            <button class="button fa-remove-header" ng-click="removeBom()"></button>
             <a href="http://report.altamira.com.br/webapi/manufacturing/bom/{{bomId}}" target="_blank">
                 <button class="button fa-print-header"></button>
             </a>
@@ -118,7 +118,7 @@
                             </tr>
                             <tr>
                                 <td class="edit-item-title" style="text-align: center"><i class="fa-list-ol"></i> <span>Quantidade</span></td>
-                                <td class="edit-item-title"> Descrição</td>
+                                <td class="edit-item-title"> DescriÃ§Ã£o</td>
                                 <td class="edit-item-title"><i class="fa-pencil"></i> <span>Cor</span></td>
                                 <td class="edit-item-title"><i class="fa-tachometer"></i> <span>Peso</span></td>
                                 <td class="edit-item-title"><i class="fa-tachometer"></i> <span>Peso</span></td>
@@ -130,7 +130,9 @@
                                 <td class="edit-text">{{dataPart.color}}</td>
                                 <td class="edit-info" style="text-align: right">{{dataPart.weight/dataPart.quantity | setDecimal:3}} kg</td>
                                 <td class="edit-info" style="text-align: right">{{dataPart.weight | setDecimal:2}} kg</td>
-                                <td class="edit-text"><i class="icon plus-icon fa-check-square-o" ng-click="updatePart(data.id, dataPart.id)"></i></td>
+                                <!--<td class="edit-text"><i class="icon plus-icon fa-check-square-o" ng-click="updatePart(data.id, dataPart.id)"></i></td>-->
+                                <td class="edit-text" ng-if="bomData.checked != ''"><i class="icon plus-icon fa-check-square-o"></i></td>
+                                <td class="edit-text" ng-if="bomData.checked == ''"><i class="icon plus-icon fa-square-o" toggle-class></i></td>
                             </tr>
                         </table>
                     </div>

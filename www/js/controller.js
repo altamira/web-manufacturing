@@ -1,7 +1,7 @@
 var altamiraAppControllers = angular.module('altamiraAppControllers', []);
 
 altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
-        function($scope, $http, $location, $routeParams, $localStorage) {
+        function($scope, $http, $location, $routeParams, $localStorage, $ionicPopup) {
             $scope.startPage = $routeParams.start;
             $scope.maxRecord = 4;
             $scope.currentPage = 1;
@@ -42,7 +42,7 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                 var httpRequest = $http({
                     method: 'GET',
                     url: url,
-                    headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                    headers: {'Content-Type': 'application/json'}
                 }).success(function(data) {
                     $scope.loading = false;
                     if (data != '')
@@ -55,7 +55,12 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                     }
                 }).error(function(data, status, headers, config) {
                     $scope.loading = false;
-                    alert("Please try again")
+                    $ionicPopup.alert({
+                        title: 'Failer',
+                        content: 'Please try again'
+                    }).then(function(res) {
+
+                    });
                 });
             };
             $scope.searchProcess = function(searchVal) {
@@ -92,8 +97,8 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
             };
         });
 
-altamiraAppControllers.controller('ManufacturingProcessCreateCtrl', ['$scope', '$http', '$location',
-    function($scope, $http, $location) {
+altamiraAppControllers.controller('ManufacturingProcessCreateCtrl', ['$scope', '$http', '$location', '$ionicPopup',
+    function($scope, $http, $location, $ionicPopup) {
         $scope.processData = {};
         $scope.postdata = {};
         $scope.submitCreateProcess = function(isValid) {
@@ -105,14 +110,19 @@ altamiraAppControllers.controller('ManufacturingProcessCreateCtrl', ['$scope', '
                 $http({
                     method: 'POST',
                     url: 'http://data.altamira.com.br/manufacturing/process/',
-                    data: $scope.postdata, // pass in data as strings
-                    headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                    data: $scope.postdata,
+                    headers: {'Content-Type': 'application/json'}
                 }).success(function(data, status, headers, config) {
                     $scope.loading = false;
                     $location.path('/manufacturing/update/process/' + data.id);
                 }).error(function(data, status, headers, config) {
                     $scope.loading = false;
-                    alert("Please try again")
+                    $ionicPopup.alert({
+                        title: 'Failer',
+                        content: 'Please try again'
+                    }).then(function(res) {
+
+                    });
                 });
             }
         };
@@ -121,8 +131,8 @@ altamiraAppControllers.controller('ManufacturingProcessCreateCtrl', ['$scope', '
         };
     }]);
 
-altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl', ['$scope', '$http', '$location', '$routeParams', '$route',
-    function($scope, $http, $location, $routeParams, $route) {
+altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl', ['$scope', '$http', '$location', '$routeParams', '$route', '$ionicPopup',
+    function($scope, $http, $location, $routeParams, $route, $ionicPopup) {
         $scope.processId = $routeParams.processId;
         $scope.processData = {};
         $scope.loadProcess = function() {
@@ -130,7 +140,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl', ['$scope', '
             $http({
                 method: 'GET',
                 url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId,
-                headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                headers: {'Content-Type': 'application/json'}
             }).success(function(data) {
                 $scope.loading = false;
                 $scope.processData.id = data.id;
@@ -214,20 +224,25 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl', ['$scope', '
                 $http({
                     method: 'GET',
                     url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId,
-                    headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                    headers: {'Content-Type': 'application/json'}
                 }).success(function(data1) {
                     $scope.postdata.version = data1.version;
                     $http({
                         method: 'PUT',
                         url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.postdata.id,
-                        data: $scope.postdata, // pass in data as strings
-                        headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                        data: $scope.postdata,
+                        headers: {'Content-Type': 'application/json'}
                     }).success(function(data, status, headers, config) {
                         $scope.loading = false;
                         $location.path('/manufacturing/process/0');
                     }).error(function(data, status, headers, config) {
                         $scope.loading = false;
-                        alert("Please try again")
+                        $ionicPopup.alert({
+                            title: 'Failer',
+                            content: 'Please try again'
+                        }).then(function(res) {
+
+                        });
                     });
                 });
 
@@ -257,35 +272,71 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl', ['$scope', '
             }
         };
         $scope.removeProcess = function() {
-            $scope.loading = true;
-            $http({
-                method: 'DELETE',
-                url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId,
-            }).success(function(data) {
-                $scope.loading = false;
-                $location.path('/manufacturing/process/0');
-            }).error(function(data, status, headers, config) {
-                $scope.loading = false;
-                alert('Please try again');
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Confirmation',
+                template: 'Are you sure to remove this Process?'
+            });
+            confirmPopup.then(function(res) {
+                if (res) {
+                    $http({
+                        method: 'DELETE',
+                        url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId,
+                        headers: {'Content-Type': 'application/json'}
+                    }).success(function(response) {
+                        $ionicPopup.alert({
+                            title: 'Success',
+                            content: 'A Process - ' + $scope.processId + ' removed successfully.'
+                        }).then(function(res) {
+                            $location.path('/manufacturing/process/0');
+                        });
+                    }).error(function(data, status, headers, config) {
+                        $ionicPopup.alert({
+                            title: 'Failer',
+                            content: 'Please try again'
+                        }).then(function(res) {
+
+                        });
+                    });
+                } else {
+                    console.log("NO");
+                }
             });
         };
         $scope.removeOperation = function(operationId) {
-            $scope.loading = true;
-            $http({
-                method: 'DELETE',
-                url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + operationId,
-            }).success(function(data) {
-                $scope.loading = false;
-                $route.reload();
-            }).error(function(data, status, headers, config) {
-                $scope.loading = false;
-                alert('Please try again');
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Confirmation',
+                template: 'Are you sure to remove this Operation?'
+            });
+            confirmPopup.then(function(res) {
+                if (res) {
+                    $http({
+                        method: 'DELETE',
+                        url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + operationId,
+                        headers: {'Content-Type': 'application/json'}
+                    }).success(function(response) {
+                        $ionicPopup.alert({
+                            title: 'Success',
+                            content: 'An Operation - ' + operationId + ' removed successfully.'
+                        }).then(function(res) {
+                            $route.reload();
+                        });
+                    }).error(function(data, status, headers, config) {
+                        $ionicPopup.alert({
+                            title: 'Failer',
+                            content: 'Please try again'
+                        }).then(function(res) {
+
+                        });
+                    });
+                } else {
+                    console.log("NO");
+                }
             });
         };
     }]);
 
-altamiraAppControllers.controller('ManufacturingProcessCreateOperationCtrl', ['$scope', '$http', '$location', '$routeParams', '$upload',
-    function($scope, $http, $location, $routeParams, $upload) {
+altamiraAppControllers.controller('ManufacturingProcessCreateOperationCtrl', ['$scope', '$http', '$location', '$routeParams', '$upload', '$ionicPopup',
+    function($scope, $http, $location, $routeParams, $upload, $ionicPopup) {
         $scope.processId = $routeParams.processId;
         $scope.operationData = {};
         $scope.operationData.sequence = '';
@@ -314,15 +365,20 @@ altamiraAppControllers.controller('ManufacturingProcessCreateOperationCtrl', ['$
                 $http({
                     method: 'POST',
                     url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation',
-                    data: $scope.postdata, // pass in data as strings
-                    headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                    data: $scope.postdata,
+                    headers: {'Content-Type': 'application/json'}
                 }).success(function(data, status, headers, config) {
                     $scope.loading = false;
                     $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + data.id);
 
                 }).error(function(data, status, headers, config) {
                     $scope.loading = false;
-                    alert('Please try again');
+                    $ionicPopup.alert({
+                        title: 'Failer',
+                        content: 'Please try again'
+                    }).then(function(res) {
+
+                    });
                 });
             }
         };
@@ -332,8 +388,8 @@ altamiraAppControllers.controller('ManufacturingProcessCreateOperationCtrl', ['$
 
     }]);
 
-altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl', ['$scope', '$http', '$location', '$routeParams', '$upload', '$route',
-    function($scope, $http, $location, $routeParams, $upload, $route) {
+altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl', ['$scope', '$http', '$location', '$routeParams', '$upload', '$route', '$ionicPopup',
+    function($scope, $http, $location, $routeParams, $upload, $route, $ionicPopup) {
         $scope.processId = $routeParams.processId;
         $scope.operationId = $routeParams.operationId;
         $scope.operationData = {};
@@ -349,7 +405,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl', ['$
             var httpRequest = $http({
                 method: 'GET',
                 url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId,
-                headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                headers: {'Content-Type': 'application/json'}
             }).success(function(data) {
                 if (data != '')
                 {
@@ -365,7 +421,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl', ['$
                         var httpRequest = $http({
                             method: 'GET',
                             url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/sketch/' + data.sketch.id,
-                            headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                            headers: {'Content-Type': 'application/json'}
                         }).success(function(da) {
                             $scope.loading = false;
                             $scope.operationData.sketchVersion = da.version;
@@ -379,7 +435,12 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl', ['$
                 }
             }).error(function(data, status, headers, config) {
                 $scope.loading = false;
-                alert("Please try again")
+                $ionicPopup.alert({
+                    title: 'Failer',
+                    content: 'Please try again'
+                }).then(function(res) {
+
+                });
             });
         };
         $scope.loadOperation();
@@ -410,21 +471,44 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl', ['$
                     $location.path('manufacturing/update/process/' + $scope.processId);
                 }).error(function(data, status, headers, config) {
                     $scope.loading = false;
-                    alert('Please try again');
+                    $ionicPopup.alert({
+                        title: 'Failer',
+                        content: 'Please try again'
+                    }).then(function(res) {
+
+                    });
                 });
             }
         };
         $scope.removeOperation = function() {
-            $scope.loading = true;
-            $http({
-                method: 'DELETE',
-                url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId,
-            }).success(function(data) {
-                $scope.loading = false;
-                $location.path('/manufacturing/update/process/' + $scope.processId);
-            }).error(function(data, status, headers, config) {
-                $scope.loading = false;
-                alert('Please try again');
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Confirmation',
+                template: 'Are you sure to remove this Operation?'
+            });
+            confirmPopup.then(function(res) {
+                if (res) {
+                    $http({
+                        method: 'DELETE',
+                        url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId,
+                        headers: {'Content-Type': 'application/json'}
+                    }).success(function(response) {
+                        $ionicPopup.alert({
+                            title: 'Success',
+                            content: 'An Operation - ' + $scope.operationId + ' removed successfully.'
+                        }).then(function(res) {
+                            $route.reload();
+                        });
+                    }).error(function(data, status, headers, config) {
+                        $ionicPopup.alert({
+                            title: 'Failer',
+                            content: 'Please try again'
+                        }).then(function(res) {
+
+                        });
+                    });
+                } else {
+                    console.log("NO");
+                }
             });
         };
         $scope.goBack = function() {
@@ -449,51 +533,53 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl', ['$
             $location.path('/manufacturing/process/operation/produce/update/' + $scope.processId + '/' + $scope.operationId + '/' + produceId);
         };
         $scope.removeOperationType = function(type, typeId) {
-            $scope.loading = true;
+            var url = ''
             if (type == 'use')
             {
-                $http({
-                    method: 'DELETE',
-                    url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/use/' + typeId,
-                }).success(function(data) {
-                    $scope.loading = false;
-                    $route.reload();
-                }).error(function(data, status, headers, config) {
-                    $scope.loading = false;
-                    alert("Please try again")
-                });
+                url = 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/use/' + typeId;
             }
             if (type == 'consume')
             {
-                $http({
-                    method: 'DELETE',
-                    url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/consume/' + typeId,
-                }).success(function(data) {
-                    $scope.loading = false;
-                    $route.reload();
-                }).error(function(data, status, headers, config) {
-                    $scope.loading = false;
-                    alert("Please try again")
-                });
+                url = 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/consume/' + typeId;
             }
             if (type == 'produce')
             {
-                $http({
-                    method: 'DELETE',
-                    url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/produce/' + typeId,
-                }).success(function(data) {
-                    $scope.loading = false;
-                    $route.reload();
-                }).error(function(data, status, headers, config) {
-                    $scope.loading = false;
-                    alert("Please try again")
-                });
+                url = 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/produce/' + typeId;
             }
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Confirmation',
+                template: 'Are you sure to remove this ' + type + ' ?'
+            });
+            confirmPopup.then(function(res) {
+                if (res) {
+                    $http({
+                        method: 'DELETE',
+                        url: url,
+                        headers: {'Content-Type': 'application/json'}
+                    }).success(function(response) {
+                        $ionicPopup.alert({
+                            title: 'Success',
+                            content: type + ' - ' + typeId + ' removed successfully.'
+                        }).then(function(res) {
+                            $route.reload();
+                        });
+                    }).error(function(data, status, headers, config) {
+                        $ionicPopup.alert({
+                            title: 'Failer',
+                            content: 'Please try again'
+                        }).then(function(res) {
+
+                        });
+                    });
+                } else {
+                    console.log("NO");
+                }
+            });
         };
     }]);
 
-altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['$scope', '$http', '$location', '$routeParams', '$upload',
-    function($scope, $http, $location, $routeParams, $upload) {
+altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['$scope', '$http', '$location', '$routeParams', '$upload', '$ionicPopup',
+    function($scope, $http, $location, $routeParams, $upload, $ionicPopup) {
         $scope.processId = $routeParams.processId;
         $scope.operationId = $routeParams.operationId;
         $scope.consumeId = $routeParams.consumeId;
@@ -507,7 +593,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
             $http({
                 method: 'GET',
                 url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/consume/' + $scope.consumeId,
-                headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                headers: {'Content-Type': 'application/json'}
             }).success(function(data, status, headers, config) {
                 $scope.loading = false;
                 $scope.consumeData.code = data.code;
@@ -518,7 +604,12 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
 
             }).error(function(data, status, headers, config) {
                 $scope.loading = false;
-                alert('Please try again');
+                $ionicPopup.alert({
+                    title: 'Failer',
+                    content: 'Please try again'
+                }).then(function(res) {
+
+                });
             });
         }
         else
@@ -536,6 +627,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
                 $scope.postdata = {};
                 var method = 'POST';
                 var url = 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/consume';
+                $scope.postdata.version = 0;
                 if ($scope.consumeId != '' && $scope.consumeId != undefined)
                 {
                     $scope.postdata.id = $scope.consumeId;
@@ -550,36 +642,51 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
                 $http({
                     method: method,
                     url: url,
-                    data: $scope.postdata, // pass in data as strings
-                    headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                    data: $scope.postdata,
+                    headers: {'Content-Type': 'application/json'}
                 }).success(function(data, status, headers, config) {
                     $scope.loading = false;
-                    /*if ($scope.action == 'create')
-                    {
-                        $location.path('/manufacturing/process/operation/consume/update/' + $scope.processId + '/' + $scope.operationId + '/' + data.id);
-                    }
-                    else
-                    {*/
-                        $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
-                    //}
-
+                    $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
                 }).error(function(data, status, headers, config) {
                     $scope.loading = false;
-                    alert('Please try again');
+                    $ionicPopup.alert({
+                        title: 'Failer',
+                        content: 'Please try again'
+                    }).then(function(res) {
+
+                    });
                 });
             }
         };
         $scope.removeConsume = function() {
-            $scope.loading = true;
-            $http({
-                method: 'DELETE',
-                url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/consume/' + $scope.consumeId,
-            }).success(function(data) {
-                $scope.loading = false;
-                $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
-            }).error(function(data, status, headers, config) {
-                $scope.loading = false;
-                alert('Please try again');
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Confirmation',
+                template: 'Are you sure to remove this consume ?'
+            });
+            confirmPopup.then(function(res) {
+                if (res) {
+                    $http({
+                        method: 'DELETE',
+                        url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/consume/' + $scope.consumeId,
+                        headers: {'Content-Type': 'application/json'}
+                    }).success(function(response) {
+                        $ionicPopup.alert({
+                            title: 'Success',
+                            content: ' A consume - ' + $scope.consumeId + ' removed successfully.'
+                        }).then(function(res) {
+                            $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
+                        });
+                    }).error(function(data, status, headers, config) {
+                        $ionicPopup.alert({
+                            title: 'Failer',
+                            content: 'Please try again'
+                        }).then(function(res) {
+
+                        });
+                    });
+                } else {
+                    console.log("NO");
+                }
             });
         };
         $scope.goBack = function() {
@@ -587,8 +694,8 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
         };
     }]);
 
-altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['$scope', '$http', '$location', '$routeParams', '$upload',
-    function($scope, $http, $location, $routeParams, $upload) {
+altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['$scope', '$http', '$location', '$routeParams', '$upload', '$ionicPopup',
+    function($scope, $http, $location, $routeParams, $upload, $ionicPopup) {
         $scope.processId = $routeParams.processId;
         $scope.operationId = $routeParams.operationId;
         $scope.produceId = $routeParams.produceId;
@@ -601,7 +708,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
             $http({
                 method: 'GET',
                 url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/produce/' + $scope.produceId,
-                headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                headers: {'Content-Type': 'application/json'}
             }).success(function(data, status, headers, config) {
                 $scope.loading = false;
                 $scope.produceData.code = data.code;
@@ -612,7 +719,12 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
 
             }).error(function(data, status, headers, config) {
                 $scope.loading = false;
-                alert('Please try again');
+                $ionicPopup.alert({
+                    title: 'Failer',
+                    content: 'Please try again'
+                }).then(function(res) {
+
+                });
             });
         }
         else
@@ -644,36 +756,51 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
                 $http({
                     method: method,
                     url: url,
-                    data: $scope.postdata, // pass in data as strings
-                    headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                    data: $scope.postdata,
+                    headers: {'Content-Type': 'application/json'}
                 }).success(function(data, status, headers, config) {
                     $scope.loading = false;
-                    /*if ($scope.action == 'create')
-                    {
-                        $location.path('/manufacturing/process/operation/produce/update/' + $scope.processId + '/' + $scope.operationId + '/' + data.id);
-                    }
-                    else
-                    {*/
-                        $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
-                    //}
-
+                    $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
                 }).error(function(data, status, headers, config) {
                     $scope.loading = false;
-                    alert('Please try again');
+                    $ionicPopup.alert({
+                        title: 'Failer',
+                        content: 'Please try again'
+                    }).then(function(res) {
+
+                    });
                 });
             }
         };
         $scope.removeProduce = function() {
-            $scope.loading = true;
-            $http({
-                method: 'DELETE',
-                url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/produce/' + $scope.produceId,
-            }).success(function(data) {
-                $scope.loading = false;
-                $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
-            }).error(function(data, status, headers, config) {
-                $scope.loading = false;
-                alert('Please try again');
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Confirmation',
+                template: 'Are you sure to remove this Produce ?'
+            });
+            confirmPopup.then(function(res) {
+                if (res) {
+                    $http({
+                        method: 'DELETE',
+                        url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/produce/' + $scope.produceId,
+                        headers: {'Content-Type': 'application/json'}
+                    }).success(function(response) {
+                        $ionicPopup.alert({
+                            title: 'Success',
+                            content: ' A Produce - ' + $scope.produceId + ' removed successfully.'
+                        }).then(function(res) {
+                            $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
+                        });
+                    }).error(function(data, status, headers, config) {
+                        $ionicPopup.alert({
+                            title: 'Failer',
+                            content: 'Please try again'
+                        }).then(function(res) {
+
+                        });
+                    });
+                } else {
+                    console.log("NO");
+                }
             });
         };
         $scope.goBack = function() {
@@ -681,13 +808,51 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
         };
     }]);
 
-altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$scope', '$http', '$location', '$routeParams', '$upload',
-    function($scope, $http, $location, $routeParams, $upload) {
+altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$scope', '$http', '$location', '$routeParams', '$upload', '$ionicPopup',
+    function($scope, $http, $location, $routeParams, $upload, $ionicPopup) {
         $scope.processId = $routeParams.processId;
         $scope.operationId = $routeParams.operationId;
         $scope.useId = $routeParams.useId;
         $scope.action = 'create';
         $scope.useData = {};
+        $scope.useData.unitBox = {};
+        $scope.useData.unitBox = [{
+                "id": 5,
+                "version": 1416225007528,
+                "name": "milimetro",
+                "symbol": "mm",
+                "magnitude": {
+                    "id": 1,
+                    "version": 1416224999002,
+                    "name": "dimencional"
+                }
+            }, {
+                "id": 9,
+                "version": 1416225007528,
+                "name": "metro",
+                "symbol": "m",
+                "magnitude": {
+                    "id": 1,
+                    "version": 1416224999002,
+                    "name": "dimencional"
+                }
+            }];
+//        $http({
+//            method: 'GET',
+//            url: 'http://data.altamira.com.br/measurement/unit?magnitude=unidade',
+//            headers: {'Content-Type': 'application/json'}
+//        }).success(function(data, status, headers, config) {
+//            $scope.useData.unitBox = data;
+//
+//        }).error(function(data, status, headers, config) {
+//            $ionicPopup.alert({
+//                title: 'Failer',
+//                content: 'Please try again'
+//            }).then(function(res) {
+//
+//            });
+//        });
+
         if ($scope.useId != '' && $scope.useId != undefined)
         {
             $scope.action = 'update';
@@ -695,7 +860,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
             $http({
                 method: 'GET',
                 url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/use/' + $scope.useId,
-                headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                headers: {'Content-Type': 'application/json'}
             }).success(function(data, status, headers, config) {
                 $scope.loading = false;
                 $scope.useData.code = data.code;
@@ -706,16 +871,21 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
 
             }).error(function(data, status, headers, config) {
                 $scope.loading = false;
-                alert('Please try again');
+                $ionicPopup.alert({
+                    title: 'Failer',
+                    content: 'Please try again'
+                }).then(function(res) {
+
+                });
             });
         }
         else
         {
             $scope.useData.code = '';
-            $scope.useData.version = '';
+            $scope.useData.version = 0;
             $scope.useData.description = '';
             $scope.useData.quantity = 1;
-            $scope.useData.unit = 'unid';
+            $scope.useData.unit = '';
         }
 
         $scope.submitUseForm = function(isValid) {
@@ -732,43 +902,72 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
                     url = 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/use/' + $scope.useId;
                 }
                 $scope.postdata.code = $scope.useData.code;
+                $scope.postdata.version = $scope.useData.version;
                 $scope.postdata.description = $scope.useData.description;
-                $scope.postdata.quantity = parseInt($scope.useData.quantity);
-                $scope.postdata.unit = $scope.useData.unit;
-                $http({
-                    method: method,
-                    url: url,
-                    data: $scope.postdata, // pass in data as strings
-                    headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
-                }).success(function(data, status, headers, config) {
-                    $scope.loading = false;
-                    /*if ($scope.action == 'create')
-                    {
-                        $location.path('/manufacturing/process/operation/use/update/' + $scope.processId + '/' + $scope.operationId + '/' + data.id);
-                    }
-                    else
-                    {*/
-                        $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
-                    //}
+                $scope.postdata.quantity = {};
+                $scope.postdata.quantity.value = parseInt($scope.useData.quantity);
+                $scope.postdata.quantity.unit = {};
+                var httpRequest = $http({
+                    method: 'GET',
+                    url: 'http://data.altamira.com.br/measurement/unit/'+$scope.useData.unit,
+                    headers: {'Content-Type': 'application/json'}
+                }).success(function(data) {
+                    $scope.postdata.quantity.unit = data;
+                    console.log(JSON.stringify($scope.postdata));
 
-                }).error(function(data, status, headers, config) {
-                    $scope.loading = false;
-                    alert('Please try again');
+                    $http({
+                        method: method,
+                        url: url,
+                        data: $scope.postdata,
+                        headers: {'Content-Type': 'application/json'}
+                    }).success(function(data, status, headers, config) {
+                        $scope.loading = false;
+                        $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
+                    }).error(function(data, status, headers, config) {
+                        $scope.loading = false;
+                        $ionicPopup.alert({
+                            title: 'Failer',
+                            content: 'Please try again'
+                        }).then(function(res) {
+
+                        });
+                    });
+
                 });
+
+
             }
         };
 
         $scope.removeUse = function() {
-            $scope.loading = true;
-            $http({
-                method: 'DELETE',
-                url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/use/' + $scope.useId,
-            }).success(function(data) {
-                $scope.loading = false;
-                $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
-            }).error(function(data, status, headers, config) {
-                $scope.loading = false;
-                alert('Please try again');
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Confirmation',
+                template: 'Are you sure to remove this Use ?'
+            });
+            confirmPopup.then(function(res) {
+                if (res) {
+                    $http({
+                        method: 'DELETE',
+                        url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/use/' + $scope.useId,
+                        headers: {'Content-Type': 'application/json'}
+                    }).success(function(response) {
+                        $ionicPopup.alert({
+                            title: 'Success',
+                            content: ' A Use - ' + $scope.useId + ' removed successfully.'
+                        }).then(function(res) {
+                            $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
+                        });
+                    }).error(function(data, status, headers, config) {
+                        $ionicPopup.alert({
+                            title: 'Failer',
+                            content: 'Please try again'
+                        }).then(function(res) {
+
+                        });
+                    });
+                } else {
+                    console.log("NO");
+                }
             });
         };
 

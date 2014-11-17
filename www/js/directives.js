@@ -113,7 +113,7 @@ altamiraApp.directive('confirmationNeeded', function() {
 altamiraApp.directive('toggleClass', function() {
     return function(scope, elm, attrs) {
         elm.bind('click', function() {
-            elm.next().toggleClass('fa-check-square-o');
+            elm.toggleClass('fa-check-square-o');
         });
     }
 });
@@ -129,4 +129,24 @@ altamiraApp.directive('showUnchecked', function() {
         elm.bind('click', function() {
         });
     }
+});
+
+altamiraApp.directive('isNumber', function($parse) {
+    return {
+        require: 'ngModel',
+        link: function(scope, elm, attrs, ngModel) {
+            scope.$watch(attrs.ngModel, function(newValue, oldValue) {
+                var arr = String(newValue).split("");
+                if (arr.length === 0)
+                    return;
+                if (arr.length === 1 && (arr[0] == '-' || arr[0] === '.'))
+                    return;
+                if (arr.length === 2 && newValue === '-.')
+                    return;
+                if (isNaN(newValue)) {
+                    $parse(attrs.ngModel).assign(scope, oldValue);
+                }
+            });
+        }
+    };
 });

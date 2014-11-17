@@ -1,12 +1,11 @@
 'use strict';
-
 altamiraAppControllers.controller('BomListCtrl',
         function($scope, $http, $location, $route, $routeParams, $ionicPopup, $ionicLoading, $timeout, $state, Restangular) {
             $scope.checked = {
                 items: []
             };
             $scope.makeChecked = function(itemId, itemNumber) {
-                //If order is not checked show pop up for check
+
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'Confirmação',
                     template: 'A Lista de Material foi conferida ?'
@@ -16,7 +15,7 @@ altamiraAppControllers.controller('BomListCtrl',
                         $http({
                             method: 'PUT',
                             url: 'http://data.altamira.com.br/manufacturing/bom/' + itemId + '/checked',
-                            headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                            headers: {'Content-Type': 'application/json'}
                         }).success(function(response) {
                             $ionicPopup.alert({
                                 title: 'Successo',
@@ -25,7 +24,12 @@ altamiraAppControllers.controller('BomListCtrl',
                                 $route.reload();
                             });
                         }).error(function(data, status, headers, config) {
-                            alert("Please try again")
+                            $ionicPopup.alert({
+                                title: 'Failer',
+                                content: 'Please try again'
+                            }).then(function(res) {
+
+                            });
                         });
                     } else {
                         console.log("NO");
@@ -33,7 +37,7 @@ altamiraAppControllers.controller('BomListCtrl',
                 });
             };
             $scope.makeUnchecked = function(itemId, itemNumber) {
-                //If order is not checked show pop up for check
+
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'Confirmação',
                     template: 'A Lista de Material foi conferida ?'
@@ -43,7 +47,7 @@ altamiraAppControllers.controller('BomListCtrl',
                         $http({
                             method: 'PUT',
                             url: 'http://data.altamira.com.br/manufacturing/bom/' + itemId + '/unchecked',
-                            headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                            headers: {'Content-Type': 'application/json'}
                         }).success(function(response) {
                             $ionicPopup.alert({
                                 title: 'Successo',
@@ -52,7 +56,12 @@ altamiraAppControllers.controller('BomListCtrl',
                                 $route.reload();
                             });
                         }).error(function(data, status, headers, config) {
-                            alert("Please try again")
+                            $ionicPopup.alert({
+                                title: 'Failer',
+                                content: 'Please try again'
+                            }).then(function(res) {
+
+                            });
                         });
                     } else {
                         console.log("NO");
@@ -94,7 +103,7 @@ altamiraAppControllers.controller('BomListCtrl',
                             method: 'GET',
                             url: 'http://data.altamira.com.br/manufacturing/bom/search/',
                             params: {"search": this.criteria, "start": page, "max": this.size},
-                            headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                            headers: {'Content-Type': 'application/json'}
                         }).then(function(response) {
                             console.log(response);
                             $scope.loading = false;
@@ -106,7 +115,7 @@ altamiraAppControllers.controller('BomListCtrl',
                             method: 'GET',
                             url: 'http://data.altamira.com.br/manufacturing/bom/',
                             params: {"start": page, "max": this.size},
-                            headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                            headers: {'Content-Type': 'application/json'}
                         }).then(function(response) {
 
                             $scope.loading = false;
@@ -151,8 +160,8 @@ altamiraAppControllers.controller('BomListCtrl',
                                     $http({
                                         method: 'POST',
                                         url: 'http://data.altamira.com.br/manufacturing/bom',
-                                        data: data, // pass in data as strings
-                                        headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                                        data: data,
+                                        headers: {'Content-Type': 'application/json'}
                                     }).then(function(response) {
                                         if (response.status == 201) {
                                             $ionicPopup.alert({
@@ -163,7 +172,7 @@ altamiraAppControllers.controller('BomListCtrl',
                                             });
                                         }
                                     }, function() {
-                                        // alert if an error occurs
+
                                         $ionicPopup.alert({
                                             title: 'Falhou',
                                             content: 'Erro ao importar o Pedido ' + $scope.orderData.ordernumber
@@ -172,7 +181,7 @@ altamiraAppControllers.controller('BomListCtrl',
                                         });
                                     });
                                 }).error(function(msg, code) {
-                                    // alert if an error occurs
+
                                     $ionicPopup.alert({
                                         title: 'Falhou',
                                         content: 'Erro ao exportar o Pedido: ' + $scope.orderData.ordernumber
@@ -190,7 +199,7 @@ altamiraAppControllers.controller('BomListCtrl',
 
                 });
                 $timeout(function() {
-                    importPopup.close(); //close the popup after 3 seconds for some reason
+                    importPopup.close();
                 }, 30000);
             };
             $scope.showLoading = function() {
@@ -243,7 +252,7 @@ altamiraAppControllers.controller('BomViewCtrl',
             var httpRequest = $http({
                 method: 'GET',
                 url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId,
-                headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                headers: {'Content-Type': 'application/json'}
             }).success(function(data) {
                 console.log(data);
                 $scope.loading = false;
@@ -265,10 +274,15 @@ altamiraAppControllers.controller('BomViewCtrl',
                 }
             }).error(function(data, status, headers, config) {
                 $scope.loading = false;
-                alert("Please try again")
+                $ionicPopup.alert({
+                    title: 'Failer',
+                    content: 'Please try again'
+                }).then(function(res) {
+
+                });
             });
             $scope.makeChecked = function() {
-                //If order is not checked show pop up for check
+
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'Confirmação',
                     template: 'A Lista de Material foi conferida ?'
@@ -278,7 +292,7 @@ altamiraAppControllers.controller('BomViewCtrl',
                         $http({
                             method: 'PUT',
                             url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/checked',
-                            headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                            headers: {'Content-Type': 'application/json'}
                         }).success(function(response) {
                             $ionicPopup.alert({
                                 title: 'Successo',
@@ -287,7 +301,12 @@ altamiraAppControllers.controller('BomViewCtrl',
                                 $route.reload();
                             });
                         }).error(function(data, status, headers, config) {
-                            alert("Please try again")
+                            $ionicPopup.alert({
+                                title: 'Failer',
+                                content: 'Please try again'
+                            }).then(function(res) {
+
+                            });
                         });
                     } else {
                         console.log("NO");
@@ -295,7 +314,7 @@ altamiraAppControllers.controller('BomViewCtrl',
                 });
             };
             $scope.makeUnchecked = function() {
-                //If order is not checked show pop up for check
+
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'Confirmação',
                     template: 'A Lista de Material foi conferida ?'
@@ -305,7 +324,7 @@ altamiraAppControllers.controller('BomViewCtrl',
                         $http({
                             method: 'PUT',
                             url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/unchecked',
-                            headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                            headers: {'Content-Type': 'application/json'}
                         }).success(function(response) {
                             $ionicPopup.alert({
                                 title: 'Successo',
@@ -314,7 +333,12 @@ altamiraAppControllers.controller('BomViewCtrl',
                                 $route.reload();
                             });
                         }).error(function(data, status, headers, config) {
-                            alert("Please try again")
+                            $ionicPopup.alert({
+                                title: 'Failer',
+                                content: 'Please try again'
+                            }).then(function(res) {
+
+                            });
                         });
                     } else {
                         console.log("NO");
@@ -331,28 +355,34 @@ altamiraAppControllers.controller('BomViewCtrl',
                 $location.path('/bom/item/update/' + $scope.bomId + '/' + itemId);
             };
             $scope.removeBom = function() {
-                $scope.loading = true;
-                $http({
-                    method: 'DELETE',
-                    url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId,
-                }).success(function(data) {
-                    $scope.loading = false;
-                    $location.path('/bom/list');
-                }).error(function(data, status, headers, config) {
-                    $scope.loading = false;
-                    alert("Please try again")
+                var confirmPopup = $ionicPopup.confirm({
+                    title: 'Confirmation',
+                    template: 'Are you sure to remove this BOM?'
                 });
-            };
-            $scope.removeItem = function(itemId) {
-                $http({
-                    method: 'DELETE',
-                    url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + itemId,
-                }).success(function(data) {
-                    $scope.loading = false;
-                    $route.reload();
-                }).error(function(data, status, headers, config) {
-                    $scope.loading = false;
-                    alert("Please try again")
+                confirmPopup.then(function(res) {
+                    if (res) {
+                        $http({
+                            method: 'DELETE',
+                            url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId,
+                            headers: {'Content-Type': 'application/json'}
+                        }).success(function(response) {
+                            $ionicPopup.alert({
+                                title: 'Success',
+                                content: 'A BOM - ' + $scope.bomId + ' removed successfully.'
+                            }).then(function(res) {
+                                $location.path('/bom/list');
+                            });
+                        }).error(function(data, status, headers, config) {
+                            $ionicPopup.alert({
+                                title: 'Failer',
+                                content: 'Please try again'
+                            }).then(function(res) {
+
+                            });
+                        });
+                    } else {
+                        console.log("NO");
+                    }
                 });
             };
             $scope.updatePart = function(itemId, partId) {
@@ -363,7 +393,7 @@ altamiraAppControllers.controller('BomViewCtrl',
             };
         });
 altamiraAppControllers.controller('BomEditCtrl',
-        function($scope, $http, $location, $route, $routeParams) {
+        function($scope, $http, $location, $route, $routeParams, $ionicPopup) {
             $scope.bomId = $routeParams.bomId;
             $scope.project = '';
             $scope.bomData = {};
@@ -379,7 +409,7 @@ altamiraAppControllers.controller('BomEditCtrl',
             var httpRequest = $http({
                 method: 'GET',
                 url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId,
-                headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                headers: {'Content-Type': 'application/json'}
             }).success(function(data) {
                 $scope.loading = false;
                 if (data != '')
@@ -400,7 +430,12 @@ altamiraAppControllers.controller('BomEditCtrl',
                 }
             }).error(function(data, status, headers, config) {
                 $scope.loading = false;
-                alert("Please try again")
+                $ionicPopup.alert({
+                    title: 'Failer',
+                    content: 'Please try again'
+                }).then(function(res) {
+
+                });
             });
             $scope.submitBomForm = function() {
                 $scope.loading = true;
@@ -426,30 +461,37 @@ altamiraAppControllers.controller('BomEditCtrl',
                 $http({
                     method: 'GET',
                     url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId,
-                    data: $scope.postdata, // pass in data as strings
-                    headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                    data: $scope.postdata,
+                    headers: {'Content-Type': 'application/json'}
                 }).success(function(data1) {
                     $scope.postdata.version = data1.version;
                     $http({
                         method: 'PUT',
                         url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId,
-                        data: $scope.postdata, // pass in data as strings
-                        headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                        data: $scope.postdata,
+                        headers: {'Content-Type': 'application/json'}
                     }).success(function(data, status, headers, config) {
                         $scope.loading = false;
                         $location.path('/bom/list');
                     }).error(function(data, status, headers, config) {
                         $scope.loading = false;
-                        alert("Please try again")
+                        $ionicPopup.alert({
+                            title: 'Failer',
+                            content: 'Please try again'
+                        }).then(function(res) {
+
+                        });
                     });
 
                 }).error(function(data, status, headers, config) {
                     $scope.loading = false;
-                    alert("Please try again")
+                    $ionicPopup.alert({
+                        title: 'Failer',
+                        content: 'Please try again'
+                    }).then(function(res) {
+
+                    });
                 });
-
-
-
             };
             $scope.createItem = function() {
                 $location.path('/bom/item/create/' + $scope.bomId);
@@ -458,45 +500,99 @@ altamiraAppControllers.controller('BomEditCtrl',
                 $location.path('/bom/item/update/' + $scope.bomId + '/' + itemId);
             };
             $scope.removeBom = function() {
-                $scope.loading = true;
-                $http({
-                    method: 'DELETE',
-                    url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId,
-                }).success(function(data) {
-                    $scope.loading = false;
-                    $location.path('/bom/list');
-                }).error(function(data, status, headers, config) {
-                    $scope.loading = false;
-                    alert("Please try again")
+                var confirmPopup = $ionicPopup.confirm({
+                    title: 'Confirmation',
+                    template: 'Are you sure to remove this BOM?'
+                });
+                confirmPopup.then(function(res) {
+                    if (res) {
+                        $http({
+                            method: 'DELETE',
+                            url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId,
+                            headers: {'Content-Type': 'application/json'}
+                        }).success(function(response) {
+                            $ionicPopup.alert({
+                                title: 'Success',
+                                content: 'A BOM - ' + $scope.bomId + ' removed successfully.'
+                            }).then(function(res) {
+                                $location.path('/bom/list');
+                            });
+                        }).error(function(data, status, headers, config) {
+                            $ionicPopup.alert({
+                                title: 'Failer',
+                                content: 'Please try again'
+                            }).then(function(res) {
+
+                            });
+                        });
+                    } else {
+                        console.log("NO");
+                    }
                 });
             };
             $scope.removeItem = function(itemId) {
-                $scope.loading = true;
-                $http({
-                    method: 'DELETE',
-                    url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + itemId,
-                }).success(function(data) {
-                    $scope.loading = false;
-                    $route.reload();
-                }).error(function(data, status, headers, config) {
-                    $scope.loading = false;
-                    alert("Please try again")
+                var confirmPopup = $ionicPopup.confirm({
+                    title: 'Confirmation',
+                    template: 'Are you sure to remove this Item?'
+                });
+                confirmPopup.then(function(res) {
+                    if (res) {
+                        $http({
+                            method: 'DELETE',
+                            url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + itemId,
+                            headers: {'Content-Type': 'application/json'}
+                        }).success(function(response) {
+                            $ionicPopup.alert({
+                                title: 'Success',
+                                content: 'An Item - ' + itemId + ' removed successfully.'
+                            }).then(function(res) {
+                                $route.reload();
+                            });
+                        }).error(function(data, status, headers, config) {
+                            $ionicPopup.alert({
+                                title: 'Failer',
+                                content: 'Please try again'
+                            }).then(function(res) {
+
+                            });
+                        });
+                    } else {
+                        console.log("NO");
+                    }
                 });
             };
             $scope.updatePart = function(itemId, partId) {
                 $location.path('bom/part/update/' + $scope.bomId + '/' + itemId + '/' + partId);
             };
             $scope.removePart = function(itemId, partId) {
-                $scope.loading = true;
-                $http({
-                    method: 'DELETE',
-                    url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + itemId + '/part/' + partId,
-                }).success(function(data) {
-                    $scope.loading = false;
-                    $route.reload();
-                }).error(function(data, status, headers, config) {
-                    $scope.loading = false;
-                    alert("Please try again")
+                var confirmPopup = $ionicPopup.confirm({
+                    title: 'Confirmation',
+                    template: 'Are you sure to remove this Part?'
+                });
+                confirmPopup.then(function(res) {
+                    if (res) {
+                        $http({
+                            method: 'DELETE',
+                            url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + itemId + '/part/' + partId,
+                            headers: {'Content-Type': 'application/json'}
+                        }).success(function(response) {
+                            $ionicPopup.alert({
+                                title: 'Success',
+                                content: 'A Part - ' + partId + ' removed successfully.'
+                            }).then(function(res) {
+                                $route.reload();
+                            });
+                        }).error(function(data, status, headers, config) {
+                            $ionicPopup.alert({
+                                title: 'Failer',
+                                content: 'Please try again'
+                            }).then(function(res) {
+
+                            });
+                        });
+                    } else {
+                        console.log("NO");
+                    }
                 });
             };
             $scope.goBack = function() {
@@ -519,14 +615,19 @@ altamiraAppControllers.controller('BomItemCreateCtrl', ['$scope', '$http', '$loc
             $http({
                 method: 'POST',
                 url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item',
-                data: $scope.postdata, // pass in data as strings
-                headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                data: $scope.postdata,
+                headers: {'Content-Type': 'application/json'}
             }).success(function(data, status, headers, config) {
                 $scope.loading = false;
                 $location.path('/bom/item/update/' + $scope.bomId + '/' + data.id);
             }).error(function(data, status, headers, config) {
                 $scope.loading = false;
-                alert("Please try again")
+                $ionicPopup.alert({
+                    title: 'Failer',
+                    content: 'Please try again'
+                }).then(function(res) {
+
+                });
             });
         };
         $scope.goBack = function() {
@@ -535,8 +636,8 @@ altamiraAppControllers.controller('BomItemCreateCtrl', ['$scope', '$http', '$loc
 
     }]);
 
-altamiraAppControllers.controller('BomItemUpdateCtrl', ['$scope', '$http', '$location', '$routeParams', '$route',
-    function($scope, $http, $location, $routeParams, $route) {
+altamiraAppControllers.controller('BomItemUpdateCtrl', ['$scope', '$http', '$location', '$routeParams', '$route', '$ionicPopup',
+    function($scope, $http, $location, $routeParams, $route, $ionicPopup) {
         $scope.bomId = $routeParams.bomId;
         $scope.itemId = $routeParams.itemId;
         $scope.itemData = {};
@@ -548,7 +649,7 @@ altamiraAppControllers.controller('BomItemUpdateCtrl', ['$scope', '$http', '$loc
             $http({
                 method: 'GET',
                 url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId,
-                headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                headers: {'Content-Type': 'application/json'}
             }).success(function(data, status, headers, config) {
                 $scope.loading = false;
                 $scope.itemData.version = data.version;
@@ -581,11 +682,15 @@ altamiraAppControllers.controller('BomItemUpdateCtrl', ['$scope', '$http', '$loc
                 }
             }).error(function(data, status, headers, config) {
                 $scope.loading = false;
-                alert("Please try again")
+                $ionicPopup.alert({
+                    title: 'Failer',
+                    content: 'Please try again'
+                }).then(function(res) {
+
+                });
             });
         };
         $scope.loadItem();
-
         $scope.submitUpdateItem = function(isValid) {
             $scope.loading = true;
             $scope.postdata = {};
@@ -597,39 +702,67 @@ altamiraAppControllers.controller('BomItemUpdateCtrl', ['$scope', '$http', '$loc
             $http({
                 method: 'GET',
                 url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId,
-                headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                headers: {'Content-Type': 'application/json'}
             }).success(function(data1, status, headers, config) {
                 $scope.postdata.version = data1.version;
                 $http({
                     method: 'PUT',
                     url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId,
-                    data: $scope.postdata, // pass in data as strings
-                    headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                    data: $scope.postdata,
+                    headers: {'Content-Type': 'application/json'}
                 }).success(function(data, status, headers, config) {
                     $scope.loading = false;
                     $location.path('bom/edit/' + $scope.bomId);
                 }).error(function(data, status, headers, config) {
                     $scope.loading = false;
-                    alert("Please try again")
+                    $ionicPopup.alert({
+                        title: 'Failer',
+                        content: 'Please try again'
+                    }).then(function(res) {
+
+                    });
                 });
             }).error(function(data, status, headers, config) {
                 $scope.loading = false;
-                alert("Please try again")
+                $ionicPopup.alert({
+                    title: 'Failer',
+                    content: 'Please try again'
+                }).then(function(res) {
+
+                });
             });
 
         };
 
         $scope.removeItem = function() {
-            $scope.loading = true;
-            $http({
-                method: 'DELETE',
-                url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId,
-            }).success(function() {
-                $scope.loading = false;
-                $location.path('bom/edit/' + $scope.bomId);
-            }).error(function(data, status, headers, config) {
-                $scope.loading = false;
-                alert("Please try again")
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Confirmation',
+                template: 'Are you sure to remove this Item?'
+            });
+            confirmPopup.then(function(res) {
+                if (res) {
+                    $http({
+                        method: 'DELETE',
+                        url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId,
+                        headers: {'Content-Type': 'application/json'}
+                    }).success(function(response) {
+                        $ionicPopup.alert({
+                            title: 'Success',
+                            content: 'An Item - ' + $scope.itemId + ' removed successfully.'
+                        }).then(function(res) {
+                            $location.path('bom/edit/' + $scope.bomId);
+                        });
+                    }).error(function(data, status, headers, config) {
+                        $ionicPopup.alert({
+                            title: 'Failer',
+                            content: 'Please try again'
+                        }).then(function(res) {
+
+                        });
+                    });
+                } else {
+                    console.log("NO");
+                }
             });
         };
 
@@ -642,16 +775,34 @@ altamiraAppControllers.controller('BomItemUpdateCtrl', ['$scope', '$http', '$loc
         };
 
         $scope.removePart = function(PartId) {
-            $scope.loading = true;
-            $http({
-                method: 'DELETE',
-                url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + PartId,
-            }).success(function() {
-                $scope.loading = false;
-                $route.reload();
-            }).error(function(data, status, headers, config) {
-                $scope.loading = false;
-                alert("Please try again")
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Confirmation',
+                template: 'Are you sure to remove this Part?'
+            });
+            confirmPopup.then(function(res) {
+                if (res) {
+                    $http({
+                        method: 'DELETE',
+                        url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + PartId,
+                        headers: {'Content-Type': 'application/json'}
+                    }).success(function(response) {
+                        $ionicPopup.alert({
+                            title: 'Success',
+                            content: 'A Part - ' + PartId + ' removed successfully.'
+                        }).then(function(res) {
+                            $route.reload();
+                        });
+                    }).error(function(data, status, headers, config) {
+                        $ionicPopup.alert({
+                            title: 'Failer',
+                            content: 'Please try again'
+                        }).then(function(res) {
+
+                        });
+                    });
+                } else {
+                    console.log("NO");
+                }
             });
         };
 
@@ -661,8 +812,8 @@ altamiraAppControllers.controller('BomItemUpdateCtrl', ['$scope', '$http', '$loc
 
     }]);
 
-altamiraAppControllers.controller('BomPartCreateCtrl', ['$scope', '$http', '$location', '$routeParams',
-    function($scope, $http, $location, $routeParams) {
+altamiraAppControllers.controller('BomPartCreateCtrl', ['$scope', '$http', '$location', '$routeParams', '$ionicPopup',
+    function($scope, $http, $location, $routeParams, $ionicPopup) {
         $scope.bomId = $routeParams.bomId;
         $scope.itemId = $routeParams.itemId;
         $scope.partData = {}
@@ -700,14 +851,19 @@ altamiraAppControllers.controller('BomPartCreateCtrl', ['$scope', '$http', '$loc
             $http({
                 method: 'POST',
                 url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part',
-                data: $scope.postData, // pass in data as strings
-                headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                data: $scope.postData,
+                headers: {'Content-Type': 'application/json'}
             }).success(function(data, status, headers, config) {
                 $scope.loading = false;
                 $location.path('/bom/part/update/' + $scope.bomId + '/' + $scope.itemId + '/' + data.id);
             }).error(function(data, status, headers, config) {
                 $scope.loading = false;
-                alert("Please try again")
+                $ionicPopup.alert({
+                    title: 'Failer',
+                    content: 'Please try again'
+                }).then(function(res) {
+
+                });
             });
         }
         $scope.goBack = function() {
@@ -715,8 +871,8 @@ altamiraAppControllers.controller('BomPartCreateCtrl', ['$scope', '$http', '$loc
         };
     }]);
 
-altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$location', '$routeParams', '$route',
-    function($scope, $http, $location, $routeParams, $route) {
+altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$location', '$routeParams', '$route', '$ionicPopup',
+    function($scope, $http, $location, $routeParams, $route, $ionicPopup) {
         $scope.bomId = $routeParams.bomId;
         $scope.itemId = $routeParams.itemId;
         $scope.partId = $routeParams.partId;
@@ -743,7 +899,7 @@ altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$loc
             $http({
                 method: 'GET',
                 url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + $scope.partId,
-                headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                headers: {'Content-Type': 'application/json'}
             }).success(function(data, status, headers, config) {
 
                 $scope.loading = false;
@@ -758,7 +914,12 @@ altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$loc
                 $scope.partData.weight = data.weight;
             }).error(function(data, status, headers, config) {
                 $scope.loading = false;
-                alert("Please try again")
+                $ionicPopup.alert({
+                    title: 'Failer',
+                    content: 'Please try again'
+                }).then(function(res) {
+
+                });
             });
         };
         $scope.loadPart();
@@ -777,39 +938,67 @@ altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$loc
             $http({
                 method: 'GET',
                 url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + $scope.partId,
-                headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                headers: {'Content-Type': 'application/json'}
             }).success(function(data1, status, headers, config) {
                 $scope.postData.version = data1.version;
                 $http({
                     method: 'PUT',
                     url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + $scope.partId,
-                    data: $scope.postData, // pass in data as strings
-                    headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                    data: $scope.postData,
+                    headers: {'Content-Type': 'application/json'}
                 }).success(function(data, status, headers, config) {
                     $scope.loading = false;
                     $location.path('/bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
                 }).error(function(data, status, headers, config) {
                     $scope.loading = false;
-                    alert("Please try again")
+                    $ionicPopup.alert({
+                        title: 'Failer',
+                        content: 'Please try again'
+                    }).then(function(res) {
+
+                    });
                 });
             }).error(function(data, status, headers, config) {
                 $scope.loading = false;
-                alert("Please try again")
+                $ionicPopup.alert({
+                    title: 'Failer',
+                    content: 'Please try again'
+                }).then(function(res) {
+
+                });
             });
 
         }
 
         $scope.removePart = function() {
-            $scope.loading = true;
-            $http({
-                method: 'DELETE',
-                url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + $scope.partId,
-            }).success(function() {
-                $scope.loading = false;
-                $location.path('bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
-            }).error(function(data, status, headers, config) {
-                $scope.loading = false;
-                alert("Please try again")
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Confirmation',
+                template: 'Are you sure to remove this Part?'
+            });
+            confirmPopup.then(function(res) {
+                if (res) {
+                    $http({
+                        method: 'DELETE',
+                        url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + $scope.partId,
+                        headers: {'Content-Type': 'application/json'}
+                    }).success(function(response) {
+                        $ionicPopup.alert({
+                            title: 'Success',
+                            content: 'A Part - ' + $scope.partId + ' removed successfully.'
+                        }).then(function(res) {
+                            $location.path('bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
+                        });
+                    }).error(function(data, status, headers, config) {
+                        $ionicPopup.alert({
+                            title: 'Failer',
+                            content: 'Please try again'
+                        }).then(function(res) {
+
+                        });
+                    });
+                } else {
+                    console.log("NO");
+                }
             });
         };
         $scope.goBack = function() {
