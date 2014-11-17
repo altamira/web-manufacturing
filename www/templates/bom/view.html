@@ -125,11 +125,11 @@
                                 <td width="3%" class="edit-item-title">&nbsp;</td>
                             </tr>
                             <tr ng-repeat='dataPart in data.parts'>
-                                <td class="edit-info" style="text-align: center">{{dataPart.quantity}} unid</td>
+                                <td class="edit-info" style="text-align: center">{{dataPart.quantity.value}} {{dataPart.quantity.unit.symbol}}</td>
                                 <td class="edit-text">{{dataPart.description}}</td>
                                 <td class="edit-text">{{dataPart.color}}</td>
-                                <td class="edit-info" style="text-align: right">{{dataPart.weight/dataPart.quantity | setDecimal:3}} kg</td>
-                                <td class="edit-info" style="text-align: right">{{dataPart.weight | setDecimal:2}} kg</td>
+                                <td class="edit-info" style="text-align: right">{{dataPart.weight.value / dataPart.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
+                                <td class="edit-info" style="text-align: right">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
                                 <!--<td class="edit-text"><i class="icon plus-icon fa-check-square-o" ng-click="updatePart(data.id, dataPart.id)"></i></td>-->
                                 <td class="edit-text" ng-if="bomData.checked != ''"><i class="icon plus-icon fa-check-square-o"></i></td>
                                 <td class="edit-text" ng-if="bomData.checked == ''"><i class="icon plus-icon fa-square-o" toggle-class></i></td>
@@ -160,21 +160,21 @@
                         <table width="100%" cellspacing="0" cellpadding="0" border="0">
                             <tbody><tr>
                                     <td width="25%"><i class="fa fa-arrows-h"></i></td>
-                                    <td width="25%" valign="top">{{dataPart.length}} mm</td>
+                                    <td width="25%" valign="top">{{dataPart.length.value}} {{dataPart.length.unit.symbol}}</td>
                                     <td width="25%" valign="top"><i class="fa fa-list-ol"></i></td>
-                                    <td valign="top" align="right">{{dataPart.quantity.value}} unid</td>
+                                    <td valign="top" align="right">{{dataPart.quantity.value}} {{dataPart.quantity.unit.symbol}}</td>
                                 </tr>
                                 <tr>
                                     <td><i class="fa fa-arrows-v"></i></td>
-                                    <td valign="top">{{dataPart.height}} mm</td>
+                                    <td valign="top">{{dataPart.height.value}} mm</td>
                                     <td valign="top"><i class="fa fa-tachometer"></i></td>
-                                    <td valign="top" align="right">{{dataPart.weight/dataPart.quantity.value | setDecimal:3}} kg</td>
+                                    <td valign="top" align="right">{{dataPart.weight.value / dataPart.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
                                 </tr>
                                 <tr>
                                     <td><i class="fa fa-expand"></i></td>
-                                    <td valign="top">{{dataPart.width}} mm</td>
+                                    <td valign="top">{{dataPart.width.value}} {{dataPart.width.unit.symbol}}</td>
                                     <td valign="top"><i class="fa fa-tachometer"></i></td>
-                                    <td valign="top" align="right">{{dataPart.weight.value | setDecimal:2}} kg</td>
+                                    <td valign="top" align="right">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
                                 </tr>
                             </tbody>
                         </table>

@@ -36,7 +36,7 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                 }
                 else
                 {
-                    url = 'http://data.altamira.com.br/manufacturing/process/search?search=' + $scope.$storage.x + '&start=' + $scope.startPage + '&max=' + $scope.maxRecord;
+                    url = 'http://data.altamira.com.br/manufacturing/process?search=' + $scope.$storage.x + '&start=' + $scope.startPage + '&max=' + $scope.maxRecord;
                 }
 
                 var httpRequest = $http({

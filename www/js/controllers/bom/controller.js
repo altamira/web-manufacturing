@@ -101,7 +101,7 @@ altamiraAppControllers.controller('BomListCtrl',
                         $scope.loading = true;
                         $http({
                             method: 'GET',
-                            url: 'http://data.altamira.com.br/manufacturing/bom/search/',
+                            url: 'http://data.altamira.com.br/manufacturing/bom/',
                             params: {"search": this.criteria, "start": page, "max": this.size},
                             headers: {'Content-Type': 'application/json'}
                         }).then(function(response) {
