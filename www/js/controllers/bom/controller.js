@@ -820,7 +820,7 @@ altamiraAppControllers.controller('BomPartCreateCtrl', ['$scope', '$http', '$loc
         $scope.partData.version = '';
         $scope.partData.code = '';
         $scope.partData.description = '';
-        $scope.partData.color = '';
+        $scope.partData.color = 'CZ-PAD';
 
         $scope.partData.length = '';
         $scope.partData.height = '';
@@ -834,6 +834,21 @@ altamiraAppControllers.controller('BomPartCreateCtrl', ['$scope', '$http', '$loc
         $scope.partData.weightType = 6;
         $scope.partData.quantityType = 8;
 
+        $http({
+            method: 'GET',
+            url: 'http://data.altamira.com.br/common/color?max=0',
+            headers: {'Content-Type': 'application/json'}
+        }).success(function(data, status, headers, config) {
+            $scope.partData.colorBox = data;
+
+        }).error(function(data, status, headers, config) {
+            $ionicPopup.alert({
+                title: 'Failer',
+                content: 'Please try again'
+            }).then(function(res) {
+
+            });
+        });
         $http({
             method: 'GET',
             url: 'http://data.altamira.com.br/measurement/unit?magnitude=dimencional',
@@ -943,7 +958,7 @@ altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$loc
         $scope.partId = $routeParams.partId;
         $scope.partData = {}
         $scope.partData.version = '';
-        $scope.partData.code = '';
+        $scope.partData.code = 'CZ-PAD';
         $scope.partData.description = '';
         $scope.partData.color = '';
         $scope.partData.quantity = '';
@@ -958,6 +973,21 @@ altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$loc
         $scope.partData.weightType = 6;
         $scope.partData.quantityType = 8;
 
+        $http({
+            method: 'GET',
+            url: 'http://data.altamira.com.br/common/color?max=0',
+            headers: {'Content-Type': 'application/json'}
+        }).success(function(data, status, headers, config) {
+            $scope.partData.colorBox = data;
+
+        }).error(function(data, status, headers, config) {
+            $ionicPopup.alert({
+                title: 'Failer',
+                content: 'Please try again'
+            }).then(function(res) {
+
+            });
+        });
         $http({
             method: 'GET',
             url: 'http://data.altamira.com.br/measurement/unit?magnitude=dimencional',

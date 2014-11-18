@@ -22,13 +22,13 @@
                 <form name="operationForm" novalidate ng-submit="submitOperationForm(operationForm.$valid)" enctype="multipart/form-data">
                     <input type="text" name="operationVersion" ng-model="operationData.operationVersion" ng-hide='true'>
                     <div class="list list-row">
-                        <span class="input-label text-bold">SeqÃ¼Ãªncia</span>
+                        <span class="input-label text-bold">Sequencia</span>
                         <label class="item item-input" style="background-color: #eeeeee;border: 1px solid #dddddd;border-radius: 5px;height: 35px;">
                             <input type="text" name="sequence" ng-model="operationData.sequence">
                         </label>
                     </div>
                     <div class="list list-row">
-                        <span class="input-label text-bold">OperaÃ§Ã£o</span>
+                        <span class="input-label text-bold">Operação</span>
                         <label class="item item-select item-select-box">
                             <select name="operation" ng-model="operationData.name" class="select-box">
                                 <option value="PRENSA">PRENSA</option>
@@ -44,7 +44,7 @@
                         </label>
                     </div>
                     <div class="list list-row">
-                        <span class="input-label text-bold">DescriÃ§Ã£o</span>
+                        <span class="input-label text-bold">Descrição</span>
                         <textarea name="description" ng-model="operationData.description" style="width: 100%;background-color: #eeeeee;border: 1px solid #dddddd;border-radius: 5px;height: 100px; resize: none; padding:10px 10px"></textarea>
                     </div>
                     <div class="list list-row">
