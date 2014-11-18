@@ -130,7 +130,6 @@
                                 <td class="edit-text">{{dataPart.color}}</td>
                                 <td class="edit-info" style="text-align: right">{{dataPart.weight.value / dataPart.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
                                 <td class="edit-info" style="text-align: right">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
-                                <!--<td class="edit-text"><i class="icon plus-icon fa-check-square-o" ng-click="updatePart(data.id, dataPart.id)"></i></td>-->
                                 <td class="edit-text" ng-if="bomData.checked != ''"><i class="icon plus-icon fa-check-square-o"></i></td>
                                 <td class="edit-text" ng-if="bomData.checked == ''"><i class="icon plus-icon fa-square-o" toggle-class></i></td>
                             </tr>
@@ -147,7 +146,10 @@
                 <div class="col" ng-repeat='dataPart in data.parts'>
                     <div class="components-col">
                         <div class="components-title ">
-                            <h4>{{dataPart.description}}<i class="icon plus-icon fa-check-viewpage"></i> </h4>
+                            <h4>{{dataPart.description}}
+                                <div class="edit-text" ng-if="bomData.checked != ''"><i class="icon plus-icon fa-check-square-o" style="float: right;left: 42px;position: relative;top: -31px;" ></i></div>
+                                <div class="edit-text" ng-if="bomData.checked == ''"><i class="icon plus-icon fa-square-o" style="float: right;left: 42px;position: relative;top: -31px;" toggle-class></i></div>
+                            </h4>
                             <table width="100%" cellspacing="0" cellpadding="0" border="0">
                                 <tbody><tr>
                                         <td width="50%"><span>{{dataPart.code}}</span></td>

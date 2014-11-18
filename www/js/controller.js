@@ -600,7 +600,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
         $scope.consumeData.unitBox = {};
         $http({
             method: 'GET',
-            url: 'http://data.altamira.com.br/measurement/unit?magnitude=unidade',
+            url: 'http://data.altamira.com.br/measurement/unit',
             headers: {'Content-Type': 'application/json'}
         }).success(function(data, status, headers, config) {
             $scope.consumeData.unitBox = data;
@@ -740,7 +740,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
         $scope.produceData.unitBox = {};
         $http({
             method: 'GET',
-            url: 'http://data.altamira.com.br/measurement/unit?magnitude=unidade',
+            url: 'http://data.altamira.com.br/measurement/unit',
             headers: {'Content-Type': 'application/json'}
         }).success(function(data, status, headers, config) {
             $scope.produceData.unitBox = data;
@@ -880,7 +880,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
         $scope.useData.unitBox = {};
         $http({
             method: 'GET',
-            url: 'http://data.altamira.com.br/measurement/unit?magnitude=unidade',
+            url: 'http://data.altamira.com.br/measurement/unit',
             headers: {'Content-Type': 'application/json'}
         }).success(function(data, status, headers, config) {
             $scope.useData.unitBox = data;

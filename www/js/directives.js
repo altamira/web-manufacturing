@@ -74,6 +74,12 @@ altamiraApp.directive('cancelUpdateUpload', function() {
             document.getElementById("format").value = '';
             document.getElementById("filename").value = '';
             document.getElementById("filetype").value = '';
+            scope.$apply(function() {
+                scope.operationData.sketch = '';
+                scope.operationData.format = '';
+                scope.operationData.filename = '';
+                scope.operationData.filetype = '';
+            });
         });
     }
 });
@@ -118,6 +124,15 @@ altamiraApp.directive('toggleClass', function() {
     return function(scope, elm, attrs) {
         elm.bind('click', function() {
             elm.toggleClass('fa-check-square-o');
+        });
+    }
+});
+altamiraApp.directive('toggleViewClass', function() {
+    return function(scope, elm, attrs) {
+
+        elm.bind('click', function() {
+            alert(1);
+            elm.toggleClass('fa-check-viewpage');
         });
     }
 });
