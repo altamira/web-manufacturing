@@ -7,7 +7,7 @@ altamiraAppControllers.controller('BomListCtrl',
             $scope.makeChecked = function(itemId, itemNumber) {
 
                 var confirmPopup = $ionicPopup.confirm({
-                    title: 'Confirmação',
+                    title: 'ConfirmaÃ§Ã£o',
                     template: 'A Lista de Material foi conferida ?'
                 });
                 confirmPopup.then(function(res) {
@@ -39,7 +39,7 @@ altamiraAppControllers.controller('BomListCtrl',
             $scope.makeUnchecked = function(itemId, itemNumber) {
 
                 var confirmPopup = $ionicPopup.confirm({
-                    title: 'Confirmação',
+                    title: 'ConfirmaÃ§Ã£o',
                     template: 'A Lista de Material foi conferida ?'
                 });
                 confirmPopup.then(function(res) {
@@ -101,7 +101,7 @@ altamiraAppControllers.controller('BomListCtrl',
                         $scope.loading = true;
                         $http({
                             method: 'GET',
-                            url: 'http://data.altamira.com.br/manufacturing/bom/',
+                            url: 'http://data.altamira.com.br/manufacturing/bom?checked=true',
                             params: {"search": this.criteria, "start": page, "max": this.size},
                             headers: {'Content-Type': 'application/json'}
                         }).then(function(response) {
@@ -113,7 +113,7 @@ altamiraAppControllers.controller('BomListCtrl',
                         $scope.loading = true;
                         $http({
                             method: 'GET',
-                            url: 'http://data.altamira.com.br/manufacturing/bom/',
+                            url: 'http://data.altamira.com.br/manufacturing/bom?checked=false',
                             params: {"start": page, "max": this.size},
                             headers: {'Content-Type': 'application/json'}
                         }).then(function(response) {
@@ -284,7 +284,7 @@ altamiraAppControllers.controller('BomViewCtrl',
             $scope.makeChecked = function() {
 
                 var confirmPopup = $ionicPopup.confirm({
-                    title: 'Confirmação',
+                    title: 'ConfirmaÃ§Ã£o',
                     template: 'A Lista de Material foi conferida ?'
                 });
                 confirmPopup.then(function(res) {
@@ -316,7 +316,7 @@ altamiraAppControllers.controller('BomViewCtrl',
             $scope.makeUnchecked = function() {
 
                 var confirmPopup = $ionicPopup.confirm({
-                    title: 'Confirmação',
+                    title: 'ConfirmaÃ§Ã£o',
                     template: 'A Lista de Material foi conferida ?'
                 });
                 confirmPopup.then(function(res) {
@@ -828,12 +828,57 @@ altamiraAppControllers.controller('BomPartCreateCtrl', ['$scope', '$http', '$loc
         $scope.partData.quantity = '';
         $scope.partData.weight = '';
 
-        $scope.partData.lengthType = 'milimetro';
-        $scope.partData.heightType = 'milimetro';
-        $scope.partData.widthType = 'milimetro';
-        $scope.partData.weightType = 'milimetro';
-        $scope.partData.quantityType = 'unidade';
-        $scope.partData.weightType = 'quilogram';
+        $scope.partData.lengthType = 4;
+        $scope.partData.heightType = 4;
+        $scope.partData.widthType = 4;
+        $scope.partData.weightType = 6;
+        $scope.partData.quantityType = 8;
+
+        $http({
+            method: 'GET',
+            url: 'http://data.altamira.com.br/measurement/unit?magnitude=dimencional',
+            headers: {'Content-Type': 'application/json'}
+        }).success(function(data, status, headers, config) {
+            $scope.partData.unitLengthBox = data;
+
+        }).error(function(data, status, headers, config) {
+            $ionicPopup.alert({
+                title: 'Failer',
+                content: 'Please try again'
+            }).then(function(res) {
+
+            });
+        });
+        $http({
+            method: 'GET',
+            url: 'http://data.altamira.com.br/measurement/unit?magnitude=peso',
+            headers: {'Content-Type': 'application/json'}
+        }).success(function(data, status, headers, config) {
+            $scope.partData.unitWeightBox = data;
+
+        }).error(function(data, status, headers, config) {
+            $ionicPopup.alert({
+                title: 'Failer',
+                content: 'Please try again'
+            }).then(function(res) {
+
+            });
+        });
+        $http({
+            method: 'GET',
+            url: 'http://data.altamira.com.br/measurement/unit?magnitude=unidade',
+            headers: {'Content-Type': 'application/json'}
+        }).success(function(data, status, headers, config) {
+            $scope.partData.unitQuantityBox = data;
+
+        }).error(function(data, status, headers, config) {
+            $ionicPopup.alert({
+                title: 'Failer',
+                content: 'Please try again'
+            }).then(function(res) {
+
+            });
+        });
 
         $scope.submitPartForm = function(isValid) {
             $scope.loading = true;
@@ -842,11 +887,31 @@ altamiraAppControllers.controller('BomPartCreateCtrl', ['$scope', '$http', '$loc
             $scope.postData.code = $scope.partData.code;
             $scope.postData.description = $scope.partData.description;
             $scope.postData.color = $scope.partData.color;
-            $scope.postData.quantity = parseInt($scope.partData.quantity);
-            $scope.postData.width = parseInt($scope.partData.width);
-            $scope.postData.height = parseInt($scope.partData.height);
-            $scope.postData.length = parseInt($scope.partData.length);
-            $scope.postData.weight = parseInt($scope.partData.weight);
+
+            $scope.postData.quantity = {};
+            $scope.postData.quantity.value = parseInt($scope.partData.quantity);
+            $scope.postData.quantity.unit = {};
+            $scope.postData.quantity.unit.id = $scope.partData.quantityType;
+
+            $scope.postData.width = {};
+            $scope.postData.width.value = parseInt($scope.partData.width);
+            $scope.postData.width.unit = {};
+            $scope.postData.width.unit.id = $scope.partData.widthType;
+
+            $scope.postData.height = {};
+            $scope.postData.height.value = parseInt($scope.partData.height);
+            $scope.postData.height.unit = {};
+            $scope.postData.height.unit.id = $scope.partData.heightType;
+
+            $scope.postData.length = {};
+            $scope.postData.length.value = parseInt($scope.partData.length);
+            $scope.postData.length.unit = {};
+            $scope.postData.length.unit.id = $scope.partData.lengthType;
+
+            $scope.postData.weight = {};
+            $scope.postData.weight.value = parseInt($scope.partData.weight);
+            $scope.postData.weight.unit = {};
+            $scope.postData.weight.unit.id = $scope.partData.weightType;
             console.log(JSON.stringify($scope.postData));
             $http({
                 method: 'POST',
@@ -887,12 +952,57 @@ altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$loc
         $scope.partData.length = '';
         $scope.partData.weight = '';
 
-        $scope.partData.lengthType = 'milimetro';
-        $scope.partData.heightType = 'milimetro';
-        $scope.partData.widthType = 'milimetro';
-        $scope.partData.weightType = 'milimetro';
-        $scope.partData.quantityType = 'unidade';
-        $scope.partData.weightType = 'quilogram';
+        $scope.partData.lengthType = 4;
+        $scope.partData.heightType = 4;
+        $scope.partData.widthType = 4;
+        $scope.partData.weightType = 6;
+        $scope.partData.quantityType = 8;
+
+        $http({
+            method: 'GET',
+            url: 'http://data.altamira.com.br/measurement/unit?magnitude=dimencional',
+            headers: {'Content-Type': 'application/json'}
+        }).success(function(data, status, headers, config) {
+            $scope.partData.unitLengthBox = data;
+
+        }).error(function(data, status, headers, config) {
+            $ionicPopup.alert({
+                title: 'Failer',
+                content: 'Please try again'
+            }).then(function(res) {
+
+            });
+        });
+        $http({
+            method: 'GET',
+            url: 'http://data.altamira.com.br/measurement/unit?magnitude=peso',
+            headers: {'Content-Type': 'application/json'}
+        }).success(function(data, status, headers, config) {
+            $scope.partData.unitWeightBox = data;
+
+        }).error(function(data, status, headers, config) {
+            $ionicPopup.alert({
+                title: 'Failer',
+                content: 'Please try again'
+            }).then(function(res) {
+
+            });
+        });
+        $http({
+            method: 'GET',
+            url: 'http://data.altamira.com.br/measurement/unit?magnitude=unidade',
+            headers: {'Content-Type': 'application/json'}
+        }).success(function(data, status, headers, config) {
+            $scope.partData.unitQuantityBox = data;
+
+        }).error(function(data, status, headers, config) {
+            $ionicPopup.alert({
+                title: 'Failer',
+                content: 'Please try again'
+            }).then(function(res) {
+
+            });
+        });
 
         $scope.loadPart = function() {
             $scope.loading = true;
@@ -901,17 +1011,21 @@ altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$loc
                 url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + $scope.partId,
                 headers: {'Content-Type': 'application/json'}
             }).success(function(data, status, headers, config) {
-
                 $scope.loading = false;
                 $scope.partData.version = data.version;
                 $scope.partData.code = data.code;
                 $scope.partData.description = data.description;
                 $scope.partData.color = data.color;
-                $scope.partData.quantity = data.quantity;
-                $scope.partData.width = data.width;
-                $scope.partData.height = data.height;
-                $scope.partData.length = data.length;
-                $scope.partData.weight = data.weight;
+                $scope.partData.quantity = data.quantity.value;
+                $scope.partData.quantityType = data.quantity.unit.id;
+                $scope.partData.width = data.width.value;
+                $scope.partData.widthType = data.width.unit.id;
+                $scope.partData.height = data.height.value;
+                $scope.partData.heightType = data.height.unit.id;
+                $scope.partData.length = data.length.value;
+                $scope.partData.lengthType = data.length.unit.id;
+                $scope.partData.weight = data.weight.value;
+                $scope.partData.weightType = data.weight.unit.id;
             }).error(function(data, status, headers, config) {
                 $scope.loading = false;
                 $ionicPopup.alert({
@@ -930,11 +1044,32 @@ altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$loc
             $scope.postData.code = $scope.partData.code;
             $scope.postData.description = $scope.partData.description;
             $scope.postData.color = $scope.partData.color;
-            $scope.postData.quantity = parseInt($scope.partData.quantity);
-            $scope.postData.width = parseInt($scope.partData.width);
-            $scope.postData.height = parseInt($scope.partData.height);
-            $scope.postData.length = parseInt($scope.partData.length);
-            $scope.postData.weight = parseInt($scope.partData.weight);
+
+            $scope.postData.quantity = {};
+            $scope.postData.quantity.value = parseInt($scope.partData.quantity);
+            $scope.postData.quantity.unit = {};
+            $scope.postData.quantity.unit.id = $scope.partData.quantityType;
+
+            $scope.postData.width = {};
+            $scope.postData.width.value = parseInt($scope.partData.width);
+            $scope.postData.width.unit = {};
+            $scope.postData.width.unit.id = $scope.partData.widthType;
+
+            $scope.postData.height = {};
+            $scope.postData.height.value = parseInt($scope.partData.height);
+            $scope.postData.height.unit = {};
+            $scope.postData.height.unit.id = $scope.partData.heightType;
+
+            $scope.postData.length = {};
+            $scope.postData.length.value = parseInt($scope.partData.length);
+            $scope.postData.length.unit = {};
+            $scope.postData.length.unit.id = $scope.partData.lengthType;
+
+            $scope.postData.weight = {};
+            $scope.postData.weight.value = parseInt($scope.partData.weight);
+            $scope.postData.weight.unit = {};
+            $scope.postData.weight.unit.id = $scope.partData.weightType;
+
             $http({
                 method: 'GET',
                 url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + $scope.partId,

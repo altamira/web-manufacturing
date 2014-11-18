@@ -10,16 +10,20 @@ altamiraApp.directive('imageConvert', function() {
                 var FR = new FileReader();
                 var filetype = this.files[0].type.split('/');
                 var imagename = this.files[0].name;
-                console.log(FR);
                 FR.onload = function(e) {
 
                     document.getElementById("img").src = e.target.result;
+
                     document.getElementById("uploadedImg").style.display = 'block';
                     document.getElementById("img").style.display = 'inline-block';
                     document.getElementById("removeBtn").style.display = 'block';
                     document.getElementById("removeBtn1").style.display = 'block';
                     document.getElementById("uploadBtn").style.display = 'none';
                     document.getElementById("removeBtn").style.display = 'block';
+                    if (window.innerWidth < document.getElementById("img").clientWidth)
+                    {
+                        document.getElementById("img").style.width = '100%';
+                    }
                     var base64string = e.target.result.split(',');
 
 //                    document.getElementById("format").value = base64string[0];

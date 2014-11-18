@@ -51,7 +51,19 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                         $scope.range();
                     } else
                     {
-                        $location.path('/manufacturing/process/' + (parseInt($scope.startPage) - 1));
+                        if ((parseInt($scope.startPage) != 0))
+                        {
+                            $location.path('/manufacturing/process/' + (parseInt($scope.startPage) - 1));
+                        } else
+                        {
+                            $ionicPopup.alert({
+                                title: 'Notice',
+                                content: 'Process list is empty'
+                            }).then(function(res) {
+
+                            });
+                        }
+
                     }
                 }).error(function(data, status, headers, config) {
                     $scope.loading = false;
@@ -200,7 +212,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl', ['$scope', '
                             {
                                 $scope.temp = $scope.processData.operations[i][j][k];
                                 $scope.temp['type'] = 'uso';
-                                $scope.temp['alias'] = 'S';
+                                $scope.temp['alias'] = 'U';
                                 $scope.operationDetail[mainCounter].item[counter] = $scope.temp;
                                 counter++;
                             }
@@ -584,8 +596,23 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
         $scope.operationId = $routeParams.operationId;
         $scope.consumeId = $routeParams.consumeId;
         $scope.action = 'create';
-
         $scope.consumeData = {};
+        $scope.consumeData.unitBox = {};
+        $http({
+            method: 'GET',
+            url: 'http://data.altamira.com.br/measurement/unit?magnitude=unidade',
+            headers: {'Content-Type': 'application/json'}
+        }).success(function(data, status, headers, config) {
+            $scope.consumeData.unitBox = data;
+
+        }).error(function(data, status, headers, config) {
+            $ionicPopup.alert({
+                title: 'Failer',
+                content: 'Please try again'
+            }).then(function(res) {
+
+            });
+        });
         if ($scope.consumeId != '' && $scope.consumeId != undefined)
         {
             $scope.action = 'update';
@@ -599,8 +626,8 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
                 $scope.consumeData.code = data.code;
                 $scope.consumeData.version = data.version;
                 $scope.consumeData.description = data.description;
-                $scope.consumeData.quantity = data.quantity;
-                $scope.consumeData.unit = data.unit;
+                $scope.consumeData.quantity = data.quantity.value;
+                $scope.consumeData.unit = data.quantity.unit.id;
 
             }).error(function(data, status, headers, config) {
                 $scope.loading = false;
@@ -618,7 +645,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
             $scope.consumeData.version = '';
             $scope.consumeData.description = '';
             $scope.consumeData.quantity = 1;
-            $scope.consumeData.unit = 'unid';
+            $scope.consumeData.unit = 6;
         }
 
         $scope.submitConsumeForm = function(isValid) {
@@ -637,24 +664,33 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
                 }
                 $scope.postdata.code = $scope.consumeData.code;
                 $scope.postdata.description = $scope.consumeData.description;
-                $scope.postdata.quantity = parseInt($scope.consumeData.quantity);
-                $scope.postdata.unit = $scope.consumeData.unit;
-                $http({
-                    method: method,
-                    url: url,
-                    data: $scope.postdata,
+                $scope.postdata.quantity = {};
+                $scope.postdata.quantity.value = parseInt($scope.consumeData.quantity);
+                $scope.postdata.quantity.unit = {};
+                var httpRequest = $http({
+                    method: 'GET',
+                    url: 'http://data.altamira.com.br/measurement/unit/' + $scope.consumeData.unit,
                     headers: {'Content-Type': 'application/json'}
-                }).success(function(data, status, headers, config) {
-                    $scope.loading = false;
-                    $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
-                }).error(function(data, status, headers, config) {
-                    $scope.loading = false;
-                    $ionicPopup.alert({
-                        title: 'Failer',
-                        content: 'Please try again'
-                    }).then(function(res) {
+                }).success(function(data) {
+                    $scope.postdata.quantity.unit = data;
+                    $http({
+                        method: method,
+                        url: url,
+                        data: $scope.postdata,
+                        headers: {'Content-Type': 'application/json'}
+                    }).success(function(data, status, headers, config) {
+                        $scope.loading = false;
+                        $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
+                    }).error(function(data, status, headers, config) {
+                        $scope.loading = false;
+                        $ionicPopup.alert({
+                            title: 'Failer',
+                            content: 'Please try again'
+                        }).then(function(res) {
 
+                        });
                     });
+
                 });
             }
         };
@@ -701,6 +737,22 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
         $scope.produceId = $routeParams.produceId;
         $scope.action = 'create';
         $scope.produceData = {};
+        $scope.produceData.unitBox = {};
+        $http({
+            method: 'GET',
+            url: 'http://data.altamira.com.br/measurement/unit?magnitude=unidade',
+            headers: {'Content-Type': 'application/json'}
+        }).success(function(data, status, headers, config) {
+            $scope.produceData.unitBox = data;
+
+        }).error(function(data, status, headers, config) {
+            $ionicPopup.alert({
+                title: 'Failer',
+                content: 'Please try again'
+            }).then(function(res) {
+
+            });
+        });
         if ($scope.produceId != '' && $scope.produceId != undefined)
         {
             $scope.action = 'update';
@@ -711,11 +763,12 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
                 headers: {'Content-Type': 'application/json'}
             }).success(function(data, status, headers, config) {
                 $scope.loading = false;
+                console.log(JSON.stringify(data));
                 $scope.produceData.code = data.code;
                 $scope.produceData.version = data.version;
                 $scope.produceData.description = data.description;
-                $scope.produceData.quantity = data.quantity;
-                $scope.produceData.unit = data.unit;
+                $scope.produceData.quantity = data.quantity.value;
+                $scope.produceData.unit = data.quantity.unit.id;
 
             }).error(function(data, status, headers, config) {
                 $scope.loading = false;
@@ -733,7 +786,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
             $scope.produceData.version = '';
             $scope.produceData.description = '';
             $scope.produceData.quantity = 1;
-            $scope.produceData.unit = 'unid';
+            $scope.produceData.unit = 6;
         }
 
         $scope.submitProduceForm = function(isValid) {
@@ -751,24 +804,33 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
                 }
                 $scope.postdata.code = $scope.produceData.code;
                 $scope.postdata.description = $scope.produceData.description;
-                $scope.postdata.quantity = parseInt($scope.produceData.quantity);
-                $scope.postdata.unit = $scope.produceData.unit;
-                $http({
-                    method: method,
-                    url: url,
-                    data: $scope.postdata,
+                $scope.postdata.quantity = {};
+                $scope.postdata.quantity.value = parseInt($scope.produceData.quantity);
+                $scope.postdata.quantity.unit = {};
+                var httpRequest = $http({
+                    method: 'GET',
+                    url: 'http://data.altamira.com.br/measurement/unit/' + $scope.produceData.unit,
                     headers: {'Content-Type': 'application/json'}
-                }).success(function(data, status, headers, config) {
-                    $scope.loading = false;
-                    $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
-                }).error(function(data, status, headers, config) {
-                    $scope.loading = false;
-                    $ionicPopup.alert({
-                        title: 'Failer',
-                        content: 'Please try again'
-                    }).then(function(res) {
+                }).success(function(data) {
+                    $scope.postdata.quantity.unit = data;
+                    $http({
+                        method: method,
+                        url: url,
+                        data: $scope.postdata,
+                        headers: {'Content-Type': 'application/json'}
+                    }).success(function(data, status, headers, config) {
+                        $scope.loading = false;
+                        $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
+                    }).error(function(data, status, headers, config) {
+                        $scope.loading = false;
+                        $ionicPopup.alert({
+                            title: 'Failer',
+                            content: 'Please try again'
+                        }).then(function(res) {
 
+                        });
                     });
+
                 });
             }
         };
@@ -816,43 +878,21 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
         $scope.action = 'create';
         $scope.useData = {};
         $scope.useData.unitBox = {};
-        $scope.useData.unitBox = [{
-                "id": 5,
-                "version": 1416225007528,
-                "name": "milimetro",
-                "symbol": "mm",
-                "magnitude": {
-                    "id": 1,
-                    "version": 1416224999002,
-                    "name": "dimencional"
-                }
-            }, {
-                "id": 9,
-                "version": 1416225007528,
-                "name": "metro",
-                "symbol": "m",
-                "magnitude": {
-                    "id": 1,
-                    "version": 1416224999002,
-                    "name": "dimencional"
-                }
-            }];
-//        $http({
-//            method: 'GET',
-//            url: 'http://data.altamira.com.br/measurement/unit?magnitude=unidade',
-//            headers: {'Content-Type': 'application/json'}
-//        }).success(function(data, status, headers, config) {
-//            $scope.useData.unitBox = data;
-//
-//        }).error(function(data, status, headers, config) {
-//            $ionicPopup.alert({
-//                title: 'Failer',
-//                content: 'Please try again'
-//            }).then(function(res) {
-//
-//            });
-//        });
+        $http({
+            method: 'GET',
+            url: 'http://data.altamira.com.br/measurement/unit?magnitude=unidade',
+            headers: {'Content-Type': 'application/json'}
+        }).success(function(data, status, headers, config) {
+            $scope.useData.unitBox = data;
 
+        }).error(function(data, status, headers, config) {
+            $ionicPopup.alert({
+                title: 'Failer',
+                content: 'Please try again'
+            }).then(function(res) {
+
+            });
+        });
         if ($scope.useId != '' && $scope.useId != undefined)
         {
             $scope.action = 'update';
@@ -866,8 +906,8 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
                 $scope.useData.code = data.code;
                 $scope.useData.version = data.version;
                 $scope.useData.description = data.description;
-                $scope.useData.quantity = data.quantity;
-                $scope.useData.unit = data.unit;
+                $scope.useData.quantity = data.quantity.value;
+                $scope.useData.unit = data.quantity.unit.id;
 
             }).error(function(data, status, headers, config) {
                 $scope.loading = false;
@@ -885,7 +925,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
             $scope.useData.version = 0;
             $scope.useData.description = '';
             $scope.useData.quantity = 1;
-            $scope.useData.unit = '';
+            $scope.useData.unit = 6;
         }
 
         $scope.submitUseForm = function(isValid) {
@@ -909,12 +949,10 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
                 $scope.postdata.quantity.unit = {};
                 var httpRequest = $http({
                     method: 'GET',
-                    url: 'http://data.altamira.com.br/measurement/unit/'+$scope.useData.unit,
+                    url: 'http://data.altamira.com.br/measurement/unit/' + $scope.useData.unit,
                     headers: {'Content-Type': 'application/json'}
                 }).success(function(data) {
                     $scope.postdata.quantity.unit = data;
-                    console.log(JSON.stringify($scope.postdata));
-
                     $http({
                         method: method,
                         url: url,
@@ -932,10 +970,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
 
                         });
                     });
-
                 });
-
-
             }
         };
 
