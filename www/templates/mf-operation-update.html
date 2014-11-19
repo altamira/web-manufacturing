@@ -5,30 +5,31 @@
     </div>
 </div>
 <ion-pane>
-    <ion-header-bar class="bar-calm">
-        <div class="buttons header-margin">
-            <button class="button fa-arrow-left" ng-click="goBack()"></button>
-            <span class="btn-separator"></span>
-            <h4 class="mf-page-titles">&nbsp;<span ng-bind="operationData.sequence"></span> - <span ng-bind="operationData.name"></span>&nbsp;</h4>
-            <span class="btn-separator"></span>
-            <!--<button class="button fa-check" ng-click="submitted=true" ></button>-->
-            <button class="button fa-check" ng-click="submitOperationForm(true)" ></button>
-            <button class="button fa-remove-header" ng-click="removeOperation()" ></button>
-        </div>
-    </ion-header-bar>
-    <ion-content>
-        <div class="row">
-            <div class="col">
-                <form name="operationForm" novalidate ng-submit="submitOperationForm(operationForm.$valid)" enctype="multipart/form-data">
+    <form name="operationForm" novalidate ng-submit="submitOperationForm(operationForm.$valid)" enctype="multipart/form-data">
+        <ion-header-bar class="bar-calm">
+            <div class="buttons header-margin">
+                <button class="button fa-arrow-left" ng-click="goBack()"></button>
+                <span class="btn-separator"></span>
+                <h4 class="mf-page-titles">&nbsp;<span ng-bind="operationData.sequence"></span> - <span ng-bind="operationData.name"></span>&nbsp;</h4>
+                <span class="btn-separator"></span>
+                <button class="button fa-check" ng-click="submitted=true" ></button>
+                <button class="button fa-remove-header" ng-click="removeOperation()" ></button>
+            </div>
+        </ion-header-bar>
+        <ion-content>
+            <div class="row">
+                <div class="col">
                     <input type="text" name="operationVersion" ng-model="operationData.operationVersion" ng-hide='true'>
                     <div class="list list-row">
                         <span class="input-label text-bold">Sequencia</span>
-                        <label class="item item-input" style="background-color: #eeeeee;border: 1px solid #dddddd;border-radius: 5px;height: 35px;">
-                            <input type="text" name="sequence" ng-model="operationData.sequence">
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="sequence" number-mask="" ng-model="operationData.sequence" required/>
                         </label>
+                        <label class="extra-error" ng-show="submitted && operationForm.sequence.$error.required">Sequence field is required.</label>
                     </div>
                     <div class="list list-row">
                         <span class="input-label text-bold">Operação</span>
+                        <div class="select-box-hide"></div>
                         <label class="item item-select item-select-box">
                             <select name="operation" ng-model="operationData.name" class="select-box">
                                 <option value="PRENSA">PRENSA</option>
@@ -45,7 +46,8 @@
                     </div>
                     <div class="list list-row">
                         <span class="input-label text-bold">Descrição</span>
-                        <textarea name="description" ng-model="operationData.description" style="width: 100%;background-color: #eeeeee;border: 1px solid #dddddd;border-radius: 5px;height: 100px; resize: none; padding:10px 10px"></textarea>
+                        <textarea name="description" ng-model="operationData.description" class="textarea-extra" required></textarea>
+                        <label class="extra-error" ng-show="submitted && operationForm.description.$error.required">Description field is required.</label>
                     </div>
                     <div class="list list-row">
                         <span class="input-label text-bold">Croqui</span>
@@ -71,22 +73,21 @@
                         </div>
 
                     </div>
-                </form>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col listing-operation">
-                <div class="list list-row">
-                    <a class="item operation-item item-icon-left item-icon-right">
-                        <span>U</span>
-                        Use
-                        <i class="icon fa-plus-circle" ng-click='createUse()'></i>
-                    </a>
+
                 </div>
             </div>
-        </div>
-        <div class="manufacturing-box" ng-if="operationData.use != ''">
-<!--            <div class="row">-->
+            <div class="row">
+                <div class="col listing-operation">
+                    <div class="list list-row">
+                        <a class="item operation-item item-icon-left item-icon-right">
+                            <span>U</span>
+                            Use
+                            <i class="icon fa-plus-circle" ng-click='createUse()'></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="manufacturing-box" ng-if="operationData.use != ''">
                 <div class="full-col">
                     <div class="list mouse-pointer">
                         <div style="margin-top: 20px;">
@@ -98,21 +99,19 @@
                         </div>
                     </div>
                 </div>
-            <!--</div>-->
-        </div>
-        <div class="row">
-            <div class="col listing-operation">
-                <div class="list list-row">
-                    <a class="item operation-item item-icon-left item-icon-right">
-                        <span class="consumo">C</span>
-                        Consumo
-                        <i class="icon fa-plus-circle" ng-click='createConsume()'></i>
-                    </a>
+            </div>
+            <div class="row">
+                <div class="col listing-operation">
+                    <div class="list list-row">
+                        <a class="item operation-item item-icon-left item-icon-right">
+                            <span class="consumo">C</span>
+                            Consumo
+                            <i class="icon fa-plus-circle" ng-click='createConsume()'></i>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="manufacturing-box" ng-if="operationData.consume != ''">
-            <!--<div class="row">-->
+            <div class="manufacturing-box" ng-if="operationData.consume != ''">
                 <div class="full-col">
                     <div class="list mouse-pointer">
                         <div style="margin-top: 20px;">
@@ -124,21 +123,19 @@
                         </div>
                     </div>
                 </div>
-            <!--</div>-->
-        </div>
-        <div class="row">
-            <div class="col listing-operation">
-                <div class="list list-row">
-                    <a class="item operation-item item-icon-left item-icon-right">
-                        <span class="produto">P</span>
-                        Produto
-                        <i class="icon fa-plus-circle" ng-click='createProduce()'></i>
-                    </a>
+            </div>
+            <div class="row">
+                <div class="col listing-operation">
+                    <div class="list list-row">
+                        <a class="item operation-item item-icon-left item-icon-right">
+                            <span class="produto">P</span>
+                            Produto
+                            <i class="icon fa-plus-circle" ng-click='createProduce()'></i>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="manufacturing-box" ng-if="operationData.produce != ''">
-            <!--<div class="row">-->
+            <div class="manufacturing-box" ng-if="operationData.produce != ''">
                 <div class="full-col">
                     <div class="list mouse-pointer">
                         <div style="margin-top: 20px;">
@@ -150,7 +147,7 @@
                         </div>
                     </div>
                 </div>
-            <!--</div>-->
-        </div>
-    </ion-content>
+            </div>
+        </ion-content>
+    </form>
 </ion-pane>

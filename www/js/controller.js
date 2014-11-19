@@ -114,8 +114,8 @@ altamiraAppControllers.controller('ManufacturingProcessCreateCtrl', ['$scope', '
         $scope.processData = {};
         $scope.postdata = {};
         $scope.submitCreateProcess = function(isValid) {
-            $scope.loading = true;
             if (isValid) {
+                $scope.loading = true;
                 $scope.postdata.code = $scope.processData.code;
                 $scope.postdata.description = $scope.processData.description;
                 console.log(JSON.stringify($scope.postdata));
@@ -226,8 +226,8 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl', ['$scope', '
         };
         $scope.loadProcess();
         $scope.submitUpdateProcess = function(isValid) {
-            $scope.loading = true;
             if (isValid) {
+                $scope.loading = true;
                 $scope.postdata = {};
                 $scope.postdata.id = $scope.processData.id;
                 $scope.postdata.version = $scope.processData.version;
@@ -352,15 +352,16 @@ altamiraAppControllers.controller('ManufacturingProcessCreateOperationCtrl', ['$
         $scope.processId = $routeParams.processId;
         $scope.operationData = {};
         $scope.operationData.sequence = '';
-        $scope.operationData.name = '';
+        $scope.operationData.name = 'DOBRA';
         $scope.operationData.description = '';
         $scope.operationData.sketch = '';
         $scope.operationData.format = '';
         $scope.operationData.filename = '';
         $scope.operationData.filetype = '';
         $scope.submitOperationForm = function(isValid) {
-            $scope.loading = true;
+
             if (isValid) {
+                $scope.loading = true;
                 $scope.postdata = {};
                 $scope.postdata.sequence = parseInt($scope.operationData.sequence);
                 $scope.postdata.name = $scope.operationData.name;
@@ -457,8 +458,8 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl', ['$
         };
         $scope.loadOperation();
         $scope.submitOperationForm = function(isValid) {
-            $scope.loading = true;
             if (isValid) {
+                $scope.loading = true;
                 $scope.postdata = {};
                 $scope.postdata.id = parseInt($scope.operationId);
                 $scope.postdata.version = parseInt($scope.operationData.operationVersion);

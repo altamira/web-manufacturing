@@ -7,7 +7,7 @@ altamiraAppControllers.controller('BomListCtrl',
             $scope.makeChecked = function(itemId, itemNumber) {
 
                 var confirmPopup = $ionicPopup.confirm({
-                    title: 'ConfirmaÃ§Ã£o',
+                    title: 'Confirmation',
                     template: 'A Lista de Material foi conferida ?'
                 });
                 confirmPopup.then(function(res) {
@@ -39,7 +39,7 @@ altamiraAppControllers.controller('BomListCtrl',
             $scope.makeUnchecked = function(itemId, itemNumber) {
 
                 var confirmPopup = $ionicPopup.confirm({
-                    title: 'ConfirmaÃ§Ã£o',
+                    title: 'Confirmation',
                     template: 'A Lista de Material foi conferida ?'
                 });
                 confirmPopup.then(function(res) {
@@ -284,7 +284,7 @@ altamiraAppControllers.controller('BomViewCtrl',
             $scope.makeChecked = function() {
 
                 var confirmPopup = $ionicPopup.confirm({
-                    title: 'ConfirmaÃ§Ã£o',
+                    title: 'Confirmation',
                     template: 'A Lista de Material foi conferida ?'
                 });
                 confirmPopup.then(function(res) {
@@ -316,7 +316,7 @@ altamiraAppControllers.controller('BomViewCtrl',
             $scope.makeUnchecked = function() {
 
                 var confirmPopup = $ionicPopup.confirm({
-                    title: 'ConfirmaÃ§Ã£o',
+                    title: 'Confirmation',
                     template: 'A Lista de Material foi conferida ?'
                 });
                 confirmPopup.then(function(res) {
@@ -437,7 +437,8 @@ altamiraAppControllers.controller('BomEditCtrl',
 
                 });
             });
-            $scope.submitBomForm = function() {
+            $scope.submitBomForm = function(isValid) {
+                if (isValid) {
                 $scope.loading = true;
                 $scope.postdata = {};
                 $scope.postdata.id = $scope.bomId;
@@ -492,6 +493,7 @@ altamiraAppControllers.controller('BomEditCtrl',
 
                     });
                 });
+                }
             };
             $scope.createItem = function() {
                 $location.path('/bom/item/create/' + $scope.bomId);
@@ -608,6 +610,7 @@ altamiraAppControllers.controller('BomItemCreateCtrl', ['$scope', '$http', '$loc
         $scope.itemData.item = '';
         $scope.itemData.description = '';
         $scope.submitCreateItem = function(isValid) {
+            if(isValid) {
             $scope.loading = true;
             $scope.postdata = {};
             $scope.postdata.item = $scope.itemData.item;
@@ -629,6 +632,7 @@ altamiraAppControllers.controller('BomItemCreateCtrl', ['$scope', '$http', '$loc
 
                 });
             });
+            }
         };
         $scope.goBack = function() {
             $location.path('bom/edit/' + $scope.bomId);
@@ -692,6 +696,7 @@ altamiraAppControllers.controller('BomItemUpdateCtrl', ['$scope', '$http', '$loc
         };
         $scope.loadItem();
         $scope.submitUpdateItem = function(isValid) {
+            if(isValid) {
             $scope.loading = true;
             $scope.postdata = {};
             $scope.postdata.id = $scope.itemId;
@@ -731,6 +736,8 @@ altamiraAppControllers.controller('BomItemUpdateCtrl', ['$scope', '$http', '$loc
 
                 });
             });
+
+            }
 
         };
 
@@ -896,6 +903,7 @@ altamiraAppControllers.controller('BomPartCreateCtrl', ['$scope', '$http', '$loc
         });
 
         $scope.submitPartForm = function(isValid) {
+            if(isValid) {
             $scope.loading = true;
             $scope.postData = {};
             $scope.postData.version = 0;
@@ -945,6 +953,7 @@ altamiraAppControllers.controller('BomPartCreateCtrl', ['$scope', '$http', '$loc
 
                 });
             });
+            }
         }
         $scope.goBack = function() {
             $location.path('bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
@@ -1068,6 +1077,7 @@ altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$loc
         };
         $scope.loadPart();
         $scope.submitPartForm = function(isValid) {
+            if(isValid) {
             $scope.loading = true;
             $scope.postData = {};
             $scope.postData.id = $scope.partId;
@@ -1132,7 +1142,7 @@ altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$loc
 
                 });
             });
-
+            }
         }
 
         $scope.removePart = function() {

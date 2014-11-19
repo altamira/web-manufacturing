@@ -169,3 +169,12 @@ altamiraApp.directive('isNumber', function($parse) {
         }
     };
 });
+
+altamiraApp.directive('numberMask', function() {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            $(element).numeric();
+        }
+    }
+});

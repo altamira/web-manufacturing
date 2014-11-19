@@ -5,50 +5,34 @@
     </div>
 </div>
 <ion-pane>
-    <ion-header-bar class="bar-calm">
-        <div class="buttons header-margin">
-            <button class="button fa-arrow-left" ng-click="goBack()"></button>
-            <span class="btn-separator"></span>
-            <button class="button fa-check" ng-click="submitCreateProcess(true)" ></button>
-        </div>
-    </ion-header-bar>
-    <ion-content>
-        <div class="row">
-            <div class="col">
-                <div class="list">
-                    <form name="processCreateForm" novalidate ng-submit="submitCreateProcess(processCreateForm.$valid)">
+    <form name="processCreateForm" novalidate ng-submit="submitCreateProcess(processCreateForm.$valid)">
+        <ion-header-bar class="bar-calm">
+            <div class="buttons header-margin">
+                <button class="button fa-arrow-left" ng-click="goBack()"></button>
+                <span class="btn-separator"></span>
+                <button class="button fa-check" ng-click="submitted=true" ></button>
+            </div>
+        </ion-header-bar>
+        <ion-content>
+            <div class="row">
+                <div class="col">
+                    <div class="list">
                         <span class="input-label text-bold">Codigo</span>
-                        <label class="item item-input" style="background-color: #eeeeee;border: 1px solid #dddddd;border-radius: 5px;height: 35px; margin-bottom:15px;">
-                            <input type="text" name="code" ng-model="processData.code">
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="code" ng-model="processData.code" required ng-minlength='10' />
                         </label>
+                        <label class="extra-error" ng-show="submitted && processCreateForm.code.$error.required">Codigo field is required.</label>
+                        <label class="extra-error" ng-show="submitted && processCreateForm.code.$error.minlength">Please enter minimum 10 character.</label>
+
                         <span class="input-label text-bold">Descricao</span>
-                        <label class="item item-input" style="background-color: #eeeeee;border: 1px solid #dddddd;border-radius: 5px;height: 35px;">
-                            <input type="text" name="description" ng-model="processData.description">
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="description" ng-model="processData.description" required ng-minlength='10'/>
                         </label>
-                    </form>
+                        <label class="extra-error" ng-show="submitted && processCreateForm.description.$error.required">Description field is required.</label>
+                        <label class="extra-error" ng-show="submitted && processCreateForm.description.$error.minlength">Please enter minimum 10 character.</label>
+                    </div>
                 </div>
             </div>
-        </div>
-<!--        <div class="row" style="margin-top: 20px;">
-            <div class="col">
-                <div class="list">
-                    <a class="process-item-list item-icon-left" href="#">
-                        Revisões
-                        <i class="icon fa-history left-icon"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="row" style="margin-top: 20px;">
-            <div class="col">
-                <div class="list">
-                    <a class="process-item-list item-icon-left item-icon-right">
-                        <i class="icon left-icon fa-cogs"></i>
-                        Operações
-                        <i class="icon plus-icon fa-plus-circle"></i>
-                    </a>
-                </div>
-            </div>
-        </div>-->
-    </ion-content>
+        </ion-content>
+    </form>
 </ion-pane>
