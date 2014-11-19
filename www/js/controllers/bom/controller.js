@@ -904,27 +904,27 @@ altamiraAppControllers.controller('BomPartCreateCtrl', ['$scope', '$http', '$loc
             $scope.postData.color = $scope.partData.color;
 
             $scope.postData.quantity = {};
-            $scope.postData.quantity.value = parseInt($scope.partData.quantity);
+            $scope.postData.quantity.value = parseFloat($scope.partData.quantity);
             $scope.postData.quantity.unit = {};
             $scope.postData.quantity.unit.id = $scope.partData.quantityType;
 
             $scope.postData.width = {};
-            $scope.postData.width.value = parseInt($scope.partData.width);
+            $scope.postData.width.value = parseFloat($scope.partData.width);
             $scope.postData.width.unit = {};
             $scope.postData.width.unit.id = $scope.partData.widthType;
 
             $scope.postData.height = {};
-            $scope.postData.height.value = parseInt($scope.partData.height);
+            $scope.postData.height.value = parseFloat($scope.partData.height);
             $scope.postData.height.unit = {};
             $scope.postData.height.unit.id = $scope.partData.heightType;
 
             $scope.postData.length = {};
-            $scope.postData.length.value = parseInt($scope.partData.length);
+            $scope.postData.length.value = parseFloat($scope.partData.length);
             $scope.postData.length.unit = {};
             $scope.postData.length.unit.id = $scope.partData.lengthType;
 
             $scope.postData.weight = {};
-            $scope.postData.weight.value = parseInt($scope.partData.weight);
+            $scope.postData.weight.value = parseFloat($scope.partData.weight);
             $scope.postData.weight.unit = {};
             $scope.postData.weight.unit.id = $scope.partData.weightType;
             console.log(JSON.stringify($scope.postData));
@@ -1076,27 +1076,27 @@ altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$loc
             $scope.postData.color = $scope.partData.color;
 
             $scope.postData.quantity = {};
-            $scope.postData.quantity.value = parseInt($scope.partData.quantity);
+            $scope.postData.quantity.value = parseFloat($scope.partData.quantity);
             $scope.postData.quantity.unit = {};
             $scope.postData.quantity.unit.id = $scope.partData.quantityType;
 
             $scope.postData.width = {};
-            $scope.postData.width.value = parseInt($scope.partData.width);
+            $scope.postData.width.value = parseFloat($scope.partData.width);
             $scope.postData.width.unit = {};
             $scope.postData.width.unit.id = $scope.partData.widthType;
 
             $scope.postData.height = {};
-            $scope.postData.height.value = parseInt($scope.partData.height);
+            $scope.postData.height.value = parseFloat($scope.partData.height);
             $scope.postData.height.unit = {};
             $scope.postData.height.unit.id = $scope.partData.heightType;
 
             $scope.postData.length = {};
-            $scope.postData.length.value = parseInt($scope.partData.length);
+            $scope.postData.length.value = parseFloat($scope.partData.length);
             $scope.postData.length.unit = {};
             $scope.postData.length.unit.id = $scope.partData.lengthType;
 
             $scope.postData.weight = {};
-            $scope.postData.weight.value = parseInt($scope.partData.weight);
+            $scope.postData.weight.value = parseFloat($scope.partData.weight);
             $scope.postData.weight.unit = {};
             $scope.postData.weight.unit.id = $scope.partData.weightType;
 

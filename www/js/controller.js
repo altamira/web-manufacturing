@@ -665,7 +665,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
                 $scope.postdata.code = $scope.consumeData.code;
                 $scope.postdata.description = $scope.consumeData.description;
                 $scope.postdata.quantity = {};
-                $scope.postdata.quantity.value = parseInt($scope.consumeData.quantity);
+                $scope.postdata.quantity.value = parseFloat($scope.consumeData.quantity);
                 $scope.postdata.quantity.unit = {};
                 var httpRequest = $http({
                     method: 'GET',
@@ -805,7 +805,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
                 $scope.postdata.code = $scope.produceData.code;
                 $scope.postdata.description = $scope.produceData.description;
                 $scope.postdata.quantity = {};
-                $scope.postdata.quantity.value = parseInt($scope.produceData.quantity);
+                $scope.postdata.quantity.value = parseFloat($scope.produceData.quantity);
                 $scope.postdata.quantity.unit = {};
                 var httpRequest = $http({
                     method: 'GET',
@@ -945,7 +945,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
                 $scope.postdata.version = $scope.useData.version;
                 $scope.postdata.description = $scope.useData.description;
                 $scope.postdata.quantity = {};
-                $scope.postdata.quantity.value = parseInt($scope.useData.quantity);
+                $scope.postdata.quantity.value = parseFloat($scope.useData.quantity);
                 $scope.postdata.quantity.unit = {};
                 var httpRequest = $http({
                     method: 'GET',
