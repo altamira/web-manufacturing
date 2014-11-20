@@ -12,29 +12,32 @@ altamiraApp.directive('imageConvert', function() {
                 var imagename = this.files[0].name;
                 FR.onload = function(e) {
 
-                    document.getElementById("img").src = e.target.result;
+                    document.getElementById("img").src = '';
+                    if (document.getElementById("img").src = e.target.result)
+                    {
+                        document.getElementById("img").style.width = 'auto';
+                        setTimeout(function() {
+                            if (document.getElementById("img").clientWidth > 1024)
+                            {
+                                document.getElementById("img").style.width = '100%';
+                            }
+                        }, 500);
 
+                    }
                     document.getElementById("uploadedImg").style.display = 'block';
                     document.getElementById("img").style.display = 'inline-block';
                     document.getElementById("removeBtn").style.display = 'block';
                     document.getElementById("removeBtn1").style.display = 'block';
                     document.getElementById("uploadBtn").style.display = 'none';
                     document.getElementById("removeBtn").style.display = 'block';
-                    if (window.innerWidth < document.getElementById("img").clientWidth)
-                    {
-                        document.getElementById("img").style.width = '100%';
-                    }
                     var base64string = e.target.result.split(',');
 
-//                    document.getElementById("format").value = base64string[0];
-//                    document.getElementById("base").value = base64string[1];
-//                    document.getElementById("filename").value = imagename;
-//                    document.getElementById("filetype").value = filetype[1];
                     scope.$apply(function() {
                         scope.operationData.format = base64string[0];
                         scope.operationData.sketch = base64string[1];
                         scope.operationData.filename = imagename;
                         scope.operationData.filetype = filetype[1];
+
                     });
                 };
                 FR.readAsDataURL(this.files[0]);
@@ -57,8 +60,6 @@ altamiraApp.directive('base64ToImage', function() {
         newImage.src = scope.operationData.format + ',' + scope.operationData.sketch;
 //        newImage.src = scope.operationData.sketch;
         document.getElementById("uploadedImg").appendChild(newImage);
-
-
     }
 });
 altamiraApp.directive('cancelUpdateUpload', function() {
@@ -74,6 +75,8 @@ altamiraApp.directive('cancelUpdateUpload', function() {
             document.getElementById("format").value = '';
             document.getElementById("filename").value = '';
             document.getElementById("filetype").value = '';
+            document.getElementById("img").removeAttribute('src');
+            document.getElementById("img").style.width = 'auto';
             scope.$apply(function() {
                 scope.operationData.sketch = '';
                 scope.operationData.format = '';
@@ -92,6 +95,8 @@ altamiraApp.directive('cancelUpload', function() {
             document.getElementById("removeBtn1").style.display = 'none';
             document.getElementById("uploadBtn").style.display = 'block';
             document.getElementById("base").value = '';
+            document.getElementById("img").removeAttribute('src');
+            document.getElementById("img").style.width = 'auto';
         });
     }
 });
