@@ -20,7 +20,7 @@
      * Config
      */
     var moduleName = 'angularUtils.directives.dirPagination';
-    var templatePath = 'directives/pagination/dirPagination.tpl.html';
+    var templatePath = '\templates\dirPagination.tpl.html';
 
     /**
      * Module
@@ -101,7 +101,7 @@
                     compiled(scope);
                 };
             }
-        }; 
+        };
     }]);
 
     module.directive('dirPaginationControls', ['paginationService', function(paginationService) {

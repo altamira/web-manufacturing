@@ -1,4 +1,4 @@
-var altamiraApp = angular.module('altamira', ['ionic', 'altamiraAppControllers', 'ngRoute', 'angularFileUpload', 'altamiraAppDirectives', 'ngStorage','checklist-model', 'restangular'])
+var altamiraApp = angular.module('altamira', ['ionic', 'altamiraAppControllers', 'ngRoute', 'angularFileUpload', 'altamiraAppDirectives', 'ngStorage', 'checklist-model', 'restangular', 'angularUtils.directives.dirPagination'])
 
         .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -59,7 +59,8 @@ altamiraApp.config(['$routeProvider',
             templateUrl: 'templates/mf-operation-use.html',
             controller: 'ManufacturingProcessOperationUsoCtrl'
         })
-        /* manufacturing/process  End */
+                /* manufacturing/process  End */
+                /* BOM pages  Start */
                 .when('/bom/list', {
             templateUrl: 'templates/bom/list.html',
             controller: 'BomListCtrl'
@@ -88,6 +89,29 @@ altamiraApp.config(['$routeProvider',
             templateUrl: 'templates/bom/part-update.html',
             controller: 'BomPartUpdateCtrl'
         })
+                /* BOM pages  End */
+                /* Material pages  Start */
+                .when('/material/list', {
+            templateUrl: 'templates/material/list-material.html',
+            controller: 'MaterialListCtrl'
+        })
+                .when('/material/create', {
+            templateUrl: 'templates/material/create-material.html',
+            controller: 'MaterialCreateCtrl'
+        })
+                .when('/material/update/:materialId', {
+            templateUrl: 'templates/material/update-material.html',
+            controller: 'MaterialUpdateCtrl'
+        })
+                .when('/material/component/create', {
+            templateUrl: 'templates/material/components.html',
+            controller: 'MaterialComponentCtrl'
+        })
+                .when('/material/component/:materialId/:componentId', {
+            templateUrl: 'templates/material/components.html',
+            controller: 'MaterialComponentCtrl'
+        })
+                /* Material pages  End */
                 .otherwise({
             redirectTo: '/manufacturing/process/0'
         });

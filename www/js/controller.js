@@ -49,7 +49,7 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                     if (data != '')
                     {
                         $scope.processes = data;
-                        $scope.processes.push({"id":0,"code":"TESTINGFORNULLID","description":"This process has no ID"});
+                        $scope.processes.push({"id": 0, "code": "TESTINGFORNULLID", "description": "This process has no ID"});
                         $scope.range();
                     } else
                     {
@@ -104,7 +104,7 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                 $location.path('/manufacturing/update/process/' + processId);
             }
             $scope.createProcess = function(code, desc) {
-                $location.url('/manufacturing/create/process?code='+code+'&desc='+desc);
+                $location.url('/manufacturing/create/process?code=' + code + '&desc=' + desc);
             }
 
             $scope.range = function() {
@@ -708,22 +708,26 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
             url: 'http://data.altamira.com.br/manufacturing/process?start=0&max=5',
             headers: {'Content-Type': 'application/json'}
         }).success(function(data) {
-            $scope.processes = data;
+            $scope.items = data;
+            $scope.currentPage = 1;
+            $scope.pageSize = 1;
         });
-        $scope.goUpdate = function(code, desc) {
-            $scope.consumeData.code = code;
-            $scope.consumeData.description = desc;
-            $scope.closeModal();
-        };
         $scope.searchProcess = function(text) {
             var httpRequest = $http({
                 method: 'GET',
                 url: 'http://data.altamira.com.br/manufacturing/process?search=' + text + '&start=0&max=4',
                 headers: {'Content-Type': 'application/json'}
             }).success(function(data) {
-                $scope.processes = data;
+                $scope.items = data;
             });
         };
+
+        $scope.goUpdate = function(code, desc) {
+            $scope.consumeData.code = code;
+            $scope.consumeData.description = desc;
+            $scope.closeModal();
+        };
+
         $ionicModal.fromTemplateUrl('find_product.html', {
             scope: $scope,
             animation: 'slide-in-left'
@@ -748,79 +752,6 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
         $scope.$on('modal.removed', function() {
             // Execute action
         });
-        $scope.importOrder = function() {
-            $scope.orderData = {};
-            // An elaborate, custom popup
-            var importPopup = $ionicPopup.show({
-                templateUrl: 'templates/bom/import-order.html',
-                title: 'Numero do Pedido',
-                scope: $scope,
-                buttons: [
-                    {text: 'Cancelar',
-                        onTap: function(res) {
-                            importPopup.close();
-                        }
-                    },
-                    {text: '<b>Importar</b>',
-                        type: 'button-positive',
-                        onTap: function(res) {
-                            $scope.showLoading();
-                            //get data from api
-                            $http({
-                                method: 'GET',
-                                url: 'http://integracao.altamira.com.br/manufacturing/bom?' + $scope.orderData.ordernumber,
-                                headers: {'Content-Type': 'application/json; charset=iso-8859-1',
-                                    'Accept': 'application/json',
-                                    //'Authorization': 'Basic QWRtaW5pc3RyYXRvcjohYkZDWC45WCpUSg=='
-                                }
-                            }).success(function(data) {
-                                //post data to api
-                                console.log(JSON.stringify(data));
-                                $http({
-                                    method: 'POST',
-                                    url: 'http://data.altamira.com.br/manufacturing/bom',
-                                    data: data,
-                                    headers: {'Content-Type': 'application/json'}
-                                }).then(function(response) {
-                                    if (response.status == 201) {
-                                        $ionicPopup.alert({
-                                            title: 'Pedido ' + $scope.orderData.ordernumber,
-                                            content: 'Pedido ' + $scope.orderData.ordernumber + ' foi importado com sucesso !'
-                                        }).then(function(res) {
-                                            $state.go($state.current, {}, {reload: true});
-                                        });
-                                    }
-                                }, function() {
-
-                                    $ionicPopup.alert({
-                                        title: 'Falhou',
-                                        content: 'Erro ao importar o Pedido ' + $scope.orderData.ordernumber
-                                    }).then(function(res) {
-                                        importPopup.close();
-                                    });
-                                });
-                            }).error(function(msg, code) {
-
-                                $ionicPopup.alert({
-                                    title: 'Falhou',
-                                    content: 'Erro ao exportar o Pedido: ' + $scope.orderData.ordernumber
-                                }).then(function(res) {
-                                    importPopup.close();
-                                });
-                            });
-                            $scope.hideLoading();
-
-                        }
-                    },
-                ]
-            });
-            importPopup.then(function(res) {
-
-            });
-            $timeout(function() {
-                importPopup.close();
-            }, 30000);
-        };
 
         $scope.removeConsume = function() {
             var confirmPopup = $ionicPopup.confirm({
@@ -858,8 +789,8 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
         };
     }]);
 
-altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['$scope', '$http', '$location', '$routeParams', '$upload', '$ionicPopup',
-    function($scope, $http, $location, $routeParams, $upload, $ionicPopup) {
+altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['$scope', '$http', '$location', '$routeParams', '$upload', '$ionicPopup', '$ionicModal',
+    function($scope, $http, $location, $routeParams, $upload, $ionicPopup, $ionicModal) {
         $scope.processId = $routeParams.processId;
         $scope.operationId = $routeParams.operationId;
         $scope.produceId = $routeParams.produceId;
@@ -962,6 +893,57 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
                 });
             }
         };
+
+        var httpRequest = $http({
+            method: 'GET',
+            url: 'http://data.altamira.com.br/manufacturing/process?start=0&max=5',
+            headers: {'Content-Type': 'application/json'}
+        }).success(function(data) {
+            $scope.items = data;
+            $scope.currentPage = 1;
+            $scope.pageSize = 1;
+        });
+        $scope.searchProcess = function(text) {
+            var httpRequest = $http({
+                method: 'GET',
+                url: 'http://data.altamira.com.br/manufacturing/process?search=' + text + '&start=0&max=4',
+                headers: {'Content-Type': 'application/json'}
+            }).success(function(data) {
+                $scope.items = data;
+            });
+        };
+
+        $scope.goUpdate = function(code, desc) {
+            $scope.produceData.code = code;
+            $scope.produceData.description = desc;
+            $scope.closeModal();
+        };
+
+        $ionicModal.fromTemplateUrl('find_product.html', {
+            scope: $scope,
+            animation: 'slide-in-left'
+        }).then(function(modal) {
+            $scope.modal = modal;
+        });
+        $scope.openModal = function() {
+            $scope.modal.show();
+        };
+        $scope.closeModal = function() {
+            $scope.modal.hide();
+        };
+        //Cleanup the modal when we're done with it!
+        $scope.$on('$destroy', function() {
+            $scope.modal.remove();
+        });
+        // Execute action on hide modal
+        $scope.$on('modal.hidden', function() {
+            // Execute action
+        });
+        // Execute action on remove modal
+        $scope.$on('modal.removed', function() {
+            // Execute action
+        });
+
         $scope.removeProduce = function() {
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Confirmation',
@@ -998,8 +980,8 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
         };
     }]);
 
-altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$scope', '$http', '$location', '$routeParams', '$upload', '$ionicPopup',
-    function($scope, $http, $location, $routeParams, $upload, $ionicPopup) {
+altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$scope', '$http', '$location', '$routeParams', '$upload', '$ionicPopup','$ionicModal',
+    function($scope, $http, $location, $routeParams, $upload, $ionicPopup, $ionicModal) {
         $scope.processId = $routeParams.processId;
         $scope.operationId = $routeParams.operationId;
         $scope.useId = $routeParams.useId;
@@ -1101,6 +1083,56 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
                 });
             }
         };
+
+        var httpRequest = $http({
+            method: 'GET',
+            url: 'http://data.altamira.com.br/manufacturing/process?start=0&max=5',
+            headers: {'Content-Type': 'application/json'}
+        }).success(function(data) {
+            $scope.items = data;
+            $scope.currentPage = 1;
+            $scope.pageSize = 1;
+        });
+        $scope.searchProcess = function(text) {
+            var httpRequest = $http({
+                method: 'GET',
+                url: 'http://data.altamira.com.br/manufacturing/process?search=' + text + '&start=0&max=4',
+                headers: {'Content-Type': 'application/json'}
+            }).success(function(data) {
+                $scope.items = data;
+            });
+        };
+
+        $scope.goUpdate = function(code, desc) {
+            $scope.useData.code = code;
+            $scope.useData.description = desc;
+            $scope.closeModal();
+        };
+
+        $ionicModal.fromTemplateUrl('find_product.html', {
+            scope: $scope,
+            animation: 'slide-in-left'
+        }).then(function(modal) {
+            $scope.modal = modal;
+        });
+        $scope.openModal = function() {
+            $scope.modal.show();
+        };
+        $scope.closeModal = function() {
+            $scope.modal.hide();
+        };
+        //Cleanup the modal when we're done with it!
+        $scope.$on('$destroy', function() {
+            $scope.modal.remove();
+        });
+        // Execute action on hide modal
+        $scope.$on('modal.hidden', function() {
+            // Execute action
+        });
+        // Execute action on remove modal
+        $scope.$on('modal.removed', function() {
+            // Execute action
+        });
 
         $scope.removeUse = function() {
             var confirmPopup = $ionicPopup.confirm({

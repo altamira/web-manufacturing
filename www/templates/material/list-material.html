@@ -1,0 +1,64 @@
+<div class="loding_div" ng-show="loading">
+    <div id="loadingProgressG">
+        <div id="loadingProgressG_1" class="loadingProgressG">
+        </div>
+    </div>
+</div>
+<ion-pane>
+    <ion-header-bar class="bar-calm">
+        <div class="buttons header-margin">
+            <button class="button fa-bars"></button>
+            <span class="btn-separator"></span>
+            <h4 class="mf-page-titles">&nbsp;Materials&nbsp;</h4>
+            <span class="btn-separator"></span>
+            <button class="button fa-plus" ng-click="newProcess()"></button>
+        </div>
+    </ion-header-bar>
+    <ion-content class="content-body">
+        <div class="row">
+            <div class="col">
+                <div class="list">
+
+                    <div class="item item-input-search">
+                        <label class="input-search-wrapper">
+                            <i class="icon fa-small-search"></i>
+                            <input type="text" class="input-box" placeholder="search" ng-model="searchText" value="$storage.x">
+                        </label>
+                    </div>
+                    <i class="icon fa-search search-icon" ng-click="searchProcess(searchText)"></i>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="list list-inset listing-col" ng-repeat="process in processes">
+                    <div ng-if="process.id != ''">
+                        <a class="item-list item-icon-right" ng-click="goUpdate(process.id)">
+                            <span class="text-center-middle"><span class="font-grey">{{process.code}}</span> {{process.description}}</span>
+                            <i class="icon fa-arrow-right arrow-right"></i>
+                        </a>
+                    </div>
+                    <div ng-if="process.id == 0">
+                        <a class="item-list item-icon-right" ng-click="createProcess(process.code,process.description)">
+                            <span class="text-center-middle"><span class="font-grey">{{process.code}}</span> {{process.description}}</span>
+                            <i class="icon fa-arrow-right arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="pagination">
+                <a ng-repeat="n in pageStack" ng-click="goPage(n)">
+                    <span ng-if='n != (pageStack.length)'>
+                        <span class="page">{{n}}</span>
+                    </span>
+                    <span ng-if='n == (pageStack.length)'>
+                        <span class="page active">{{n}}</span>
+                    </span>
+                </a>
+                <a  class="page fa-arrow-right next-arrow" ng-click="nextPage(pageStack.length)"></a>
+            </div>
+        </div>
+    </ion-content>
+</ion-pane>
