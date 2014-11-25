@@ -4,64 +4,79 @@
         </div>
     </div>
 </div>
-<ion-pane>
-    <ion-header-bar class="bar-calm">
-        <div class="buttons header-margin">
-            <button class="button fa-bars"></button>
-            <span class="btn-separator"></span>
-            <h4 class="mf-page-titles">&nbsp;Lista de Material&nbsp;</h4>
-            <span class="btn-separator"></span>
-            <button class="button fa-download" ng-click="importOrder()"></button>
-        </div>
-    </ion-header-bar>
-    <ion-content class="content-body">
-        <div class="row">
-            <div class="col">
-                <div class="list">
-                    <div class="item item-input-search">
-                        <label class="input-search-wrapper">
-                            <i class="icon fa-small-search"></i>
-                            <input type="text" class="input-box" placeholder="Busca..." ng-model="search.criteria" value="{{search.criteria}}">
-                        </label>
-                    </div>
-                    <i class="icon fa-search search-icon" ng-click="search.run()"></i>
+<ion-nav-view class="view-container">
+    <ion-side-menus>
+        <ion-side-menu-content class="menu-content pane">
+            <ion-nav-bar class="bar-positive nav-bar-container">
+                <ion-nav-back-button class="hide"></ion-nav-back-button>
+                <ion-nav-buttons side="left" class="hide"></ion-nav-buttons>
+                <div class="nav-bar-block" nav-bar="active">
+                    <ion-header-bar class="bar-calm">
+                        <div class="buttons header-margin">
+                            <button class="button fa-bars" menu-toggle="left"></button>
+                            <span class="btn-separator"></span>
+                            <h4 class="mf-page-titles">&nbsp;Lista de Material&nbsp;</h4>
+                            <span class="btn-separator"></span>
+                            <button class="button fa-download" ng-click="importOrder()"></button>
+                        </div>
+                    </ion-header-bar>
                 </div>
-            </div>
-        </div>
-        <div class="bom-list">
-            <div class="row">
-                <div class="col">
-                    <div class="item-list1 item-icon-right" ng-repeat="item in search.pages[search.page] | filter: search.criteria">
-                        <p class="text-center-middle1" ng-click="view(item.id)">{{item.number}} {{item.customer}}</p>
-                        <i class="icon">
-                            <label>
-                                <div class="checkbox checkbox-input-hidden disable-pointer-events">
-                                    <div ng-if="item.checked != ''">
-                                        <input type="checkbox" ng-click='makeUnchecked(item.id,item.number)'>
-                                        <i class="fa-check-square-o"></i>
+            </ion-nav-bar>
+            <ion-nav-view name="menuContent" class="view-container">
+                <ion-view class="pane" nav-view="active">
+                    <ion-content class="padding scroll-content ionic-scroll  has-header">
+                        <div class="row">
+                            <div class="col">
+                                <div class="list">
+                                    <div class="item item-input-search">
+                                        <label class="input-search-wrapper">
+                                            <i class="icon fa-small-search"></i>
+                                            <input type="text" class="input-box" placeholder="Busca..." ng-model="search.criteria" value="{{search.criteria}}">
+                                        </label>
                                     </div>
-                                    <div ng-if="item.checked == ''" >
-                                        <input type="checkbox" ng-click='makeChecked(item.id,item.number)'>
-                                        <i class="fa-square-o"></i>
-                                    </div>
-<!--                                    <input type="checkbox" checklist-model="checked.items" checklist-value="item.id" readonly toggle-class>
-                                    <i class="fa-square-o"></i>-->
+                                    <i class="icon fa-search search-icon" ng-click="search.run()"></i>
                                 </div>
-                            </label>
-                        </i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="pagination">
-                <a ng-repeat="i in search.pages track by $index" >
-                    <span class="page" ng-class="{active: i == search.page.length}" ng-click="search.go($index)">{{$index+1}}</span>
-                </a>
-                <a ng-show="search.forward && search.pages.length && search.pages[search.pages.length - 1].length == search.size">
-                    <span class="page fa-arrow-right next-arrow" ng-click="search.next()"></span>
-                </a>
-            </div>
-        </div>
-    </ion-content>
-</ion-pane>
+                            </div>
+                        </div>
+                        <div class="bom-list">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="item-list1 item-icon-right" ng-repeat="item in search.pages[search.page] | filter: search.criteria">
+                                        <p class="text-center-middle1" ng-click="view(item.id)">{{item.number}} {{item.customer}}</p>
+                                        <i class="icon">
+                                            <label>
+                                                <div class="checkbox checkbox-input-hidden disable-pointer-events">
+                                                    <div ng-if="item.checked != ''">
+                                                        <input type="checkbox" ng-click='makeUnchecked(item.id,item.number)'>
+                                                        <i class="fa-check-square-o"></i>
+                                                    </div>
+                                                    <div ng-if="item.checked == ''" >
+                                                        <input type="checkbox" ng-click='makeChecked(item.id,item.number)'>
+                                                        <i class="fa-square-o"></i>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="pagination">
+                                <a ng-repeat="i in search.pages track by $index" >
+                                    <span class="page" ng-class="{active: i == search.page.length}" ng-click="search.go($index)">{{$index+1}}</span>
+                                </a>
+                                <a ng-show="search.forward && search.pages.length && search.pages[search.pages.length - 1].length == search.size">
+                                    <span class="page fa-arrow-right next-arrow" ng-click="search.next()"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </ion-content>
+                </ion-view>
+            </ion-nav-view>
+        </ion-side-menu-content>
+        <ion-side-menu side="left" style="background-color: black" load-html>
+            
+        </ion-side-menu>
+    </ion-side-menus>
+</ion-nav-view>

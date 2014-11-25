@@ -1,6 +1,6 @@
 'use strict';
 altamiraAppControllers.controller('BomListCtrl',
-        function($scope, $http, $location, $route, $routeParams, $ionicPopup, $ionicLoading, $timeout, $state, Restangular) {
+        function($scope, $http, $location, $route, $routeParams, $ionicPopup, $ionicLoading, $timeout, $state, Restangular, $ionicSideMenuDelegate) {
             $scope.checked = {
                 items: []
             };
@@ -68,7 +68,9 @@ altamiraAppControllers.controller('BomListCtrl',
                     }
                 });
             };
-
+            $scope.toggleLeft = function() {
+                $ionicSideMenuDelegate.toggleLeft();
+            };
 
 
 
@@ -439,41 +441,51 @@ altamiraAppControllers.controller('BomEditCtrl',
             });
             $scope.submitBomForm = function(isValid) {
                 if (isValid) {
-                $scope.loading = true;
-                $scope.postdata = {};
-                $scope.postdata.id = $scope.bomId;
-                $scope.postdata.number = $scope.bomData.number;
-                $scope.postdata.project = $scope.bomData.project;
-                $scope.postdata.customer = $scope.bomData.customer;
-                $scope.postdata.representative = $scope.bomData.representative;
-                $scope.postdata.finish = $scope.bomData.finish;
-                $scope.postdata.quotation = $scope.bomData.quotation;
+                    $scope.loading = true;
+                    $scope.postdata = {};
+                    $scope.postdata.id = $scope.bomId;
+                    $scope.postdata.number = $scope.bomData.number;
+                    $scope.postdata.project = $scope.bomData.project;
+                    $scope.postdata.customer = $scope.bomData.customer;
+                    $scope.postdata.representative = $scope.bomData.representative;
+                    $scope.postdata.finish = $scope.bomData.finish;
+                    $scope.postdata.quotation = $scope.bomData.quotation;
 
-                var createdDate = $scope.bomData.created;
-                createdDate = createdDate.split("/");
-                var newCreatedDate = (parseInt(createdDate[1]) + 1) + "/" + createdDate[0] + "/" + createdDate[2];
-                $scope.postdata.created = new Date(newCreatedDate).getTime();
+                    var createdDate = $scope.bomData.created;
+                    createdDate = createdDate.split("/");
+                    var newCreatedDate = (parseInt(createdDate[1]) + 1) + "/" + createdDate[0] + "/" + createdDate[2];
+                    $scope.postdata.created = new Date(newCreatedDate).getTime();
 
-                var deliveryDate = $scope.bomData.delivery;
-                deliveryDate = deliveryDate.split("/");
-                var newDeliveryDate = (parseInt(deliveryDate[1]) + 1) + "/" + deliveryDate[0] + "/" + deliveryDate[2];
-                $scope.postdata.delivery = new Date(newDeliveryDate).getTime();
+                    var deliveryDate = $scope.bomData.delivery;
+                    deliveryDate = deliveryDate.split("/");
+                    var newDeliveryDate = (parseInt(deliveryDate[1]) + 1) + "/" + deliveryDate[0] + "/" + deliveryDate[2];
+                    $scope.postdata.delivery = new Date(newDeliveryDate).getTime();
 
-                $http({
-                    method: 'GET',
-                    url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId,
-                    data: $scope.postdata,
-                    headers: {'Content-Type': 'application/json'}
-                }).success(function(data1) {
-                    $scope.postdata.version = data1.version;
                     $http({
-                        method: 'PUT',
+                        method: 'GET',
                         url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId,
                         data: $scope.postdata,
                         headers: {'Content-Type': 'application/json'}
-                    }).success(function(data, status, headers, config) {
-                        $scope.loading = false;
-                        $location.path('/bom/list');
+                    }).success(function(data1) {
+                        $scope.postdata.version = data1.version;
+                        $http({
+                            method: 'PUT',
+                            url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId,
+                            data: $scope.postdata,
+                            headers: {'Content-Type': 'application/json'}
+                        }).success(function(data, status, headers, config) {
+                            $scope.loading = false;
+                            $location.path('/bom/list');
+                        }).error(function(data, status, headers, config) {
+                            $scope.loading = false;
+                            $ionicPopup.alert({
+                                title: 'Failer',
+                                content: 'Please try again'
+                            }).then(function(res) {
+
+                            });
+                        });
+
                     }).error(function(data, status, headers, config) {
                         $scope.loading = false;
                         $ionicPopup.alert({
@@ -483,16 +495,6 @@ altamiraAppControllers.controller('BomEditCtrl',
 
                         });
                     });
-
-                }).error(function(data, status, headers, config) {
-                    $scope.loading = false;
-                    $ionicPopup.alert({
-                        title: 'Failer',
-                        content: 'Please try again'
-                    }).then(function(res) {
-
-                    });
-                });
                 }
             };
             $scope.createItem = function() {
@@ -610,28 +612,28 @@ altamiraAppControllers.controller('BomItemCreateCtrl', ['$scope', '$http', '$loc
         $scope.itemData.item = '';
         $scope.itemData.description = '';
         $scope.submitCreateItem = function(isValid) {
-            if(isValid) {
-            $scope.loading = true;
-            $scope.postdata = {};
-            $scope.postdata.item = $scope.itemData.item;
-            $scope.postdata.description = $scope.itemData.description;
-            $http({
-                method: 'POST',
-                url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item',
-                data: $scope.postdata,
-                headers: {'Content-Type': 'application/json'}
-            }).success(function(data, status, headers, config) {
-                $scope.loading = false;
-                $location.path('/bom/item/update/' + $scope.bomId + '/' + data.id);
-            }).error(function(data, status, headers, config) {
-                $scope.loading = false;
-                $ionicPopup.alert({
-                    title: 'Failer',
-                    content: 'Please try again'
-                }).then(function(res) {
+            if (isValid) {
+                $scope.loading = true;
+                $scope.postdata = {};
+                $scope.postdata.item = $scope.itemData.item;
+                $scope.postdata.description = $scope.itemData.description;
+                $http({
+                    method: 'POST',
+                    url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item',
+                    data: $scope.postdata,
+                    headers: {'Content-Type': 'application/json'}
+                }).success(function(data, status, headers, config) {
+                    $scope.loading = false;
+                    $location.path('/bom/item/update/' + $scope.bomId + '/' + data.id);
+                }).error(function(data, status, headers, config) {
+                    $scope.loading = false;
+                    $ionicPopup.alert({
+                        title: 'Failer',
+                        content: 'Please try again'
+                    }).then(function(res) {
 
+                    });
                 });
-            });
             }
         };
         $scope.goBack = function() {
@@ -696,28 +698,37 @@ altamiraAppControllers.controller('BomItemUpdateCtrl', ['$scope', '$http', '$loc
         };
         $scope.loadItem();
         $scope.submitUpdateItem = function(isValid) {
-            if(isValid) {
-            $scope.loading = true;
-            $scope.postdata = {};
-            $scope.postdata.id = $scope.itemId;
-            $scope.postdata.version = $scope.itemData.version;
-            $scope.postdata.item = $scope.itemData.item;
-            $scope.postdata.description = $scope.itemData.description;
+            if (isValid) {
+                $scope.loading = true;
+                $scope.postdata = {};
+                $scope.postdata.id = $scope.itemId;
+                $scope.postdata.version = $scope.itemData.version;
+                $scope.postdata.item = $scope.itemData.item;
+                $scope.postdata.description = $scope.itemData.description;
 
-            $http({
-                method: 'GET',
-                url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId,
-                headers: {'Content-Type': 'application/json'}
-            }).success(function(data1, status, headers, config) {
-                $scope.postdata.version = data1.version;
                 $http({
-                    method: 'PUT',
+                    method: 'GET',
                     url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId,
-                    data: $scope.postdata,
                     headers: {'Content-Type': 'application/json'}
-                }).success(function(data, status, headers, config) {
-                    $scope.loading = false;
-                    $location.path('bom/edit/' + $scope.bomId);
+                }).success(function(data1, status, headers, config) {
+                    $scope.postdata.version = data1.version;
+                    $http({
+                        method: 'PUT',
+                        url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId,
+                        data: $scope.postdata,
+                        headers: {'Content-Type': 'application/json'}
+                    }).success(function(data, status, headers, config) {
+                        $scope.loading = false;
+                        $location.path('bom/edit/' + $scope.bomId);
+                    }).error(function(data, status, headers, config) {
+                        $scope.loading = false;
+                        $ionicPopup.alert({
+                            title: 'Failer',
+                            content: 'Please try again'
+                        }).then(function(res) {
+
+                        });
+                    });
                 }).error(function(data, status, headers, config) {
                     $scope.loading = false;
                     $ionicPopup.alert({
@@ -727,15 +738,6 @@ altamiraAppControllers.controller('BomItemUpdateCtrl', ['$scope', '$http', '$loc
 
                     });
                 });
-            }).error(function(data, status, headers, config) {
-                $scope.loading = false;
-                $ionicPopup.alert({
-                    title: 'Failer',
-                    content: 'Please try again'
-                }).then(function(res) {
-
-                });
-            });
 
             }
 
@@ -903,56 +905,56 @@ altamiraAppControllers.controller('BomPartCreateCtrl', ['$scope', '$http', '$loc
         });
 
         $scope.submitPartForm = function(isValid) {
-            if(isValid) {
-            $scope.loading = true;
-            $scope.postData = {};
-            $scope.postData.version = 0;
-            $scope.postData.code = $scope.partData.code;
-            $scope.postData.description = $scope.partData.description;
-            $scope.postData.color = $scope.partData.color;
+            if (isValid) {
+                $scope.loading = true;
+                $scope.postData = {};
+                $scope.postData.version = 0;
+                $scope.postData.code = $scope.partData.code;
+                $scope.postData.description = $scope.partData.description;
+                $scope.postData.color = $scope.partData.color;
 
-            $scope.postData.quantity = {};
-            $scope.postData.quantity.value = parseFloat($scope.partData.quantity);
-            $scope.postData.quantity.unit = {};
-            $scope.postData.quantity.unit.id = $scope.partData.quantityType;
+                $scope.postData.quantity = {};
+                $scope.postData.quantity.value = parseFloat($scope.partData.quantity);
+                $scope.postData.quantity.unit = {};
+                $scope.postData.quantity.unit.id = $scope.partData.quantityType;
 
-            $scope.postData.width = {};
-            $scope.postData.width.value = parseFloat($scope.partData.width);
-            $scope.postData.width.unit = {};
-            $scope.postData.width.unit.id = $scope.partData.widthType;
+                $scope.postData.width = {};
+                $scope.postData.width.value = parseFloat($scope.partData.width);
+                $scope.postData.width.unit = {};
+                $scope.postData.width.unit.id = $scope.partData.widthType;
 
-            $scope.postData.height = {};
-            $scope.postData.height.value = parseFloat($scope.partData.height);
-            $scope.postData.height.unit = {};
-            $scope.postData.height.unit.id = $scope.partData.heightType;
+                $scope.postData.height = {};
+                $scope.postData.height.value = parseFloat($scope.partData.height);
+                $scope.postData.height.unit = {};
+                $scope.postData.height.unit.id = $scope.partData.heightType;
 
-            $scope.postData.length = {};
-            $scope.postData.length.value = parseFloat($scope.partData.length);
-            $scope.postData.length.unit = {};
-            $scope.postData.length.unit.id = $scope.partData.lengthType;
+                $scope.postData.length = {};
+                $scope.postData.length.value = parseFloat($scope.partData.length);
+                $scope.postData.length.unit = {};
+                $scope.postData.length.unit.id = $scope.partData.lengthType;
 
-            $scope.postData.weight = {};
-            $scope.postData.weight.value = parseFloat($scope.partData.weight);
-            $scope.postData.weight.unit = {};
-            $scope.postData.weight.unit.id = $scope.partData.weightType;
-            console.log(JSON.stringify($scope.postData));
-            $http({
-                method: 'POST',
-                url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part',
-                data: $scope.postData,
-                headers: {'Content-Type': 'application/json'}
-            }).success(function(data, status, headers, config) {
-                $scope.loading = false;
-                $location.path('/bom/part/update/' + $scope.bomId + '/' + $scope.itemId + '/' + data.id);
-            }).error(function(data, status, headers, config) {
-                $scope.loading = false;
-                $ionicPopup.alert({
-                    title: 'Failer',
-                    content: 'Please try again'
-                }).then(function(res) {
+                $scope.postData.weight = {};
+                $scope.postData.weight.value = parseFloat($scope.partData.weight);
+                $scope.postData.weight.unit = {};
+                $scope.postData.weight.unit.id = $scope.partData.weightType;
+                console.log(JSON.stringify($scope.postData));
+                $http({
+                    method: 'POST',
+                    url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part',
+                    data: $scope.postData,
+                    headers: {'Content-Type': 'application/json'}
+                }).success(function(data, status, headers, config) {
+                    $scope.loading = false;
+                    $location.path('/bom/part/update/' + $scope.bomId + '/' + $scope.itemId + '/' + data.id);
+                }).error(function(data, status, headers, config) {
+                    $scope.loading = false;
+                    $ionicPopup.alert({
+                        title: 'Failer',
+                        content: 'Please try again'
+                    }).then(function(res) {
 
+                    });
                 });
-            });
             }
         }
         $scope.goBack = function() {
@@ -1077,53 +1079,62 @@ altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$loc
         };
         $scope.loadPart();
         $scope.submitPartForm = function(isValid) {
-            if(isValid) {
-            $scope.loading = true;
-            $scope.postData = {};
-            $scope.postData.id = $scope.partId;
-            $scope.postData.code = $scope.partData.code;
-            $scope.postData.description = $scope.partData.description;
-            $scope.postData.color = $scope.partData.color;
+            if (isValid) {
+                $scope.loading = true;
+                $scope.postData = {};
+                $scope.postData.id = $scope.partId;
+                $scope.postData.code = $scope.partData.code;
+                $scope.postData.description = $scope.partData.description;
+                $scope.postData.color = $scope.partData.color;
 
-            $scope.postData.quantity = {};
-            $scope.postData.quantity.value = parseFloat($scope.partData.quantity);
-            $scope.postData.quantity.unit = {};
-            $scope.postData.quantity.unit.id = $scope.partData.quantityType;
+                $scope.postData.quantity = {};
+                $scope.postData.quantity.value = parseFloat($scope.partData.quantity);
+                $scope.postData.quantity.unit = {};
+                $scope.postData.quantity.unit.id = $scope.partData.quantityType;
 
-            $scope.postData.width = {};
-            $scope.postData.width.value = parseFloat($scope.partData.width);
-            $scope.postData.width.unit = {};
-            $scope.postData.width.unit.id = $scope.partData.widthType;
+                $scope.postData.width = {};
+                $scope.postData.width.value = parseFloat($scope.partData.width);
+                $scope.postData.width.unit = {};
+                $scope.postData.width.unit.id = $scope.partData.widthType;
 
-            $scope.postData.height = {};
-            $scope.postData.height.value = parseFloat($scope.partData.height);
-            $scope.postData.height.unit = {};
-            $scope.postData.height.unit.id = $scope.partData.heightType;
+                $scope.postData.height = {};
+                $scope.postData.height.value = parseFloat($scope.partData.height);
+                $scope.postData.height.unit = {};
+                $scope.postData.height.unit.id = $scope.partData.heightType;
 
-            $scope.postData.length = {};
-            $scope.postData.length.value = parseFloat($scope.partData.length);
-            $scope.postData.length.unit = {};
-            $scope.postData.length.unit.id = $scope.partData.lengthType;
+                $scope.postData.length = {};
+                $scope.postData.length.value = parseFloat($scope.partData.length);
+                $scope.postData.length.unit = {};
+                $scope.postData.length.unit.id = $scope.partData.lengthType;
 
-            $scope.postData.weight = {};
-            $scope.postData.weight.value = parseFloat($scope.partData.weight);
-            $scope.postData.weight.unit = {};
-            $scope.postData.weight.unit.id = $scope.partData.weightType;
+                $scope.postData.weight = {};
+                $scope.postData.weight.value = parseFloat($scope.partData.weight);
+                $scope.postData.weight.unit = {};
+                $scope.postData.weight.unit.id = $scope.partData.weightType;
 
-            $http({
-                method: 'GET',
-                url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + $scope.partId,
-                headers: {'Content-Type': 'application/json'}
-            }).success(function(data1, status, headers, config) {
-                $scope.postData.version = data1.version;
                 $http({
-                    method: 'PUT',
+                    method: 'GET',
                     url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + $scope.partId,
-                    data: $scope.postData,
                     headers: {'Content-Type': 'application/json'}
-                }).success(function(data, status, headers, config) {
-                    $scope.loading = false;
-                    $location.path('/bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
+                }).success(function(data1, status, headers, config) {
+                    $scope.postData.version = data1.version;
+                    $http({
+                        method: 'PUT',
+                        url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + $scope.partId,
+                        data: $scope.postData,
+                        headers: {'Content-Type': 'application/json'}
+                    }).success(function(data, status, headers, config) {
+                        $scope.loading = false;
+                        $location.path('/bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
+                    }).error(function(data, status, headers, config) {
+                        $scope.loading = false;
+                        $ionicPopup.alert({
+                            title: 'Failer',
+                            content: 'Please try again'
+                        }).then(function(res) {
+
+                        });
+                    });
                 }).error(function(data, status, headers, config) {
                     $scope.loading = false;
                     $ionicPopup.alert({
@@ -1133,15 +1144,6 @@ altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$loc
 
                     });
                 });
-            }).error(function(data, status, headers, config) {
-                $scope.loading = false;
-                $ionicPopup.alert({
-                    title: 'Failer',
-                    content: 'Please try again'
-                }).then(function(res) {
-
-                });
-            });
             }
         }
 

@@ -58,8 +58,13 @@ altamiraApp.directive('base64ToImage', function() {
         var newImage = new Image();
         newImage.id = 'newImg';
         newImage.src = scope.operationData.format + ',' + scope.operationData.sketch;
-//        newImage.src = scope.operationData.sketch;
         document.getElementById("uploadedImg").appendChild(newImage);
+        setTimeout(function() {
+            if (document.getElementById("newImg").clientWidth > 1024)
+            {
+                document.getElementById("newImg").style.width = '100%';
+            }
+        }, 500);
     }
 });
 altamiraApp.directive('cancelUpdateUpload', function() {
@@ -77,6 +82,9 @@ altamiraApp.directive('cancelUpdateUpload', function() {
             document.getElementById("filetype").value = '';
             document.getElementById("img").removeAttribute('src');
             document.getElementById("img").style.width = 'auto';
+
+            var image_x = document.getElementById('newImg');
+            image_x.parentNode.removeChild(image_x);
             scope.$apply(function() {
                 scope.operationData.sketch = '';
                 scope.operationData.format = '';
@@ -136,7 +144,6 @@ altamiraApp.directive('toggleViewClass', function() {
     return function(scope, elm, attrs) {
 
         elm.bind('click', function() {
-            alert(1);
             elm.toggleClass('fa-check-viewpage');
         });
     }
@@ -198,3 +205,8 @@ altamiraApp.directive('calendar', function() {
         }
     };
 })
+altamiraApp.directive('loadHtml', function() {
+    return function(scope, el, attrs) {
+        $(el).load('templates/menu.html');
+    }
+});

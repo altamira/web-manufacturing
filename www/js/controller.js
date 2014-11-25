@@ -710,7 +710,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
         }).success(function(data) {
             $scope.items = data;
             $scope.currentPage = 1;
-            $scope.pageSize = 1;
+            $scope.pageSize = 10;
         });
         $scope.searchProcess = function(text) {
             var httpRequest = $http({
@@ -901,7 +901,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
         }).success(function(data) {
             $scope.items = data;
             $scope.currentPage = 1;
-            $scope.pageSize = 1;
+            $scope.pageSize = 10;
         });
         $scope.searchProcess = function(text) {
             var httpRequest = $http({
@@ -1013,6 +1013,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
                 headers: {'Content-Type': 'application/json'}
             }).success(function(data, status, headers, config) {
                 $scope.loading = false;
+                console.log(JSON.stringify(data))
                 $scope.useData.code = data.code;
                 $scope.useData.version = data.version;
                 $scope.useData.description = data.description;
@@ -1057,12 +1058,14 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
                 $scope.postdata.quantity = {};
                 $scope.postdata.quantity.value = parseFloat($scope.useData.quantity);
                 $scope.postdata.quantity.unit = {};
+                console.log(JSON.stringify($scope.postdata));
                 var httpRequest = $http({
                     method: 'GET',
                     url: 'http://data.altamira.com.br/measurement/unit/' + $scope.useData.unit,
                     headers: {'Content-Type': 'application/json'}
                 }).success(function(data) {
                     $scope.postdata.quantity.unit = data;
+
                     $http({
                         method: method,
                         url: url,
@@ -1091,7 +1094,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
         }).success(function(data) {
             $scope.items = data;
             $scope.currentPage = 1;
-            $scope.pageSize = 1;
+            $scope.pageSize = 10;
         });
         $scope.searchProcess = function(text) {
             var httpRequest = $http({

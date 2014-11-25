@@ -1,4 +1,4 @@
-altamiraAppControllers.controller('BomListCtrl',
+altamiraAppControllers.controller('MaterialListCtrl',
         function($scope, $http, $location, $route, $routeParams, $ionicPopup, $ionicLoading, $timeout, $state, Restangular) {
 
             $scope.search = {
@@ -27,7 +27,7 @@ altamiraAppControllers.controller('BomListCtrl',
                     page = page === undefined ? 0 : page;
 
                     if (this.criteria.trim().length > 0) {
-                        $scope.loading = true;
+                        $scope.loading = false;
                         $http({
                             method: 'GET',
                             url: 'http://data.altamira.com.br/common/material',
@@ -39,7 +39,7 @@ altamiraAppControllers.controller('BomListCtrl',
                             $scope.search.last = response.data;
                         });
                     } else {
-                        $scope.loading = true;
+                        $scope.loading = false;
                         $http({
                             method: 'GET',
                             url: 'http://data.altamira.com.br/common/material',
