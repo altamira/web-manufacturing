@@ -3,7 +3,7 @@ var altamiraAppControllers = angular.module('altamiraAppControllers', []);
 altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
         function($scope, $http, $location, $routeParams, $localStorage, $ionicPopup) {
             $scope.startPage = $routeParams.start;
-            $scope.maxRecord = 4;
+            $scope.maxRecord = 10;
             $scope.currentPage = 1;
             $scope.pageSize = 1;
             $scope.pageStack = [];
