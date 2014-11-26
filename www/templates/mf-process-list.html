@@ -4,74 +4,6 @@
         </div>
     </div>
 </div>
-<ion-pane>
-    <ion-header-bar class="bar-calm">
-        <div class="buttons header-margin">
-            <button class="button fa-bars"></button>
-            <span class="btn-separator"></span>
-            <h4 class="mf-page-titles">&nbsp;Processo de Fabricação&nbsp;</h4>
-            <span class="btn-separator"></span>
-            <button class="button fa-plus" ng-click="newProcess()"></button>
-        </div>
-    </ion-header-bar>
-    <ion-content class="content-body">
-        <div class="row">
-            <div class="col">
-                <div class="list">
-
-                    <div class="item item-input-search">
-                        <label class="input-search-wrapper">
-                            <i class="icon fa-small-search"></i>
-                            <input type="text" class="input-box" placeholder="search" ng-model="searchText" value="$storage.x">
-                        </label>
-                    </div>
-                    <i class="icon fa-search search-icon" ng-click="searchProcess(searchText)"></i>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="list list-inset listing-col" ng-repeat="process in processes">
-                    <div ng-if="process.id != ''">
-                        <a class="item-list item-icon-right" ng-click="goUpdate(process.id)">
-                            <span class="text-center-middle"><span class="font-grey">{{process.code}}</span> {{process.description}}</span>
-                            <i class="icon fa-arrow-right arrow-right"></i>
-                        </a>
-                    </div>
-                    <div ng-if="process.id == 0">
-                        <a class="item-list item-icon-right" ng-click="createProcess(process.code,process.description)">
-                            <span class="text-center-middle"><span class="font-grey">{{process.code}}</span> {{process.description}}</span>
-                            <i class="icon fa-arrow-right arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="pagination">
-                <a ng-repeat="n in pageStack" ng-click="goPage(n)">
-                    <span ng-if='n != (pageStack.length)'>
-                        <span class="page">{{n}}</span>
-                    </span>
-                    <span ng-if='n == (pageStack.length)'>
-                        <span class="page active">{{n}}</span>
-                    </span>
-                </a>
-                <a  class="page fa-arrow-right next-arrow" ng-click="nextPage(pageStack.length)"></a>
-            </div>
-        </div>
-    </ion-content>
-</ion-pane>
-
-
-
-
-<div class="loding_div" ng-show="loading">
-    <div id="loadingProgressG">
-        <div id="loadingProgressG_1" class="loadingProgressG">
-        </div>
-    </div>
-</div>
 <ion-nav-view class="view-container">
     <ion-side-menus>
         <ion-side-menu-content class="menu-content pane">
@@ -142,7 +74,117 @@
                 </ion-view>
             </ion-nav-view>
         </ion-side-menu-content>
-        <ion-side-menu side="left" style="background-color: black" load-html>
+        <ion-side-menu side="left" style="background-color: black">
+            <ion-content  class="left-menu">
+                <div class="row">
+                    <div class="col" style="color: white;text-align: center">
+                        <span class="logo-side-menu"></span>
+                        <span style="font-size: 30px; float:left; padding-top:16px; padding-left:10px;">Altamira</span>
+                    </div>
+                </div>
+                <div class="row" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 15px;">
+                    <div class="col" style="text-align: center;color: #ffffff;">
+                        <div class="row">
+                            <div class="col">
+                                <span class="icon-side-cog"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <span style="font-size: 30px;">Produção</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row list-box" style="margin-bottom:10px;">
+                    <div class="col icon-list-box">
+                        <a href="#/bom/list" style="text-decoration: none;color: #000000">
+                            <div class="row">
+                                <div class="col" style="padding-top:15px;">
+                                    <span class="icon-side-list"></span>
+                                </div>
+                            </div>
+                            <div class="row produce-name" >
+                                <div class="col">
+                                    <span>Lista de Material</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col icon-list-box">
+                        <a href="#/manufacturing/process/0" style="text-decoration: none;color: #000000">
+                            <div class="row">
+                                <div class="col" style="padding-top:15px;">
+                                    <span class="icon-side-github-6"></span>
+                                </div>
+                            </div>
+                            <div class="row produce-name" >
+                                <div class="col">
+                                    <span>Processo</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="row list-box" style="margin-bottom:5px; padding-right:0px;">
+                    <div class="col icon-box2">
+
+                        <span class="icon-side-flag-2"></span>
+                    </div>
+                    <div class="col  icon-box2">
+                        <span class="icon-side-attachment"></span>
+                    </div>
+                    <div class="col  icon-box2">
+                        <span class="icon-side-newspaper"></span>
+                    </div>
+                    <div class="col  icon-box2">
+                        <span class="icon-side-link"></span>
+                    </div>
+                </div>
+                <div class="row" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 10px; padding-top:4px; padding-bottom:4px;">
+                    <div class="col">
+                        <i style="margin-top:6px;" class="icon-side-play-2 fg-white"></i>                        <span class="icon-title">O.S.</span>
+
+                    </div>
+                </div>
+                <div class="row" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 10px; padding-top:8px; padding-bottom:8px;">
+                    <div class="col">
+                        <i class="icon-side-checkbox fg-white"></i>
+                        <span class="icon-title">Apontamento</span>
+
+                    </div>
+                </div>
+                <div class="row" style="background-color: #a4c400;margin: auto;width: 95%;margin-bottom: 10px;">
+                    <div class="col" style="text-align: center;color: #ffffff;">
+                        <div class="row">
+                            <div class="col">
+                                <span class="icon-side-tag"></span>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <span style="font-size: 30px;">Vendas</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="background-color: #00aff0;margin: auto;width: 95%;margin-bottom: 7px;">
+                    <div class="col" style="text-align: center;color: #ffffff;">
+                        <div class="row">
+                            <div class="col">
+                                <span class="icon-side-cart"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <span style="font-size: 30px;">Compras</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="scroll-bar scroll-bar-v"><div class="scroll-bar-indicator scroll-bar-fade-out"></div></div>
+            </ion-content>
         </ion-side-menu>
     </ion-side-menus>
 </ion-nav-view>
