@@ -10,7 +10,7 @@ angular.module('altamiraAppControllers')
         {
             $http({
                 method: 'PUT',
-                url: 'http://data.altamira.com.br/manufacturing/bom/'+ itemId +'/checked',
+                url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/'+ itemId +'/checked',
                 headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
             }).success(function(response) {
                 $location.path('/bom/list');
@@ -47,7 +47,7 @@ angular.module('altamiraAppControllers')
                 $scope.loading = true;
                 $http({
                     method: 'GET',
-                    url: 'http://data.altamira.com.br/manufacturing/bom/search/',
+                    url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/search/',
                     params: {"search": this.criteria, "start": page, "max": this.size},
                     headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
                 }).then(function(response) {
@@ -58,7 +58,7 @@ angular.module('altamiraAppControllers')
                 $scope.loading = true;
                 $http({
                     method: 'GET',
-                    url: 'http://data.altamira.com.br/manufacturing/bom',
+                    url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom',
                     params: {"start": page, "max": this.size},
                     headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
                 }).then(function(response) {

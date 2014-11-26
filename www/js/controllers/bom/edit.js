@@ -14,7 +14,7 @@ angular.module('altamiraAppControllers').controller('BomEditCtrl', function($sco
     $scope.bomData.delivery = '';
     var httpRequest = $http({
         method: 'GET',
-        url: 'http://data.altamira.com.br/manufacturing/bom/' + $scope.bomId,
+        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId,
         headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
     }).success(function(data) {
         console.log(JSON.stringify(data));

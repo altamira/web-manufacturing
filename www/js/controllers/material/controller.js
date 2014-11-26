@@ -30,7 +30,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
                         $scope.loading = false;
                         $http({
                             method: 'GET',
-                            url: 'http://data.altamira.com.br/common/material',
+                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/common/material',
                             params: {"search": this.criteria, "start": page, "max": this.size},
                             headers: {'Content-Type': 'application/json'}
                         }).then(function(response) {
@@ -42,7 +42,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
                         $scope.loading = false;
                         $http({
                             method: 'GET',
-                            url: 'http://data.altamira.com.br/common/material',
+                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/common/material',
                             params: {"start": page, "max": this.size},
                             headers: {'Content-Type': 'application/json'}
                         }).then(function(response) {
@@ -94,7 +94,7 @@ altamiraAppControllers.controller('MaterialCreateCtrl', ['$scope', '$http', '$lo
                 console.log(JSON.stringify($scope.postdata));
                 $http({
                     method: 'POST',
-                    url: 'http://data.altamira.com.br/common/material',
+                    url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/common/material',
                     data: $scope.postdata,
                     headers: {'Content-Type': 'application/json'}
                 }).success(function(data, status, headers, config) {
@@ -124,7 +124,7 @@ altamiraAppControllers.controller('MaterialUpdateCtrl', ['$scope', '$http', '$lo
             $scope.loading = true;
             $http({
                 method: 'GET',
-                url: 'http://data.altamira.com.br/common/material/' + $scope.materialId,
+                url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/common/material/' + $scope.materialId,
                 headers: {'Content-Type': 'application/json'}
             }).success(function(data) {
                 $scope.loading = false;
@@ -153,7 +153,7 @@ altamiraAppControllers.controller('MaterialUpdateCtrl', ['$scope', '$http', '$lo
                 console.log(JSON.stringify($scope.postdata));
                 $http({
                     method: 'PUT',
-                    url: 'http://data.altamira.com.br/common/material/' + $scope.materialId,
+                    url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/common/material/' + $scope.materialId,
                     data: $scope.postdata,
                     headers: {'Content-Type': 'application/json'}
                 }).success(function(data, status, headers, config) {
@@ -183,7 +183,7 @@ altamiraAppControllers.controller('MaterialComponentCtrl', ['$scope', '$http', '
         $scope.componentData.unitBox = {};
         $http({
             method: 'GET',
-            url: 'http://data.altamira.com.br/measurement/unit',
+            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/measurement/unit',
             headers: {'Content-Type': 'application/json'}
         }).success(function(data, status, headers, config) {
             $scope.componentData.unitBox = data;
@@ -202,7 +202,7 @@ altamiraAppControllers.controller('MaterialComponentCtrl', ['$scope', '$http', '
             $scope.loading = true;
             $http({
                 method: 'GET',
-                url: 'http://data.altamira.com.br/common/material/' + $scope.materialId + '/component/' + $scope.componentId,
+                url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/common/material/' + $scope.materialId + '/component/' + $scope.componentId,
                 headers: {'Content-Type': 'application/json'}
             }).success(function(data, status, headers, config) {
                 $scope.loading = false;
@@ -236,13 +236,13 @@ altamiraAppControllers.controller('MaterialComponentCtrl', ['$scope', '$http', '
                 $scope.loading = true;
                 $scope.postdata = {};
                 var method = 'POST';
-                var url = 'http://data.altamira.com.br/common/material/' + $scope.materialId + '/component/';
+                var url = 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/common/material/' + $scope.materialId + '/component/';
                 if ($scope.componentId != '' && $scope.componentId != undefined)
                 {
                     $scope.postdata.id = $scope.componentId;
                     $scope.postdata.version = $scope.componentData.version;
                     method = 'PUT';
-                    url = 'http://data.altamira.com.br/common/material/' + $scope.materialId + '/component/' + $scope.componentId;
+                    url = 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/common/material/' + $scope.materialId + '/component/' + $scope.componentId;
                 }
                 $scope.postdata.code = $scope.componentData.code;
                 $scope.postdata.version = $scope.componentData.version;
@@ -252,7 +252,7 @@ altamiraAppControllers.controller('MaterialComponentCtrl', ['$scope', '$http', '
                 $scope.postdata.quantity.unit = {};
                 var httpRequest = $http({
                     method: 'GET',
-                    url: 'http://data.altamira.com.br/measurement/unit/' + $scope.componentData.unit,
+                    url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/measurement/unit/' + $scope.componentData.unit,
                     headers: {'Content-Type': 'application/json'}
                 }).success(function(data) {
                     $scope.postdata.quantity.unit = data;
@@ -279,7 +279,7 @@ altamiraAppControllers.controller('MaterialComponentCtrl', ['$scope', '$http', '
 
         var httpRequest = $http({
             method: 'GET',
-            url: 'http://data.altamira.com.br/manufacturing/process?start=0&max=5',
+            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process?start=0&max=5',
             headers: {'Content-Type': 'application/json'}
         }).success(function(data) {
             $scope.items = data;
@@ -289,7 +289,7 @@ altamiraAppControllers.controller('MaterialComponentCtrl', ['$scope', '$http', '
         $scope.searchProcess = function(text) {
             var httpRequest = $http({
                 method: 'GET',
-                url: 'http://data.altamira.com.br/manufacturing/process?search=' + text + '&start=0&max=4',
+                url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process?search=' + text + '&start=0&max=4',
                 headers: {'Content-Type': 'application/json'}
             }).success(function(data) {
                 $scope.items = data;
@@ -336,7 +336,7 @@ altamiraAppControllers.controller('MaterialComponentCtrl', ['$scope', '$http', '
                 if (res) {
                     $http({
                         method: 'DELETE',
-                        url: 'http://data.altamira.com.br/common/material/' + $scope.materialId + '/component/' + $scope.componentId,
+                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/common/material/' + $scope.materialId + '/component/' + $scope.componentId,
                         headers: {'Content-Type': 'application/json'}
                     }).success(function(response) {
                         $ionicPopup.alert({

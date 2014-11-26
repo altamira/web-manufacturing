@@ -32,11 +32,11 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                 }
                 if ($scope.$storage.x == '' || $scope.$storage.x == undefined)
                 {
-                    url = 'http://data.altamira.com.br/manufacturing/process?start=' + $scope.startPage + '&max=' + $scope.maxRecord;
+                    url = 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process?start=' + $scope.startPage + '&max=' + $scope.maxRecord;
                 }
                 else
                 {
-                    url = 'http://data.altamira.com.br/manufacturing/process?search=' + $scope.$storage.x + '&start=' + $scope.startPage + '&max=' + $scope.maxRecord;
+                    url = 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process?search=' + $scope.$storage.x + '&start=' + $scope.startPage + '&max=' + $scope.maxRecord;
                 }
 
                 var httpRequest = $http({
@@ -49,7 +49,7 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                     if (data != '')
                     {
                         $scope.processes = data;
-                        $scope.processes.push({"id": 0, "code": "TESTINGFORNULLID", "description": "This process has no ID"});
+                        //$scope.processes.push({"id": 0, "code": "TESTINGFORNULLID", "description": "This process has no ID"});
                         $scope.range();
                     } else
                     {
@@ -129,7 +129,7 @@ altamiraAppControllers.controller('ManufacturingProcessCreateCtrl', ['$scope', '
                 console.log(JSON.stringify($scope.postdata));
                 $http({
                     method: 'POST',
-                    url: 'http://data.altamira.com.br/manufacturing/process/',
+                    url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/',
                     data: $scope.postdata,
                     headers: {'Content-Type': 'application/json'}
                 }).success(function(data, status, headers, config) {
@@ -159,7 +159,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl', ['$scope', '
             $scope.loading = true;
             $http({
                 method: 'GET',
-                url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId,
+                url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId,
                 headers: {'Content-Type': 'application/json'}
             }).success(function(data) {
                 $scope.loading = false;
@@ -243,13 +243,13 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl', ['$scope', '
                 $scope.postdata.description = $scope.processData.description;
                 $http({
                     method: 'GET',
-                    url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId,
+                    url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId,
                     headers: {'Content-Type': 'application/json'}
                 }).success(function(data1) {
                     $scope.postdata.version = data1.version;
                     $http({
                         method: 'PUT',
-                        url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.postdata.id,
+                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.postdata.id,
                         data: $scope.postdata,
                         headers: {'Content-Type': 'application/json'}
                     }).success(function(data, status, headers, config) {
@@ -300,7 +300,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl', ['$scope', '
                 if (res) {
                     $http({
                         method: 'DELETE',
-                        url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId,
+                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId,
                         headers: {'Content-Type': 'application/json'}
                     }).success(function(response) {
                         $ionicPopup.alert({
@@ -331,7 +331,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl', ['$scope', '
                 if (res) {
                     $http({
                         method: 'DELETE',
-                        url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + operationId,
+                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId + '/operation/' + operationId,
                         headers: {'Content-Type': 'application/json'}
                     }).success(function(response) {
                         $ionicPopup.alert({
@@ -385,7 +385,7 @@ altamiraAppControllers.controller('ManufacturingProcessCreateOperationCtrl', ['$
                 $scope.postdata.produce = [];
                 $http({
                     method: 'POST',
-                    url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation',
+                    url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId + '/operation',
                     data: $scope.postdata,
                     headers: {'Content-Type': 'application/json'}
                 }).success(function(data, status, headers, config) {
@@ -425,7 +425,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl', ['$
             $scope.loading = true;
             var httpRequest = $http({
                 method: 'GET',
-                url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId,
+                url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId,
                 headers: {'Content-Type': 'application/json'}
             }).success(function(data) {
                 if (data != '')
@@ -441,7 +441,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl', ['$
                     {
                         var httpRequest = $http({
                             method: 'GET',
-                            url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/sketch/' + data.sketch.id,
+                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/sketch/' + data.sketch.id,
                             headers: {'Content-Type': 'application/json'}
                         }).success(function(da) {
                             $scope.loading = false;
@@ -484,7 +484,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl', ['$
                 };
                 $http({
                     method: 'PUT',
-                    url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId,
+                    url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId,
                     data: $scope.postdata,
                     headers: {'Content-Type': 'application/json'}
                 }).success(function(data, status, headers, config) {
@@ -510,7 +510,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl', ['$
                 if (res) {
                     $http({
                         method: 'DELETE',
-                        url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId,
+                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId,
                         headers: {'Content-Type': 'application/json'}
                     }).success(function(response) {
                         $ionicPopup.alert({
@@ -557,15 +557,15 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl', ['$
             var url = ''
             if (type == 'use')
             {
-                url = 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/use/' + typeId;
+                url = 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/use/' + typeId;
             }
             if (type == 'consume')
             {
-                url = 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/consume/' + typeId;
+                url = 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/consume/' + typeId;
             }
             if (type == 'produce')
             {
-                url = 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/produce/' + typeId;
+                url = 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/produce/' + typeId;
             }
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Confirmation',
@@ -609,7 +609,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
         $scope.consumeData.unitBox = {};
         $http({
             method: 'GET',
-            url: 'http://data.altamira.com.br/measurement/unit',
+            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/measurement/unit',
             headers: {'Content-Type': 'application/json'}
         }).success(function(data, status, headers, config) {
             $scope.consumeData.unitBox = data;
@@ -628,7 +628,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
             $scope.loading = true;
             $http({
                 method: 'GET',
-                url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/consume/' + $scope.consumeId,
+                url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/consume/' + $scope.consumeId,
                 headers: {'Content-Type': 'application/json'}
             }).success(function(data, status, headers, config) {
                 $scope.loading = false;
@@ -662,14 +662,14 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
                 $scope.loading = true;
                 $scope.postdata = {};
                 var method = 'POST';
-                var url = 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/consume';
+                var url = 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/consume';
                 $scope.postdata.version = 0;
                 if ($scope.consumeId != '' && $scope.consumeId != undefined)
                 {
                     $scope.postdata.id = $scope.consumeId;
                     $scope.postdata.version = $scope.consumeData.version;
                     method = 'PUT';
-                    url = 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/consume/' + $scope.consumeId;
+                    url = 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/consume/' + $scope.consumeId;
                 }
                 $scope.postdata.code = $scope.consumeData.code;
                 $scope.postdata.description = $scope.consumeData.description;
@@ -678,7 +678,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
                 $scope.postdata.quantity.unit = {};
                 var httpRequest = $http({
                     method: 'GET',
-                    url: 'http://data.altamira.com.br/measurement/unit/' + $scope.consumeData.unit,
+                    url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/measurement/unit/' + $scope.consumeData.unit,
                     headers: {'Content-Type': 'application/json'}
                 }).success(function(data) {
                     $scope.postdata.quantity.unit = data;
@@ -705,7 +705,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
         };
         var httpRequest = $http({
             method: 'GET',
-            url: 'http://data.altamira.com.br/manufacturing/process?start=0&max=5',
+            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process?start=0&max=5',
             headers: {'Content-Type': 'application/json'}
         }).success(function(data) {
             $scope.items = data;
@@ -715,7 +715,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
         $scope.searchProcess = function(text) {
             var httpRequest = $http({
                 method: 'GET',
-                url: 'http://data.altamira.com.br/manufacturing/process?search=' + text + '&start=0&max=4',
+                url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process?search=' + text + '&start=0&max=4',
                 headers: {'Content-Type': 'application/json'}
             }).success(function(data) {
                 $scope.items = data;
@@ -762,7 +762,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl', ['
                 if (res) {
                     $http({
                         method: 'DELETE',
-                        url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/consume/' + $scope.consumeId,
+                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/consume/' + $scope.consumeId,
                         headers: {'Content-Type': 'application/json'}
                     }).success(function(response) {
                         $ionicPopup.alert({
@@ -799,7 +799,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
         $scope.produceData.unitBox = {};
         $http({
             method: 'GET',
-            url: 'http://data.altamira.com.br/measurement/unit',
+            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/measurement/unit',
             headers: {'Content-Type': 'application/json'}
         }).success(function(data, status, headers, config) {
             $scope.produceData.unitBox = data;
@@ -818,7 +818,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
             $scope.loading = true;
             $http({
                 method: 'GET',
-                url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/produce/' + $scope.produceId,
+                url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/produce/' + $scope.produceId,
                 headers: {'Content-Type': 'application/json'}
             }).success(function(data, status, headers, config) {
                 $scope.loading = false;
@@ -853,13 +853,13 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
                 $scope.loading = true;
                 $scope.postdata = {};
                 var method = 'POST';
-                var url = 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/produce';
+                var url = 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/produce';
                 if ($scope.produceId != '' && $scope.produceId != undefined)
                 {
                     $scope.postdata.id = $scope.produceId
                     $scope.postdata.version = $scope.produceData.version;
                     method = 'PUT';
-                    url = 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/produce/' + $scope.produceId;
+                    url = 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/produce/' + $scope.produceId;
                 }
                 $scope.postdata.code = $scope.produceData.code;
                 $scope.postdata.description = $scope.produceData.description;
@@ -868,7 +868,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
                 $scope.postdata.quantity.unit = {};
                 var httpRequest = $http({
                     method: 'GET',
-                    url: 'http://data.altamira.com.br/measurement/unit/' + $scope.produceData.unit,
+                    url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/measurement/unit/' + $scope.produceData.unit,
                     headers: {'Content-Type': 'application/json'}
                 }).success(function(data) {
                     $scope.postdata.quantity.unit = data;
@@ -896,7 +896,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
 
         var httpRequest = $http({
             method: 'GET',
-            url: 'http://data.altamira.com.br/manufacturing/process?start=0&max=5',
+            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process?start=0&max=5',
             headers: {'Content-Type': 'application/json'}
         }).success(function(data) {
             $scope.items = data;
@@ -906,7 +906,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
         $scope.searchProcess = function(text) {
             var httpRequest = $http({
                 method: 'GET',
-                url: 'http://data.altamira.com.br/manufacturing/process?search=' + text + '&start=0&max=4',
+                url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process?search=' + text + '&start=0&max=4',
                 headers: {'Content-Type': 'application/json'}
             }).success(function(data) {
                 $scope.items = data;
@@ -953,7 +953,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl', ['
                 if (res) {
                     $http({
                         method: 'DELETE',
-                        url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/produce/' + $scope.produceId,
+                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/produce/' + $scope.produceId,
                         headers: {'Content-Type': 'application/json'}
                     }).success(function(response) {
                         $ionicPopup.alert({
@@ -990,7 +990,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
         $scope.useData.unitBox = {};
         $http({
             method: 'GET',
-            url: 'http://data.altamira.com.br/measurement/unit',
+            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/measurement/unit',
             headers: {'Content-Type': 'application/json'}
         }).success(function(data, status, headers, config) {
             $scope.useData.unitBox = data;
@@ -1009,7 +1009,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
             $scope.loading = true;
             $http({
                 method: 'GET',
-                url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/use/' + $scope.useId,
+                url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/use/' + $scope.useId,
                 headers: {'Content-Type': 'application/json'}
             }).success(function(data, status, headers, config) {
                 $scope.loading = false;
@@ -1044,13 +1044,13 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
                 $scope.loading = true;
                 $scope.postdata = {};
                 var method = 'POST';
-                var url = 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/use';
+                var url = 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/use';
                 if ($scope.useId != '' && $scope.useId != undefined)
                 {
                     $scope.postdata.id = $scope.useId;
                     $scope.postdata.version = $scope.useData.version;
                     method = 'PUT';
-                    url = 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/use/' + $scope.useId;
+                    url = 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/use/' + $scope.useId;
                 }
                 $scope.postdata.code = $scope.useData.code;
                 $scope.postdata.version = $scope.useData.version;
@@ -1061,7 +1061,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
                 console.log(JSON.stringify($scope.postdata));
                 var httpRequest = $http({
                     method: 'GET',
-                    url: 'http://data.altamira.com.br/measurement/unit/' + $scope.useData.unit,
+                    url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/measurement/unit/' + $scope.useData.unit,
                     headers: {'Content-Type': 'application/json'}
                 }).success(function(data) {
                     $scope.postdata.quantity.unit = data;
@@ -1089,7 +1089,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
 
         var httpRequest = $http({
             method: 'GET',
-            url: 'http://data.altamira.com.br/manufacturing/process?start=0&max=5',
+            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process?start=0&max=5',
             headers: {'Content-Type': 'application/json'}
         }).success(function(data) {
             $scope.items = data;
@@ -1099,7 +1099,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
         $scope.searchProcess = function(text) {
             var httpRequest = $http({
                 method: 'GET',
-                url: 'http://data.altamira.com.br/manufacturing/process?search=' + text + '&start=0&max=4',
+                url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process?search=' + text + '&start=0&max=4',
                 headers: {'Content-Type': 'application/json'}
             }).success(function(data) {
                 $scope.items = data;
@@ -1146,7 +1146,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUsoCtrl', ['$sco
                 if (res) {
                     $http({
                         method: 'DELETE',
-                        url: 'http://data.altamira.com.br/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/use/' + $scope.useId,
+                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/process/' + $scope.processId + '/operation/' + $scope.operationId + '/use/' + $scope.useId,
                         headers: {'Content-Type': 'application/json'}
                     }).success(function(response) {
                         $ionicPopup.alert({
