@@ -1,5 +1,6 @@
-
-
+body {
+  cursor: url('http://ionicframework.com/img/finger.png'), auto;
+}
 
 @font-face {
 font-family:iconFont;
@@ -265,7 +266,7 @@ vertical-align:-10%
 .icon-side-cog:before {
 	content:"\e04a";
 	font-size:45px;
-	
+
 }
 .icon-pie:before {
 	content:"\e04b"
@@ -668,7 +669,7 @@ vertical-align:-10%
 .icon-side-github-6:before {
 	content:"\e0ce";
 	font-size:45px; color:#fff;
-	
+
 }
 .icon-wordpress:before {
 	content:"\e0cf"
@@ -1316,7 +1317,7 @@ vertical-align:-10%
 }
 .icon-side-play-2:before {
 	content:"\e1a4";
-	font-size:25px; color:#fff; 
+	font-size:25px; color:#fff;
 }
 .icon-pause-2:before {
 	content:"\e1a5"
