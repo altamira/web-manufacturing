@@ -14,7 +14,7 @@ altamiraAppControllers.controller('BomListCtrl',
                     if (res) {
                         $http({
                             method: 'PUT',
-                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + itemId + '/checked',
+                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + itemId + '/checked',
                             headers: {'Content-Type': 'application/json'}
                         }).success(function(response) {
                             $ionicPopup.alert({
@@ -46,7 +46,7 @@ altamiraAppControllers.controller('BomListCtrl',
                     if (res) {
                         $http({
                             method: 'PUT',
-                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + itemId + '/unchecked',
+                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + itemId + '/unchecked',
                             headers: {'Content-Type': 'application/json'}
                         }).success(function(response) {
                             $ionicPopup.alert({
@@ -103,7 +103,7 @@ altamiraAppControllers.controller('BomListCtrl',
                         $scope.loading = true;
                         $http({
                             method: 'GET',
-                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom?checked=true',
+                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom?checked=true',
                             params: {"search": this.criteria, "start": page, "max": this.size},
                             headers: {'Content-Type': 'application/json'}
                         }).then(function(response) {
@@ -115,7 +115,7 @@ altamiraAppControllers.controller('BomListCtrl',
                         $scope.loading = true;
                         $http({
                             method: 'GET',
-                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom?checked=false',
+                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom?checked=false',
                             params: {"start": page, "max": this.size},
                             headers: {'Content-Type': 'application/json'}
                         }).then(function(response) {
@@ -161,7 +161,7 @@ altamiraAppControllers.controller('BomListCtrl',
                                     console.log(JSON.stringify(data));
                                     $http({
                                         method: 'POST',
-                                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom',
+                                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom',
                                         data: data,
                                         headers: {'Content-Type': 'application/json'}
                                     }).then(function(response) {
@@ -253,7 +253,7 @@ altamiraAppControllers.controller('BomViewCtrl',
             $scope.loading = true;
             var httpRequest = $http({
                 method: 'GET',
-                url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId,
+                url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId,
                 headers: {'Content-Type': 'application/json'}
             }).success(function(data) {
                 console.log(data);
@@ -293,7 +293,7 @@ altamiraAppControllers.controller('BomViewCtrl',
                     if (res) {
                         $http({
                             method: 'PUT',
-                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/checked',
+                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/checked',
                             headers: {'Content-Type': 'application/json'}
                         }).success(function(response) {
                             $ionicPopup.alert({
@@ -325,7 +325,7 @@ altamiraAppControllers.controller('BomViewCtrl',
                     if (res) {
                         $http({
                             method: 'PUT',
-                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/unchecked',
+                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/unchecked',
                             headers: {'Content-Type': 'application/json'}
                         }).success(function(response) {
                             $ionicPopup.alert({
@@ -365,7 +365,7 @@ altamiraAppControllers.controller('BomViewCtrl',
                     if (res) {
                         $http({
                             method: 'DELETE',
-                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId,
+                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId,
                             headers: {'Content-Type': 'application/json'}
                         }).success(function(response) {
                             $ionicPopup.alert({
@@ -410,7 +410,7 @@ altamiraAppControllers.controller('BomEditCtrl',
             $scope.loading = true;
             var httpRequest = $http({
                 method: 'GET',
-                url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId,
+                url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId,
                 headers: {'Content-Type': 'application/json'}
             }).success(function(data) {
                 $scope.loading = false;
@@ -463,14 +463,14 @@ altamiraAppControllers.controller('BomEditCtrl',
 
                     $http({
                         method: 'GET',
-                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId,
+                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId,
                         data: $scope.postdata,
                         headers: {'Content-Type': 'application/json'}
                     }).success(function(data1) {
                         $scope.postdata.version = data1.version;
                         $http({
                             method: 'PUT',
-                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId,
+                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId,
                             data: $scope.postdata,
                             headers: {'Content-Type': 'application/json'}
                         }).success(function(data, status, headers, config) {
@@ -512,7 +512,7 @@ altamiraAppControllers.controller('BomEditCtrl',
                     if (res) {
                         $http({
                             method: 'DELETE',
-                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId,
+                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId,
                             headers: {'Content-Type': 'application/json'}
                         }).success(function(response) {
                             $ionicPopup.alert({
@@ -543,7 +543,7 @@ altamiraAppControllers.controller('BomEditCtrl',
                     if (res) {
                         $http({
                             method: 'DELETE',
-                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + itemId,
+                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + itemId,
                             headers: {'Content-Type': 'application/json'}
                         }).success(function(response) {
                             $ionicPopup.alert({
@@ -577,7 +577,7 @@ altamiraAppControllers.controller('BomEditCtrl',
                     if (res) {
                         $http({
                             method: 'DELETE',
-                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + itemId + '/part/' + partId,
+                            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + itemId + '/part/' + partId,
                             headers: {'Content-Type': 'application/json'}
                         }).success(function(response) {
                             $ionicPopup.alert({
@@ -619,7 +619,7 @@ altamiraAppControllers.controller('BomItemCreateCtrl', ['$scope', '$http', '$loc
                 $scope.postdata.description = $scope.itemData.description;
                 $http({
                     method: 'POST',
-                    url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item',
+                    url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item',
                     data: $scope.postdata,
                     headers: {'Content-Type': 'application/json'}
                 }).success(function(data, status, headers, config) {
@@ -654,7 +654,7 @@ altamiraAppControllers.controller('BomItemUpdateCtrl', ['$scope', '$http', '$loc
             $scope.loading = true;
             $http({
                 method: 'GET',
-                url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId,
+                url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId,
                 headers: {'Content-Type': 'application/json'}
             }).success(function(data, status, headers, config) {
                 $scope.loading = false;
@@ -708,13 +708,13 @@ altamiraAppControllers.controller('BomItemUpdateCtrl', ['$scope', '$http', '$loc
 
                 $http({
                     method: 'GET',
-                    url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId,
+                    url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId,
                     headers: {'Content-Type': 'application/json'}
                 }).success(function(data1, status, headers, config) {
                     $scope.postdata.version = data1.version;
                     $http({
                         method: 'PUT',
-                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId,
+                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId,
                         data: $scope.postdata,
                         headers: {'Content-Type': 'application/json'}
                     }).success(function(data, status, headers, config) {
@@ -752,7 +752,7 @@ altamiraAppControllers.controller('BomItemUpdateCtrl', ['$scope', '$http', '$loc
                 if (res) {
                     $http({
                         method: 'DELETE',
-                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId,
+                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId,
                         headers: {'Content-Type': 'application/json'}
                     }).success(function(response) {
                         $ionicPopup.alert({
@@ -792,7 +792,7 @@ altamiraAppControllers.controller('BomItemUpdateCtrl', ['$scope', '$http', '$loc
                 if (res) {
                     $http({
                         method: 'DELETE',
-                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + PartId,
+                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + PartId,
                         headers: {'Content-Type': 'application/json'}
                     }).success(function(response) {
                         $ionicPopup.alert({
@@ -845,7 +845,7 @@ altamiraAppControllers.controller('BomPartCreateCtrl', ['$scope', '$http', '$loc
 
         $http({
             method: 'GET',
-            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/common/color?max=0',
+            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/common/color?max=0',
             headers: {'Content-Type': 'application/json'}
         }).success(function(data, status, headers, config) {
             $scope.partData.colorBox = data;
@@ -860,7 +860,7 @@ altamiraAppControllers.controller('BomPartCreateCtrl', ['$scope', '$http', '$loc
         });
         $http({
             method: 'GET',
-            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/measurement/unit?magnitude=dimencional',
+            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/measurement/unit?magnitude=dimencional',
             headers: {'Content-Type': 'application/json'}
         }).success(function(data, status, headers, config) {
             $scope.partData.unitLengthBox = data;
@@ -875,7 +875,7 @@ altamiraAppControllers.controller('BomPartCreateCtrl', ['$scope', '$http', '$loc
         });
         $http({
             method: 'GET',
-            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/measurement/unit?magnitude=peso',
+            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/measurement/unit?magnitude=peso',
             headers: {'Content-Type': 'application/json'}
         }).success(function(data, status, headers, config) {
             $scope.partData.unitWeightBox = data;
@@ -890,7 +890,7 @@ altamiraAppControllers.controller('BomPartCreateCtrl', ['$scope', '$http', '$loc
         });
         $http({
             method: 'GET',
-            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/measurement/unit?magnitude=unidade',
+            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/measurement/unit?magnitude=unidade',
             headers: {'Content-Type': 'application/json'}
         }).success(function(data, status, headers, config) {
             $scope.partData.unitQuantityBox = data;
@@ -940,7 +940,7 @@ altamiraAppControllers.controller('BomPartCreateCtrl', ['$scope', '$http', '$loc
                 console.log(JSON.stringify($scope.postData));
                 $http({
                     method: 'POST',
-                    url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part',
+                    url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part',
                     data: $scope.postData,
                     headers: {'Content-Type': 'application/json'}
                 }).success(function(data, status, headers, config) {
@@ -986,7 +986,7 @@ altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$loc
 
         $http({
             method: 'GET',
-            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/common/color?max=0',
+            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/common/color?max=0',
             headers: {'Content-Type': 'application/json'}
         }).success(function(data, status, headers, config) {
             $scope.partData.colorBox = data;
@@ -1001,7 +1001,7 @@ altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$loc
         });
         $http({
             method: 'GET',
-            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/measurement/unit?magnitude=dimencional',
+            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/measurement/unit?magnitude=dimencional',
             headers: {'Content-Type': 'application/json'}
         }).success(function(data, status, headers, config) {
             $scope.partData.unitLengthBox = data;
@@ -1016,7 +1016,7 @@ altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$loc
         });
         $http({
             method: 'GET',
-            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/measurement/unit?magnitude=peso',
+            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/measurement/unit?magnitude=peso',
             headers: {'Content-Type': 'application/json'}
         }).success(function(data, status, headers, config) {
             $scope.partData.unitWeightBox = data;
@@ -1031,7 +1031,7 @@ altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$loc
         });
         $http({
             method: 'GET',
-            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/measurement/unit?magnitude=unidade',
+            url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/measurement/unit?magnitude=unidade',
             headers: {'Content-Type': 'application/json'}
         }).success(function(data, status, headers, config) {
             $scope.partData.unitQuantityBox = data;
@@ -1049,7 +1049,7 @@ altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$loc
             $scope.loading = true;
             $http({
                 method: 'GET',
-                url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + $scope.partId,
+                url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + $scope.partId,
                 headers: {'Content-Type': 'application/json'}
             }).success(function(data, status, headers, config) {
                 $scope.loading = false;
@@ -1114,13 +1114,13 @@ altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$loc
 
                 $http({
                     method: 'GET',
-                    url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + $scope.partId,
+                    url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + $scope.partId,
                     headers: {'Content-Type': 'application/json'}
                 }).success(function(data1, status, headers, config) {
                     $scope.postData.version = data1.version;
                     $http({
                         method: 'PUT',
-                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + $scope.partId,
+                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + $scope.partId,
                         data: $scope.postData,
                         headers: {'Content-Type': 'application/json'}
                     }).success(function(data, status, headers, config) {
@@ -1156,7 +1156,7 @@ altamiraAppControllers.controller('BomPartUpdateCtrl', ['$scope', '$http', '$loc
                 if (res) {
                     $http({
                         method: 'DELETE',
-                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + $scope.partId,
+                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom/' + $scope.bomId + '/item/' + $scope.itemId + '/part/' + $scope.partId,
                         headers: {'Content-Type': 'application/json'}
                     }).success(function(response) {
                         $ionicPopup.alert({

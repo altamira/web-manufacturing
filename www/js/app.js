@@ -1,6 +1,6 @@
-var altamiraApp = angular.module('altamira', ['ionic', 'altamiraAppControllers', 'ngRoute', 'angularFileUpload', 'altamiraAppDirectives', 'ngStorage', 'checklist-model', 'restangular', 'angularUtils.directives.dirPagination'])
+var altamiraApp = angular.module('altamira', ['ionic', 'altamiraAppControllers', 'ngRoute', 'angularFileUpload', 'altamiraAppDirectives', 'ngStorage', 'checklist-model', 'restangular', 'angularUtils.directives.dirPagination']);
 
-        .run(function($ionicPlatform) {
+altamiraApp.run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
         if (window.cordova && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -116,3 +116,15 @@ altamiraApp.config(['$routeProvider',
             redirectTo: '/manufacturing/process/0'
         });
     }]);
+
+altamiraApp.config(function(RestangularProvider) {
+	RestangularProvider.setBaseUrl('http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT');
+	RestangularProvider.setFullResponse(true);
+	RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json; charset=iso-8859-1'});
+	/*RestangularProvider.setDefaultHttpFields({
+		'withCredentials': true
+	});*/
+	RestangularProvider.setRestangularFields({
+		id: "id"
+	});
+});
