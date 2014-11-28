@@ -16,48 +16,48 @@ altamiraApp.config(['$routeProvider',
         $routeProvider
                 /* manufacturing/process  Start */
                 .when('/manufacturing/process/:start', {
-            templateUrl: 'templates/mf-process-list.html',
+            templateUrl: 'templates/process/mf-process-list.html',
             controller: 'ManufacturingProcsSearchCtrl'
         })
                 .when('/manufacturing/create/process', {
-            templateUrl: 'templates/mf-process-create.html',
+            templateUrl: 'templates/process/mf-process-create.html',
             controller: 'ManufacturingProcessCreateCtrl'
         })
                 .when('/manufacturing/update/process/:processId', {
-            templateUrl: 'templates/mf-process-update.html',
+            templateUrl: 'templates/process/mf-process-update.html',
             controller: 'ManufacturingProcessUpdateCtrl'
         })
                 .when('/manufacturing/process/operation/:processId', {
-            templateUrl: 'templates/mf-operation-create.html',
+            templateUrl: 'templates/process/mf-operation-create.html',
             controller: 'ManufacturingProcessCreateOperationCtrl'
         })
                 .when('/manufacturing/process/operation/update/:processId/:operationId', {
-            templateUrl: 'templates/mf-operation-update.html',
+            templateUrl: 'templates/process/mf-operation-update.html',
             controller: 'ManufacturingProcessUpdateOperationCtrl'
         })
                 .when('/manufacturing/process/operation/consume/:processId/:operationId', {
-            templateUrl: 'templates/mf-operation-consume.html',
+            templateUrl: 'templates/process/mf-operation-consume.html',
             controller: 'ManufacturingProcessOperationConsumeCtrl'
         })
                 .when('/manufacturing/process/operation/consume/update/:processId/:operationId/:consumeId', {
-            templateUrl: 'templates/mf-operation-consume.html',
+            templateUrl: 'templates/process/mf-operation-consume.html',
             controller: 'ManufacturingProcessOperationConsumeCtrl'
         })
                 .when('/manufacturing/process/operation/produce/:processId/:operationId', {
-            templateUrl: 'templates/mf-operation-produce.html',
+            templateUrl: 'templates/process/mf-operation-produce.html',
             controller: 'ManufacturingProcessOperationProduceCtrl'
         })
                 .when('/manufacturing/process/operation/produce/update/:processId/:operationId/:produceId', {
-            templateUrl: 'templates/mf-operation-produce.html',
+            templateUrl: 'templates/process/mf-operation-produce.html',
             controller: 'ManufacturingProcessOperationProduceCtrl'
         })
                 .when('/manufacturing/process/operation/use/:processId/:operationId', {
-            templateUrl: 'templates/mf-operation-use.html',
-            controller: 'ManufacturingProcessOperationUsoCtrl'
+            templateUrl: 'templates/process/mf-operation-use.html',
+            controller: 'ManufacturingProcessOperationUseCtrl'
         })
                 .when('/manufacturing/process/operation/use/update/:processId/:operationId/:useId', {
-            templateUrl: 'templates/mf-operation-use.html',
-            controller: 'ManufacturingProcessOperationUsoCtrl'
+            templateUrl: 'templates/process/mf-operation-use.html',
+            controller: 'ManufacturingProcessOperationUseCtrl'
         })
                 /* manufacturing/process  End */
                 /* BOM pages  Start */
@@ -128,3 +128,5 @@ altamiraApp.config(function(RestangularProvider) {
 		id: "id"
 	});
 });
+
+var altamiraAppControllers = angular.module('altamiraAppControllers', []);
