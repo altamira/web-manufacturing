@@ -17,9 +17,9 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
                 $scope.loading = true;
                 Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).one('use', $scope.useId).get().then(function(response) {
                     $scope.loading = false;
-                    $scope.useData.code = response.data.code;
+                    $scope.useData.code = response.data.material.code;
                     $scope.useData.version = response.data.version;
-                    $scope.useData.description = response.data.description;
+                    $scope.useData.description = response.data.material.description;
                     $scope.useData.quantity = response.data.quantity.value;
                     $scope.useData.unit = response.data.quantity.unit.id;
                 }, function(response) {
@@ -100,8 +100,9 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
             }, function(response) {
                 services.showAlert('Falhou', 'Please try again');
             });
+            
             $scope.searchProcess = function(text) {
-                Restangular.one('manufacturing/process').get({search: text, start: 0, max: 5}).then(function(response) {
+                Restangular.one('common/material').get({search: text, start: 0, max: 5}).then(function(response) {
                     $scope.items = response.data;
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');

@@ -84,7 +84,7 @@
                     <div class="list list-row">
                         <a class="item operation-item item-icon-left item-icon-right">
                             <span>U</span>
-                            MAQUINA / FERRAMENTAL / OUTROS USADOS NA FABRICAÃ‡ÃƒO
+                            MAQUINA / FERRAMENTAL / OUTROS USADOS NA FABRICAÇÃO
                             <i class="icon fa-plus-circle" ng-click='createUse()'></i>
                         </a>
                     </div>
@@ -96,7 +96,7 @@
                         <div style="margin-top: 20px;">
                             <ul>
                                 <li ng-repeat='use in operationData.use'>
-                                    <div><div class="text-wrap" ng-click='updateUse(use.id)'>{{use.code}}</div><i class="icon plus-icon fa-plus-cross-circle-2" ng-click='removeOperationType("use",use.id)'></i></div>
+                                    <div><div class="text-wrap" ng-click='updateUse(use.id)'>{{use.material.code}} - {{use.material.description}}</div><i class="icon plus-icon fa-plus-cross-circle-2" ng-click='removeOperationType("use",use.id)'></i></div>
                                 </li>
                             </ul>
                         </div>
@@ -108,7 +108,7 @@
                     <div class="list list-row">
                         <a class="item operation-item item-icon-left item-icon-right">
                             <span class="consumo">C</span>
-                            MATERIA PRIMA / INSUMOS / OUTROS CONSUMIDOS NA FABRICAÃ‡ÃƒO
+                            MATERIA PRIMA / INSUMOS / OUTROS CONSUMIDOS NA FABRICAÇÃO
                             <i class="icon fa-plus-circle" ng-click='createConsume()'></i>
                         </a>
                     </div>
@@ -120,7 +120,7 @@
                         <div style="margin-top: 20px;">
                             <ul>
                                 <li ng-repeat='consume in operationData.consume'>
-                                    <div><div class="text-wrap" ng-click='updateConsume(consume.id)'>{{consume.code}}</div><i class="icon plus-icon fa-plus-cross-circle-2" ng-click='removeOperationType("consume",consume.id)'></i></div>
+                                    <div><div class="text-wrap" ng-click='updateConsume(consume.id)'>{{consume.material.code}} - {{consume.material.description}}</div><i class="icon plus-icon fa-plus-cross-circle-2" ng-click='removeOperationType("consume",consume.id)'></i></div>
                                 </li>
                             </ul>
                         </div>
@@ -132,7 +132,7 @@
                     <div class="list list-row">
                         <a class="item operation-item item-icon-left item-icon-right">
                             <span class="produto">P</span>
-                            PRODUTO ACABADO / EM PROCESSO DE FABRICAÃ‡ÃƒO
+                            PRODUTO ACABADO / EM PROCESSO DE FABRICAÇÃO
                             <i class="icon fa-plus-circle" ng-click='createProduce()'></i>
                         </a>
                     </div>
@@ -144,7 +144,7 @@
                         <div style="margin-top: 20px;">
                             <ul>
                                 <li ng-repeat='produce in operationData.produce'>
-                                    <div><div class="text-wrap" ng-click='updateProduce(produce.id)'>{{produce.code}}</div><i class="icon plus-icon fa-plus-cross-circle-2" ng-click='removeOperationType("produce",produce.id)'></i></div>
+                                    <div><div class="text-wrap" ng-click='updateProduce(produce.id)'>{{produce.material.code}} - {{produce.material.description}}</div><i class="icon plus-icon fa-plus-cross-circle-2" ng-click='removeOperationType("produce",produce.id)'></i></div>
                                 </li>
                             </ul>
                         </div>

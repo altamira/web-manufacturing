@@ -62,6 +62,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                 Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).get().then(function(response) {
                     if (response.data != '')
                     {
+                        $scope.loading = false;
                         $scope.operationData.operationVersion = response.data.version;
                         $scope.operationData.sequence = response.data.sequence;
                         $scope.operationData.name = response.data.name;
