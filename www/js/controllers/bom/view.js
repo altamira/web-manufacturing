@@ -90,7 +90,7 @@ altamiraAppControllers.controller('BomViewCtrl',
                             $scope.loading = false;
                             services.showAlert(' A BOM - ' + $scope.bomId + ' removed successfully.').then(function(res) {
                                 if (res) {
-                                    $location.path('/bom/list');
+                                    $location.path('/manufacturing/bom');
                                 }
                             });
                         }, function() {
@@ -104,6 +104,6 @@ altamiraAppControllers.controller('BomViewCtrl',
                 $location.path('bom/part/update/' + $scope.bomId + '/' + itemId + '/' + partId);
             };
             $scope.goBack = function() {
-                $location.path('bom/list');
+                $location.path('manufacturing/bom');
             };
         });

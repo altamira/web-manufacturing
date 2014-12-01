@@ -5,9 +5,19 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
             $scope.consumeId = $routeParams.consumeId;
             $scope.action = 'create';
             $scope.consumeData = {};
-            $scope.consumeData.unitBox = {};
+            $scope.consumeData.unitBox = [];
             Restangular.one('measurement/unit').get().then(function(response) {
-                $scope.consumeData.unitBox = response.data;
+                for (var i in response.data)
+                {
+                    if (response.data[i] != null && response.data[i] != undefined)
+                    {
+                        if (response.data[i].id != '' && response.data[i].id != undefined)
+                        {
+                            $scope.consumeData.unitBox.push(response.data[i]);
+                        }
+                    }
+                }
+
             }, function(response) {
                 services.showAlert('Falhou', 'Please try again');
             });
@@ -32,80 +42,117 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                 $scope.consumeData.version = '';
                 $scope.consumeData.description = '';
                 $scope.consumeData.quantity = 1;
-                $scope.consumeData.unit = 6;
+                $scope.consumeData.unit = 110;
             }
 
             $scope.submitConsumeForm = function(isValid) {
                 if (isValid) {
                     $scope.loading = true;
-                    $scope.postdata = {};
-                    var method = 'POST';
-                    $scope.postdata.version = 0;
-                    if ($scope.consumeId != '' && $scope.consumeId != undefined)
-                    {
-                        $scope.postdata.id = $scope.consumeId;
-                        $scope.postdata.version = $scope.consumeData.version;
-                        method = 'PUT';
-                    }
-                    $scope.postdata.code = $scope.consumeData.code;
-                    $scope.postdata.description = $scope.consumeData.description;
-                    $scope.postdata.quantity = {};
-                    $scope.postdata.quantity.value = parseFloat($scope.consumeData.quantity);
-                    $scope.postdata.quantity.unit = {};
-                    Restangular.one('measurement/unit', $scope.consumeData.unit).get().then(function(response) {
-                        $scope.postdata.quantity.unit.id = response.data.id;
-                        $scope.postdata.quantity.unit.version = parseInt(response.data.version);
-                        $scope.postdata.quantity.unit.name = response.data.name;
-                        $scope.postdata.quantity.unit.symbol = response.data.symbol;
-                        $scope.postdata.quantity.unit.magnitude = {};
-                        $scope.postdata.quantity.unit.magnitude = response.data.magnitude;
-
-                        if (method == 'POST')
+                    var codeStatus = 'false';
+                    var materialId = '';
+                    Restangular.one('common/material').get().then(function(response) {
+                        var materials = response;
+                        for (var i in materials.data)
                         {
-                            Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).all('consume').post($scope.postdata).then(function(response) {
-                                $scope.loading = false;
-                                if (response.status == 201) {
-                                    services.showAlert('Success', 'Processo foi gravado com sucesso !').then(function(res) {
-                                        services.goToOperationUpdateForm($scope.processId, $scope.operationId);
-                                    });
+                            if (materials.data[i] != '' && materials.data[i] != null)
+                            {
+                                if (materials.data[i].id != '' && materials.data[i].id != undefined)
+                                {
+                                    console.log(JSON.stringify(materials.data[i].code));
+                                    if ($scope.consumeData.code == materials.data[i].code)
+                                    {
+                                        codeStatus = 'true';
+                                        materialId = materials.data[i].id;
+                                    }
                                 }
-                            }, function() {
-                                $scope.loading = false;
-                                services.showAlert('Falhou', 'Please try again');
-                            });
+                            }
                         }
-
-                        if (method == 'PUT')
+                        if (codeStatus == 'true')
                         {
-                            Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).one('consume', $scope.consumeId).customPUT($scope.postdata).then(function(response) {
-                                $scope.loading = false;
-                                services.showAlert('Success', 'Processo foi gravado com sucesso !').then(function(res) {
-                                    services.goToOperationUpdateForm($scope.processId, $scope.operationId);
+                            Restangular.one('common/material', materialId).get().then(function(response) {
+                                var materiralData = response.data;
+                                $scope.postdata = {};
+                                var method = 'POST';
+                                $scope.postdata.version = 0;
+                                if ($scope.consumeId != '' && $scope.consumeId != undefined)
+                                {
+                                    $scope.postdata.id = $scope.consumeId;
+                                    $scope.postdata.version = $scope.consumeData.version;
+                                    method = 'PUT';
+                                }
+                                $scope.postdata.material = {};
+                                $scope.postdata.material.version = materiralData.version;
+                                $scope.postdata.material.id = materiralData.id;
+                                $scope.postdata.material.code = materiralData.code;
+                                $scope.postdata.material.description = materiralData.description;
+                                $scope.postdata.material.component = materiralData.component;
+
+                                $scope.postdata.quantity = {};
+                                $scope.postdata.quantity.value = parseFloat($scope.consumeData.quantity);
+                                $scope.postdata.quantity.unit = {};
+                                Restangular.one('measurement/unit', $scope.consumeData.unit).get().then(function(response) {
+                                    $scope.postdata.quantity.unit.id = response.data.id;
+                                    $scope.postdata.quantity.unit.version = parseInt(response.data.version);
+                                    $scope.postdata.quantity.unit.name = response.data.name;
+                                    $scope.postdata.quantity.unit.symbol = response.data.symbol;
+                                    $scope.postdata.quantity.unit.magnitude = {};
+                                    $scope.postdata.quantity.unit.magnitude = response.data.magnitude;
+
+                                    if (method == 'POST')
+                                    {
+                                        Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).all('consume').post($scope.postdata).then(function(response) {
+                                            $scope.loading = false;
+                                            if (response.status == 201) {
+                                                services.showAlert('Success', 'Processo foi gravado com sucesso !').then(function(res) {
+                                                    services.goToOperationUpdateForm($scope.processId, $scope.operationId);
+                                                });
+                                            }
+                                        }, function() {
+                                            $scope.loading = false;
+                                            services.showAlert('Falhou', 'Please try again');
+                                        });
+                                    }
+
+                                    if (method == 'PUT')
+                                    {
+                                        Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).one('consume', $scope.consumeId).customPUT($scope.postdata).then(function(response) {
+                                            $scope.loading = false;
+                                            services.showAlert('Success', 'Processo foi gravado com sucesso !').then(function(res) {
+                                                services.goToOperationUpdateForm($scope.processId, $scope.operationId);
+                                            });
+                                        }, function(response) {
+                                            $scope.loading = false;
+                                            services.showAlert('Falhou', 'Please try again');
+                                        });
+                                    }
+                                }, function(response) {
+                                    services.showAlert('Falhou', 'Please try again');
                                 });
-                            }, function(response) {
-                                $scope.loading = false;
-                                services.showAlert('Falhou', 'Please try again');
+                            });
+                        } else {
+                            $scope.loading = false;
+                            services.showAlert('Error', 'Material not found for written code.Please check it').then(function(res) {
+                                return false;
                             });
                         }
+                        console.log(JSON.stringify(codeStatus));
                     }, function(response) {
+                        $scope.loading = false;
                         services.showAlert('Falhou', 'Please try again');
                     });
                 }
             };
-            Restangular.one('manufacturing/process').get({start: 0, max: 5}).then(function(response) {
-                $scope.items = response.data;
-                $scope.currentPage = 1;
-                $scope.pageSize = 10;
-            }, function(response) {
-                services.showAlert('Falhou', 'Please try again');
-            });
-            $scope.searchProcess = function(text) {
+            $scope.searchMaterial = function(text) {
                 Restangular.one('common/material').get({search: text, start: 0, max: 5}).then(function(response) {
                     $scope.items = response.data;
+                    $scope.currentPage = 1;
+                    $scope.pageSize = 10;
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');
                 });
             };
+            $scope.searchText = '';
+            $scope.searchMaterial($scope.searchText);
 
             $scope.goUpdate = function(code, desc) {
                 $scope.consumeData.code = code;

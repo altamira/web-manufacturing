@@ -60,7 +60,7 @@ altamiraAppControllers.controller('BomEditCtrl',
                         $scope.postdata.version = response1.data.version;
                         Restangular.one('manufacturing/bom', $scope.bomId).customPUT($scope.postdata).then(function(response) {
                             $scope.loading = false;
-                            $location.path('/bom/list');
+                            $location.path('/manufacturing/bom');
                         }, function(response) {
                             $scope.loading = false;
                             services.showAlert('Falhou', 'Please try again');
@@ -85,7 +85,7 @@ altamiraAppControllers.controller('BomEditCtrl',
                             $scope.loading = false;
                             services.showAlert(' A BOM - ' + $scope.bomId + ' removed successfully.').then(function(res) {
                                 if (res) {
-                                    $location.path('/bom/list');
+                                    $location.path('/manufacturing/bom');
                                 }
                             });
                         }, function() {
@@ -135,6 +135,6 @@ altamiraAppControllers.controller('BomEditCtrl',
                 });
             };
             $scope.goBack = function() {
-                $location.path('bom/list');
+                $location.path('manufacturing/bom');
             };
         });

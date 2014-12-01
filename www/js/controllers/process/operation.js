@@ -24,8 +24,10 @@ altamiraAppControllers.controller('ManufacturingProcessCreateOperationCtrl',
                         "extension": $scope.operationData.filetype,
                         "image": $scope.operationData.sketch
                     };
+                    $scope.postdata.use = [];
                     $scope.postdata.consume = [];
                     $scope.postdata.produce = [];
+                    console.log(JSON.stringify($scope.postdata));
                     Restangular.one('manufacturing/process', $scope.processId).all('operation').post($scope.postdata).then(function(response) {
                         $scope.loading = false;
                         if (response.status == 201) {
@@ -63,6 +65,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                     if (response.data != '')
                     {
                         $scope.loading = false;
+                        console.log(JSON.stringify(response.data));
                         $scope.operationData.operationVersion = response.data.version;
                         $scope.operationData.sequence = response.data.sequence;
                         $scope.operationData.name = response.data.name;
@@ -110,6 +113,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                     };
                     Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).get().then(function(response1) {
                         $scope.postdata.version = response1.data.version;
+                        console.log(JSON.stringify($scope.postdata));
                         Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).customPUT($scope.postdata).then(function(response) {
                             $scope.loading = false;
                             services.goToProcessUpdateForm($scope.processId);

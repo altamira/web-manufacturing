@@ -8,7 +8,7 @@
     <form name="componentForm" novalidate ng-submit="submiComponentForm(componentForm.$valid)">
         <ion-header-bar class="bar-calm">
             <div class="buttons header-margin">
-                <button class="button fa-arrow-left" ng-click="goBack()"></button>
+                <button type="button" class="button fa-arrow-left" ng-click="goBack()"></button>
                 <span ng-if="action != 'create'">
                     <span class="btn-separator"></span>
                     <h4 class="mf-page-titles" ng-bind='componentData.code'></h4>
@@ -19,7 +19,7 @@
                 </div>
                 <button class="button fa-check" ng-click="submitted=true" ></button>
                 <span ng-if="action != 'create'">
-                    <button class="button fa-remove-header" ng-click="removeComponent()" ></button>
+                    <button type="button" class="button fa-remove-header" ng-click="removeComponent()" ></button>
                 </span>
             </div>
         </ion-header-bar>

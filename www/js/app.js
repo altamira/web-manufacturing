@@ -61,7 +61,7 @@ altamiraApp.config(['$routeProvider',
         })
                 /* manufacturing/process  End */
                 /* BOM pages  Start */
-                .when('/bom/list', {
+                .when('/manufacturing/bom', {
             templateUrl: 'templates/bom/list.html',
             controller: 'BomListCtrl'
         })

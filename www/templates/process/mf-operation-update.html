@@ -8,7 +8,7 @@
     <form name="operationForm" novalidate ng-submit="submitOperationForm(operationForm.$valid)" enctype="multipart/form-data">
         <ion-header-bar class="bar-calm">
             <div class="buttons header-margin">
-                <button class="button fa-arrow-left" ng-click="goBack()"></button>
+                <button type="button" class="button fa-arrow-left" ng-click="goBack()"></button>
                 <span class="btn-separator"></span>
                 <!--<h4 class="mf-page-titles">&nbsp;<span ng-bind="operationData.sequence"></span> - <span ng-bind="operationData.name"></span>&nbsp;</h4>-->
                 <h4 class="mf-page-titles">&nbsp;{{operationData.sequence}} - {{operationData.name}}&nbsp;</h4>

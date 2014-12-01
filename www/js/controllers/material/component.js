@@ -88,7 +88,7 @@ altamiraAppControllers.controller('MaterialComponentCtrl',
                 $scope.postdata.version = response1.data.version;
                 Restangular.one('manufacturing/bom', $scope.bomId).customPUT($scope.postdata).then(function(response) {
                     $scope.loading = false;
-                    $location.path('/bom/list');
+                    $location.path('/manufacturing/bom');
                 }, function(response) {
                     $scope.loading = false;
                     services.showAlert('Falhou', 'Please try again');
