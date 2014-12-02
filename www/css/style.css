@@ -1,7 +1,3 @@
-body {
-  cursor: url('http://ionicframework.com/img/finger.png'), auto;
-}
-
 @font-face {
 font-family:iconFont;
 src:url(../fonts/iconFont.eot);
@@ -2235,4 +2231,7 @@ vertical-align:-10%
     content: "\f0ad";
     font-size: 34px;
     color: #00ABA9;
+}
+.sidemenu-bg{
+    background-color: #333333;
 }

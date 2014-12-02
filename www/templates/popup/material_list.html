@@ -25,7 +25,7 @@
         <hr class='operation-item'>
         <div class="row">
             <div class="col">
-                <div class="list list-inset listing-col" dir-paginate="process in items | filter:searchText | itemsPerPage: pageSize" current-page="currentPage">
+                <div class="list list-inset listing-col" ng-repeat="process in items | filter:searchText">
                     <a class="item-list item-icon-right" ng-click="goUpdate(process.code,process.description)">
                         <span class="text-center-middle"><span class="font-grey">{{process.code}}</span> {{process.description}}</span>
                         <i class="icon fa-arrow-right arrow-right"></i>
@@ -33,12 +33,24 @@
                 </div>
             </div>
         </div>
-        <div class="other-controller">
-            <div class="text-center">
-                <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="templates/dirPagination.tpl.html">
-                </dir-pagination-controls>
+        <!--        <div class="other-controller">
+                    <div class="text-center">
+                        <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="templates/dirPagination.tpl.html">
+                        </dir-pagination-controls>
+                    </div>
+                </div>-->
+        <div class="row">
+            <div class="pagination">
+                <a ng-repeat="n in pageStack" ng-click="goPage(n)">
+                    <span ng-if='n != (pageStack.length)'>
+                        <span class="page">{{n}}</span>
+                    </span>
+                    <span ng-if='n == (pageStack.length)'>
+                        <span class="page active">{{n}}</span>
+                    </span>
+                </a>
+                <a  class="page fa-arrow-right next-arrow" ng-click="nextPage(pageStack.length)"></a>
             </div>
         </div>
-
     </ion-content>
 </div>

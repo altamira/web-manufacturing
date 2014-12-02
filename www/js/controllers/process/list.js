@@ -2,8 +2,6 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
         function($scope, $location, $routeParams, $localStorage, $ionicPopup, Restangular, services) {
             $scope.startPage = $routeParams.start;
             $scope.maxRecord = 10;
-            $scope.currentPage = 1;
-            $scope.pageSize = 1;
             $scope.pageStack = [];
             $scope.searchText = '';
 

@@ -142,18 +142,58 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                     });
                 }
             };
-            $scope.searchMaterial = function(text) {
-                Restangular.one('common/material').get({search: text, start: 0, max: 5}).then(function(response) {
+            $scope.startPage = 0;
+            $scope.maxRecord = 10;
+            $scope.searchText = '';
+            $scope.loadMaterial = function() {
+                Restangular.one('common/material').get({search: $scope.searchText, start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
                     $scope.items = response.data;
-                    $scope.currentPage = 1;
-                    $scope.pageSize = 10;
+                    console.log(JSON.stringify(response.data))
+                    $scope.range();
+                    if (response.data == '') {
+                        if ((parseInt($scope.startPage) != 0))
+                        {
+                            $scope.startPage = (parseInt($scope.startPage) - 1);
+                            $scope.loadMaterial();
+                        } else
+                        {
+                            services.showAlert('Notice', 'Material list is empty').then(function(res) {
+                            });
+                        }
+                    }
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');
                 });
             };
-            $scope.searchText = '';
-            $scope.searchMaterial($scope.searchText);
-
+            $scope.searchMaterial = function(text) {
+                $scope.startPage = 0;
+                $scope.maxRecord = 10;
+                $scope.searchText = text;
+                $scope.loadMaterial();
+            };
+            $scope.range = function() {
+                $scope.pageStack = [];
+                var start = parseInt($scope.startPage) + 1;
+                var input = [];
+                for (var i = 1; i <= start; i++) {
+                    $scope.pageStack.push(i);
+                }
+                console.log(JSON.stringify($scope.pageStack));
+            };
+            $scope.nextPage = function(len) {
+                var nextPage = parseInt(len);
+                $scope.startPage = nextPage;
+                $scope.loadMaterial();
+            }
+            $scope.prevPage = function(nextPage) {
+                $scope.startPage = nextPage;
+                $scope.loadMaterial();
+            }
+            $scope.goPage = function(pageNumber) {
+                var nextPage = parseInt(pageNumber) - 1;
+                $scope.startPage = nextPage;
+                $scope.loadMaterial();
+            }
             $scope.goUpdate = function(code, desc) {
                 $scope.consumeData.code = code;
                 $scope.consumeData.description = desc;
@@ -167,6 +207,8 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                 $scope.materialList = modal;
             });
             $scope.materialListModalShow = function() {
+                $scope.searchText = '';
+                $scope.loadMaterial($scope.searchText);
                 $scope.materialList.show();
             };
             $scope.materialListModalClose = function() {
@@ -223,7 +265,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                         $scope.loading = false;
                         console.log(JSON.stringify(response.data));
                         if (response.status == 201) {
-                            $scope.items.push({"id":response.data.id,"code":$scope.material.code,"description":$scope.material.description});
+                            $scope.items.push({"id": response.data.id, "code": $scope.material.code, "description": $scope.material.description});
                             services.showAlert('Success', 'Processo foi gravado com sucesso !').then(function(res) {
                                 $scope.consumeData.code = $scope.material.code;
                                 $scope.consumeData.description = $scope.material.description;
@@ -235,16 +277,6 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                         $scope.loading = false;
                         services.showAlert('Falhou', 'Please try again');
                     });
-//                    $http({
-//                        method: 'POST',
-//                        url: 'http://data.altamira.com.br/data-rest-0.7.1-SNAPSHOT/manufacture/tooling',
-//                        data: $scope.material,
-//                        headers: {'Content-Type': 'application/json'}
-//                    }).then(function(response) {
-//                        if (response.status == 201) {
-//                            alert('success');
-//                        }
-//                    });
                 }
 
             };
