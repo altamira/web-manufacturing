@@ -42,7 +42,7 @@ altamiraAppControllers.controller('ManufacturingProcessCreateOperationCtrl',
                 }
             };
             $scope.goBack = function() {
-                $location.path('/manufacturing/update/process/' + $scope.processId);
+                $location.path('manufacturing/update/process/' + $scope.processId);
             };
 
         });
@@ -65,7 +65,6 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                     if (response.data != '')
                     {
                         $scope.loading = false;
-                        console.log(JSON.stringify(response.data));
                         $scope.operationData.operationVersion = response.data.version;
                         $scope.operationData.sequence = response.data.sequence;
                         $scope.operationData.name = response.data.name;
@@ -147,7 +146,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                 });
             };
             $scope.goBack = function() {
-                $location.path('/manufacturing/update/process/' + $scope.processId);
+                $location.path('manufacturing/update/process/' + $scope.processId);
             };
             $scope.createUse = function() {
                 $location.path('/manufacturing/process/operation/use/' + $scope.processId + '/' + $scope.operationId);

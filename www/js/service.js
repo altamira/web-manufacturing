@@ -17,7 +17,7 @@ altamiraApp.service('services', function($ionicPopup, $window, $state, $statePar
             return alertPopup;
         },
         goToProcessUpdateForm: function(id) {
-            $location.path('/manufacturing/update/process/' + id);
+            $location.path('manufacturing/update/process/' + id);
         },
         goToOperationUpdateForm: function(processId, operationId) {
             $location.path('/manufacturing/process/operation/update/' + processId + '/' + operationId);

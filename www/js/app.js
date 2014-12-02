@@ -118,7 +118,7 @@ altamiraApp.config(['$routeProvider',
     }]);
 
 altamiraApp.config(function(RestangularProvider) {
-	RestangularProvider.setBaseUrl('http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT');
+	RestangularProvider.setBaseUrl('http://data.altamira.com.br/data-rest-0.7.1-SNAPSHOT');
 	RestangularProvider.setFullResponse(true);
 	RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json; charset=iso-8859-1'});
 	/*RestangularProvider.setDefaultHttpFields({

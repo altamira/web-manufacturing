@@ -2191,3 +2191,48 @@ vertical-align:-10%
 
 .icon-box2 { background:#00aba9 ; float:left; width:50%; margin-left: 2px; margin-right: 7px; text-align:center; height:58px; padding-top:10px !important; }
 .icon-title { font-size:22px; color:#fff; padding-left:5px;  position:relative; top:-4px;}
+.material-type-list {
+    padding-left: 40px;
+    font-weight: bold;
+}
+.material-type-list-icon {
+    position: absolute !important;
+    left: 0px !important;
+    display: inline-block;
+}
+.fa-cart-produto:before {
+    font-family: "fontawesome";
+    content: "\f07a";
+    font-size: 34px;
+    color: #00ABA9;
+}
+.fa-material-prima:before {
+    font-family: "fontawesome";
+    content: "\f20c";
+    font-size: 34px;
+    color: #00ABA9;
+}
+.fa-insumos:before {
+    font-family: "fontawesome";
+    content: "\f187";
+    font-size: 34px;
+    color: #00ABA9;
+}
+.fa-tinta:before {
+    font-family: "fontawesome";
+    content: "\f1fc";
+    font-size: 34px;
+    color: #00ABA9;
+}
+.fa-maquinas:before {
+    font-family: "fontawesome";
+    content: "\f085";
+    font-size: 34px;
+    color: #00ABA9;
+}
+.fa-ferramentas:before {
+    font-family: "fontawesome";
+    content: "\f0ad";
+    font-size: 34px;
+    color: #00ABA9;
+}

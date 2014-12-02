@@ -30,7 +30,8 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                 }
                 if ($scope.$storage.x == '' || $scope.$storage.x == undefined)
                 {
-                    Restangular.one('manufacturing/process').get({start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
+                    var baseProcessUrl = Restangular.one('manufacturing').one('process');
+                    baseProcessUrl.get({start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
                         $scope.loading = false;
                         $scope.processes = response.data;
                         $scope.range();
@@ -51,7 +52,7 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                 }
                 else
                 {
-                    Restangular.one('manufacturing/process').get({search: $scope.$storage.x, start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
+                    baseProcessUrl.get({search: $scope.$storage.x, start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
                         $scope.loading = false;
                         $scope.processes = response.data;
                         $scope.range();

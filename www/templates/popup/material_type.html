@@ -1,0 +1,57 @@
+<div class="modal">
+    <ion-header-bar class="bar-calm">
+        <div class="buttons header-margin">
+            <button type="button" class="button fa-arrow-left" ng-click="materialTypeModalClose()"></button>
+            <span class="btn-separator"></span>
+            <h4 class="mf-page-titles">&nbsp;Escolha Tipo de Material</h4>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <div class="row">
+            <div class="col">
+                <div class="list list-inset listing-col">
+                    <a class="item-list item-icon-left item-icon-right" ng-click="selectMaterialType('produto')">
+                        <i class="icon fa-cart-produto material-type-list-icon"></i>
+                        <div class="material-type-list">Produto</div>
+                        <i class="icon fa-arrow-right arrow-right"></i>
+                    </a>
+                </div>
+                <div class="list list-inset listing-col">
+                    <a class="item-list item-icon-left item-icon-right" ng-click="selectMaterialType('material_prima')">
+                        <i class="icon fa-material-prima material-type-list-icon"></i>
+                        <div class="material-type-list">Material Prima</div>
+                        <i class="icon fa-arrow-right arrow-right"></i>
+                    </a>
+                </div>
+                <div class="list list-inset listing-col">
+                    <a class="item-list item-icon-left item-icon-right" ng-click="selectMaterialType('insumos')">
+                        <i class="icon fa-insumos material-type-list-icon"></i>
+                        <div class="material-type-list">Insumos</div>
+                        <i class="icon fa-arrow-right arrow-right"></i>
+                    </a>
+                </div>
+                <div class="list list-inset listing-col">
+                    <a class="item-list item-icon-left item-icon-right" ng-click="selectMaterialType('tinta')">
+                        <i class="icon fa-tinta material-type-list-icon"></i>
+                        <div class="material-type-list">Tinta</div>
+                        <i class="icon fa-arrow-right arrow-right"></i>
+                    </a>
+                </div>
+                <div class="list list-inset listing-col">
+                    <a class="item-list item-icon-left item-icon-right" ng-click="selectMaterialType('maquinas')">
+                        <i class="icon fa-maquinas material-type-list-icon"></i>
+                        <div class="material-type-list">Maquinas</div>
+                        <i class="icon fa-arrow-right arrow-right"></i>
+                    </a>
+                </div>
+                <div class="list list-inset listing-col">
+                    <a class="item-list item-icon-left item-icon-right" ng-click="selectMaterialType('tooling')">
+                        <i class="icon fa-ferramentas material-type-list-icon"></i>
+                        <div class="material-type-list">Ferramentas</div>
+                        <i class="icon fa-arrow-right arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</div>

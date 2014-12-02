@@ -157,33 +157,97 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
             $scope.goUpdate = function(code, desc) {
                 $scope.consumeData.code = code;
                 $scope.consumeData.description = desc;
-                $scope.closeModal();
+                $scope.materialList.hide();
             };
 
-            $ionicModal.fromTemplateUrl('find_product.html', {
+            $ionicModal.fromTemplateUrl('templates/popup/material_list.html', {
                 scope: $scope,
-                animation: 'slide-in-left'
+                animation: 'fade-in'
             }).then(function(modal) {
-                $scope.modal = modal;
+                $scope.materialList = modal;
             });
-            $scope.openModal = function() {
-                $scope.modal.show();
+            $scope.materialListModalShow = function() {
+                $scope.materialList.show();
             };
-            $scope.closeModal = function() {
-                $scope.modal.hide();
+            $scope.materialListModalClose = function() {
+                $scope.materialList.hide();
             };
-            //Cleanup the modal when we're done with it!
-            $scope.$on('$destroy', function() {
-                $scope.modal.remove();
+
+            $ionicModal.fromTemplateUrl('templates/popup/material_type.html', {
+                scope: $scope,
+                animation: 'fade-in'
+            }).then(function(modal) {
+                $scope.materialType = modal;
             });
-            // Execute action on hide modal
-            $scope.$on('modal.hidden', function() {
-                // Execute action
+
+            $scope.materialTypeModalShow = function() {
+                $scope.materialListModalClose();
+                $scope.materialType.show();
+            };
+
+            $scope.materialTypeModalClose = function() {
+                $scope.materialType.hide();
+                $scope.materialListModalShow();
+            };
+
+            $scope.selectMaterialType = function(type) {
+                $scope.material = {};
+                $scope.materialTypeText = type;
+                $scope.material.version = 0;
+                $scope.material.code = '';
+                $scope.material.description = '';
+                console.log(JSON.stringify($scope.materialTypeText));
+                $scope.materialCreateModalShow();
+            };
+
+            $ionicModal.fromTemplateUrl('templates/popup/material_create.html', {
+                scope: $scope,
+                animation: 'fade-in'
+            }).then(function(modal) {
+                $scope.materialCreate = modal;
             });
-            // Execute action on remove modal
-            $scope.$on('modal.removed', function() {
-                // Execute action
-            });
+
+            $scope.materialCreateModalShow = function() {
+                $scope.materialType.hide();
+                $scope.materialCreate.show();
+            };
+
+            $scope.materialCreateModalClose = function() {
+                $scope.materialCreate.hide();
+                $scope.materialTypeModalShow();
+            };
+            $scope.submitCreateMaterial = function(isValid) {
+                if (isValid) {
+                    console.log(JSON.stringify($scope.material));
+                    Restangular.all('manufacture').all('tooling').post($scope.material).then(function(response) {
+                        $scope.loading = false;
+                        console.log(JSON.stringify(response.data));
+                        if (response.status == 201) {
+                            $scope.items.push({"id":response.data.id,"code":$scope.material.code,"description":$scope.material.description});
+                            services.showAlert('Success', 'Processo foi gravado com sucesso !').then(function(res) {
+                                $scope.consumeData.code = $scope.material.code;
+                                $scope.consumeData.description = $scope.material.description;
+
+                                $scope.materialCreate.hide();
+                            });
+                        }
+                    }, function() {
+                        $scope.loading = false;
+                        services.showAlert('Falhou', 'Please try again');
+                    });
+//                    $http({
+//                        method: 'POST',
+//                        url: 'http://data.altamira.com.br/data-rest-0.7.1-SNAPSHOT/manufacture/tooling',
+//                        data: $scope.material,
+//                        headers: {'Content-Type': 'application/json'}
+//                    }).then(function(response) {
+//                        if (response.status == 201) {
+//                            alert('success');
+//                        }
+//                    });
+                }
+
+            };
 
             $scope.removeConsume = function() {
                 services.showConfirmBox('Confirmation', 'Are you sure to remove this consume ?').then(function(res) {

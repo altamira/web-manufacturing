@@ -1,0 +1,32 @@
+<div class="modal">
+    <form name="materialCreateForm" novalidate ng-submit="submitCreateMaterial(materialCreateForm.$valid)">
+        <ion-header-bar class="bar-calm">
+            <div class="buttons header-margin">
+                <button type="button" class="button fa-arrow-left" ng-click="materialCreateModalClose()"></button>
+                <span class="btn-separator"></span>
+                <button class="button fa-check" ng-click="submitted=true"></button>
+                <button type="button" class="button fa-download" ng-click="importOrder()"></button>
+            </div>
+        </ion-header-bar>
+        <ion-content>
+            <div class="row" ng-if="materialTypeText == 'tooling'">
+                <div class="col">
+                    <div class="list">
+                        <span class="input-label text-bold">Codigo</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="code" ng-model="material.code" required ng-minlength='25' />
+                        </label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.required">Codigo field is required.</label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.minlength">Please enter minimum 25 character.</label>
+                        <span class="input-label text-bold">Descricao</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="description" ng-model="material.description" required ng-minlength='50'/>
+                        </label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.required">Description field is required.</label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.minlength">Please enter minimum 50 character.</label>
+                    </div>
+                </div>
+            </div>
+        </ion-content>
+    </form>
+</div>
