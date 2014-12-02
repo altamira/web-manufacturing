@@ -56,6 +56,8 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
             $scope.operationData.name = '';
             $scope.operationData.description = '';
             $scope.operationData.sketch = '';
+            $scope.operationData.sketchVersion = 0;
+            $scope.operationData.sketchId = ''
             $scope.operationData.format = '';
             $scope.operationData.filename = '';
             $scope.operationData.filetype = '';
@@ -103,13 +105,16 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                     $scope.postdata.name = $scope.operationData.name;
                     $scope.postdata.description = $scope.operationData.description;
                     $scope.postdata.sketch = {
-                        "id": parseInt($scope.operationData.sketchId),
                         "version": parseInt($scope.operationData.sketchVersion),
                         "format": $scope.operationData.format,
                         "filename": $scope.operationData.filename,
                         "extension": $scope.operationData.filetype,
                         "image": $scope.operationData.sketch
                     };
+                    if($scope.operationData.sketchId != '')
+                        {
+                            $scope.postdata.sketch.id = parseInt($scope.operationData.sketchId);
+                        }
                     Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).get().then(function(response1) {
                         $scope.postdata.version = response1.data.version;
                         console.log(JSON.stringify($scope.postdata));
