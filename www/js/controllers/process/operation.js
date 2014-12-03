@@ -78,6 +78,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                         {
                             Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).one('sketch', response.data.sketch.id).get().then(function(response1) {
                                 $scope.loading = false;
+                                console.log(JSON.stringify(response1.data.image));
                                 $scope.operationData.sketchVersion = response1.data.version;
                                 $scope.operationData.sketchId = response1.data.id;
                                 $scope.operationData.sketch = response1.data.image;
@@ -100,10 +101,12 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                 if (isValid) {
                     $scope.loading = true;
                     $scope.postdata = {};
+
                     $scope.postdata.id = parseInt($scope.operationId);
                     $scope.postdata.sequence = parseInt($scope.operationData.sequence);
                     $scope.postdata.name = $scope.operationData.name;
                     $scope.postdata.description = $scope.operationData.description;
+                    $scope.postdata.sketch = {};
                     $scope.postdata.sketch = {
                         "version": parseInt($scope.operationData.sketchVersion),
                         "format": $scope.operationData.format,
@@ -111,16 +114,18 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                         "extension": $scope.operationData.filetype,
                         "image": $scope.operationData.sketch
                     };
-                    if($scope.operationData.sketchId != '')
-                        {
-                            $scope.postdata.sketch.id = parseInt($scope.operationData.sketchId);
-                        }
+
+                    if ($scope.operationData.sketchId != '' && $scope.operationData.sketch != "")
+                    {
+                        $scope.postdata.sketch.id = parseInt($scope.operationData.sketchId);
+                    }
+
                     Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).get().then(function(response1) {
                         $scope.postdata.version = response1.data.version;
                         console.log(JSON.stringify($scope.postdata));
                         Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).customPUT($scope.postdata).then(function(response) {
                             $scope.loading = false;
-                            services.goToProcessUpdateForm($scope.processId);
+//                            services.goToProcessUpdateForm($scope.processId);
                         }, function(response) {
                             $scope.loading = false;
                             services.showAlert('Falhou', 'Please try again');
@@ -131,6 +136,51 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                     });
 
                 }
+            };
+            $scope.uploadSketch = function() {
+                $scope.postdataSketch = {};
+                $scope.postdataSketch = {
+                    "version": parseInt($scope.operationData.sketchVersion),
+                    "format": $scope.operationData.format,
+                    "filename": $scope.operationData.filename,
+                    "extension": $scope.operationData.filetype,
+                    "image": $scope.operationData.sketch
+                };
+                if ($scope.operationData.sketchId != '')
+                {
+                    $scope.loading = true;
+                    $scope.postdataSketch.id = parseInt($scope.operationData.sketchId);
+                    Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).one('sketch', $scope.operationData.sketchId).customPUT($scope.postdataSketch).then(function(response) {
+                        $scope.loading = false;
+
+                    }, function(response) {
+                        $scope.loading = false;
+                        services.showAlert('Falhou', 'Please try again');
+                    });
+                }
+                else
+                {
+                    $scope.loading = true;
+                    Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).all('sketch').post($scope.postdataSketch).then(function(response) {
+                        $scope.loading = false;
+                        $scope.operationData.sketchId = response.data.id;
+                    }, function(response) {
+                        $scope.loading = false;
+                        services.showAlert('Falhou', 'Please try again');
+                    });
+                }
+
+            };
+
+            $scope.removeSketch = function() {
+                $scope.loading = true;
+                Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).one('sketch', $scope.operationData.sketchId).remove().then(function(response) {
+                    $scope.loading = false;
+                    $scope.operationData.sketchId = '';
+                }, function(response) {
+                    $scope.loading = false;
+                    services.showAlert('Falhou', 'Please try again');
+                });
             };
             $scope.removeOperation = function() {
                 services.showConfirmBox('Confirmation', 'Are you sure to remove this Operation?').then(function(res) {

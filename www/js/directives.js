@@ -37,7 +37,7 @@ altamiraApp.directive('imageConvert', function() {
                         scope.operationData.sketch = base64string[1];
                         scope.operationData.filename = imagename;
                         scope.operationData.filetype = filetype[1];
-
+                        scope.uploadSketch();
                     });
                 };
                 FR.readAsDataURL(this.files[0]);

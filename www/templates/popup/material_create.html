@@ -9,21 +9,192 @@
             </div>
         </ion-header-bar>
         <ion-content>
-            <div class="row" ng-if="materialTypeText == 'tooling'">
+            <div class="row" ng-if="materialTypeText == 'product'">
                 <div class="col">
-                    <div class="list">
+                    <div class="list list-row">
                         <span class="input-label text-bold">Codigo</span>
                         <label class="item item-input input-box-extra">
-                            <input type="text" name="code" ng-model="material.code" required ng-minlength='25' />
+                            <input type="text" name="code" ng-model="material.code" required ng-minlength='6' />
                         </label>
                         <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.required">Codigo field is required.</label>
-                        <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.minlength">Please enter minimum 25 character.</label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.minlength">Please enter minimum 6 character.</label>
+                    </div>
+                    <div class="list list-row">
                         <span class="input-label text-bold">Descricao</span>
                         <label class="item item-input input-box-extra">
-                            <input type="text" name="description" ng-model="material.description" required ng-minlength='50'/>
+                            <input type="text" name="description" ng-model="material.description" required ng-minlength='5'/>
                         </label>
                         <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.required">Description field is required.</label>
-                        <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.minlength">Please enter minimum 50 character.</label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.minlength">Please enter minimum 5 character.</label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Width</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="width" ng-model="material.width"/>
+                        </label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Height</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="height" ng-model="material.height"/>
+                        </label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Length</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="length" ng-model="material.length"/>
+                        </label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Weight</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="weight" ng-model="material.weight"/>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-if="materialTypeText == 'material'">
+                <div class="col">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Codigo</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="code" ng-model="material.code" required ng-minlength='6' />
+                        </label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.required">Codigo field is required.</label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.minlength">Please enter minimum 6 character.</label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Descricao</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="description" ng-model="material.description" required ng-minlength='5'/>
+                        </label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.required">Description field is required.</label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.minlength">Please enter minimum 5 character.</label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Lamination</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="lamination" ng-model="material.lamination" required ng-minlength='2'/>
+                        </label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.lamination.$error.required">Lamination field is required.</label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.lamination.$error.minlength">Please enter minimum 2 character.</label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Treatment</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="treatment" ng-model="material.treatment" required ng-minlength='2'/>
+                        </label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.treatment.$error.required">Treatment field is required.</label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.treatment.$error.minlength">Please enter minimum 2 character.</label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Thickness</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="thickness" ng-model="material.thickness"/>
+                        </label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Width</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="width" ng-model="material.width"/>
+                        </label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Length</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="length" ng-model="material.length"/>
+                        </label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Tax</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="tax" ng-model="material.tax"/>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-if="materialTypeText == 'inputs'">
+                <div class="col">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Codigo</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="code" ng-model="material.code" required ng-minlength='6' />
+                        </label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.required">Codigo field is required.</label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.minlength">Please enter minimum 6 character.</label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Descricao</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="description" ng-model="material.description" required ng-minlength='5'/>
+                        </label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.required">Description field is required.</label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.minlength">Please enter minimum 5 character.</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-if="materialTypeText == 'ink'">
+                <div class="col">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Codigo</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="code" ng-model="material.code" required ng-minlength='6' />
+                        </label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.required">Codigo field is required.</label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.minlength">Please enter minimum 6 character.</label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Descricao</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="description" ng-model="material.description" required ng-minlength='5'/>
+                        </label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.required">Description field is required.</label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.minlength">Please enter minimum 5 character.</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-if="materialTypeText == 'machine'">
+                <div class="col">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Codigo</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="code" ng-model="material.code" required ng-minlength='6' />
+                        </label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.required">Codigo field is required.</label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.minlength">Please enter minimum 6 character.</label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Descricao</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="description" ng-model="material.description" required ng-minlength='5'/>
+                        </label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.required">Description field is required.</label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.minlength">Please enter minimum 5 character.</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row" ng-if="materialTypeText == 'tooling'">
+                <div class="col">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Codigo</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="code" ng-model="material.code" required ng-minlength='6' />
+                        </label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.required">Codigo field is required.</label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.minlength">Please enter minimum 6 character.</label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Descricao</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="description" ng-model="material.description" required ng-minlength='5'/>
+                        </label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.required">Description field is required.</label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.minlength">Please enter minimum 5 character.</label>
                     </div>
                 </div>
             </div>

@@ -260,8 +260,29 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
             };
             $scope.submitCreateMaterial = function(isValid) {
                 if (isValid) {
+                    var materialBaseUrl = '';
+                    switch ($scope.materialTypeText) {
+                        case 'product':
+                            materialBaseUrl = Restangular.all('sales').all('product');
+                            break;
+                        case 'material':
+                            materialBaseUrl = Restangular.all('purchase').all('material');
+                            break;
+                        case 'inputs':
+                            materialBaseUrl = Restangular.all('purchase').all('inputs');
+                            break;
+                        case 'ink':
+                            materialBaseUrl = Restangular.all('purchase').all('ink');
+                            break;
+                        case 'machine':
+                            materialBaseUrl = Restangular.all('manufacture').all('machine');
+                            break;
+                        case 'tooling':
+                            materialBaseUrl = Restangular.all('manufacture').all('tooling');
+                            break;
+                    }
                     console.log(JSON.stringify($scope.material));
-                    Restangular.all('manufacture').all('tooling').post($scope.material).then(function(response) {
+                    materialBaseUrl.post($scope.material).then(function(response) {
                         $scope.loading = false;
                         console.log(JSON.stringify(response.data));
                         if (response.status == 201) {
