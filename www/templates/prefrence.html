@@ -1,0 +1,88 @@
+<ion-pane>
+    <form name="useForm" novalidate ng-submit="submitUseForm(useForm.$valid)">
+        <ion-header-bar class="bar-calm black-bg">
+            <div class="buttons header-margin">
+                <button class="button fa-arrow-left black-bg" ng-click="goBack()"></button>
+                <span class="btn-separator"></span>
+                <h4 class="mf-page-titles">Alessandro</h4>
+                <span class="btn-separator"></span>
+                <button class="button fa-check black-bg"></button>
+                <button class="button fa-remove-header black-bg" ></button>
+            </div>
+        </ion-header-bar>
+        <ion-content>
+            <input type="text" name="version" ng-model='useData.version' ng-hide='true'>
+            <div class="row">
+                <div class="col">
+                    <div class="list list-row"> <span class="input-label text-bold">Primeiro Nome</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="code" ng-model="useData.code" required ng-minlength='10'>
+                        </label>
+                        <label class="extra-error" ng-show="submitted && useForm.code.$error.required">Codigo field is required.</label>
+                        <label class="extra-error" ng-show="submitted && useForm.code.$error.minlength">Please enter minimum 10 character.</label>
+                    </div>
+                    <div class="list list-row"> <span class="input-label text-bold">Sobrenome</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="code" ng-model="useData.code" required ng-minlength='10'>
+                        </label>
+                        <label class="extra-error" ng-show="submitted && useForm.code.$error.required">Codigo field is required.</label>
+                        <label class="extra-error" ng-show="submitted && useForm.code.$error.minlength">Please enter minimum 10 character.</label>
+                    </div>
+                    <div class="list list-row"> <span class="input-label text-bold">Email</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="code" ng-model="useData.code" required ng-minlength='10'>
+                        </label>
+                        <label class="extra-error" ng-show="submitted && useForm.code.$error.required">Codigo field is required.</label>
+                        <label class="extra-error" ng-show="submitted && useForm.code.$error.minlength">Please enter minimum 10 character.</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="list"> <a class="process-item-list item-icon-left" href="#"> Autenticação <i class="icon fa-key left-icon"></i> </a> </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="list list-row"> <span class="input-label text-bold">Nome de usuário</span>
+                    <p>alessandro.holanda</p>
+                    <label class="extra-error" ng-show="submitted && useForm.code.$error.required">Codigo field is required.</label>
+                    <label class="extra-error" ng-show="submitted && useForm.code.$error.minlength">Please enter minimum 10 character.</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="list"> <span class="prefrence-col">Senha</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" ng-minlength="10" required="" ng-model="useData.code" name="code" class="ng-pristine ng-invalid ng-invalid-required ng-valid-minlength">
+                        </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="list"> <span class="prefrence-col">Repita a senha</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" ng-minlength="10" required="" ng-model="useData.code" name="code" class="ng-pristine ng-invalid ng-invalid-required ng-valid-minlength">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="list"> <a class="process-item-list item-icon-left" href="#"> Preferências <i class="icon fa-smile-o left-icon"></i> </a> </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="list list-row"> <span class="input-label text-bold">Tema</span>
+                    <div class="color-value-box">
+                        <ul>
+                            <li class="white"></li>
+                            <li class="black"></li>
+                            <li class="green"></li>
+                            <li class="orange"></li>
+                            <li class="blue"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </ion-content>
+    </form>
+</ion-pane>

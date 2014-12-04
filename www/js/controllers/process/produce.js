@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
-        function($scope, $http, $location, $routeParams, $upload, $ionicPopup, $ionicModal, Restangular, services) {
+        function($scope, $http, $location, $routeParams, $upload, $ionicPopup, $ionicModal, Restangular, services, $ionicLoading, $timeout) {
             $scope.processId = $routeParams.processId;
             $scope.operationId = $routeParams.operationId;
             $scope.produceId = $routeParams.produceId;
@@ -300,6 +300,74 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
                 }
 
             };
+
+            $scope.importOrder = function() {
+                $scope.importData = {};
+                // An elaborate, custom popup
+                var importPopup = $ionicPopup.show({
+                    templateUrl: 'templates/popup/material_import.html',
+                    title: 'Numero do Pedido',
+                    scope: $scope,
+                    buttons: [
+                        {text: 'Cancelar',
+                            onTap: function(res) {
+                                importPopup.close();
+                            }
+                        },
+                        {text: '<b>Importar</b>',
+                            type: 'button-positive',
+                            onTap: function(res) {
+                                $scope.showLoading();
+                                //get data from api
+                                Restangular.one('common/material?search=', $scope.importData.materialSearchText).get().then(function(response) {
+                                    $scope.importedMaterial = response.data;
+                                    $ionicModal.fromTemplateUrl('templates/popup/material_import_list.html', {
+                                        scope: $scope,
+                                        animation: 'fade-in'
+                                    }).then(function(modal) {
+                                        $scope.materialImportList = modal;
+                                        $scope.materialImportListModalShow();
+                                    });
+                                    $scope.materialImportListModalShow = function() {
+                                        $scope.materialCreate.hide();
+                                        $scope.materialImportList.show();
+                                    };
+                                    $scope.materialImportListModalClose = function() {
+                                        $scope.materialImportList.hide();
+                                        $scope.materialCreate.show();
+                                    };
+
+                                }, function(response) {
+                                    services.showAlert('Falhou', 'Please try again');
+                                });
+                                $scope.hideLoading();
+                            }
+                        },
+                    ]
+                });
+                importPopup.then(function(res) {
+
+                });
+                $timeout(function() {
+                    importPopup.close();
+                }, 10000);
+            };
+
+            $scope.showLoading = function() {
+                $ionicLoading.show({
+                    template: 'Enviando, aguarde...'
+                });
+            };
+
+            $scope.hideLoading = function() {
+                $ionicLoading.hide();
+            };
+            $scope.selectMaterial = function(code, description) {
+                $scope.material.code = code;
+                $scope.material.description = description;
+                $scope.materialImportListModalClose();
+            };
+
             $scope.removeProduce = function() {
                 services.showConfirmBox('Confirmation', 'Are you sure to remove this produce ?').then(function(res) {
                     if (res) {

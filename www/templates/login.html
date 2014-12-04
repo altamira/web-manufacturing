@@ -1,0 +1,47 @@
+<ion-pane class="login-container">
+    <ion-content>
+        <div class="row">
+            <div class="col desktop-view logo"><img src="img/altamira_logo.png" alt=""> Altamira Industria Metalurgica</div>
+            <div class="col logo-mob"><img src="img/altamira_logo.png" alt=""> Altamira</div>
+        </div>
+        <div class="row">
+            <div class="col-75 desktop-slider">
+                <ul class="bxslider" login-slider>
+                    <li><img src="img/pic1.jpg" alt="" /></li>
+                    <li><img src="img/pic2.jpg" alt="" /></li>
+                    <li><img src="img/pic3.jpg" alt="" /></li>
+                    <li><img src="img/pic4.jpg" alt="" /></li>
+                </ul>
+            </div>
+            <div class="col login-form">
+                <div class="list list-row"> <span class="input-label text-bold">Usuário / Email</span>
+                    <label class="item item-input input-box-extra">
+                        <input type="text" name="code" ng-model="consumeData.code" required ng-minlength='10'>
+                    </label>
+                </div>
+                <div class="list list-row"> <span class="input-label text-bold">Senha</span>
+                    <label class="item item-input input-box-extra">
+                        <input type="text" name="code" ng-model="consumeData.code" required ng-minlength='10'>
+                    </label>
+                </div>
+                <div class="list list-row"> <i class="fa fa-arrow-right" ng-click="goHome()"></i> </div>
+                <br>
+                <br>
+                <br>
+                <div class="list list-row"> <span class="input-label text-bold forgot-password">Esqueci a secha</span>
+                    <hr>
+                </div>
+                <div class="list list-row"> <span class="input-label text-bold">Email</span>
+                    <label class="item item-input input-box-extra">
+                        <input type="text" name="code" ng-model="consumeData.code" required ng-minlength='10'>
+                    </label>
+                </div>
+                <div class="list list-row"> <i class="fa fa-arrow-right"></i> </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+    </ion-content>
+</ion-pane>

@@ -26,9 +26,10 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                 {
                     $scope.deleteX();
                 }
+                var baseProcessUrl = Restangular.one('manufacturing').one('process');
                 if ($scope.$storage.x == '' || $scope.$storage.x == undefined)
                 {
-                    var baseProcessUrl = Restangular.one('manufacturing').one('process');
+
                     baseProcessUrl.get({start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
                         $scope.loading = false;
                         $scope.processes = response.data;

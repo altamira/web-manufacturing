@@ -1,0 +1,23 @@
+<div class="modal">
+    <ion-header-bar class="bar-calm">
+        <div class="buttons header-margin">
+            <button type="button" class="button fa-arrow-left" ng-click="materialListModalClose()"></button>
+            <span class="btn-separator"></span>
+            <h4 class="mf-page-titles">&nbsp;Busca de Material</h4>
+            <span class="btn-separator"></span>
+            <button type="button" class="button fa-plus" ng-click="materialTypeModalShow()"></button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <div class="row">
+            <div class="col">
+                <div class="list list-inset listing-col" ng-repeat="material in importedMaterial">
+                    <a class="item-list item-icon-right" ng-click="selectMaterial(material.code,material.description)">
+                        <span class="text-center-middle"><span class="font-grey">{{material.code}}</span> {{material.description}}</span>
+                        <i class="icon fa-arrow-right arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</div>
