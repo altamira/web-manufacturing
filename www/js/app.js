@@ -92,7 +92,7 @@ altamiraApp.config(['$routeProvider',
                 /* BOM pages  End */
                 /* Material pages  Start */
                 .when('/material/list', {
-            templateUrl: 'templates/material/list-material.html',
+            templateUrl: 'templates/popup/material_list.html',
             controller: 'MaterialListCtrl'
         })
                 .when('/material/create', {
@@ -121,12 +121,24 @@ altamiraApp.config(function(RestangularProvider) {
 	RestangularProvider.setBaseUrl('http://data.altamira.com.br/data-rest-0.7.1-SNAPSHOT');
 	RestangularProvider.setFullResponse(true);
 	RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json; charset=iso-8859-1'});
-	/*RestangularProvider.setDefaultHttpFields({
-		'withCredentials': true
-	});*/
 	RestangularProvider.setRestangularFields({
 		id: "id"
 	});
+        if (sessionStorage.getItem('token') != null && sessionStorage.getItem('token') != '')
+        {
+            RestangularProvider.setDefaultRequestParams({token: sessionStorage.getItem('token')})
+        }
+        RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
+            if (response.status === 401)
+            {
+                window.location = 'http://localhost/altamira_main/www/#/blacktheme/login';
+            } else
+            {
+                var extractedData;
+                extractedData = data;
+                return extractedData;
+            }
+        });
 });
 
 var altamiraAppControllers = angular.module('altamiraAppControllers', []);

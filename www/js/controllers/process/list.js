@@ -1,11 +1,14 @@
 altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
-        function($scope, $location, $routeParams, $localStorage, $ionicPopup, Restangular, services) {
+        function($scope, $location, $routeParams, $localStorage, $ionicPopup, Restangular, services, $route, $window) {
             $scope.startPage = $routeParams.start;
             $scope.maxRecord = 10;
             $scope.pageStack = [];
             $scope.searchText = '';
-
-
+            if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && sessionStorage.getItem('token') == '')
+            {
+                sessionStorage.setItem('token', $routeParams.token);
+                $window.location.reload();
+            }
             $scope.loadBom = function(searchText) {
                 $scope.loading = true;
                 var url = '';
@@ -33,11 +36,12 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                     baseProcessUrl.get({start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
                         $scope.loading = false;
                         $scope.processes = response.data;
+
                         $scope.range();
                         if (response.data == '') {
                             if ((parseInt($scope.startPage) != 0))
                             {
-                                $location.path('/manufacturing/process/' + (parseInt($scope.startPage) - 1));
+                                $location.url('/manufacturing/process/' + (parseInt($scope.startPage) - 1));
                             } else
                             {
                                 services.showAlert('Notice', 'Process list is empty').then(function(res) {
@@ -58,7 +62,7 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                         if (response.data == '') {
                             if ((parseInt($scope.startPage) != 0))
                             {
-                                $location.path('/manufacturing/process/' + (parseInt($scope.startPage) - 1));
+                                $location.url('/manufacturing/process/' + (parseInt($scope.startPage) - 1));
                             } else
                             {
                                 services.showAlert('Notice', 'Process list is empty').then(function(res) {
@@ -81,21 +85,21 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
             }
 
             $scope.newProcess = function() {
-                $location.path('/manufacturing/create/process');
+                $location.url('/manufacturing/create/process');
             }
             $scope.goPage = function(pageNumber) {
                 var nextPage = parseInt(pageNumber) - 1;
-                $location.path('/manufacturing/process/' + nextPage);
+                $location.url('/manufacturing/process/' + nextPage);
             }
             $scope.nextPage = function(len) {
                 var nextPage = parseInt(len);
-                $location.path('/manufacturing/process/' + nextPage);
+                $location.url('/manufacturing/process/' + nextPage);
             }
             $scope.prevPage = function(nextPage) {
-                $location.path('/manufacturing/process/' + nextPage);
+                $location.url('/manufacturing/process/' + nextPage);
             }
             $scope.goUpdate = function(processId) {
-                $location.path('/manufacturing/update/process/' + processId);
+                $location.url('/manufacturing/update/process/' + processId);
             }
             $scope.createProcess = function(code, desc) {
                 $location.url('/manufacturing/create/process?code=' + code + '&desc=' + desc);

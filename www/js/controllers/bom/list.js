@@ -1,5 +1,10 @@
 altamiraAppControllers.controller('BomListCtrl',
-        function($scope, $http, $location, $route, $routeParams, $ionicPopup, $ionicLoading, $timeout, $state, Restangular, $ionicSideMenuDelegate, services) {
+        function($scope, $http, $location, $route, $routeParams, $ionicPopup, $ionicLoading, $timeout, $state, Restangular, $ionicSideMenuDelegate, services, $window) {
+            if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && sessionStorage.getItem('token') == '')
+            {
+                sessionStorage.setItem('token', $routeParams.token);
+                $window.location.reload();
+            }
             $scope.checked = {
                 items: []
             };

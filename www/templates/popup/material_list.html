@@ -1,4 +1,10 @@
-<div class="modal">
+<div class="loding_div" ng-show="loading">
+    <div id="loadingProgressG">
+        <div id="loadingProgressG_1" class="loadingProgressG">
+        </div>
+    </div>
+</div>
+<div ng-class="{modal: isModal}">
     <ion-header-bar class="bar-calm">
         <div class="buttons header-margin">
             <button type="button" class="button fa-arrow-left" ng-click="materialListModalClose()"></button>
@@ -12,10 +18,10 @@
         <div class="row">
             <div class="col">
                 <div class="list">
-                    <div class="item item-input-search">
+                    <div class="item item-input-search material-search">
                         <label class="input-search-wrapper">
                             <i class="icon fa-small-search"></i>
-                            <input type="text" class="input-box" placeholder="search" ng-model="searchText" value="$storage.x">
+                            <input type="text" class="input-box" placeholder="search" ng-model="searchText" value="">
                         </label>
                     </div>
                     <i class="icon fa-search search-icon" ng-click="searchMaterial(searchText)"></i>
@@ -25,7 +31,7 @@
         <hr class='operation-item'>
         <div class="row">
             <div class="col">
-                <div class="list list-inset listing-col" ng-repeat="process in items | filter:searchText">
+                <div class="list list-inset listing-col" ng-repeat="process in items">
                     <a class="item-list item-icon-right" ng-click="goUpdate(process.code,process.description)">
                         <span class="text-center-middle"><span class="font-grey">{{process.code}}</span> {{process.description}}</span>
                         <i class="icon fa-arrow-right arrow-right"></i>
@@ -33,12 +39,6 @@
                 </div>
             </div>
         </div>
-        <!--        <div class="other-controller">
-                    <div class="text-center">
-                        <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="templates/dirPagination.tpl.html">
-                        </dir-pagination-controls>
-                    </div>
-                </div>-->
         <div class="row">
             <div class="pagination">
                 <a ng-repeat="n in pageStack" ng-click="goPage(n)">

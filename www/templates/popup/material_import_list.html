@@ -1,11 +1,7 @@
 <div class="modal">
     <ion-header-bar class="bar-calm">
         <div class="buttons header-margin">
-            <button type="button" class="button fa-arrow-left" ng-click="materialListModalClose()"></button>
-            <span class="btn-separator"></span>
             <h4 class="mf-page-titles">&nbsp;Busca de Material</h4>
-            <span class="btn-separator"></span>
-            <button type="button" class="button fa-plus" ng-click="materialTypeModalShow()"></button>
         </div>
     </ion-header-bar>
     <ion-content>
@@ -17,6 +13,19 @@
                         <i class="icon fa-arrow-right arrow-right"></i>
                     </a>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="pagination">
+                <a ng-repeat="n in pageMaterialStack" ng-click="goImportMaterialPage(n)">
+                    <span ng-if='n != (pageMaterialStack.length)'>
+                        <span class="page">{{n}}</span>
+                    </span>
+                    <span ng-if='n == (pageMaterialStack.length)'>
+                        <span class="page active">{{n}}</span>
+                    </span>
+                </a>
+                <a  class="page fa-arrow-right next-arrow" ng-click="nextImportMaterialPage(pageMaterialStack.length)"></a>
             </div>
         </div>
     </ion-content>

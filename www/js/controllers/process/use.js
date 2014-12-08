@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
-        function($scope, $http, $location, $routeParams, $ionicPopup, $ionicModal, Restangular, services, $ionicLoading, $timeout) {
+        function($scope, $location, $routeParams, $ionicPopup, $ionicModal, Restangular, services, $ionicLoading, $timeout) {
             $scope.processId = $routeParams.processId;
             $scope.operationId = $routeParams.operationId;
             $scope.useId = $routeParams.useId;
@@ -146,6 +146,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
             $scope.startPage = 0;
             $scope.maxRecord = 10;
             $scope.searchText = '';
+            $scope.isModal = true;
             $scope.loadMaterial = function() {
                 Restangular.one('common/material').get({search: $scope.searchText, start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
                     $scope.items = response.data;
@@ -167,8 +168,6 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
                 });
             };
             $scope.searchMaterial = function(text) {
-                $scope.startPage = 0;
-                $scope.maxRecord = 10;
                 $scope.searchText = text;
                 $scope.loadMaterial();
             };
@@ -320,30 +319,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
                         {text: '<b>Importar</b>',
                             type: 'button-positive',
                             onTap: function(res) {
-                                $scope.showLoading();
-                                //get data from api
-                                Restangular.one('common/material?search=', $scope.importData.materialSearchText).get().then(function(response) {
-                                    $scope.importedMaterial = response.data;
-                                    $ionicModal.fromTemplateUrl('templates/popup/material_import_list.html', {
-                                        scope: $scope,
-                                        animation: 'fade-in'
-                                    }).then(function(modal) {
-                                        $scope.materialImportList = modal;
-                                        $scope.materialImportListModalShow();
-                                    });
-                                    $scope.materialImportListModalShow = function() {
-                                        $scope.materialCreate.hide();
-                                        $scope.materialImportList.show();
-                                    };
-                                    $scope.materialImportListModalClose = function() {
-                                        $scope.materialImportList.hide();
-                                        $scope.materialCreate.show();
-                                    };
-
-                                }, function(response) {
-                                    services.showAlert('Falhou', 'Please try again');
-                                });
-                                $scope.hideLoading();
+                                $scope.loadImportMaterial(true);
                             }
                         },
                     ]
@@ -371,6 +347,58 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
                 $scope.materialImportListModalClose();
             };
 
+            $scope.startImportMaterialPage = 0;
+            $scope.maxImportMaterialRecord = 5;
+            $scope.loadImportMaterial = function(popup) {
+                $scope.showLoading();
+                Restangular.one('common/material').get({search: $scope.importData.materialSearchText, start: $scope.startImportMaterialPage, max: $scope.maxImportMaterialRecord}).then(function(response) {
+                    $scope.importedMaterial = response.data;
+                    $scope.materialRange();
+                    if (popup != false)
+                    {
+                        $ionicModal.fromTemplateUrl('templates/popup/material_import_list.html', {
+                            scope: $scope,
+                            animation: 'fade-in'
+                        }).then(function(modal) {
+                            $scope.materialImportList = modal;
+                            $scope.materialImportListModalShow();
+                        });
+                    }
+                }, function(response) {
+                    services.showAlert('Falhou', 'Please try again');
+                });
+                $scope.hideLoading();
+            };
+            $scope.materialImportListModalShow = function() {
+                $scope.materialCreate.hide();
+                $scope.materialImportList.show();
+            };
+            $scope.materialImportListModalClose = function() {
+                $scope.materialImportList.hide();
+                $scope.materialCreate.show();
+            };
+            $scope.materialRange = function() {
+                $scope.pageMaterialStack = [];
+                var start = parseInt($scope.startImportMaterialPage) + 1;
+                for (var i = 1; i <= start; i++) {
+                    $scope.pageMaterialStack.push(i);
+                }
+                console.log(JSON.stringify($scope.pageMaterialStack));
+            };
+            $scope.nextImportMaterialPage = function(len) {
+                var nextPage = parseInt(len);
+                $scope.startImportMaterialPage = nextPage;
+                $scope.loadImportMaterial(false);
+            }
+            $scope.prevImportMaterialPage = function(nextPage) {
+                $scope.startImportMaterialPage = nextPage;
+                $scope.loadImportMaterial(false);
+            }
+            $scope.goImportMaterialPage = function(pageNumber) {
+                var nextPage = parseInt(pageNumber) - 1;
+                $scope.startImportMaterialPage = nextPage;
+                $scope.loadImportMaterial(false);
+            }
             $scope.removeUse = function() {
                 services.showConfirmBox('Confirmation', 'Are you sure to remove this use ?').then(function(res) {
                     if (res) {

@@ -2235,3 +2235,6 @@ vertical-align:-10%
 .sidemenu-bg{
     background-color: #333333;
 }
+.material-search{
+    width: 95% !important;
+}
