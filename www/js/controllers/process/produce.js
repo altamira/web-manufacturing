@@ -144,6 +144,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
             $scope.startPage = 0;
             $scope.maxRecord = 10;
             $scope.searchText = '';
+            $scope.isModal = true;
             $scope.loadMaterial = function() {
                 Restangular.one('common/material').get({search: $scope.searchText, start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
                     $scope.items = response.data;
