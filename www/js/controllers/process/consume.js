@@ -299,7 +299,6 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                         services.showAlert('Falhou', 'Please try again');
                     });
                 }
-
             };
 
             $scope.importOrder = function() {

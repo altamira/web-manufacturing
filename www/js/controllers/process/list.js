@@ -1,102 +1,132 @@
 altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
         function($scope, $location, $routeParams, $localStorage, $ionicPopup, Restangular, services, $route, $window) {
-            $scope.startPage = $routeParams.start;
-            $scope.maxRecord = 10;
-            $scope.pageStack = [];
+
+            $scope.startPage = 0;
+            $scope.maxRecord = 3;
             $scope.searchText = '';
+            $scope.processes = '';
+            $scope.processesArray = '';
+            $scope.isDataSearch = '';
+            $scope.nextButton = true;
             if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && sessionStorage.getItem('token') == '')
             {
                 sessionStorage.setItem('token', $routeParams.token);
                 $window.location.reload();
             }
-            $scope.loadBom = function(searchText) {
+            $scope.loadProcess = function() {
                 $scope.loading = true;
-                var url = '';
-                $scope.$storage = $localStorage.$default({
-                    x: ''
+                Restangular.one('manufacturing').one('process').get({search: $scope.searchText, start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
+                    if (response.data == '') {
+                        if ((parseInt($scope.startPage) != 0))
+                        {
+                            $scope.nextButton = false;
+                            $scope.startPage = (parseInt($scope.startPage) - 1);
+                            $scope.loadProcess();
+                        } else
+                        {
+                            services.showAlert('Notice', 'Material list is empty').then(function(res) {
+                            });
+                        }
+                    } else
+                    {
+                        if ($scope.processes.length <= 0 && $scope.isDataSearch == '')
+                        {
+                            $scope.processes = response.data;
+                            $scope.processesArray = response.data;
+                            if ($scope.searchText != '')
+                            {
+                                $scope.isDataSearch = 'yes';
+                            }
+                            else
+                            {
+                                $scope.isDataSearch = '';
+                            }
+                        }
+                        else
+                        {
+                            if ($scope.nextButton != false)
+                            {
+                                $scope.temp = response.data;
+                                angular.forEach($scope.temp, function(value, key) {
+                                    $scope.processesArray.push(value);
+                                });
+                                $scope.pageProcesses();
+                            }
+                        }
+                        $scope.loading = false;
+                        $scope.range();
+                    }
+                }, function(response) {
+                    services.showAlert('Falhou', 'Please try again');
                 });
-                $scope.deleteX = function() {
-                    delete $scope.$storage.x;
-                };
-                $scope.searchText = $scope.$storage.x;
-                if (searchText != '')
+            };
+            $scope.loadProcess();
+            $scope.pageProcesses = function() {
+                $scope.processes = [];
+                $scope.start = $scope.startPage * $scope.maxRecord;
+                $scope.end = ($scope.startPage * $scope.maxRecord) + $scope.maxRecord;
+                for (var i = $scope.start; i < $scope.end; i++)
                 {
-                    $scope.deleteX();
-                    $scope.$storage = $localStorage.$default({
-                        x: searchText
-                    });
-                } else
-                {
-                    $scope.deleteX();
-                }
-                var baseProcessUrl = Restangular.one('manufacturing').one('process');
-                if ($scope.$storage.x == '' || $scope.$storage.x == undefined)
-                {
-
-                    baseProcessUrl.get({start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
-                        $scope.loading = false;
-                        $scope.processes = response.data;
-
-                        $scope.range();
-                        if (response.data == '') {
-                            if ((parseInt($scope.startPage) != 0))
-                            {
-                                $location.url('/manufacturing/process/' + (parseInt($scope.startPage) - 1));
-                            } else
-                            {
-                                services.showAlert('Notice', 'Process list is empty').then(function(res) {
-                                });
-                            }
-                        }
-                    }, function(response) {
-                        $scope.loading = false;
-                        services.showAlert('Falhou', 'Please try again');
-                    });
-                }
-                else
-                {
-                    baseProcessUrl.get({search: $scope.$storage.x, start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
-                        $scope.loading = false;
-                        $scope.processes = response.data;
-                        $scope.range();
-                        if (response.data == '') {
-                            if ((parseInt($scope.startPage) != 0))
-                            {
-                                $location.url('/manufacturing/process/' + (parseInt($scope.startPage) - 1));
-                            } else
-                            {
-                                services.showAlert('Notice', 'Process list is empty').then(function(res) {
-                                });
-                            }
-                        }
-                    }, function(response) {
-                        $scope.loading = false;
-                        services.showAlert('Falhou', 'Please try again');
-                    });
+                    if ($scope.processesArray[i])
+                    {
+                        $scope.processes.push($scope.processesArray[i]);
+                    }
                 }
             };
-            $scope.searchProcess = function(searchVal) {
-                $scope.searchText = searchVal;
-                $scope.loadBom($scope.searchText);
+
+            $scope.searchProcess = function(text) {
+                $scope.searchText = text;
+                if ($scope.isDataSearch == '')
+                {
+                    $scope.startPage = 0;
+                    $scope.processes = '';
+                    $scope.processesArray = '';
+                    $scope.nextButton = true;
+                }
+                if ($scope.searchText == '' && $scope.isDataSearch != '')
+                {
+                    $scope.startPage = 0;
+                    $scope.processes = '';
+                    $scope.processesArray = '';
+                    $scope.isDataSearch = '';
+                    $scope.nextButton = true;
+                }
+                $scope.loadProcess();
             };
-            if ($scope.searchText == '')
-            {
-                $scope.loadBom($scope.searchText);
+            $scope.range = function() {
+                $scope.pageStack = [];
+                var start = parseInt($scope.startPage) + 1;
+                for (var i = 1; i <= start; i++) {
+                    $scope.pageStack.push(i);
+                }
+            };
+            $scope.nextPage = function(len) {
+                var nextPage = parseInt(len);
+                $scope.startPage = nextPage;
+                $scope.loadProcess();
+
             }
-
-            $scope.newProcess = function() {
-                $location.url('/manufacturing/create/process');
+            $scope.prevPage = function(nextPage) {
+                $scope.startPage = nextPage;
+                $scope.loadProcess();
             }
             $scope.goPage = function(pageNumber) {
                 var nextPage = parseInt(pageNumber) - 1;
-                $location.url('/manufacturing/process/' + nextPage);
+                $scope.startPage = nextPage;
+                if ($scope.processesArray.length > 0)
+                {
+                    if ($scope.searchText == '' || ($scope.searchText != '' && $scope.isDataSearch != ''))
+                    {
+                        $scope.pageProcesses();
+                    }
+                }
+                else
+                {
+                    $scope.loadProcess();
+                }
             }
-            $scope.nextPage = function(len) {
-                var nextPage = parseInt(len);
-                $location.url('/manufacturing/process/' + nextPage);
-            }
-            $scope.prevPage = function(nextPage) {
-                $location.url('/manufacturing/process/' + nextPage);
+            $scope.newProcess = function() {
+                $location.url('/manufacturing/create/process');
             }
             $scope.goUpdate = function(processId) {
                 $location.url('/manufacturing/update/process/' + processId);
@@ -105,10 +135,5 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                 $location.url('/manufacturing/create/process?code=' + code + '&desc=' + desc);
             }
 
-            $scope.range = function() {
-                var start = parseInt($scope.startPage) + 1;
-                var input = [];
-                for (var i = 1; i <= start; i++)
-                    $scope.pageStack.push(i);
-            };
+
         });

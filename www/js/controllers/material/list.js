@@ -4,7 +4,10 @@ altamiraAppControllers.controller('MaterialListCtrl',
             $scope.startPage = 0;
             $scope.maxRecord = 10;
             $scope.searchText = '';
-            $scope.isModal = false;
+            $scope.items = '';
+            $scope.itemArray = '';
+            $scope.isDataSearch = '';
+            $scope.nextButton = true;
             if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && sessionStorage.getItem('token') == '')
             {
                 sessionStorage.setItem('token', $routeParams.token);
@@ -13,12 +16,10 @@ altamiraAppControllers.controller('MaterialListCtrl',
             $scope.loadMaterial = function() {
                 $scope.loading = true;
                 Restangular.one('common/material').get({search: $scope.searchText, start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
-                    $scope.items = response.data;
-                    $scope.loading = false;
-                    $scope.range();
                     if (response.data == '') {
                         if ((parseInt($scope.startPage) != 0))
                         {
+                            $scope.nextButton = false;
                             $scope.startPage = (parseInt($scope.startPage) - 1);
                             $scope.loadMaterial();
                         } else
@@ -26,13 +27,69 @@ altamiraAppControllers.controller('MaterialListCtrl',
                             services.showAlert('Notice', 'Material list is empty').then(function(res) {
                             });
                         }
+                    } else
+                    {
+                        if ($scope.items.length <= 0 && $scope.isDataSearch == '')
+                        {
+                            $scope.items = response.data;
+                            $scope.itemArray = response.data;
+                            if ($scope.searchText != '')
+                            {
+                                $scope.isDataSearch = 'yes';
+                            }
+                            else
+                            {
+                                $scope.isDataSearch = '';
+                            }
+                        }
+                        else
+                        {
+                            if ($scope.nextButton != false)
+                            {
+                                $scope.temp = response.data;
+                                angular.forEach($scope.temp, function(value, key) {
+                                    $scope.itemArray.push(value);
+                                });
+                                $scope.pageItems();
+                            }
+                        }
+                        $scope.loading = false;
+                        $scope.range();
                     }
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');
                 });
             };
+            $scope.loadMaterial();
+            $scope.pageItems = function() {
+                $scope.items = [];
+                $scope.start = $scope.startPage * $scope.maxRecord;
+                $scope.end = ($scope.startPage * $scope.maxRecord) + $scope.maxRecord;
+                for (var i = $scope.start; i < $scope.end; i++)
+                {
+                    if ($scope.itemArray[i])
+                    {
+                        $scope.items.push($scope.itemArray[i]);
+                    }
+                }
+            };
             $scope.searchMaterial = function(text) {
                 $scope.searchText = text;
+                if ($scope.isDataSearch == '')
+                {
+                    $scope.startPage = 0;
+                    $scope.items = '';
+                    $scope.itemArray = '';
+                    $scope.nextButton = true;
+                }
+                if ($scope.searchText == '' && $scope.isDataSearch != '')
+                {
+                    $scope.startPage = 0;
+                    $scope.processes = '';
+                    $scope.processesArray = '';
+                    $scope.isDataSearch = '';
+                    $scope.nextButton = true;
+                }
                 $scope.loadMaterial();
             };
             $scope.range = function() {
@@ -46,6 +103,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
                 var nextPage = parseInt(len);
                 $scope.startPage = nextPage;
                 $scope.loadMaterial();
+
             }
             $scope.prevPage = function(nextPage) {
                 $scope.startPage = nextPage;
@@ -54,13 +112,33 @@ altamiraAppControllers.controller('MaterialListCtrl',
             $scope.goPage = function(pageNumber) {
                 var nextPage = parseInt(pageNumber) - 1;
                 $scope.startPage = nextPage;
-                $scope.loadMaterial();
+                if ($scope.itemArray.length > 0 && $scope.isDataSearch != '')
+                {
+                    $scope.pageItems();
+                }
+                else
+                {
+                    $scope.loadMaterial();
+                }
             }
-//            $scope.goUpdate = function(code, desc) {
-////                $scope.useData.code = code;
-////                $scope.useData.description = desc;
-////                $scope.materialList.hide();
-//            };
+            $scope.goPage = function(pageNumber) {
+                var nextPage = parseInt(pageNumber) - 1;
+                $scope.startPage = nextPage;
+                if ($scope.itemArray.length > 0)
+                {
+                    if ($scope.searchText == '' || ($scope.searchText != '' && $scope.isDataSearch != ''))
+                    {
+                        $scope.pageItems();
+                    }
+                }
+                else
+                {
+                    $scope.loadMaterial();
+                }
+            }
+            $scope.goUpdate = function(materialId) {
+                $location.path('/material/update/' + materialId);
+            };
 
             $ionicModal.fromTemplateUrl('templates/popup/material_list.html', {
                 scope: $scope,
@@ -76,7 +154,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
             $scope.materialListModalClose = function() {
                 $scope.materialList.hide();
             };
-            $scope.loadMaterial();
+
 
 
             $ionicModal.fromTemplateUrl('templates/popup/material_type.html', {
@@ -102,7 +180,6 @@ altamiraAppControllers.controller('MaterialListCtrl',
                 $scope.material.version = 0;
                 $scope.material.code = '';
                 $scope.material.description = '';
-                console.log(JSON.stringify($scope.materialTypeText));
                 $scope.materialCreateModalShow();
             };
 
