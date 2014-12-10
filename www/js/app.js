@@ -15,7 +15,7 @@ altamiraApp.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider
                 /* manufacturing/process  Start */
-                .when('/manufacturing/process/:start', {
+                .when('/manufacturing/process', {
             templateUrl: 'templates/process/mf-process-list.html',
             controller: 'ManufacturingProcsSearchCtrl'
         })
@@ -92,7 +92,7 @@ altamiraApp.config(['$routeProvider',
                 /* BOM pages  End */
                 /* Material pages  Start */
                 .when('/material/list', {
-            templateUrl: 'templates/popup/material_list.html',
+            templateUrl: 'templates/material/list-material.html',
             controller: 'MaterialListCtrl'
         })
                 .when('/material/create', {
@@ -113,7 +113,7 @@ altamiraApp.config(['$routeProvider',
         })
                 /* Material pages  End */
                 .otherwise({
-            redirectTo: '/manufacturing/process/0'
+            redirectTo: '/manufacturing/process'
         });
     }]);
 
