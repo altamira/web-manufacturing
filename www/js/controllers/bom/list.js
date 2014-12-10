@@ -120,7 +120,7 @@ altamiraAppControllers.controller('BomListCtrl',
                                 $scope.showLoading();
                                 //get data from api
                                 IntegracaoRestangular.one('manufacturing/bom?' + $scope.orderData.ordernumber).get().then(function(response) {
-                                    IntegracaoRestangular.all('manufacturing/bom').post(response.data).then(function(res) {
+                                    Restangular.all('manufacturing/bom').post(response.data).then(function(res) {
                                         $scope.loading = false;
                                         if (res.status == 201) {
                                             services.showAlert('Pedido ' + $scope.orderData.ordernumber, 'Pedido ' + $scope.orderData.ordernumber + ' foi importado com sucesso !').then(function(res) {

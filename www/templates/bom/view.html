@@ -17,7 +17,7 @@
             </span>
             <button class="button fa-pencil-header" ng-click="edit()" ></button>
             <button class="button fa-remove-header" ng-click="removeBom()"></button>
-            <a href="http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/data-rest-0.7.0-SNAPSHOT/manufacturing-report-0.4.0-SNAPSHOT/report/manufacturing/bom/{{bomId}}/checklist" target="_blank">
+            <a href="http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing-report-0.4.0-SNAPSHOT/report/manufacturing/bom/{{bomId}}/checklist" target="_blank">
                 <button type="button" class="button fa-print-header"></button>
             </a>
         </div>
@@ -127,7 +127,7 @@
                             <tr ng-repeat='dataPart in data.parts'>
                                 <td class="edit-info" style="text-align: center">{{dataPart.quantity.value}} {{dataPart.quantity.unit.symbol}}</td>
                                 <td class="edit-text">{{dataPart.description}}</td>
-                                <td class="edit-text">{{dataPart.color}}</td>
+                                <td class="edit-text">{{dataPart.color.code}}</td>
                                 <td class="edit-info" style="text-align: right">{{dataPart.weight.value / dataPart.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
                                 <td class="edit-info" style="text-align: right">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
                                 <td class="edit-text" ng-if="bomData.checked != ''"><i class="icon plus-icon fa-check-square-o"></i></td>
@@ -154,7 +154,7 @@
                                 <tbody><tr>
                                         <td width="50%"><span>{{dataPart.code}}</span></td>
                                         <td><i class="fa fa-pencil"></i></td>
-                                        <td align="right">{{dataPart.color}}</td>
+                                        <td align="right">{{dataPart.color.code}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -168,7 +168,7 @@
                                 </tr>
                                 <tr>
                                     <td><i class="fa fa-arrows-v"></i></td>
-                                    <td valign="top">{{dataPart.height.value}} mm</td>
+                                    <td valign="top">{{dataPart.height.value}}  {{dataPart.height.unit.symbol}}</td>
                                     <td valign="top"><i class="fa fa-tachometer"></i></td>
                                     <td valign="top" align="right">{{dataPart.weight.value / dataPart.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
                                 </tr>

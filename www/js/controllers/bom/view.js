@@ -43,7 +43,8 @@ altamiraAppControllers.controller('BomViewCtrl',
                             $scope.loading = false;
                             services.showAlert('Success', 'A Lista de Material do Pedido ' + $scope.bomData.number + ' foi marcada como conferida.').then(function(res) {
                                 if (res) {
-                                    $route.reload();
+                                    //$route.reload();
+                                    $location.path('/manufacturing/bom');
                                 }
                             });
 
