@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
-        function($scope, $location, $routeParams, $ionicPopup, $ionicModal, Restangular, services, $ionicLoading, $timeout) {
+        function($scope, $location, $routeParams, $ionicPopup, $ionicModal, Restangular, IntegrationRestangular, services, $ionicLoading, $timeout) {
             $scope.processId = $routeParams.processId;
             $scope.operationId = $routeParams.operationId;
             $scope.produceId = $routeParams.produceId;
@@ -503,7 +503,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
             $scope.resetImportMaterial();
 
             $scope.loadImportMaterial = function() {
-                Restangular.one('common/material').get({search: $scope.importData.materialSearchText, start: $scope.startImportMaterialPage, max: $scope.maxImportMaterialRecord}).then(function(response) {
+                IntegrationRestangular.one('material/index.aspx').get({search: $scope.importData.materialSearchText, start: $scope.startImportMaterialPage, max: $scope.maxImportMaterialRecord}).then(function(response) {
                     if (response.data == '') {
                         if ((parseInt($scope.startImportMaterialPage) != 0))
                         {

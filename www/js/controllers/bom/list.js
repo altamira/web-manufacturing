@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('BomListCtrl',
-        function($scope, $http, $location, $route, $routeParams, $ionicPopup, $ionicLoading, $timeout, $state, Restangular, IntegracaoRestangular, $ionicSideMenuDelegate, services, $window) {
+        function($scope, $http, $location, $route, $routeParams, $ionicPopup, $ionicLoading, $timeout, $state, Restangular, IntegrationRestangular, $ionicSideMenuDelegate, services, $window) {
             if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && sessionStorage.getItem('token') == '')
             {
                 sessionStorage.setItem('token', $routeParams.token);
@@ -119,7 +119,7 @@ altamiraAppControllers.controller('BomListCtrl',
                             onTap: function(res) {
                                 $scope.showLoading();
                                 //get data from api
-                                IntegracaoRestangular.one('manufacturing/bom?' + $scope.orderData.ordernumber).get().then(function(response) {
+                                IntegrationRestangular.one('manufacturing/bom?' + $scope.orderData.ordernumber).get().then(function(response) {
                                     Restangular.all('manufacturing/bom').post(response.data).then(function(res) {
                                         $scope.loading = false;
                                         if (res.status == 201) {

@@ -145,7 +145,7 @@ altamiraApp.config(function(RestangularProvider) {
         });
     });
 
-altamiraApp.factory('IntegracaoRestangular', function(Restangular) {
+altamiraApp.factory('IntegrationRestangular', function(Restangular) {
   return Restangular.withConfig(function(RestangularConfigurer) {
     RestangularConfigurer.setBaseUrl('http://integracao.altamira.com.br');
   });
