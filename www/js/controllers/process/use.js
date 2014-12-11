@@ -143,18 +143,26 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
 
                 }
             };
-            $scope.startPage = 0;
-            $scope.maxRecord = 10;
+
+            $scope.resetMaterial = function() {
+                $scope.startPage = 0;
+                $scope.maxRecord = 10;
+                $scope.items = '';
+                $scope.itemArray = '';
+                $scope.nextButton = true;
+            };
             $scope.searchText = '';
+            $scope.isDataSearch = '';
             $scope.isModal = true;
+            $scope.resetMaterial();
+
             $scope.loadMaterial = function() {
+                $scope.loading = true;
                 Restangular.one('common/material').get({search: $scope.searchText, start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
-                    $scope.items = response.data;
-                    console.log(JSON.stringify(response.data))
-                    $scope.range();
                     if (response.data == '') {
                         if ((parseInt($scope.startPage) != 0))
                         {
+                            $scope.nextButton = false;
                             $scope.startPage = (parseInt($scope.startPage) - 1);
                             $scope.loadMaterial();
                         } else
@@ -162,28 +170,80 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
                             services.showAlert('Notice', 'Material list is empty').then(function(res) {
                             });
                         }
+                    } else
+                    {
+                        if ($scope.items.length <= 0 && $scope.isDataSearch == '')
+                        {
+                            $scope.items = response.data;
+                            $scope.itemArray = response.data;
+                            if ($scope.searchText != '')
+                            {
+                                $scope.isDataSearch = 'yes';
+                            }
+                            else
+                            {
+                                $scope.isDataSearch = '';
+                            }
+                        }
+                        else
+                        {
+                            if ($scope.nextButton != false)
+                            {
+                                $scope.temp = response.data;
+                                angular.forEach($scope.temp, function(value, key) {
+                                    $scope.itemArray.push(value);
+                                });
+                                $scope.pageItems();
+                            }
+                        }
+                        $scope.loading = false;
+                        $scope.range();
                     }
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');
                 });
             };
+            $scope.pageItems = function() {
+                $scope.items = [];
+                $scope.start = $scope.startPage * $scope.maxRecord;
+                $scope.end = ($scope.startPage * $scope.maxRecord) + $scope.maxRecord;
+                for (var i = $scope.start; i < $scope.end; i++)
+                {
+                    if ($scope.itemArray[i])
+                    {
+                        $scope.items.push($scope.itemArray[i]);
+                    }
+                }
+                if ($scope.items.length != $scope.maxRecord)
+                {
+                    $scope.nextButton = false;
+                }
+            };
             $scope.searchMaterial = function(text) {
                 $scope.searchText = text;
+                if ($scope.isDataSearch == '')
+                {
+                    $scope.resetMaterial();
+                }
+                if ($scope.searchText == '' && $scope.isDataSearch != '')
+                {
+                    $scope.resetMaterial();
+                    $scope.isDataSearch = '';
+                }
                 $scope.loadMaterial();
             };
             $scope.range = function() {
                 $scope.pageStack = [];
                 var start = parseInt($scope.startPage) + 1;
-                var input = [];
                 for (var i = 1; i <= start; i++) {
                     $scope.pageStack.push(i);
                 }
-                console.log(JSON.stringify($scope.pageStack));
             };
             $scope.nextPage = function(len) {
                 var nextPage = parseInt(len);
                 $scope.startPage = nextPage;
                 $scope.loadMaterial();
+
             }
             $scope.prevPage = function(nextPage) {
                 $scope.startPage = nextPage;
@@ -192,7 +252,17 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
             $scope.goPage = function(pageNumber) {
                 var nextPage = parseInt(pageNumber) - 1;
                 $scope.startPage = nextPage;
-                $scope.loadMaterial();
+                if ($scope.itemArray.length > 0)
+                {
+                    if ($scope.searchText == '' || ($scope.searchText != '' && $scope.isDataSearch != ''))
+                    {
+                        $scope.pageItems();
+                    }
+                }
+                else
+                {
+                    $scope.loadMaterial();
+                }
             }
             $scope.goUpdate = function(code, desc) {
                 $scope.useData.code = code;
@@ -208,7 +278,9 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
             });
             $scope.materialListModalShow = function() {
                 $scope.searchText = '';
-                $scope.loadMaterial($scope.searchText);
+                $scope.resetMaterial();
+                $scope.isDataSearch = '';
+                $scope.loadMaterial();
                 $scope.materialList.show();
             };
             $scope.materialListModalClose = function() {
@@ -238,7 +310,6 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
                 $scope.material.version = 0;
                 $scope.material.code = '';
                 $scope.material.description = '';
-                console.log(JSON.stringify($scope.materialTypeText));
                 $scope.materialCreateModalShow();
             };
 
@@ -347,28 +418,137 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
                 $scope.materialImportListModalClose();
             };
 
-            $scope.startImportMaterialPage = 0;
-            $scope.maxImportMaterialRecord = 5;
-            $scope.loadImportMaterial = function(popup) {
-                $scope.showLoading();
+            $scope.resetImportMaterial = function() {
+                $scope.startImportMaterialPage = 0;
+                $scope.maxImportMaterialRecord = 5;
+                $scope.itemsImportMaterial = '';
+                $scope.itemImportMaterialArray = '';
+                $scope.nextImportMaterialButton = true;
+            }
+            $scope.isImportMaterialDataSearch = '';
+            $scope.resetImportMaterial();
+
+            $scope.loadImportMaterial = function() {
                 Restangular.one('common/material').get({search: $scope.importData.materialSearchText, start: $scope.startImportMaterialPage, max: $scope.maxImportMaterialRecord}).then(function(response) {
-                    $scope.importedMaterial = response.data;
-                    $scope.materialRange();
-                    if (popup != false)
+                    if (response.data == '') {
+                        if ((parseInt($scope.startImportMaterialPage) != 0))
+                        {
+                            $scope.nextImportMaterialButton = false;
+                            $scope.startImportMaterialPage = (parseInt($scope.startImportMaterialPage) - 1);
+                            $scope.loadImportMaterial();
+                        } else
+                        {
+                            $scope.materialType.hide();
+                            services.showAlert('Notice', 'Material list is empty').then(function(res) {
+                                $scope.materialType.show();
+                            });
+                        }
+                    } else
                     {
-                        $ionicModal.fromTemplateUrl('templates/popup/material_import_list.html', {
-                            scope: $scope,
-                            animation: 'fade-in'
-                        }).then(function(modal) {
-                            $scope.materialImportList = modal;
-                            $scope.materialImportListModalShow();
-                        });
+                        if ($scope.itemsImportMaterial.length <= 0)
+                        {
+                            $scope.itemsImportMaterial = response.data;
+
+                            $scope.itemImportMaterialArray = response.data;
+                            if ($scope.importData.materialSearchText != '')
+                            {
+                                $scope.isImportMaterialDataSearch = 'yes';
+                            }
+                            else
+                            {
+                                $scope.isImportMaterialDataSearch = '';
+                            }
+                            if ($scope.materialImportList != undefined)
+                            {
+                                $scope.materialImportList.hide();
+                            }
+                            $ionicModal.fromTemplateUrl('templates/popup/material_import_list.html', {
+                                scope: $scope,
+                                animation: 'fade-in'
+                            }).then(function(modal) {
+                                $scope.materialImportList = modal;
+                                $scope.materialImportListModalShow();
+                            });
+                        }
+                        else
+                        {
+                            if ($scope.nextImportMaterialButton != false)
+                            {
+                                $scope.temp = response.data;
+                                angular.forEach($scope.temp, function(value, key) {
+                                    $scope.itemImportMaterialArray.push(value);
+                                });
+                                $scope.pageImportMaterial();
+                            }
+                        }
+                        $scope.loading = false;
+                        $scope.rangeImportMaterial();
                     }
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');
                 });
-                $scope.hideLoading();
             };
+            $scope.pageImportMaterial = function() {
+                $scope.itemsImportMaterial = [];
+                $scope.start = $scope.startImportMaterialPage * $scope.maxImportMaterialRecord;
+                $scope.end = ($scope.startImportMaterialPage * $scope.maxImportMaterialRecord) + $scope.maxImportMaterialRecord;
+                for (var i = $scope.start; i < $scope.end; i++)
+                {
+                    if ($scope.itemImportMaterialArray[i])
+                    {
+                        $scope.itemsImportMaterial.push($scope.itemImportMaterialArray[i]);
+                    }
+                }
+                if ($scope.itemsImportMaterial.length != $scope.maxImportMaterialRecord)
+                {
+                    $scope.nextImportMaterialButton = false;
+                }
+            };
+            $scope.searchImportMaterial = function(text) {
+                $scope.importData.materialSearchText = text;
+                if ($scope.isImportMaterialDataSearch == '')
+                {
+                    $scope.resetImportMaterial();
+                }
+                if ($scope.importData.materialSearchText == '' && $scope.isImportMaterialDataSearch != '')
+                {
+                    $scope.resetImportMaterial();
+                    $scope.isImportMaterialDataSearch = '';
+                }
+                $scope.loadImportMaterial();
+            };
+            $scope.rangeImportMaterial = function() {
+                $scope.pageStackImportMaterial = [];
+                var start = parseInt($scope.startImportMaterialPage) + 1;
+                for (var i = 1; i <= start; i++) {
+                    $scope.pageStackImportMaterial.push(i);
+                }
+            };
+            $scope.nextPageImportMaterial = function(len) {
+                var nextPage = parseInt(len);
+                $scope.startImportMaterialPage = nextPage;
+                $scope.loadImportMaterial();
+
+            }
+            $scope.prevPageImportMaterial = function(nextPage) {
+                $scope.startImportMaterialPage = nextPage;
+                $scope.loadImportMaterial();
+            }
+            $scope.goPageImportMaterial = function(pageNumber) {
+                var nextPage = parseInt(pageNumber) - 1;
+                $scope.startImportMaterialPage = nextPage;
+                if ($scope.itemImportMaterialArray.length > 0)
+                {
+                    if ($scope.importData.materialSearchText == '' || ($scope.importData.materialSearchText != '' && $scope.isImportMaterialDataSearch != ''))
+                    {
+                        $scope.pageImportMaterial();
+                    }
+                }
+                else
+                {
+                    $scope.loadImportMaterial();
+                }
+            }
             $scope.materialImportListModalShow = function() {
                 $scope.materialCreate.hide();
                 $scope.materialImportList.show();
@@ -377,28 +557,6 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
                 $scope.materialImportList.hide();
                 $scope.materialCreate.show();
             };
-            $scope.materialRange = function() {
-                $scope.pageMaterialStack = [];
-                var start = parseInt($scope.startImportMaterialPage) + 1;
-                for (var i = 1; i <= start; i++) {
-                    $scope.pageMaterialStack.push(i);
-                }
-                console.log(JSON.stringify($scope.pageMaterialStack));
-            };
-            $scope.nextImportMaterialPage = function(len) {
-                var nextPage = parseInt(len);
-                $scope.startImportMaterialPage = nextPage;
-                $scope.loadImportMaterial(false);
-            }
-            $scope.prevImportMaterialPage = function(nextPage) {
-                $scope.startImportMaterialPage = nextPage;
-                $scope.loadImportMaterial(false);
-            }
-            $scope.goImportMaterialPage = function(pageNumber) {
-                var nextPage = parseInt(pageNumber) - 1;
-                $scope.startImportMaterialPage = nextPage;
-                $scope.loadImportMaterial(false);
-            }
             $scope.removeUse = function() {
                 services.showConfirmBox('Confirmation', 'Are you sure to remove this use ?').then(function(res) {
                     if (res) {

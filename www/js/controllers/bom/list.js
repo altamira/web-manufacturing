@@ -134,48 +134,6 @@ altamiraAppControllers.controller('BomListCtrl',
                                 }, function(response) {
                                     services.showAlert('Falhou', 'Please try again');
                                 });
-//                                $http({
-//                                    method: 'GET',
-//                                    url: 'http://integracao.altamira.com.br/manufacturing/bom?' + $scope.orderData.ordernumber,
-//                                    headers: {'Content-Type': 'application/json; charset=iso-8859-1',
-//                                        'Accept': 'application/json',
-//                                        //'Authorization': 'Basic QWRtaW5pc3RyYXRvcjohYkZDWC45WCpUSg=='
-//                                    }
-//                                }).success(function(data) {
-//                                    //post data to api
-//                                    console.log(JSON.stringify(data));
-//                                    $http({
-//                                        method: 'POST',
-//                                        url: 'http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing/bom',
-//                                        data: data,
-//                                        headers: {'Content-Type': 'application/json'}
-//                                    }).then(function(response) {
-//                                        if (response.status == 201) {
-//                                            $ionicPopup.alert({
-//                                                title: 'Pedido ' + $scope.orderData.ordernumber,
-//                                                content: 'Pedido ' + $scope.orderData.ordernumber + ' foi importado com sucesso !'
-//                                            }).then(function(res) {
-//                                                $state.go($state.current, {}, {reload: true});
-//                                            });
-//                                        }
-//                                    }, function() {
-//
-//                                        $ionicPopup.alert({
-//                                            title: 'Falhou',
-//                                            content: 'Erro ao importar o Pedido ' + $scope.orderData.ordernumber
-//                                        }).then(function(res) {
-//                                            importPopup.close();
-//                                        });
-//                                    });
-//                                }).error(function(msg, code) {
-//
-//                                    $ionicPopup.alert({
-//                                        title: 'Falhou',
-//                                        content: 'Erro ao exportar o Pedido: ' + $scope.orderData.ordernumber
-//                                    }).then(function(res) {
-//                                        importPopup.close();
-//                                    });
-//                                });
                                 $scope.hideLoading();
                             }
                         },

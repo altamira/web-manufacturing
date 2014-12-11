@@ -72,6 +72,10 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                         $scope.processes.push($scope.processesArray[i]);
                     }
                 }
+                if ($scope.processes.length != $scope.maxRecord)
+                {
+                    $scope.nextButton = false;
+                }
             };
 
             $scope.searchProcess = function(text) {

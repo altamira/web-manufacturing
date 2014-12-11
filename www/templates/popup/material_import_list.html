@@ -7,7 +7,7 @@
     <ion-content>
         <div class="row">
             <div class="col">
-                <div class="list list-inset listing-col" ng-repeat="material in importedMaterial">
+                <div class="list list-inset listing-col" ng-repeat="material in itemsImportMaterial">
                     <a class="item-list item-icon-right" ng-click="selectMaterial(material.code,material.description)">
                         <span class="text-center-middle"><span class="font-grey">{{material.code}}</span> {{material.description}}</span>
                         <i class="icon fa-arrow-right arrow-right"></i>
@@ -17,15 +17,10 @@
         </div>
         <div class="row">
             <div class="pagination">
-                <a ng-repeat="n in pageMaterialStack" ng-click="goImportMaterialPage(n)">
-                    <span ng-if='n != (pageMaterialStack.length)'>
-                        <span class="page">{{n}}</span>
-                    </span>
-                    <span ng-if='n == (pageMaterialStack.length)'>
-                        <span class="page active">{{n}}</span>
-                    </span>
+                <a ng-repeat="n in pageStackImportMaterial" ng-click="goPageImportMaterial(n)">
+                    <span class="page" ng-class="{'active':n == startImportMaterialPage + 1}">{{n}}</span>
                 </a>
-                <a  class="page fa-arrow-right next-arrow" ng-click="nextImportMaterialPage(pageMaterialStack.length)"></a>
+                <a class="page fa-arrow-right next-arrow" ng-show='nextImportMaterialButton' ng-click="nextPageImportMaterial(pageStackImportMaterial.length)"></a>
             </div>
         </div>
     </ion-content>
