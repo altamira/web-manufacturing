@@ -111,6 +111,10 @@ altamiraApp.config(['$routeProvider',
             templateUrl: 'templates/material/components.html',
             controller: 'MaterialComponentCtrl'
         })
+                .when('/delivery/planning', {
+            templateUrl: 'templates/delivery/planning/list.html',
+            controller: 'DeliveryPlanningListCtrl'
+        })
                 /* Material pages  End */
                 .otherwise({
             redirectTo: '/manufacturing/process'
@@ -118,7 +122,7 @@ altamiraApp.config(['$routeProvider',
     }]);
 
 altamiraApp.config(function(RestangularProvider) {
-	RestangularProvider.setBaseUrl('http://data.altamira.com.br/data-rest-0.7.2-SNAPSHOT');
+	RestangularProvider.setBaseUrl('http://data.altamira.com.br/data-rest-0.7.3-SNAPSHOT');
 	RestangularProvider.setFullResponse(true);
 	RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json; charset=iso-8859-1'});
 	RestangularProvider.setRestangularFields({
