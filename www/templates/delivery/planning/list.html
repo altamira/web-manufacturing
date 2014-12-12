@@ -15,5 +15,25 @@
         </div>
     </ion-header-bar>
     <ion-content>
+<!--        <div class="floatleft">
+            <ul ui-sortable="sortableOptions" ng-model="list" class="list_1">
+                <li ng-repeat="item in list" class="item_1" id="{{item.value}}">
+                    {{item.text}}
+                </li>
+            </ul>
+        </div>-->
+        <div style="width: 100%">
+            <div style="height: 40px;width: 100%;text-align: center;font-weight: bold;background-color: #00ABA9;vertical-align: middle">Month</div>
+            <div style="width: 100%;background-color: #eee;min-height: 100%">
+                <div style="width: 3.333%;float: left;background-color: #DDDDDD;text-align: center" ng-repeat="day in date">
+                    <span>{{day.value}}</span>
+                    <div class="each-cell" ng-repeat="item in list">
+                        <ul ui-sortable="sortableOptions" ng-model="list" class="sortable connectedSortable" id="elm{{day.value}}{{item.value}}">
+                            <li class="ui-state-highlight">{{item.text}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </ion-content>
 </ion-pane>

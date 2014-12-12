@@ -1,4 +1,4 @@
-var altamiraApp = angular.module('altamira', ['ionic', 'altamiraAppControllers', 'ngRoute', 'angularFileUpload', 'altamiraAppDirectives', 'ngStorage', 'checklist-model', 'restangular', 'angularUtils.directives.dirPagination']);
+var altamiraApp = angular.module('altamira', ['ionic', 'ui.sortable', 'altamiraAppControllers', 'ngRoute', 'angularFileUpload', 'altamiraAppDirectives', 'ngStorage', 'checklist-model', 'restangular', 'angularUtils.directives.dirPagination']);
 
 altamiraApp.run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -122,7 +122,7 @@ altamiraApp.config(['$routeProvider',
     }]);
 
 altamiraApp.config(function(RestangularProvider) {
-	RestangularProvider.setBaseUrl('http://data.altamira.com.br/data-rest-0.7.3-SNAPSHOT');
+	RestangularProvider.setBaseUrl('http://data.altamira.com.br/data-rest-0.7.4-SNAPSHOT');
 	RestangularProvider.setFullResponse(true);
 	RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json; charset=iso-8859-1'});
 	RestangularProvider.setRestangularFields({

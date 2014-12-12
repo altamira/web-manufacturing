@@ -52,7 +52,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                         $scope.loading = false;
                         if (response.data != '')
                         {
-                            var materiralData = response.data[0];
+                            var materiralData = response.data;
                             $scope.postdata = {};
                             var method = 'POST';
                             $scope.postdata.version = 0;
@@ -133,6 +133,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                 $scope.nextButton = true;
             };
             $scope.searchText = '';
+            $scope.tempSearch = '';
             $scope.isDataSearch = '';
             $scope.isModal = true;
             $scope.resetMaterial();
@@ -210,6 +211,16 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                 {
                     $scope.resetMaterial();
                     $scope.isDataSearch = '';
+                }
+                if ($scope.searchText != '' && ($scope.tempSearch == $scope.searchText))
+                {
+                    $scope.tempSearch = $scope.searchText;
+                }
+                else
+                {
+                    $scope.resetMaterial();
+                    $scope.isDataSearch = '';
+                    $scope.tempSearch = $scope.searchText;
                 }
                 $scope.loadMaterial();
             };

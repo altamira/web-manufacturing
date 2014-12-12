@@ -14,6 +14,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
                 $scope.nextButton = true;
             };
             $scope.searchText = '';
+            $scope.tempSearch = '';
             $scope.isDataSearch = '';
             $scope.resetMaterial();
             $scope.loadMaterial = function() {
@@ -90,6 +91,16 @@ altamiraAppControllers.controller('MaterialListCtrl',
                 {
                     $scope.resetMaterial();
                     $scope.isDataSearch = '';
+                }
+                if ($scope.searchText != '' && ($scope.tempSearch == $scope.searchText))
+                {
+                    $scope.tempSearch = $scope.searchText;
+                }
+                else
+                {
+                    $scope.resetMaterial();
+                    $scope.isDataSearch = '';
+                    $scope.tempSearch = $scope.searchText;
                 }
                 $scope.loadMaterial();
             };
