@@ -1,18 +1,22 @@
 altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
         function($scope, $location, $routeParams, $localStorage, $ionicPopup, Restangular, services, $route, $window) {
 
-            $scope.startPage = 0;
-            $scope.maxRecord = 3;
-            $scope.searchText = '';
-            $scope.processes = '';
-            $scope.processesArray = '';
-            $scope.isDataSearch = '';
-            $scope.nextButton = true;
             if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && sessionStorage.getItem('token') == '')
             {
                 sessionStorage.setItem('token', $routeParams.token);
                 $window.location.reload();
             }
+            $scope.resetProcess = function() {
+                $scope.startPage = 0;
+                $scope.maxRecord = 10;
+                $scope.processes = '';
+                $scope.processesArray = '';
+                $scope.nextButton = true;
+            };
+            $scope.searchText = '';
+            $scope.tempSearch = '';
+            $scope.isDataSearch = '';
+            $scope.resetProcess();
             $scope.loadProcess = function() {
                 $scope.loading = true;
                 Restangular.one('manufacturing').one('process').get({search: $scope.searchText, start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
@@ -82,18 +86,22 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                 $scope.searchText = text;
                 if ($scope.isDataSearch == '')
                 {
-                    $scope.startPage = 0;
-                    $scope.processes = '';
-                    $scope.processesArray = '';
-                    $scope.nextButton = true;
+                    $scope.resetProcess();
                 }
                 if ($scope.searchText == '' && $scope.isDataSearch != '')
                 {
-                    $scope.startPage = 0;
-                    $scope.processes = '';
-                    $scope.processesArray = '';
+                    $scope.resetProcess();
                     $scope.isDataSearch = '';
-                    $scope.nextButton = true;
+                }
+                if ($scope.searchText != '' && ($scope.tempSearch == $scope.searchText))
+                {
+                    $scope.tempSearch = $scope.searchText;
+                }
+                else
+                {
+                    $scope.resetProcess();
+                    $scope.isDataSearch = '';
+                    $scope.tempSearch = $scope.searchText;
                 }
                 $scope.loadProcess();
             };

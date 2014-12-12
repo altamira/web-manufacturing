@@ -419,7 +419,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
             $scope.resetImportMaterial();
 
             $scope.loadImportMaterial = function() {
-                IntegrationRestangular.one('material/index.aspx').get({search: $scope.importData.materialSearchText, start: $scope.startImportMaterialPage, max: $scope.maxImportMaterialRecord}).then(function(response) {
+                IntegrationRestangular.one('material/').get({search: $scope.importData.materialSearchText, start: $scope.startImportMaterialPage, max: $scope.maxImportMaterialRecord}).then(function(response) {
                     if (response.data == '') {
                         if ((parseInt($scope.startImportMaterialPage) != 0))
                         {
