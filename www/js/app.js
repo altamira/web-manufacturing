@@ -147,8 +147,8 @@ altamiraApp.config(function(RestangularProvider) {
 
 altamiraApp.factory('IntegrationRestangular', function(Restangular) {
   return Restangular.withConfig(function(RestangularConfigurer) {
-    RestangularConfigurer.setBaseUrl('http://integracao.altamira.com.br');
-//    RestangularConfigurer.setDefaultHeaders({'Content-Type': 'application/json; charset=iso-8859-1'});
+    RestangularConfigurer.setBaseUrl('http://54.207.103.15/integration');
+    RestangularConfigurer.setDefaultHeaders({'Content-Type': 'application/json; charset=iso-8859-1'});
   });
 });
 

@@ -366,6 +366,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
 
 
             $scope.importOrder = function() {
+                $scope.materialCreate.hide();
                 $scope.importData = {};
                 // An elaborate, custom popup
                 var importPopup = $ionicPopup.show({
@@ -376,18 +377,27 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
                         {text: 'Cancelar',
                             onTap: function(res) {
                                 importPopup.close();
+                                $scope.materialCreate.show();
                             }
                         },
                         {text: '<b>Importar</b>',
                             type: 'button-positive',
                             onTap: function(res) {
-                                $scope.loadImportMaterial(true);
+                                if ($scope.importData.materialSearchText == '' || $scope.importData.materialSearchText == undefined)
+                                {
+                                    services.showAlert('Notice', 'Please enter text').then(function(res) {
+                                        $scope.materialCreate.show();
+                                    });
+                                }
+                                else
+                                {
+                                    $scope.resetImportMaterial();
+                                    $scope.loadImportMaterial(true);
+                                }
+
                             }
                         },
                     ]
-                });
-                importPopup.then(function(res) {
-
                 });
                 $timeout(function() {
                     importPopup.close();

@@ -365,6 +365,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
             };
 
             $scope.importOrder = function() {
+                $scope.materialCreate.hide();
                 $scope.importData = {};
                 // An elaborate, custom popup
                 var importPopup = $ionicPopup.show({
@@ -375,18 +376,27 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                         {text: 'Cancelar',
                             onTap: function(res) {
                                 importPopup.close();
+                                $scope.materialCreate.show();
                             }
                         },
                         {text: '<b>Importar</b>',
                             type: 'button-positive',
                             onTap: function(res) {
-                                $scope.loadImportMaterial(true);
+                                if ($scope.importData.materialSearchText == '' || $scope.importData.materialSearchText == undefined)
+                                {
+                                    services.showAlert('Notice', 'Please enter text').then(function(res) {
+                                        $scope.materialCreate.show();
+                                    });
+                                }
+                                else
+                                {
+                                    $scope.resetImportMaterial();
+                                    $scope.loadImportMaterial(true);
+                                }
+
                             }
                         },
                     ]
-                });
-                importPopup.then(function(res) {
-
                 });
                 $timeout(function() {
                     importPopup.close();
@@ -419,7 +429,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
             $scope.resetImportMaterial();
 
             $scope.loadImportMaterial = function() {
-                IntegrationRestangular.one('material/').get({search: $scope.importData.materialSearchText, start: $scope.startImportMaterialPage, max: $scope.maxImportMaterialRecord}).then(function(response) {
+                IntegrationRestangular.one('material').get({search: $scope.importData.materialSearchText, start: $scope.startImportMaterialPage, max: $scope.maxImportMaterialRecord}).then(function(response) {
                     if (response.data == '') {
                         if ((parseInt($scope.startImportMaterialPage) != 0))
                         {
