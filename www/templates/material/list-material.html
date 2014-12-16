@@ -40,7 +40,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="list list-inset listing-col" ng-repeat="process in items">
-                                    <a class="item-list item-icon-right" ng-click="goUpdate(process.id)">
+                                    <a class="item-list item-icon-right" ng-click="goUpdate(process.id, process.type)">
                                         <span class="text-center-middle"><span class="font-grey">{{process.code}}</span> {{process.description}}</span>
                                         <i class="icon fa-arrow-right arrow-right"></i>
                                     </a>

@@ -393,7 +393,6 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                                     $scope.resetImportMaterial();
                                     $scope.loadImportMaterial(true);
                                 }
-
                             }
                         },
                     ]
@@ -425,11 +424,19 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                 $scope.itemImportMaterialArray = '';
                 $scope.nextImportMaterialButton = true;
             }
+            $scope.searchImportMaterialText = '';
+            $scope.tempImportMaterialSearch = '';
             $scope.isImportMaterialDataSearch = '';
             $scope.resetImportMaterial();
-
+            $scope.openImportMaterialList = function() {
+                $scope.resetImportMaterial();
+                $scope.searchImportMaterialText = '';
+                $scope.tempImportMaterialSearch = '';
+                $scope.isImportMaterialDataSearch = '';
+                $scope.loadImportMaterial();
+            };
             $scope.loadImportMaterial = function() {
-                IntegrationRestangular.one('material').get({search: $scope.importData.materialSearchText, start: $scope.startImportMaterialPage, max: $scope.maxImportMaterialRecord}).then(function(response) {
+                Restangular.one('common/material').get({search: $scope.searchImportMaterialText, start: $scope.startImportMaterialPage, max: $scope.maxImportMaterialRecord}).then(function(response) {
                     if (response.data == '') {
                         if ((parseInt($scope.startImportMaterialPage) != 0))
                         {
@@ -440,7 +447,6 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                         {
                             $scope.materialType.hide();
                             services.showAlert('Notice', 'Material list is empty').then(function(res) {
-                                $scope.materialType.show();
                             });
                         }
                     } else
@@ -450,7 +456,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                             $scope.itemsImportMaterial = response.data;
 
                             $scope.itemImportMaterialArray = response.data;
-                            if ($scope.importData.materialSearchText != '')
+                            if ($scope.searchImportMaterialText != '')
                             {
                                 $scope.isImportMaterialDataSearch = 'yes';
                             }
@@ -488,6 +494,12 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                     services.showAlert('Falhou', 'Please try again');
                 });
             };
+
+            $scope.backToCreatePage = function() {
+                $scope.materialImportList.hide();
+                $scope.materialImportList.hide();
+            };
+
             $scope.pageImportMaterial = function() {
                 $scope.itemsImportMaterial = [];
                 $scope.start = $scope.startImportMaterialPage * $scope.maxImportMaterialRecord;
@@ -505,15 +517,25 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                 }
             };
             $scope.searchImportMaterial = function(text) {
-                $scope.importData.materialSearchText = text;
+                $scope.searchImportMaterialText = text;
                 if ($scope.isImportMaterialDataSearch == '')
                 {
                     $scope.resetImportMaterial();
                 }
-                if ($scope.importData.materialSearchText == '' && $scope.isImportMaterialDataSearch != '')
+                if ($scope.searchImportMaterialText == '' && $scope.isImportMaterialDataSearch != '')
                 {
                     $scope.resetImportMaterial();
                     $scope.isImportMaterialDataSearch = '';
+                }
+                if ($scope.searchImportMaterialText != '' && ($scope.tempImportMaterialSearch == $scope.searchImportMaterialText))
+                {
+                    $scope.tempImportMaterialSearch = $scope.searchImportMaterialText;
+                }
+                else
+                {
+                    $scope.resetImportMaterial();
+                    $scope.isImportMaterialDataSearch = '';
+                    $scope.tempImportMaterialSearch = $scope.searchImportMaterialText;
                 }
                 $scope.loadImportMaterial();
             };
@@ -539,7 +561,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                 $scope.startImportMaterialPage = nextPage;
                 if ($scope.itemImportMaterialArray.length > 0)
                 {
-                    if ($scope.importData.materialSearchText == '' || ($scope.importData.materialSearchText != '' && $scope.isImportMaterialDataSearch != ''))
+                    if ($scope.searchImportMaterialText == '' || ($scope.searchImportMaterialText != '' && $scope.isImportMaterialDataSearch != ''))
                     {
                         $scope.pageImportMaterial();
                     }
@@ -578,4 +600,9 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
             $scope.goBack = function() {
                 $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
             };
+        });
+
+altamiraAppControllers.controller('CommonCtrl',
+        function($scope, $location, $routeParams, $ionicPopup, $ionicModal, Restangular, IntegrationRestangular, services, $ionicLoading, $timeout) {
+
         });
