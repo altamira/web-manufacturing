@@ -5,7 +5,7 @@
                 <button type="button" class="button fa-arrow-left" ng-click="materialCreateModalClose()"></button>
                 <span class="btn-separator"></span>
                 <button class="button fa-check" ng-click="submitted=true"></button>
-                <button type="button" class="button fa-download" ng-click="importOrder()" ng-if="materialTypeText != 'machine' && materialTypeText != 'tooling'"></button>
+                <button type="button" class="button fa-download" ng-click="openImportMaterialList()" ng-if="materialTypeText != 'machine' && materialTypeText != 'tooling'"></button>
             </div>
         </ion-header-bar>
         <ion-content>

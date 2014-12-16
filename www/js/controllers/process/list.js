@@ -21,6 +21,7 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                 $scope.loading = true;
                 Restangular.one('manufacturing').one('process').get({search: $scope.searchText, start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
                     if (response.data == '') {
+                        $scope.loading = false;
                         if ((parseInt($scope.startPage) != 0))
                         {
                             $scope.nextButton = false;
