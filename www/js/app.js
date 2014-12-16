@@ -147,7 +147,7 @@ altamiraApp.config(function(RestangularProvider) {
 
 altamiraApp.factory('IntegrationRestangular', function(Restangular) {
   return Restangular.withConfig(function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('http://ec2-54-207-103-15.sa-east-1.compute.amazonaws.com');
+    RestangularProvider.setBaseUrl('http://192.168.0.1/integration');
 //    RestangularConfigurer.setDefaultHeaders({'Content-Type': 'application/json; charset=iso-8859-1'});
   });
 });
