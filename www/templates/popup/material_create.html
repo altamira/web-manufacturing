@@ -27,29 +27,103 @@
                         <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.required">Description field is required.</label>
                         <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.minlength">Please enter minimum 5 character.</label>
                     </div>
-                    <div class="list list-row">
-                        <span class="input-label text-bold">Width</span>
-                        <label class="item item-input input-box-extra">
-                            <input type="text" name="width" ng-model="material.width"/>
-                        </label>
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col">
+                            <div class="list">
+                                <a class="process-item-list item-icon-left">
+                                    <i class="icon left-icon fa-calculator"></i>
+                                    Medidas
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="list list-row">
-                        <span class="input-label text-bold">Height</span>
-                        <label class="item item-input input-box-extra">
-                            <input type="text" name="height" ng-model="material.height"/>
-                        </label>
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="create-col">
+                            <div class="list">
+                                <div class="list-row">
+                                    <span class="input-label"><i class="fa fa-arrows-h"></i> Comprimento</span>
+                                    <input name="width" type="number" step="1" min="0" max="9999999.999999" ng-model='material.length'/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="create-col last">
+                            <div class="list">
+                                <div class="list-row">
+                                    <span class="input-label">Unidade Medida</span>
+                                    <div class="select-box-hide"></div>
+                                    <label class="item item-select item-select-box">
+                                        <select name="lengthType" ng-model="material.lengthType" class="select-box" ng-options='v.id as v.symbol for v in material.unitLengthBox'>
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="list list-row">
-                        <span class="input-label text-bold">Length</span>
-                        <label class="item item-input input-box-extra">
-                            <input type="text" name="length" ng-model="material.length"/>
-                        </label>
+                    <div class="row" style="margin-top: 5px;">
+                        <div class="create-col">
+                            <div class="list">
+                                <div class="list-row">
+                                    <span class="input-label"><i class="fa fa-arrows-v"></i> Altura</span>
+                                    <input name="height" type="number" step="1" min="0" max="9999999.999999" ng-model='material.height' />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="create-col last">
+                            <div class="list">
+                                <div class="list-row">
+                                    <span class="input-label">Unidade Medida</span>
+                                    <div class="select-box-hide"></div>
+                                    <label class="item item-select item-select-box">
+                                        <select name="heightType" ng-model="material.heightType" class="select-box" ng-options='v.id as v.symbol for v in material.unitLengthBox'>
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="list list-row">
-                        <span class="input-label text-bold">Weight</span>
-                        <label class="item item-input input-box-extra">
-                            <input type="text" name="weight" ng-model="material.weight"/>
-                        </label>
+                    <div class="row" style="margin-top: 5px;">
+                        <div class="create-col">
+                            <div class="list">
+                                <div class="list-row">
+                                    <span class="input-label"><i class="fa fa-expand"></i> Largura</span>
+                                    <input name="length" type="number" step="1" min="0" max="9999999.999999" ng-model='material.width' />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="create-col last">
+                            <div class="list">
+                                <div class="list-row">
+                                    <span class="input-label">Unidade Medida</span>
+                                    <div class="select-box-hide"></div>
+                                    <label class="item item-select item-select-box">
+                                        <select name="widthType" ng-model="material.widthType" class="select-box" ng-options='v.id as v.symbol for v in material.unitLengthBox'>
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 5px;">
+                        <div class="create-col">
+                            <div class="list">
+                                <div class="list-row">
+                                    <span class="input-label"><i class="fa fa-tachometer"></i> Peso</span>
+                                    <input name="weight" type="number" step="1" min="0" max="9999999.999999" ng-model='material.weight' />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="create-col last">
+                            <div class="list">
+                                <div class="list-row">
+                                    <span class="input-label">Unidade Medida</span>
+                                    <div class="select-box-hide"></div>
+                                    <label class="item item-select item-select-box">
+                                        <select name="weightType" ng-model="material.weightType" class="select-box" ng-options='v.id as v.symbol for v in material.unitWeightBox'>
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -88,29 +162,81 @@
                         <label class="extra-error" ng-show="submitted && materialCreateForm.treatment.$error.required">Treatment field is required.</label>
                         <label class="extra-error" ng-show="submitted && materialCreateForm.treatment.$error.minlength">Please enter minimum 2 character.</label>
                     </div>
-                    <div class="list list-row">
-                        <span class="input-label text-bold">Thickness</span>
-                        <label class="item item-input input-box-extra">
-                            <input type="text" name="thickness" ng-model="material.thickness"/>
-                        </label>
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col">
+                            <div class="list">
+                                <a class="process-item-list item-icon-left">
+                                    <i class="icon left-icon fa-calculator"></i>
+                                    Medidas
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="list list-row">
-                        <span class="input-label text-bold">Width</span>
-                        <label class="item item-input input-box-extra">
-                            <input type="text" name="width" ng-model="material.width"/>
-                        </label>
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="create-col">
+                            <div class="list">
+                                <div class="list-row">
+                                    <span class="input-label"><i class="fa fa-arrows-h"></i> Comprimento</span>
+                                    <input name="width" type="number" step="1" min="0" max="9999999.999999" ng-model='material.length'/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="create-col last">
+                            <div class="list">
+                                <div class="list-row">
+                                    <span class="input-label">Unidade Medida</span>
+                                    <div class="select-box-hide"></div>
+                                    <label class="item item-select item-select-box">
+                                        <select name="lengthType" ng-model="material.lengthType" class="select-box" ng-options='v.id as v.symbol for v in material.unitLengthBox'>
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="list list-row">
-                        <span class="input-label text-bold">Length</span>
-                        <label class="item item-input input-box-extra">
-                            <input type="text" name="length" ng-model="material.length"/>
-                        </label>
+                    <div class="row" style="margin-top: 5px;">
+                        <div class="create-col">
+                            <div class="list">
+                                <div class="list-row">
+                                    <span class="input-label"><i class="fa fa-arrows-v"></i> Espessura</span>
+                                    <input name="height" type="number" step="1" min="0" max="9999999.999999" ng-model='material.thickness' />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="create-col last">
+                            <div class="list">
+                                <div class="list-row">
+                                    <span class="input-label">Unidade Medida</span>
+                                    <div class="select-box-hide"></div>
+                                    <label class="item item-select item-select-box">
+                                        <select name="heightType" ng-model="material.heightType" class="select-box" ng-options='v.id as v.symbol for v in material.unitLengthBox'>
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="list list-row">
-                        <span class="input-label text-bold">Tax</span>
-                        <label class="item item-input input-box-extra">
-                            <input type="text" name="tax" ng-model="material.tax"/>
-                        </label>
+                    <div class="row" style="margin-top: 5px;">
+                        <div class="create-col">
+                            <div class="list">
+                                <div class="list-row">
+                                    <span class="input-label"><i class="fa fa-expand"></i> Largura</span>
+                                    <input name="length" type="number" step="1" min="0" max="9999999.999999" ng-model='material.width' />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="create-col last">
+                            <div class="list">
+                                <div class="list-row">
+                                    <span class="input-label">Unidade Medida</span>
+                                    <div class="select-box-hide"></div>
+                                    <label class="item item-select item-select-box">
+                                        <select name="widthType" ng-model="material.widthType" class="select-box" ng-options='v.id as v.symbol for v in material.unitLengthBox'>
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

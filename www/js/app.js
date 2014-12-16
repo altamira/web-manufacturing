@@ -115,7 +115,8 @@ altamiraApp.config(['$routeProvider',
             templateUrl: 'templates/delivery/planning/list.html',
             controller: 'DeliveryPlanningListCtrl'
         })
-                /* Material pages  End */
+        /* Material pages  End */
+
                 .otherwise({
             redirectTo: '/manufacturing/process'
         });
@@ -147,7 +148,7 @@ altamiraApp.config(function(RestangularProvider) {
 
 altamiraApp.factory('IntegrationRestangular', function(Restangular) {
   return Restangular.withConfig(function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('http://192.168.0.1/integration');
+    RestangularProvider.setBaseUrl('http://ec2-54-207-103-15.sa-east-1.compute.amazonaws.com');
 //    RestangularConfigurer.setDefaultHeaders({'Content-Type': 'application/json; charset=iso-8859-1'});
   });
 });
