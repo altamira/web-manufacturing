@@ -115,7 +115,8 @@ altamiraApp.config(['$routeProvider',
             templateUrl: 'templates/delivery/planning/list.html',
             controller: 'DeliveryPlanningListCtrl'
         })
-                /* Material pages  End */
+        /* Material pages  End */
+
                 .otherwise({
             redirectTo: '/manufacturing/process'
         });

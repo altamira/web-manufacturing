@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('MaterialListCtrl',
-        function($scope, $http, $location, $route, $routeParams, $ionicPopup, $ionicModal, $ionicLoading, $timeout, $state, Restangular, services, $window) {
+        function($scope, $http, $location, $route, $routeParams, $ionicPopup, $ionicModal, $ionicLoading, $timeout, $state, Restangular, IntegrationRestangular, services, $window) {
 
             if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && sessionStorage.getItem('token') == '')
             {
@@ -312,7 +312,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
                 $scope.loadImportMaterial();
             };
             $scope.loadImportMaterial = function() {
-                Restangular.one('common/material').get({search: $scope.searchImportMaterialText, start: $scope.startImportMaterialPage, max: $scope.maxImportMaterialRecord}).then(function(response) {
+                IntegrationRestangular.one('material').get({search: $scope.searchImportMaterialText, start: $scope.startImportMaterialPage, max: $scope.maxImportMaterialRecord}).then(function(response) {
                     if (response.data == '') {
                         if ((parseInt($scope.startImportMaterialPage) != 0))
                         {
