@@ -158,6 +158,9 @@ altamiraAppControllers.controller('BomListCtrl',
             $scope.view = function(bomId) {
                 $location.path('/bom/view/' + bomId);
             };
+            $scope.newBOM = function() {
+                $location.path('/bom/create');
+            };
             // first load
             $scope.search.run();
             $scope.checkBtn = 0;

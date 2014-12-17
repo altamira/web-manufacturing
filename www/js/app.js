@@ -65,6 +65,10 @@ altamiraApp.config(['$routeProvider',
             templateUrl: 'templates/bom/list.html',
             controller: 'BomListCtrl'
         })
+                .when('/bom/create', {
+            templateUrl: 'templates/bom/create.html',
+            controller: 'BomCreateCtrl'
+        })
                 .when('/bom/view/:bomId', {
             templateUrl: 'templates/bom/view.html',
             controller: 'BomViewCtrl'

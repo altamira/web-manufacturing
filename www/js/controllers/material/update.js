@@ -9,6 +9,7 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                 $scope.materialBaseUrl = '';
                 console.log(JSON.stringify($scope.materialTypeText));
                 console.log(JSON.stringify(response.data));
+                $scope.material.version = 0;
                 $scope.material.code = response.data.code;
                 $scope.material.description = response.data.description;
                 switch ($scope.materialTypeText) {

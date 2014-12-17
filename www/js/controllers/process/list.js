@@ -29,7 +29,7 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                             $scope.loadProcess();
                         } else
                         {
-                            services.showAlert('Notice', 'Material list is empty').then(function(res) {
+                            services.showAlert('Notice', 'Process list is empty').then(function(res) {
                             });
                         }
                     } else

@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('MaterialListCtrl',
-        function($scope, $http, $location, $route, $routeParams, $ionicPopup, $ionicModal, $ionicLoading, $timeout, $state, Restangular, IntegrationRestangular, services, $window) {
+        function($scope, $http, $location, $route, $routeParams, $ionicPopup, $ionicModal, $ionicLoading, $timeout, $state, Restangular, services, $window) {
 
             if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && sessionStorage.getItem('token') == '')
             {
@@ -189,6 +189,16 @@ altamiraAppControllers.controller('MaterialListCtrl',
                 animation: 'fade-in'
             }).then(function(modal) {
                 $scope.materialCreate = modal;
+                Restangular.one('measurement/unit').get({magnitude: 'dimencional'}).then(function(response) {
+                    $scope.unitLengthBox = response.data;
+                }, function(response) {
+                    services.showAlert('Falhou', 'Please try again');
+                });
+                Restangular.one('measurement/unit').get({magnitude: 'peso'}).then(function(response) {
+                    $scope.unitWeightBox = response.data;
+                }, function(response) {
+                    services.showAlert('Falhou', 'Please try again');
+                });
             });
 
             $scope.materialCreateModalShow = function() {
@@ -203,9 +213,38 @@ altamiraAppControllers.controller('MaterialListCtrl',
             $scope.submitCreateMaterial = function(isValid) {
                 if (isValid) {
                     var materialBaseUrl = '';
+                    $scope.postData = {};
+                    $scope.postData.code = $scope.material.code;
+                    $scope.postData.description = $scope.material.description;
+                    $scope.postData.component = [];
                     switch ($scope.materialTypeText) {
                         case 'product':
                             materialBaseUrl = Restangular.all('sales').all('product');
+                            break;
+                        case 'component':
+                            materialBaseUrl = Restangular.all('sales').all('component');
+                            $scope.postData.type = "br.com.altamira.data.model.sales.Component";
+
+                            $scope.postData.width = {};
+                            $scope.postData.width.value = parseFloat($scope.material.width);
+                            $scope.postData.width.unit = {};
+                            $scope.postData.width.unit.id = $scope.material.widthType;
+
+                            $scope.postData.height = {};
+                            $scope.postData.height.value = parseFloat($scope.material.height);
+                            $scope.postData.height.unit = {};
+                            $scope.postData.height.unit.id = $scope.material.heightType;
+
+                            $scope.postData.length = {};
+                            $scope.postData.length.value = parseFloat($scope.material.length);
+                            $scope.postData.length.unit = {};
+                            $scope.postData.length.unit.id = $scope.material.lengthType;
+
+                            $scope.postData.weight = {};
+                            $scope.postData.weight.value = parseFloat($scope.material.weight);
+                            $scope.postData.weight.unit = {};
+                            $scope.postData.weight.unit.id = $scope.material.weightType;
+
                             break;
                         case 'material':
                             materialBaseUrl = Restangular.all('purchase').all('material');
@@ -223,7 +262,8 @@ altamiraAppControllers.controller('MaterialListCtrl',
                             materialBaseUrl = Restangular.all('manufacture').all('tooling');
                             break;
                     }
-                    materialBaseUrl.post($scope.material).then(function(response) {
+                    console.log(JSON.stringify($scope.postData));
+                    materialBaseUrl.post($scope.postData).then(function(response) {
                         $scope.loading = false;
                         if (response.status == 201) {
                             $scope.items.push({"id": response.data.id, "code": $scope.material.code, "description": $scope.material.description});
@@ -243,50 +283,6 @@ altamiraAppControllers.controller('MaterialListCtrl',
 
             };
 
-
-            $scope.importOrder = function() {
-                $scope.importData = {};
-                // An elaborate, custom popup
-                var importPopup = $ionicPopup.show({
-                    templateUrl: 'templates/popup/material_import.html',
-                    title: 'Numero do Pedido',
-                    scope: $scope,
-                    buttons: [
-                        {text: 'Cancelar',
-                            onTap: function(res) {
-                                importPopup.close();
-                            }
-                        },
-                        {text: '<b>Importar</b>',
-                            type: 'button-positive',
-                            onTap: function(res) {
-                                $scope.startImportMaterialPage = 0;
-                                $scope.itemsImportMaterial = '';
-                                $scope.itemImportMaterialArray = '';
-                                $scope.nextImportMaterialButton = true;
-                                $scope.isImportMaterialDataSearch == '';
-                                $scope.loadImportMaterial();
-                            }
-                        },
-                    ]
-                });
-                importPopup.then(function(res) {
-
-                });
-                $timeout(function() {
-                    importPopup.close();
-                }, 10000);
-            };
-
-            $scope.showLoading = function() {
-                $ionicLoading.show({
-                    template: 'Enviando, aguarde...'
-                });
-            };
-
-            $scope.hideLoading = function() {
-                $ionicLoading.hide();
-            };
             $scope.selectMaterial = function(code, description) {
                 $scope.material.code = code;
                 $scope.material.description = description;
@@ -312,7 +308,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
                 $scope.loadImportMaterial();
             };
             $scope.loadImportMaterial = function() {
-                IntegrationRestangular.one('material').get({search: $scope.searchImportMaterialText, start: $scope.startImportMaterialPage, max: $scope.maxImportMaterialRecord}).then(function(response) {
+                Restangular.one('common/material').get({search: $scope.searchImportMaterialText, start: $scope.startImportMaterialPage, max: $scope.maxImportMaterialRecord}).then(function(response) {
                     if (response.data == '') {
                         if ((parseInt($scope.startImportMaterialPage) != 0))
                         {

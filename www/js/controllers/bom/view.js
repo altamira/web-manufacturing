@@ -25,11 +25,8 @@ altamiraAppControllers.controller('BomViewCtrl',
                     $scope.bomData.representative = data.representative;
                     $scope.bomData.finish = data.finish;
                     $scope.bomData.quotation = data.quotation;
-                    var createdDate = new Date(data.created);
-                    var deliveryDate = new Date(data.delivery);
-
-                    $scope.bomData.created = createdDate.getDate() + '/' + createdDate.getMonth() + '/' + createdDate.getFullYear();
-                    $scope.bomData.delivery = deliveryDate.getDate() + '/' + deliveryDate.getMonth() + '/' + deliveryDate.getFullYear();
+                    $scope.bomData.created = moment.unix(data.created).format('DD/MM/YYYY');
+                    $scope.bomData.delivery = moment.unix(data.delivery).format('DD/MM/YYYY');
                     $scope.bomData.items = data.items;
                 }
             }, function(response) {
