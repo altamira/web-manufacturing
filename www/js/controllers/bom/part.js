@@ -1,8 +1,11 @@
-altamiraAppControllers.controller('BomPartCreateCtrl',
-        function($scope, $http, $location, $routeParams, $ionicPopup, Restangular, services, CommonFun) {
+altamiraAppControllers.controller('BomPartOperationCtrl',
+        function($scope, $http, $location, $routeParams, $ionicPopup, Restangular, services, $ionicModal) {
             $scope.bomId = $routeParams.bomId;
             $scope.itemId = $routeParams.itemId;
-            $scope.partData = {}
+            $scope.partId = $routeParams.partId;
+            $scope.action = 'create';
+            $scope.partData = {};
+            $scope.postData = {};
             $scope.partData.version = '';
             $scope.partData.code = '';
             $scope.partData.description = '';
@@ -14,11 +17,12 @@ altamiraAppControllers.controller('BomPartCreateCtrl',
             $scope.partData.quantity = '';
             $scope.partData.weight = '';
 
-            $scope.partData.lengthType = 4;
-            $scope.partData.heightType = 4;
-            $scope.partData.widthType = 4;
-            $scope.partData.weightType = 6;
-            $scope.partData.quantityType = 8;
+            $scope.partData.lengthType = 104;
+            $scope.partData.heightType = 104;
+            $scope.partData.widthType = 104;
+            $scope.partData.weightType = 106;
+            $scope.partData.quantityType = 108;
+
 
             Restangular.one('common/color').get({max: 0}).then(function(response) {
                 $scope.partData.colorBox = response.data;
@@ -41,67 +45,149 @@ altamiraAppControllers.controller('BomPartCreateCtrl',
                 services.showAlert('Falhou', 'Please try again');
             });
 
+            $scope.loadPart = function() {
+                $scope.loading = true;
+                Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('part', $scope.partId).get().then(function(response) {
+                    $scope.loading = false;
+                    var data = response.data;
+                    $scope.partData.version = data.version;
+                    $scope.partData.code = data.material.code;
+                    $scope.partData.description = data.material.description;
+                    $scope.partData.color = data.color.id;
+                    $scope.partData.quantity = data.quantity.value;
+                    $scope.partData.quantityType = data.quantity.unit.id;
+                    $scope.partData.width = data.width.value;
+                    $scope.partData.widthType = data.width.unit.id;
+                    $scope.partData.height = data.height.value;
+                    $scope.partData.heightType = data.height.unit.id;
+                    $scope.partData.length = data.length.value;
+                    $scope.partData.lengthType = data.length.unit.id;
+                    $scope.partData.weight = data.weight.value;
+                    $scope.partData.weightType = data.weight.unit.id;
+                }, function(response) {
+                    services.showAlert('Falhou', 'Please try again');
+                });
+            };
+
+            if ($scope.partId != '' && $scope.partId != undefined)
+            {
+                $scope.action = 'update';
+                $scope.loading = true;
+                $scope.postData.id = $scope.partId;
+                $scope.loadPart();
+            }
+            else
+            {
+                $scope.postData.id = 0;
+            }
+
+
             $scope.submitPartForm = function(isValid) {
                 if (isValid) {
                     $scope.loading = true;
-                    $scope.postData = {};
                     $scope.postData.version = 0;
-                    $scope.postData.code = $scope.partData.code;
-                    $scope.postData.description = $scope.partData.description;
-                    $scope.postData.color = $scope.partData.color;
-                    Restangular.one('common/color', $scope.postData.color).get({max: 0}).then(function(response) {
-                        $scope.postData.color = {};
-                        $scope.postData.color.id = response.data.id;
-                        $scope.postData.color.version = response.data.version;
-                        $scope.postData.color.code = response.data.code;
-                        $scope.postData.color.name = response.data.name;
-                        $scope.postData.quantity = {};
-                        $scope.postData.quantity.value = parseFloat($scope.partData.quantity);
-                        $scope.postData.quantity.unit = {};
-                        $scope.postData.quantity.unit.id = $scope.partData.quantityType;
+                    Restangular.one('common/material').get({code: $scope.partData.code}).then(function(response) {
 
-                        $scope.postData.width = {};
-                        $scope.postData.width.value = parseFloat($scope.partData.width);
-                        $scope.postData.width.unit = {};
-                        $scope.postData.width.unit.id = $scope.partData.widthType;
+                        if (response.data != '')
+                        {
+                            $scope.postData.material = {};
+                            $scope.postData.material.id = response.data.id;
 
-                        $scope.postData.height = {};
-                        $scope.postData.height.value = parseFloat($scope.partData.height);
-                        $scope.postData.height.unit = {};
-                        $scope.postData.height.unit.id = $scope.partData.heightType;
+                            $scope.postData.color = $scope.partData.color;
+                            Restangular.one('common/color', $scope.postData.color).get({max: 0}).then(function(response) {
+                                $scope.postData.color = {};
+                                $scope.postData.color.id = response.data.id;
+                                $scope.postData.color.version = response.data.version;
+                                $scope.postData.color.code = response.data.code;
+                                $scope.postData.color.name = response.data.name;
+                                $scope.postData.quantity = {};
+                                $scope.postData.quantity.value = parseFloat($scope.partData.quantity);
+                                $scope.postData.quantity.unit = {};
+                                $scope.postData.quantity.unit.id = $scope.partData.quantityType;
 
-                        $scope.postData.length = {};
-                        $scope.postData.length.value = parseFloat($scope.partData.length);
-                        $scope.postData.length.unit = {};
-                        $scope.postData.length.unit.id = $scope.partData.lengthType;
+                                $scope.postData.width = {};
+                                $scope.postData.width.value = parseFloat($scope.partData.width);
+                                $scope.postData.width.unit = {};
+                                $scope.postData.width.unit.id = $scope.partData.widthType;
 
-                        $scope.postData.weight = {};
-                        $scope.postData.weight.value = parseFloat($scope.partData.weight);
-                        $scope.postData.weight.unit = {};
-                        $scope.postData.weight.unit.id = $scope.partData.weightType;
-                        Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).all('part').post($scope.postData).then(function(response) {
+                                $scope.postData.height = {};
+                                $scope.postData.height.value = parseFloat($scope.partData.height);
+                                $scope.postData.height.unit = {};
+                                $scope.postData.height.unit.id = $scope.partData.heightType;
+
+                                $scope.postData.length = {};
+                                $scope.postData.length.value = parseFloat($scope.partData.length);
+                                $scope.postData.length.unit = {};
+                                $scope.postData.length.unit.id = $scope.partData.lengthType;
+
+                                $scope.postData.weight = {};
+                                $scope.postData.weight.value = parseFloat($scope.partData.weight);
+                                $scope.postData.weight.unit = {};
+                                $scope.postData.weight.unit.id = $scope.partData.weightType.id;
+                                if ($scope.action == 'create')
+                                {
+                                    console.log(JSON.stringify($scope.postData));
+                                    Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).all('part').post($scope.postData).then(function(response) {
+                                        $scope.loading = false;
+                                        $location.path('/bom/part/update/' + $scope.bomId + '/' + $scope.itemId + '/' + response.data.id);
+                                    }, function() {
+                                        $scope.loading = false;
+                                        services.showAlert('Falhou', 'Please try again');
+                                    });
+                                }
+                                else
+                                {
+                                    Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('part', $scope.partId).get().then(function(response1) {
+                                        $scope.postData.version = response1.data.version;
+                                        console.log(JSON.stringify($scope.postData));
+                                        Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('part', $scope.partId).customPUT($scope.postData).then(function(response) {
+                                            $scope.loading = false;
+                                            $location.path('/bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
+                                        }, function(response) {
+                                            $scope.loading = false;
+                                            services.showAlert('Falhou', 'Please try again');
+                                        });
+                                    }, function(response1) {
+                                        $scope.loading = false;
+                                        services.showAlert('Falhou', 'Please try again');
+                                    });
+                                }
+                            }, function(response) {
+                                services.showAlert('Falhou', 'Please try again');
+                            });
+                        }
+                        else
+                        {
+                            services.showAlert('Error', 'Material not found for written code.Please check it').then(function(res) {
+                                return false;
+                            });
+                        }
+                    });
+                }
+            }
+
+            $scope.removePart = function() {
+                services.showConfirmBox('Confirmation', 'Are you sure to remove this Part?').then(function(res) {
+                    if (res) {
+                        $scope.loading = true;
+                        Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('part', $scope.partId).remove().then(function() {
                             $scope.loading = false;
-                            $location.path('/bom/part/update/' + $scope.bomId + '/' + $scope.itemId + '/' + response.data.id);
+                            services.showAlert('A Part - ' + $scope.partId + ' removed successfully.').then(function(res) {
+                                if (res) {
+                                    $location.path('bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
+                                }
+                            });
                         }, function() {
                             $scope.loading = false;
                             services.showAlert('Falhou', 'Please try again');
                         });
-                    }, function(response) {
-                        services.showAlert('Falhou', 'Please try again');
-                    });
+                    }
+                });
+            };
 
-                }
-            }
             $scope.goBack = function() {
                 $location.path('bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
             };
-
-
-
-
-
-
-
 
             $scope.resetMaterial = function() {
                 $scope.startPage = 0;
@@ -263,12 +349,10 @@ altamiraAppControllers.controller('BomPartCreateCtrl',
             }).then(function(modal) {
                 $scope.materialType = modal;
             });
-
             $scope.materialTypeModalShow = function() {
                 $scope.materialListModalClose();
                 $scope.materialType.show();
             };
-
             $scope.materialTypeModalClose = function() {
                 $scope.materialType.hide();
                 $scope.materialListModalShow();
@@ -289,16 +373,15 @@ altamiraAppControllers.controller('BomPartCreateCtrl',
             }).then(function(modal) {
                 $scope.materialCreate = modal;
             });
-
             $scope.materialCreateModalShow = function() {
                 $scope.materialType.hide();
                 $scope.materialCreate.show();
             };
-
             $scope.materialCreateModalClose = function() {
                 $scope.materialCreate.hide();
                 $scope.materialTypeModalShow();
             };
+
             $scope.submitCreateMaterial = function(isValid) {
                 if (isValid) {
                     var materialBaseUrl = '';
@@ -342,53 +425,6 @@ altamiraAppControllers.controller('BomPartCreateCtrl',
                 }
             };
 
-            $scope.importOrder = function() {
-                $scope.materialCreate.hide();
-                $scope.importData = {};
-                // An elaborate, custom popup
-                var importPopup = $ionicPopup.show({
-                    templateUrl: 'templates/popup/material_import.html',
-                    title: 'Numero do Pedido',
-                    scope: $scope,
-                    buttons: [
-                        {text: 'Cancelar',
-                            onTap: function(res) {
-                                importPopup.close();
-                                $scope.materialCreate.show();
-                            }
-                        },
-                        {text: '<b>Importar</b>',
-                            type: 'button-positive',
-                            onTap: function(res) {
-                                if ($scope.importData.materialSearchText == '' || $scope.importData.materialSearchText == undefined)
-                                {
-                                    services.showAlert('Notice', 'Please enter text').then(function(res) {
-                                        $scope.materialCreate.show();
-                                    });
-                                }
-                                else
-                                {
-                                    $scope.resetImportMaterial();
-                                    $scope.loadImportMaterial(true);
-                                }
-                            }
-                        },
-                    ]
-                });
-                $timeout(function() {
-                    importPopup.close();
-                }, 10000);
-            };
-
-            $scope.showLoading = function() {
-                $ionicLoading.show({
-                    template: 'Enviando, aguarde...'
-                });
-            };
-
-            $scope.hideLoading = function() {
-                $ionicLoading.hide();
-            };
             $scope.selectMaterial = function(code, description) {
                 $scope.material.code = code;
                 $scope.material.description = description;
@@ -557,9 +593,6 @@ altamiraAppControllers.controller('BomPartCreateCtrl',
                 $scope.materialImportList.hide();
                 $scope.materialCreate.show();
             };
-
-
-
         });
 
 altamiraAppControllers.controller('BomPartUpdateCtrl',

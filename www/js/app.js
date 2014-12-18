@@ -86,12 +86,12 @@ altamiraApp.config(['$routeProvider',
             controller: 'BomItemUpdateCtrl'
         })
                 .when('/bom/part/create/:bomId/:itemId', {
-            templateUrl: 'templates/bom/part-create.html',
-            controller: 'BomPartCreateCtrl'
+            templateUrl: 'templates/bom/part.html',
+            controller: 'BomPartOperationCtrl'
         })
                 .when('/bom/part/update/:bomId/:itemId/:partId', {
-            templateUrl: 'templates/bom/part-update.html',
-            controller: 'BomPartUpdateCtrl'
+            templateUrl: 'templates/bom/part.html',
+            controller: 'BomPartOperationCtrl'
         })
                 /* BOM pages  End */
                 /* Material pages  Start */
@@ -119,7 +119,7 @@ altamiraApp.config(['$routeProvider',
             templateUrl: 'templates/delivery/planning/list.html',
             controller: 'DeliveryPlanningListCtrl'
         })
-        /* Material pages  End */
+                /* Material pages  End */
 
                 .otherwise({
             redirectTo: '/manufacturing/process'
@@ -127,34 +127,34 @@ altamiraApp.config(['$routeProvider',
     }]);
 
 altamiraApp.config(function(RestangularProvider) {
-	RestangularProvider.setBaseUrl('http://data.altamira.com.br/data-rest-0.7.5-SNAPSHOT');
-	RestangularProvider.setFullResponse(true);
-	RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json; charset=iso-8859-1'});
-	RestangularProvider.setRestangularFields({
-		id: "id"
-	});
-        if (sessionStorage.getItem('token') != null && sessionStorage.getItem('token') != '')
-        {
-            RestangularProvider.setDefaultRequestParams({token: sessionStorage.getItem('token')})
-        }
-        RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
-            if (response.status === 401)
-            {
-                window.location = 'http://localhost/altamira_main/www/#/blacktheme/login';
-            } else
-            {
-                var extractedData;
-                extractedData = data;
-                return extractedData;
-            }
-        });
+    RestangularProvider.setBaseUrl('http://data.altamira.com.br/data-rest-0.7.5-SNAPSHOT');
+    RestangularProvider.setFullResponse(true);
+    RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json; charset=iso-8859-1'});
+    RestangularProvider.setRestangularFields({
+        id: "id"
     });
+    if (sessionStorage.getItem('token') != null && sessionStorage.getItem('token') != '')
+    {
+        RestangularProvider.setDefaultRequestParams({token: sessionStorage.getItem('token')})
+    }
+    RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
+        if (response.status === 401)
+        {
+            window.location = 'http://localhost/altamira_main/www/#/blacktheme/login';
+        } else
+        {
+            var extractedData;
+            extractedData = data;
+            return extractedData;
+        }
+    });
+});
 
 altamiraApp.factory('IntegrationRestangular', function(Restangular) {
-  return Restangular.withConfig(function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('http://ec2-54-207-103-15.sa-east-1.compute.amazonaws.com');
+    return Restangular.withConfig(function(RestangularProvider) {
+        RestangularProvider.setBaseUrl('http://ec2-54-207-103-15.sa-east-1.compute.amazonaws.com');
 //    RestangularConfigurer.setDefaultHeaders({'Content-Type': 'application/json; charset=iso-8859-1'});
-  });
+    });
 });
 
 var altamiraAppControllers = angular.module('altamiraAppControllers', []);

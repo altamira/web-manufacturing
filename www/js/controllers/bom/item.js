@@ -49,10 +49,11 @@ altamiraAppControllers.controller('BomItemUpdateCtrl',
                     for (var i in data.parts)
                     {
                         var temp = {};
+                        console.log(JSON.stringify(data.parts[i]));
                         temp.id = data.parts[i].id;
                         temp.version = data.parts[i].version;
-                        temp.code = data.parts[i].code;
-                        temp.description = data.parts[i].description;
+                        temp.code = data.parts[i].material.code;
+                        temp.description = data.parts[i].material.description;
                         temp.color = data.parts[i].color;
                         temp.quantity = data.parts[i].quantity;
                         temp.width = data.parts[i].width;

@@ -138,8 +138,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
                 }
             }
             $scope.goUpdate = function(materialId, materialType) {
-                var type = materialType;
-                sessionStorage.setItem('materialType', type.substring(type.lastIndexOf('.') + 1, type.length));
+
                 $location.path('/material/update/' + materialId);
             };
 
@@ -214,17 +213,15 @@ altamiraAppControllers.controller('MaterialListCtrl',
                 if (isValid) {
                     var materialBaseUrl = '';
                     $scope.postData = {};
+                    $scope.postData.id = 0;
+                    $scope.postData.version = 0;
                     $scope.postData.code = $scope.material.code;
                     $scope.postData.description = $scope.material.description;
                     $scope.postData.component = [];
                     switch ($scope.materialTypeText) {
                         case 'product':
                             materialBaseUrl = Restangular.all('sales').all('product');
-                            break;
-                        case 'component':
-                            materialBaseUrl = Restangular.all('sales').all('component');
-                            $scope.postData.type = "br.com.altamira.data.model.sales.Component";
-
+                            $scope.postData.type = "br.com.altamira.data.model.sales.Product";
                             $scope.postData.width = {};
                             $scope.postData.width.value = parseFloat($scope.material.width);
                             $scope.postData.width.unit = {};
@@ -245,9 +242,59 @@ altamiraAppControllers.controller('MaterialListCtrl',
                             $scope.postData.weight.unit = {};
                             $scope.postData.weight.unit.id = $scope.material.weightType;
 
+                            $scope.postData.depth = {};
+                            $scope.postData.depth.value = parseFloat($scope.material.depth);
+                            $scope.postData.depth.unit = {};
+                            $scope.postData.depth.unit.id = $scope.material.depthType;
+                            break;
+                        case 'component':
+                            materialBaseUrl = Restangular.all('sales').all('component');
+                            $scope.postData.type = "br.com.altamira.data.model.sales.Component";
+                            $scope.postData.width = {};
+                            $scope.postData.width.value = parseFloat($scope.material.width);
+                            $scope.postData.width.unit = {};
+                            $scope.postData.width.unit.id = $scope.material.widthType;
+
+                            $scope.postData.height = {};
+                            $scope.postData.height.value = parseFloat($scope.material.height);
+                            $scope.postData.height.unit = {};
+                            $scope.postData.height.unit.id = $scope.material.heightType;
+
+                            $scope.postData.length = {};
+                            $scope.postData.length.value = parseFloat($scope.material.length);
+                            $scope.postData.length.unit = {};
+                            $scope.postData.length.unit.id = $scope.material.lengthType;
+
+                            $scope.postData.weight = {};
+                            $scope.postData.weight.value = parseFloat($scope.material.weight);
+                            $scope.postData.weight.unit = {};
+                            $scope.postData.weight.unit.id = $scope.material.weightType;
+
+                            $scope.postData.depth = {};
+                            $scope.postData.depth.value = parseFloat($scope.material.depth);
+                            $scope.postData.depth.unit = {};
+                            $scope.postData.depth.unit.id = $scope.material.depthType;
                             break;
                         case 'material':
                             materialBaseUrl = Restangular.all('purchase').all('material');
+                            $scope.postData.type = "br.com.altamira.data.model.sales.Material";
+                            $scope.postData.lamination = $scope.material.lamination;
+                            $scope.postData.treatment = $scope.material.treatment;
+
+                            $scope.postData.thickness = {};
+                            $scope.postData.thickness.value = parseFloat($scope.material.thickness);
+                            $scope.postData.thickness.unit = {};
+                            $scope.postData.thickness.unit.id = $scope.material.widthType;
+
+                            $scope.postData.width = {};
+                            $scope.postData.width.value = parseFloat($scope.material.width);
+                            $scope.postData.width.unit = {};
+                            $scope.postData.width.unit.id = $scope.material.widthType;
+
+                            $scope.postData.length = {};
+                            $scope.postData.length.value = parseFloat($scope.material.length);
+                            $scope.postData.length.unit = {};
+                            $scope.postData.length.unit.id = $scope.material.lengthType;
                             break;
                         case 'inputs':
                             materialBaseUrl = Restangular.all('purchase').all('inputs');
@@ -262,7 +309,6 @@ altamiraAppControllers.controller('MaterialListCtrl',
                             materialBaseUrl = Restangular.all('manufacture').all('tooling');
                             break;
                     }
-                    console.log(JSON.stringify($scope.postData));
                     materialBaseUrl.post($scope.postData).then(function(response) {
                         $scope.loading = false;
                         if (response.status == 201) {
@@ -280,9 +326,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
                         services.showAlert('Falhou', 'Please try again');
                     });
                 }
-
             };
-
             $scope.selectMaterial = function(code, description) {
                 $scope.material.code = code;
                 $scope.material.description = description;

@@ -123,6 +123,27 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
                     });
                 }
             };
+            $scope.removeProduce = function() {
+                services.showConfirmBox('Confirmation', 'Are you sure to remove this produce ?').then(function(res) {
+                    if (res) {
+                        $scope.loading = true;
+                        Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).one('produce', $scope.produceId).remove().then(function() {
+                            $scope.loading = false;
+                            services.showAlert(' A produce - ' + $scope.produceId + ' removed successfully.').then(function(res) {
+                                if (res) {
+                                    services.goToOperationUpdateForm($scope.processId, $scope.operationId);
+                                }
+                            });
+                        }, function(response1) {
+                            $scope.loading = false;
+                            services.showAlert('Falhou', 'Please try again');
+                        });
+                    }
+                });
+            };
+            $scope.goBack = function() {
+                $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
+            };
 
             $scope.resetMaterial = function() {
                 $scope.startPage = 0;
@@ -309,6 +330,16 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
                 animation: 'fade-in'
             }).then(function(modal) {
                 $scope.materialCreate = modal;
+                Restangular.one('measurement/unit').get({magnitude: 'dimencional'}).then(function(response) {
+                    $scope.unitLengthBox = response.data;
+                }, function(response) {
+                    services.showAlert('Falhou', 'Please try again');
+                });
+                Restangular.one('measurement/unit').get({magnitude: 'peso'}).then(function(response) {
+                    $scope.unitWeightBox = response.data;
+                }, function(response) {
+                    services.showAlert('Falhou', 'Please try again');
+                });
             });
 
             $scope.materialCreateModalShow = function() {
@@ -323,12 +354,89 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
             $scope.submitCreateMaterial = function(isValid) {
                 if (isValid) {
                     var materialBaseUrl = '';
+                    $scope.postData = {};
+                    $scope.postData.id = 0;
+                    $scope.postData.version = 0;
+                    $scope.postData.code = $scope.material.code;
+                    $scope.postData.description = $scope.material.description;
+                    $scope.postData.component = [];
                     switch ($scope.materialTypeText) {
                         case 'product':
                             materialBaseUrl = Restangular.all('sales').all('product');
+                            $scope.postData.type = "br.com.altamira.data.model.sales.Product";
+                            $scope.postData.width = {};
+                            $scope.postData.width.value = parseFloat($scope.material.width);
+                            $scope.postData.width.unit = {};
+                            $scope.postData.width.unit.id = $scope.material.widthType;
+
+                            $scope.postData.height = {};
+                            $scope.postData.height.value = parseFloat($scope.material.height);
+                            $scope.postData.height.unit = {};
+                            $scope.postData.height.unit.id = $scope.material.heightType;
+
+                            $scope.postData.length = {};
+                            $scope.postData.length.value = parseFloat($scope.material.length);
+                            $scope.postData.length.unit = {};
+                            $scope.postData.length.unit.id = $scope.material.lengthType;
+
+                            $scope.postData.weight = {};
+                            $scope.postData.weight.value = parseFloat($scope.material.weight);
+                            $scope.postData.weight.unit = {};
+                            $scope.postData.weight.unit.id = $scope.material.weightType;
+
+                            $scope.postData.depth = {};
+                            $scope.postData.depth.value = parseFloat($scope.material.depth);
+                            $scope.postData.depth.unit = {};
+                            $scope.postData.depth.unit.id = $scope.material.depthType;
+                            break;
+                        case 'component':
+                            materialBaseUrl = Restangular.all('sales').all('component');
+                            $scope.postData.type = "br.com.altamira.data.model.sales.Component";
+                            $scope.postData.width = {};
+                            $scope.postData.width.value = parseFloat($scope.material.width);
+                            $scope.postData.width.unit = {};
+                            $scope.postData.width.unit.id = $scope.material.widthType;
+
+                            $scope.postData.height = {};
+                            $scope.postData.height.value = parseFloat($scope.material.height);
+                            $scope.postData.height.unit = {};
+                            $scope.postData.height.unit.id = $scope.material.heightType;
+
+                            $scope.postData.length = {};
+                            $scope.postData.length.value = parseFloat($scope.material.length);
+                            $scope.postData.length.unit = {};
+                            $scope.postData.length.unit.id = $scope.material.lengthType;
+
+                            $scope.postData.weight = {};
+                            $scope.postData.weight.value = parseFloat($scope.material.weight);
+                            $scope.postData.weight.unit = {};
+                            $scope.postData.weight.unit.id = $scope.material.weightType;
+
+                            $scope.postData.depth = {};
+                            $scope.postData.depth.value = parseFloat($scope.material.depth);
+                            $scope.postData.depth.unit = {};
+                            $scope.postData.depth.unit.id = $scope.material.depthType;
                             break;
                         case 'material':
                             materialBaseUrl = Restangular.all('purchase').all('material');
+                            $scope.postData.type = "br.com.altamira.data.model.sales.Material";
+                            $scope.postData.lamination = $scope.material.lamination;
+                            $scope.postData.treatment = $scope.material.treatment;
+
+                            $scope.postData.thickness = {};
+                            $scope.postData.thickness.value = parseFloat($scope.material.thickness);
+                            $scope.postData.thickness.unit = {};
+                            $scope.postData.thickness.unit.id = $scope.material.widthType;
+
+                            $scope.postData.width = {};
+                            $scope.postData.width.value = parseFloat($scope.material.width);
+                            $scope.postData.width.unit = {};
+                            $scope.postData.width.unit.id = $scope.material.widthType;
+
+                            $scope.postData.length = {};
+                            $scope.postData.length.value = parseFloat($scope.material.length);
+                            $scope.postData.length.unit = {};
+                            $scope.postData.length.unit.id = $scope.material.lengthType;
                             break;
                         case 'inputs':
                             materialBaseUrl = Restangular.all('purchase').all('inputs');
@@ -343,17 +451,18 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
                             materialBaseUrl = Restangular.all('manufacture').all('tooling');
                             break;
                     }
-                    console.log(JSON.stringify($scope.material));
-                    materialBaseUrl.post($scope.material).then(function(response) {
+                    materialBaseUrl.post($scope.postData).then(function(response) {
                         $scope.loading = false;
-                        console.log(JSON.stringify(response.data));
                         if (response.status == 201) {
                             $scope.items.push({"id": response.data.id, "code": $scope.material.code, "description": $scope.material.description});
+                            $scope.produceData.code = $scope.material.code;
+                            $scope.produceData.description = $scope.material.description;
                             services.showAlert('Success', 'Processo foi gravado com sucesso !').then(function(res) {
-                                $scope.produceData.code = $scope.material.code;
-                                $scope.produceData.description = $scope.material.description;
-
                                 $scope.materialCreate.hide();
+                                $scope.materialType.hide();
+                                $scope.isDataSearch = '';
+                                $scope.resetMaterial();
+                                $scope.loadMaterial();
                             });
                         }
                     }, function() {
@@ -361,56 +470,6 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
                         services.showAlert('Falhou', 'Please try again');
                     });
                 }
-
-            };
-
-            $scope.importOrder = function() {
-                $scope.materialCreate.hide();
-                $scope.importData = {};
-                // An elaborate, custom popup
-                var importPopup = $ionicPopup.show({
-                    templateUrl: 'templates/popup/material_import.html',
-                    title: 'Numero do Pedido',
-                    scope: $scope,
-                    buttons: [
-                        {text: 'Cancelar',
-                            onTap: function(res) {
-                                importPopup.close();
-                                $scope.materialCreate.show();
-                            }
-                        },
-                        {text: '<b>Importar</b>',
-                            type: 'button-positive',
-                            onTap: function(res) {
-                                if ($scope.importData.materialSearchText == '' || $scope.importData.materialSearchText == undefined)
-                                {
-                                    services.showAlert('Notice', 'Please enter text').then(function(res) {
-                                        $scope.materialCreate.show();
-                                    });
-                                }
-                                else
-                                {
-                                    $scope.resetImportMaterial();
-                                    $scope.loadImportMaterial(true);
-                                }
-
-                            }
-                        },
-                    ]
-                });
-                $timeout(function() {
-                    importPopup.close();
-                }, 10000);
-            };
-
-            $scope.showLoading = function() {
-                $ionicLoading.show({
-                    template: 'Enviando, aguarde...'
-                });
-            };
-
-            $scope.hideLoading = function() {
-                $ionicLoading.hide();
             };
             $scope.selectMaterial = function(code, description) {
                 $scope.material.code = code;
@@ -579,26 +638,5 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
             $scope.materialImportListModalClose = function() {
                 $scope.materialImportList.hide();
                 $scope.materialCreate.show();
-            };
-            $scope.removeProduce = function() {
-                services.showConfirmBox('Confirmation', 'Are you sure to remove this produce ?').then(function(res) {
-                    if (res) {
-                        $scope.loading = true;
-                        Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).one('produce', $scope.produceId).remove().then(function() {
-                            $scope.loading = false;
-                            services.showAlert(' A produce - ' + $scope.produceId + ' removed successfully.').then(function(res) {
-                                if (res) {
-                                    services.goToOperationUpdateForm($scope.processId, $scope.operationId);
-                                }
-                            });
-                        }, function(response1) {
-                            $scope.loading = false;
-                            services.showAlert('Falhou', 'Please try again');
-                        });
-                    }
-                });
-            };
-            $scope.goBack = function() {
-                $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
             };
         });
