@@ -2202,6 +2202,12 @@
     font-size: 34px;
     color: #00ABA9;
 }
+.fa-component:before {
+    font-family: "fontawesome";
+    content: "\f0ca";
+    font-size: 34px;
+    color: #00ABA9;
+}
 .fa-material-prima:before {
     font-family: "fontawesome";
     content: "\f20c";

@@ -99,10 +99,6 @@ altamiraApp.config(['$routeProvider',
             templateUrl: 'templates/material/list-material.html',
             controller: 'MaterialListCtrl'
         })
-                .when('/material/create', {
-            templateUrl: 'templates/material/create-material.html',
-            controller: 'MaterialCreateCtrl'
-        })
                 .when('/material/update/:materialId', {
             templateUrl: 'templates/material/update-material.html',
             controller: 'MaterialUpdateCtrl'
