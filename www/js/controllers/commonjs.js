@@ -1,5 +1,19 @@
 altamiraAppControllers.controller('CommonCtrl',
         function($scope, $location, $routeParams, $ionicPopup, $ionicModal, Restangular, IntegrationRestangular, services, $ionicLoading, $timeout, $route) {
+            $scope.material = {};
+            $scope.material.width = 0;
+            $scope.material.height = 0;
+            $scope.material.length = 0;
+            $scope.material.depth = 0;
+            $scope.material.weight = 0;
+            $scope.material.thickness = 0;
+
+            $scope.material.widthType = 104;
+            $scope.material.heightType = 104;
+            $scope.material.lengthType = 104;
+            $scope.material.depthType = 104;
+            $scope.material.weightType = 106;
+            $scope.material.thicknessType = 104;
 
             $scope.resetMaterial = function() {
                 $scope.startPage = 0;
@@ -146,6 +160,10 @@ altamiraAppControllers.controller('CommonCtrl',
                 {
                     $scope.produceData.code = code;
                     $scope.produceData.description = desc;
+                }else if ($scope.operationType == 'bom')
+                {
+                    $scope.partData.code = code;
+                    $scope.partData.description = desc;
                 }
 
                 $scope.materialList.hide();

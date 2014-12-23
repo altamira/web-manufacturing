@@ -1,4 +1,4 @@
-var altamiraApp = angular.module('altamira', ['ionic', 'ui.sortable', 'altamiraAppControllers', 'ngRoute', 'angularFileUpload', 'altamiraAppDirectives', 'ngStorage', 'checklist-model', 'restangular', 'angularUtils.directives.dirPagination']);
+var altamiraApp = angular.module('altamira', ['ionic', 'altamiraAppControllers', 'ngRoute', 'angularFileUpload', 'altamiraAppDirectives', 'ngStorage', 'checklist-model', 'restangular', 'angularUtils.directives.dirPagination']);
 
 altamiraApp.run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {

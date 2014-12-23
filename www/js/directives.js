@@ -210,3 +210,36 @@ altamiraApp.directive('loadHtml', function() {
         $(el).load('templates/menu.html');
     }
 });
+altamiraApp.directive('sortableFunc', function() {
+    return function(scope, el, attrs) {
+        $(function() {
+            $(".dragDiv").draggable({
+                revert: 'invalid'
+            });
+            $(".mainTable tr td").droppable({
+                accept: function() {
+                    return $(this).find("*").length == 0;
+                },
+                drop: function(event, ui) {
+                    $(this).html(' ');
+                    scope.getData($(this).attr('id'),ui.draggable.attr("id"));
+                    var $this = $(this);
+                    $this.append(ui.draggable.css({
+                        top: 0,
+                        left: 0
+                    }));
+                    ui.draggable.position({
+                        my: "center",
+                        at: "center",
+                        of: $this,
+                        using: function(pos) {
+                            $(this).animate(pos, 500, "linear", function() {
+
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    }
+});

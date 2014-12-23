@@ -39,8 +39,9 @@
                     <div class="col">
                         <div class="list">
                             <label style="background-color: #eeeeee;border: 1px solid #ddd;border-radius: 5px;height: 35px;" class="item item-input">
-                                <input type="number" max="9999999.999999" min="0" step="0.000011" ng-model="material.width" name="width">
+                                <input type="number" min="0" ng-model="material.width" name="width" required value="0">
                             </label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.width.$error.required">Width field is required.</label>
                         </div>
                     </div>
                     <div class="col">
@@ -62,8 +63,9 @@
                     <div class="col">
                         <div class="list">
                             <label style="background-color: #eeeeee;border: 1px solid #ddd;border-radius: 5px;height: 35px;" class="item item-input">
-                                <input type="number" max="9999999.999999" min="0" step="0.000011" ng-model="material.height" name="height">
+                                <input type="number" min="0" ng-model="material.height" name="height" required>
                             </label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.height.$error.required">Height field is required.</label>
                         </div>
                     </div>
                     <div class="col">
@@ -85,8 +87,9 @@
                     <div class="col">
                         <div class="list">
                             <label style="background-color: #eeeeee;border: 1px solid #ddd;border-radius: 5px;height: 35px;" class="item item-input">
-                                <input type="number" max="9999999.999999" min="0" step="0.000011" ng-model="material.length" name="length">
+                                <input type="number" min="0" ng-model="material.length" name="length" required>
                             </label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.length.$error.required">Length field is required.</label>
                         </div>
                     </div>
                     <div class="col">
@@ -101,29 +104,6 @@
                 </div>
                 <div class="row">
                     <div style="padding-bottom:0" class="col">
-                        <span class="input-label text-bold">Weight</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="list">
-                            <label style="background-color: #eeeeee;border: 1px solid #ddd;border-radius: 5px;height: 35px;" class="item item-input">
-                                <input type="number" max="9999999.999999" min="0" step="0.000011" ng-model="material.weight" name="weight">
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="list">
-                            <label style="border-radius: 5px;" class="item item-select">
-                                <div style="top:-2px" class="select-box-hide"></div>
-                                <select name="weightType" ng-model="material.weightType" class="select-box" ng-options='v.id as v.symbol for v in unitWeightBox'>
-                                </select>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div style="padding-bottom:0" class="col">
                         <span class="input-label text-bold">Depth</span>
                     </div>
                 </div>
@@ -131,8 +111,9 @@
                     <div class="col">
                         <div class="list">
                             <label style="background-color: #eeeeee;border: 1px solid #ddd;border-radius: 5px;height: 35px;" class="item item-input">
-                                <input type="number" max="9999999.999999" min="0" step="0.000011" ng-model="material.depth" name="depth">
+                                <input type="number" min="0" ng-model="material.depth" name="depth" required>
                             </label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.depth.$error.required">Depth field is required.</label>
                         </div>
                     </div>
                     <div class="col">
@@ -145,6 +126,31 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div style="padding-bottom:0" class="col">
+                        <span class="input-label text-bold">Weight</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="list">
+                            <label style="background-color: #eeeeee;border: 1px solid #ddd;border-radius: 5px;height: 35px;" class="item item-input">
+                                <input type="number" min="0" ng-model="material.weight" name="weight" required>
+                            </label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.weight.$error.required">Weight field is required.</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="list">
+                            <label style="border-radius: 5px;" class="item item-select">
+                                <div style="top:-2px" class="select-box-hide"></div>
+                                <select name="weightType" ng-model="material.weightType" class="select-box" ng-options='v.id as v.symbol for v in unitWeightBox'>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <div  ng-if="materialTypeText == 'material'">
@@ -193,8 +199,9 @@
                     <div class="col">
                         <div class="list">
                             <label style="background-color: #eeeeee;border: 1px solid #ddd;border-radius: 5px;height: 35px;" class="item item-input">
-                                <input type="number" max="9999999.999999" min="0" step="0.000011" ng-model="material.thickness" name="thickness">
+                                <input type="number" min="0" ng-model="material.thickness" name="thickness" required>
                             </label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.thickness.$error.required">Thickness field is required.</label>
                         </div>
                     </div>
                     <div class="col">
@@ -216,8 +223,9 @@
                     <div class="col">
                         <div class="list">
                             <label style="background-color: #eeeeee;border: 1px solid #ddd;border-radius: 5px;height: 35px;" class="item item-input">
-                                <input type="number" max="9999999.999999" min="0" step="0.000011" ng-model="material.width" name="width">
+                                <input type="number" min="0" ng-model="material.width" name="width" required>
                             </label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.width.$error.required">Width field is required.</label>
                         </div>
                     </div>
                     <div class="col">
@@ -239,8 +247,9 @@
                     <div class="col">
                         <div class="list">
                             <label style="background-color: #eeeeee;border: 1px solid #ddd;border-radius: 5px;height: 35px;" class="item item-input">
-                                <input type="number" max="9999999.999999" min="0" step="0.000011" ng-model="material.length" name="length">
+                                <input type="number" min="0" ng-model="material.length" name="length" required>
                             </label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.length.$error.required">Length field is required.</label>
                         </div>
                     </div>
                     <div class="col">

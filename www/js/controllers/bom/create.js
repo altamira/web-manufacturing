@@ -24,7 +24,7 @@ altamiraAppControllers.controller('BomCreateCtrl',
                         $scope.loading = false;
                         if (response.status == 201) {
                             services.showAlert('Success', 'com sucesso BOM criado!').then(function(res) {
-                                $location.path('/manufacturing/bom');
+                                $location.path('/bom/edit/'+response.data.id);
                             });
                         }
                     }, function(response1) {

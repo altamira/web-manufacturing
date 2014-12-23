@@ -1,39 +1,52 @@
-<div class="loding_div" ng-show="loading">
-    <div id="loadingProgressG">
-        <div id="loadingProgressG_1" class="loadingProgressG">
-        </div>
-    </div>
-</div>
-<ion-pane>
-    <ion-header-bar class="bar-calm">
-        <div class="buttons header-margin">
-            <button type="button" class="button fa-arrow-left" ng-click="goBack()"></button>
-            <span class="btn-separator"></span>
-            <button class="button fa-check" ></button>
-            <button type="button" class="button fa-remove-component" ></button>
-            <button class="button fa-print-header" type="button"></button>
-        </div>
-    </ion-header-bar>
-    <ion-content>
-<!--        <div class="floatleft">
-            <ul ui-sortable="sortableOptions" ng-model="list" class="list_1">
-                <li ng-repeat="item in list" class="item_1" id="{{item.value}}">
-                    {{item.text}}
-                </li>
-            </ul>
-        </div>-->
-        <div style="width: 100%">
-            <div style="height: 40px;width: 100%;text-align: center;font-weight: bold;background-color: #00ABA9;vertical-align: middle">Month</div>
-            <div style="width: 100%;background-color: #eee;min-height: 100%">
-                <div style="width: 3.333%;float: left;background-color: #DDDDDD;text-align: center" ng-repeat="day in date">
-                    <span>{{day.value}}</span>
-                    <div class="each-cell" ng-repeat="item in list">
-                        <ul ui-sortable="sortableOptions" ng-model="list" class="sortable connectedSortable" id="elm{{day.value}}{{item.value}}">
-                            <li class="ui-state-highlight">{{item.text}}</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </ion-content>
-</ion-pane>
+<style type="text/css">
+    .mainTable {
+        margin: 20px auto;
+        padding: 0px;
+    }
+    .mainTable tr td {
+        height: 50px;
+        width: 50px;
+        border: 1px solid black;
+        float: left;
+    }
+    .dragDiv {
+        background-color: #00aba9;
+        font-size: 8px;
+        height: 25px;
+        margin: auto;
+        position: relative;
+        text-align: center;
+        vertical-align: middle;
+        width: 50%;
+    }
+</style>
+<table border="1" class="mainTable" sortable-func>
+    <tr ng-repeat="task in list">
+        <td id="{{task.value}}{{day.value}}" ng-repeat="day in date">
+            <div class="dragDiv" id="{{day.value}}" >{{task.text}}</div>
+        </td>
+    </tr>
+</table>
+<table border="1" class="mainTable" sortable-func>
+    <tr>
+        <td id="11">
+            <div class="dragDiv" id="1">N</div>
+        </td>
+        <td id="12">&nbsp;</td>
+        <td id="13">&nbsp;</td>
+    </tr>
+    <tr>
+        <td id="21">&nbsp;</td>
+        <td id="22">
+            <div class="dragDiv" id="2">N</div>
+        </td>
+        <td id="23">&nbsp;</td>
+    </tr>
+    <tr>
+        <td id="31">&nbsp;</td>
+        <td id="32">&nbsp;</td>
+        <td id="33">
+            <div class="dragDiv" id="3">N</div>
+        </td>
+    </tr>
+</table>

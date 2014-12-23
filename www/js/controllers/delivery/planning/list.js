@@ -4,38 +4,24 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
             var tmpDate = [];
             for (var j = 1; j <= 30; j++) {
                 tmpDate.push({
-                    value: j
+                    value: randomString()
                 });
             }
             for (var i = 1; i <= 6; i++) {
-                tmpList.push({
-                    text: 'Item ' + i,
-                    value: i
-                });
+                tmpList.push({text: 'Item ' + i, value: i});
             }
 
             $scope.date = tmpDate;
             $scope.list = tmpList;
-
-
-            $scope.sortingLog = [];
-
-            $scope.sortableOptions = {
-                connectWith: ".connectedSortable",
-                update: function(e, ui) {
-                    var logEntry = tmpList.map(function(i) {
-                        return i.value;
-                    }).join(', ');
-                    $scope.sortingLog.push('Update: ' + logEntry);
-                    console.log(JSON.stringify('Update: ' + logEntry));
-                },
-                stop: function(e, ui) {
-                    // this callback has the changed model
-                    var logEntry = tmpList.map(function(i) {
-                        return i.value;
-                    }).join(', ');
-                    $scope.sortingLog.push('Stop: ' + logEntry);
-                    console.log(JSON.stringify('Stop: ' + logEntry));
-                }
-            };
+            $scope.getData = function(id1, id2) {
+                console.log(JSON.stringify(id1));
+                console.log(JSON.stringify(id2));
+            }
+//            $scope.getRandomstring = function() {
+//                return Math.floor((Math.random() * 6) + 1);
+//            }
         });
+function randomString()
+{
+    return Math.floor((Math.random() + 1));
+}

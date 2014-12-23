@@ -193,16 +193,6 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                 animation: 'fade-in'
             }).then(function(modal) {
                 $scope.materialCreate = modal;
-                Restangular.one('measurement/unit').get({magnitude: 'dimencional'}).then(function(response) {
-                    $scope.unitLengthBox = response.data;
-                }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
-                });
-                Restangular.one('measurement/unit').get({magnitude: 'peso'}).then(function(response) {
-                    $scope.unitWeightBox = response.data;
-                }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
-                });
             });
 
             $scope.materialCreateModalShow = function() {

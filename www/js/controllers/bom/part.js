@@ -4,6 +4,7 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
             $scope.itemId = $routeParams.itemId;
             $scope.partId = $routeParams.partId;
             $scope.action = 'create';
+            $scope.operationType = "bom";
             $scope.partData = {};
             $scope.postData = {};
             $scope.partData.version = '';
@@ -11,11 +12,11 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
             $scope.partData.description = '';
             $scope.partData.color = 20;
 
-            $scope.partData.length = '';
-            $scope.partData.height = '';
-            $scope.partData.width = '';
-            $scope.partData.quantity = '';
-            $scope.partData.weight = '';
+            $scope.partData.length = 0;
+            $scope.partData.height = 0;
+            $scope.partData.width = 0;
+            $scope.partData.quantity = 0;
+            $scope.partData.weight = 0;
 
             $scope.partData.lengthType = 104;
             $scope.partData.heightType = 104;
@@ -87,7 +88,6 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
                     $scope.loading = true;
                     $scope.postData.version = 0;
                     Restangular.one('common/material').get({code: $scope.partData.code}).then(function(response) {
-
                         if (response.data != '')
                         {
                             $scope.postData.material = {};
@@ -162,6 +162,9 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
                                 return false;
                             });
                         }
+                    }, function(response1) {
+                        $scope.loading = false;
+                        services.showAlert('Falhou', 'Material not found for written code.Please check it');
                     });
                 }
             }
@@ -189,142 +192,6 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
                 $location.path('bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
             };
 
-            $scope.resetMaterial = function() {
-                $scope.startPage = 0;
-                $scope.maxRecord = 10;
-                $scope.items = '';
-                $scope.itemArray = '';
-                $scope.nextButton = true;
-            };
-            $scope.searchText = '';
-            $scope.tempSearch = '';
-            $scope.isDataSearch = '';
-            $scope.isModal = true;
-            $scope.resetMaterial();
-
-            $scope.loadMaterial = function() {
-                $scope.loading = true;
-                Restangular.one('common/material').get({search: $scope.searchText, start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
-                    if (response.data == '') {
-                        if ((parseInt($scope.startPage) != 0))
-                        {
-                            $scope.nextButton = false;
-                            $scope.startPage = (parseInt($scope.startPage) - 1);
-                            $scope.loadMaterial();
-                        } else
-                        {
-                            services.showAlert('Notice', 'Material list is empty').then(function(res) {
-                            });
-                        }
-                    } else
-                    {
-                        if ($scope.items.length <= 0 && $scope.isDataSearch == '')
-                        {
-                            $scope.items = response.data;
-                            $scope.itemArray = response.data;
-                            if ($scope.searchText != '')
-                            {
-                                $scope.isDataSearch = 'yes';
-                            }
-                            else
-                            {
-                                $scope.isDataSearch = '';
-                            }
-                        }
-                        else
-                        {
-                            if ($scope.nextButton != false)
-                            {
-                                $scope.temp = response.data;
-                                angular.forEach($scope.temp, function(value, key) {
-                                    $scope.itemArray.push(value);
-                                });
-                                $scope.pageItems();
-                            }
-                        }
-                        $scope.loading = false;
-                        $scope.range();
-                    }
-                }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
-                });
-            };
-            $scope.pageItems = function() {
-                $scope.items = [];
-                $scope.start = $scope.startPage * $scope.maxRecord;
-                $scope.end = ($scope.startPage * $scope.maxRecord) + $scope.maxRecord;
-                for (var i = $scope.start; i < $scope.end; i++)
-                {
-                    if ($scope.itemArray[i])
-                    {
-                        $scope.items.push($scope.itemArray[i]);
-                    }
-                }
-                if ($scope.items.length != $scope.maxRecord)
-                {
-                    $scope.nextButton = false;
-                }
-            };
-            $scope.searchMaterial = function(text) {
-                $scope.searchText = text;
-                if ($scope.isDataSearch == '')
-                {
-                    $scope.resetMaterial();
-                }
-                if ($scope.searchText == '' && $scope.isDataSearch != '')
-                {
-                    $scope.resetMaterial();
-                    $scope.isDataSearch = '';
-                }
-                if ($scope.searchText != '' && ($scope.tempSearch == $scope.searchText))
-                {
-                    $scope.tempSearch = $scope.searchText;
-                }
-                else
-                {
-                    $scope.resetMaterial();
-                    $scope.isDataSearch = '';
-                    $scope.tempSearch = $scope.searchText;
-                }
-                $scope.loadMaterial();
-            };
-            $scope.range = function() {
-                $scope.pageStack = [];
-                var start = parseInt($scope.startPage) + 1;
-                for (var i = 1; i <= start; i++) {
-                    $scope.pageStack.push(i);
-                }
-            };
-            $scope.nextPage = function(len) {
-                var nextPage = parseInt(len);
-                $scope.startPage = nextPage;
-                $scope.loadMaterial();
-
-            }
-            $scope.prevPage = function(nextPage) {
-                $scope.startPage = nextPage;
-                $scope.loadMaterial();
-            }
-            $scope.goPage = function(pageNumber) {
-                var nextPage = parseInt(pageNumber) - 1;
-                $scope.startPage = nextPage;
-                if ($scope.itemArray.length > 0)
-                {
-                    if ($scope.searchText == '' || ($scope.searchText != '' && $scope.isDataSearch != ''))
-                    {
-                        $scope.pageItems();
-                    }
-                }
-                else
-                {
-                    $scope.loadMaterial();
-                }
-            }
-            $scope.goUpdate = function(code, desc) {
-                $scope.partData.code = code;
-                $scope.partData.description = desc;
-                $scope.materialList.hide();
-            };
 
             $ionicModal.fromTemplateUrl('templates/popup/material_list.html', {
                 scope: $scope,
@@ -335,8 +202,6 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
             $scope.materialListModalShow = function() {
                 $scope.searchText = '';
                 $scope.isDataSearch = '';
-                $scope.resetMaterial();
-                $scope.loadMaterial();
                 $scope.materialList.show();
             };
             $scope.materialListModalClose = function() {
@@ -380,49 +245,6 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
             $scope.materialCreateModalClose = function() {
                 $scope.materialCreate.hide();
                 $scope.materialTypeModalShow();
-            };
-
-            $scope.submitCreateMaterial = function(isValid) {
-                if (isValid) {
-                    var materialBaseUrl = '';
-                    switch ($scope.materialTypeText) {
-                        case 'product':
-                            materialBaseUrl = Restangular.all('sales').all('product');
-                            break;
-                        case 'material':
-                            materialBaseUrl = Restangular.all('purchase').all('material');
-                            break;
-                        case 'inputs':
-                            materialBaseUrl = Restangular.all('purchase').all('inputs');
-                            break;
-                        case 'ink':
-                            materialBaseUrl = Restangular.all('purchase').all('ink');
-                            break;
-                        case 'machine':
-                            materialBaseUrl = Restangular.all('manufacture').all('machine');
-                            break;
-                        case 'tooling':
-                            materialBaseUrl = Restangular.all('manufacture').all('tooling');
-                            break;
-                    }
-
-                    materialBaseUrl.post($scope.material).then(function(response) {
-                        $scope.loading = false;
-
-                        if (response.status == 201) {
-                            $scope.items.push({"id": response.data.id, "code": $scope.material.code, "description": $scope.material.description});
-                            services.showAlert('Success', 'Processo foi gravado com sucesso !').then(function(res) {
-                                $scope.consumeData.code = $scope.material.code;
-                                $scope.consumeData.description = $scope.material.description;
-
-                                $scope.materialCreate.hide();
-                            });
-                        }
-                    }, function() {
-                        $scope.loading = false;
-                        services.showAlert('Falhou', 'Please try again');
-                    });
-                }
             };
 
             $scope.selectMaterial = function(code, description) {
