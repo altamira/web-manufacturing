@@ -2,26 +2,66 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
         function($scope, $location, $routeParams, Restangular, services, $filter) {
             var tmpList = [];
             var tmpDate = [];
-            for (var j = 1; j <= 30; j++) {
-                tmpDate.push({
-                    value: randomString()
-                });
+            $scope.days = [];
+            var randoms = randomNumbers(200);
+            randoms = randoms.sort(function(a, b) {
+                return a - b
+            });
+            $scope.totalDays = function() {
+                return new Date(new Date().getYear(), new Date().getMonth() + 1, 0).getDate();
             }
-            for (var i = 1; i <= 6; i++) {
+            $scope.checkDate = function(st) {
+                return moment.unix(st).format('DD');
+            }
+            for (var j = 1; j <= $scope.totalDays(); j++) {
+                $scope.days.push(j);
+            }
+            Restangular.one('manufacturing/bom').get({checked: false, search: 'NISARG'}).then(function(response) {
+                $scope.loading = false;
+                $scope.totalBOM = response.data.length;
+                $scope.dataBOM = response.data;
+            }, function(response) {
+                services.showAlert('Falhou', 'Please try again');
+            });
+            for (var j = 1; j <= 30; j++) {
+                if (j % 2 == 0)
+                {
+                    tmpDate.push({
+                        value: randoms[j]
+                    });
+                }
+                else
+                {
+                    tmpDate.push({
+                        value: 0
+                    });
+                }
+            }
+            for (var i = 1; i <= 3; i++) {
                 tmpList.push({text: 'Item ' + i, value: i});
             }
 
             $scope.date = tmpDate;
             $scope.list = tmpList;
             $scope.getData = function(id1, id2) {
-                console.log(JSON.stringify(id1));
-                console.log(JSON.stringify(id2));
+                services.showAlert('Success', 'BOM '+id1+' delivery date changed to '+id2).then(function(res) {
+                });
             }
-//            $scope.getRandomstring = function() {
-//                return Math.floor((Math.random() * 6) + 1);
-//            }
         });
-function randomString()
+function randomNumbers(total)
 {
-    return Math.floor((Math.random() + 1));
+    var arr = []
+    while (arr.length < total) {
+        var randomnumber = Math.ceil(Math.random() * 1000)
+        var found = false;
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i] == randomnumber) {
+                found = true;
+                break
+            }
+        }
+        if (!found)
+            arr[arr.length] = randomnumber;
+    }
+    return arr;
 }

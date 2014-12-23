@@ -14,7 +14,6 @@ altamiraAppControllers.controller('BomCreateCtrl',
                     $scope.postdata.comment = $scope.bomData.observacao;
                     $scope.postdata.quotation = $scope.bomData.quotation;
                     $scope.postdata.project = $scope.bomData.project;
-                    $scope.postdata.checked = '';
                     $scope.postdata.items = [];
                     $scope.postdata.created = moment($scope.bomData.created, 'DD-MM-YYYY').unix();
                     $scope.postdata.delivery = moment($scope.bomData.delivery, 'DD-MM-YYYY').unix();
