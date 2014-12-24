@@ -1,20 +1,73 @@
 altamiraAppControllers.controller('DeliveryPlanningListCtrl',
         function($scope, $location, $routeParams, Restangular, services, $filter) {
-            var tmpList = [];
-            var tmpDate = [];
+            $scope.loading = true;
             $scope.days = [];
-            var randoms = randomNumbers(200);
-            randoms = randoms.sort(function(a, b) {
-                return a - b
-            });
+            $scope.monthDays = [];
+            var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            var currentMonth = new Date().getMonth();
+            var currentYear = new Date().getFullYear();
+            for (var i = 0; i <= 5; i++)
+            {
+                var temp = currentMonth + i;
+                if (temp > 11)
+                {
+                    temp = temp - 12;
+                }
+                var arrTemp = {};
+                arrTemp.name = month[temp];
+                if ((currentMonth + i) > 11)
+                {
+                    arrTemp.days = range(1, daysInMonth(temp + 1, currentYear + 1));
+                    createDaysArray(arrTemp.days, temp + 1, currentYear + 1);
+                }
+                else
+                {
+                    arrTemp.days = range(1, daysInMonth(temp + 1, currentYear));
+                    createDaysArray(arrTemp.days, temp + 1, currentYear);
+                }
+                $scope.monthDays.push(arrTemp);
+            }
+            function createDaysArray(daysArray, m, y)
+            {
+                for (var j = 0; j < daysArray.length; j++) {
+                    $scope.days.push(daysArray[j] + '_' + m + '_' + y);
+                }
+            }
+            function daysInMonth(month, year) {
+                return new Date(year, month, 0).getDate();
+            }
+            function range(a, b, step) {
+                var A = [];
+                A[0] = a;
+                step = step || 1;
+                while (a + step <= b) {
+                    A[A.length] = a += step;
+                }
+                return A;
+            }
             $scope.totalDays = function() {
                 return new Date(new Date().getYear(), new Date().getMonth() + 1, 0).getDate();
             }
-            $scope.checkDate = function(st) {
-                return moment.unix(st).format('DD');
+            $scope.checkDay = function(st) {
+                return moment.unix(st).format('D');
             }
-            for (var j = 1; j <= $scope.totalDays(); j++) {
-                $scope.days.push(j);
+            $scope.checkMonth = function(st) {
+                return moment.unix(st).format('M');
+            }
+            $scope.checkYear = function(st) {
+                return moment.unix(st).format('YYYY');
+            }
+            $scope.getDay = function(date) {
+                return parseInt(moment(date, "D_M_YYYY").format('D'));
+            }
+            $scope.getMonth = function(date) {
+                return parseInt(moment(date, "D_M_YYYY").format('M'));
+            }
+            $scope.getYear = function(date) {
+                return moment(date, "D_M_YYYY").format('YYYY')
+            }
+            $scope.getFullDate = function(date) {
+                return moment.unix(date).format('D/M/YYYY');
             }
             Restangular.one('manufacturing/bom').get({checked: false, search: 'NISARG'}).then(function(response) {
                 $scope.loading = false;
@@ -23,28 +76,8 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
             }, function(response) {
                 services.showAlert('Falhou', 'Please try again');
             });
-            for (var j = 1; j <= 30; j++) {
-                if (j % 2 == 0)
-                {
-                    tmpDate.push({
-                        value: randoms[j]
-                    });
-                }
-                else
-                {
-                    tmpDate.push({
-                        value: 0
-                    });
-                }
-            }
-            for (var i = 1; i <= 3; i++) {
-                tmpList.push({text: 'Item ' + i, value: i});
-            }
-
-            $scope.date = tmpDate;
-            $scope.list = tmpList;
             $scope.getData = function(id1, id2) {
-                services.showAlert('Success', 'BOM '+id1+' delivery date changed to '+id2).then(function(res) {
+                services.showAlert('Success', 'BOM ' + id1 + ' delivery date changed to ' + id2).then(function(res) {
                 });
             }
         });

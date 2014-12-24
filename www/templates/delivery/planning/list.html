@@ -15,36 +15,40 @@
     <ion-content>
         <div class="row">
             <div class="col-25">
-                <div class="row">
-                    <div class="col" style="background-color: #00ABA9">BOM</div>
-                </div>
-                <div class="row">
-                    <table class="dataTable">
+                <div class="row content">
+                    <table class="dataTable" ng-if='dataBOM'>
                         <tr>
+                            <td style="background-color: #00ABA9;height: 30px;" colspan="5">BOM List</td>
+                        </tr>
+                        <tr>
+                            <th>Id</th>
                             <th>Pedido</th>
                             <th>Cliente</th>
-                            <th>Entrega</th>
+                            <th>Data Pedido</th>
+                            <th>Data Entrega</th>
                         </tr>
                         <tr ng-repeat="bom in dataBOM">
+                            <td>{{bom.id}}</td>
                             <td>{{bom.number}}</td>
                             <td>{{bom.customer}}</td>
-                            <td>{{bom.delivery | date:'dd-MM-yyyy'}}</td>
+                            <td>{{getFullDate(bom.created)}}</td>
+                            <td>{{getFullDate(bom.delivery)}}</td>
                         </tr>
                     </table>
                 </div>
             </div>
             <div class="col-75">
-                <div class="row">
-                    <div class="col" style="background-color: #00ABA9">December</div>
-                </div>
-                <div class="row">
+                <div class="row content">
                     <table border="1" class="mainTable" sortable-func ng-if='dataBOM'>
                         <tr>
-                            <th ng-repeat="day in days">{{day}}</th>
+                            <th style="background-color: #00ABA9;height: 30px;" colspan="{{month.days.length}}" ng-repeat="month in monthDays">{{month.name}}</th>
+                        </tr>
+                        <tr>
+                            <th ng-repeat="day in days track by $index">{{getDay(day)}}</th>
                         </tr>
                         <tr ng-repeat="BOM in dataBOM">
-                            <td ng-repeat="day in days" id="{{BOM.number}}" data-day='{{day}}'>
-                                <div class="dragDiv" id="{{day}}" ng-if="checkDate(BOM.delivery) == day">{{day}}</div>
+                            <td ng-repeat="day in days track by $index" id="{{BOM.number}}" data-day='{{day}}'>
+                                <div class="dragDiv" id="{{day}}" ng-if="(checkDay(BOM.delivery) == getDay(day)) && (checkMonth(BOM.delivery) == getMonth(day)) && (checkYear(BOM.delivery) == getYear(day))">&nbsp;</div>
                             </td>
                         </tr>
                     </table>
@@ -54,14 +58,13 @@
     </ion-content>
 </ion-pane>
 <style type="text/css">
-    .mainTable {
-        width: 100%;
-    }
     .mainTable tr th, .mainTable tr td {
         border: 1px solid black;
+        min-height: 26px;
+        min-width: 26px;
     }
     .dragDiv {
-        background-color: #00aba9;
+        background-color: #E53B3B;
         font-size: 8px;
         height: 25px;
         margin: auto;
@@ -77,20 +80,20 @@
     .mainTable tr td {
         background-color: #F3F3F3;
         text-align: left;
-    }
-    .dataTable {
-        width: 100%;
+
     }
     .dataTable tr th {
         background-color: #7F7F7F;
         text-align: left;
         border: 1px solid black;
+        min-width: 130px;
     }
     .dataTable tr td {
         background-color: #F3F3F3;
         text-align: left;
         height: 26px;
         border: 1px solid black;
+        min-width: 130px;
     }
 
 </style>

@@ -233,16 +233,21 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                             of: $this,
                             using: function(pos) {
                                 $(this).animate(pos, 500, "linear", function() {
-
+                                    $(this).css('top', '0px')
                                 });
                             }
                         });
                     }
                 });
+                $(".content").mCustomScrollbar({
+                    axis: "x",
+                    theme: "3d",
+                    scrollButtons:{enable:true}
+                });
             };
             setTimeout(function() {
                 loadGrid();
-            }, 500);
+            }, 100);
         }
     }]);
 
