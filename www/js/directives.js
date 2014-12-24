@@ -241,8 +241,9 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                 });
                 $(".content").mCustomScrollbar({
                     axis: "x",
-                    theme: "3d",
-                    scrollButtons:{enable:true}
+                    theme: "inset-3",
+                    scrollButtons:{enable:true},
+//                    setLeft: '200px'
                 });
             };
             setTimeout(function() {

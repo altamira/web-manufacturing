@@ -14,11 +14,23 @@
     </ion-header-bar>
     <ion-content>
         <div class="row">
+            <div class="col col-20 col-offset-80">
+                <div class="button-bar bar-calm">
+                    <a class="button" ng-class="{month: semanal}">Semanal</a>
+                    <a class="button">Mensal</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-33 tableTitle">Planejamento de Entrega</div>
+            <div class="col col-33 col-offset-33 tableTitle" style="left: 192px;position: relative;">Hoje : quarta-feira, {{today}}</div>
+        </div>
+        <div class="row">
             <div class="col-25">
                 <div class="row content">
                     <table class="dataTable" ng-if='dataBOM'>
                         <tr>
-                            <td style="background-color: #00ABA9;height: 30px;" colspan="5">BOM List</td>
+                            <td class="monthTitle" colspan="5">BOM List</td>
                         </tr>
                         <tr>
                             <th>Id</th>
@@ -32,7 +44,8 @@
                             <td>{{bom.number}}</td>
                             <td>{{bom.customer}}</td>
                             <td>{{getFullDate(bom.created)}}</td>
-                            <td>{{getFullDate(bom.delivery)}}</td>
+                            <td onclick="alert(1);
+                                    $('.content').mCustomScrollbar({setLeft: '550px'})" >{{getFullDate(bom.delivery)}}</td>
                         </tr>
                     </table>
                 </div>
@@ -41,7 +54,7 @@
                 <div class="row content">
                     <table border="1" class="mainTable" sortable-func ng-if='dataBOM'>
                         <tr>
-                            <th style="background-color: #00ABA9;height: 30px;" colspan="{{month.days.length}}" ng-repeat="month in monthDays">{{month.name}}</th>
+                            <th class="monthTitle" colspan="{{month.days.length}}" ng-repeat="month in monthDays">{{month.name}}</th>
                         </tr>
                         <tr>
                             <th ng-repeat="day in days track by $index">{{getDay(day)}}</th>
@@ -63,6 +76,22 @@
         min-height: 26px;
         min-width: 26px;
     }
+    .mainTable tr th {
+        background-color: #7F7F7F;
+    }
+    .mainTable tr td {
+        background-color: #F3F3F3;
+        text-align: left;
+
+    }
+    .monthTitle {
+        background-color: #00ABA9 !important;
+        height: 30px !important;
+        color: #fff;
+        font-weight: bold;
+        text-align: center !important;
+        vertical-align: middle;
+    }
     .dragDiv {
         background-color: #E53B3B;
         font-size: 8px;
@@ -72,19 +101,10 @@
         text-align: center;
         vertical-align: middle;
         width: 25px;
-    }
-    .mainTable tr th {
-        background-color: #7F7F7F;
-        text-align: left;
-    }
-    .mainTable tr td {
-        background-color: #F3F3F3;
-        text-align: left;
-
+        cursor: move;
     }
     .dataTable tr th {
         background-color: #7F7F7F;
-        text-align: left;
         border: 1px solid black;
         min-width: 130px;
     }
@@ -94,6 +114,17 @@
         height: 26px;
         border: 1px solid black;
         min-width: 130px;
+    }
+    .month{
+        background-color: #fff !important;
+        border: 1px solid !important;
+        border-radius: 5px 0 0 5px !important;
+        color: #00aba9 !important;
+        font-weight: bold;
+    }
+    .tableTitle{
+        font-weight: bold;
+        font-size: 23px;
     }
 
 </style>

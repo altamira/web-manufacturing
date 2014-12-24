@@ -3,10 +3,12 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
             $scope.loading = true;
             $scope.days = [];
             $scope.monthDays = [];
+            $scope.semanal = true;
+            $scope.today = moment().format('DD MMMM YYYY');
             var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             var currentMonth = new Date().getMonth();
             var currentYear = new Date().getFullYear();
-            for (var i = 0; i <= 5; i++)
+            for (var i = 0; i <= 11; i++)
             {
                 var temp = currentMonth + i;
                 if (temp > 11)
