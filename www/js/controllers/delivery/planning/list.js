@@ -5,7 +5,7 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
             $scope.monthDays = [];
             $scope.semanal = true;
             $scope.today = moment().format('DD MMMM YYYY');
-            var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            var month = moment.months();
             var currentMonth = new Date().getMonth();
             var currentYear = new Date().getFullYear();
             for (var i = 0; i <= 11; i++)
@@ -29,6 +29,7 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                 }
                 $scope.monthDays.push(arrTemp);
             }
+            console.log(JSON.stringify($scope.monthDays));
             function createDaysArray(daysArray, m, y)
             {
                 for (var j = 0; j < daysArray.length; j++) {
@@ -58,6 +59,9 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
             }
             $scope.checkYear = function(st) {
                 return moment.unix(st).format('YYYY');
+            }
+            $scope.getWeekDay = function(date) {
+                return moment(date, "D_M_YYYY").format('dddd');
             }
             $scope.getDay = function(date) {
                 return parseInt(moment(date, "D_M_YYYY").format('D'));

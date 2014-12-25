@@ -39,13 +39,12 @@
                             <th>Data Pedido</th>
                             <th>Data Entrega</th>
                         </tr>
-                        <tr ng-repeat="bom in dataBOM">
+                        <tr ng-repeat="bom in dataBOM" ng-class-odd="'odd'" ng-class-even="'even'" id="{{bom.id}}">
                             <td>{{bom.id}}</td>
                             <td>{{bom.number}}</td>
                             <td>{{bom.customer}}</td>
                             <td>{{getFullDate(bom.created)}}</td>
-                            <td onclick="alert(1);
-                                    $('.content').mCustomScrollbar({setLeft: '550px'})" >{{getFullDate(bom.delivery)}}</td>
+                            <td>{{getFullDate(bom.delivery)}}</td>
                         </tr>
                     </table>
                 </div>
@@ -59,8 +58,8 @@
                         <tr>
                             <th ng-repeat="day in days track by $index">{{getDay(day)}}</th>
                         </tr>
-                        <tr ng-repeat="BOM in dataBOM">
-                            <td ng-repeat="day in days track by $index" id="{{BOM.number}}" data-day='{{day}}'>
+                        <tr ng-repeat="BOM in dataBOM" class="{{BOM.id}}">
+                            <td ng-repeat="day in days track by $index" id="{{BOM.number}}" data-day='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'">
                                 <div class="dragDiv" id="{{day}}" ng-if="(checkDay(BOM.delivery) == getDay(day)) && (checkMonth(BOM.delivery) == getMonth(day)) && (checkYear(BOM.delivery) == getYear(day))">&nbsp;</div>
                             </td>
                         </tr>
@@ -77,13 +76,14 @@
         min-width: 26px;
     }
     .mainTable tr th {
-        background-color: #7F7F7F;
+        background-color: #cccccc;
     }
     .mainTable tr td {
-        background-color: #F3F3F3;
         text-align: left;
-
     }
+/*    .mainTable tr:hover {
+        background-color: #95bcf2;
+    }*/
     .monthTitle {
         background-color: #00ABA9 !important;
         height: 30px !important;
@@ -91,6 +91,9 @@
         font-weight: bold;
         text-align: center !important;
         vertical-align: middle;
+    }
+    .holiday {
+        background-color: #cccccc !important;
     }
     .dragDiv {
         background-color: #E53B3B;
@@ -104,16 +107,24 @@
         cursor: move;
     }
     .dataTable tr th {
-        background-color: #7F7F7F;
+        background-color: #cccccc;
         border: 1px solid black;
         min-width: 130px;
     }
+/*    .dataTable tr:hover {
+        background-color: #95bcf2;
+    }*/
     .dataTable tr td {
-        background-color: #F3F3F3;
         text-align: left;
         height: 26px;
         border: 1px solid black;
         min-width: 130px;
+    }
+    .even {
+        background-color: #eeeeee;
+    }
+    .odd {
+        background-color: #ffffff;
     }
     .month{
         background-color: #fff !important;

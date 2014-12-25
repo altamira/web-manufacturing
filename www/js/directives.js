@@ -216,7 +216,7 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                 $(".dragDiv").draggable({
                     revert: 'invalid'
                 });
-                $(".mainTable tr td").droppable({
+                $(".makeDroppable").droppable({
                     accept: function(item) {
                         return $(this).closest("tr").is(item.closest("tr")) && $(this).find("*").length == 0;
                     },
@@ -242,13 +242,34 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                 $(".content").mCustomScrollbar({
                     axis: "x",
                     theme: "inset-3",
-                    scrollButtons:{enable:true},
+                    scrollButtons: {enable: true},
 //                    setLeft: '200px'
+                });
+                $('.dataTable tr').hover(function() {
+                    var hoverClass = $(this).attr('id');
+                    $(this).css('background-color','#95bcf2');
+                    $('.'+hoverClass).css('background-color','#95bcf2');
+                });
+                $('.dataTable tr').mouseleave(function() {
+                    var hoverClass = $(this).attr('id');
+                    $(this).css('background-color','#ffffff');
+                    $('.'+hoverClass).css('background-color','#ffffff');
+                });
+                $('.mainTable tr').hover(function() {
+                    var hoverClass = $(this).attr('class');
+                    $(this).css('background-color','#95bcf2 !important');
+                    $('#'+hoverClass).css('background-color','#95bcf2 !important');
+                });
+                $('.mainTable tr').mouseleave(function() {
+                    var hoverClass = $(this).attr('class');
+                    $(this).css('background-color','#ffffff');
+                    $('#'+hoverClass).css('background-color','#ffffff');
                 });
             };
             setTimeout(function() {
                 loadGrid();
             }, 100);
+
         }
     }]);
 
