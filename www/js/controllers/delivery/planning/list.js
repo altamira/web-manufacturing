@@ -4,10 +4,13 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
             $scope.days = [];
             $scope.monthDays = [];
             $scope.semanal = true;
-            $scope.today = moment().format('DD MMMM YYYY');
+            var pt = moment().locale('pt-br');
+            $scope.today = pt.format('LL');
+            moment.locale('pt-br');
             var month = moment.months();
-            var currentMonth = new Date().getMonth();
-            var currentYear = new Date().getFullYear();
+            moment.locale('en');
+            var currentMonth = parseInt(moment().format('M')) - 2;
+            var currentYear = parseInt(moment().format('YYYY'));
             for (var i = 0; i <= 11; i++)
             {
                 var temp = currentMonth + i;
@@ -29,7 +32,6 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                 }
                 $scope.monthDays.push(arrTemp);
             }
-            console.log(JSON.stringify($scope.monthDays));
             function createDaysArray(daysArray, m, y)
             {
                 for (var j = 0; j < daysArray.length; j++) {
@@ -37,7 +39,7 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                 }
             }
             function daysInMonth(month, year) {
-                return new Date(year, month, 0).getDate();
+                return moment(month+"-"+year, "MM-YYYY").daysInMonth();
             }
             function range(a, b, step) {
                 var A = [];
@@ -47,9 +49,6 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                     A[A.length] = a += step;
                 }
                 return A;
-            }
-            $scope.totalDays = function() {
-                return new Date(new Date().getYear(), new Date().getMonth() + 1, 0).getDate();
             }
             $scope.checkDay = function(st) {
                 return moment.unix(st).format('D');
@@ -61,6 +60,7 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                 return moment.unix(st).format('YYYY');
             }
             $scope.getWeekDay = function(date) {
+
                 return moment(date, "D_M_YYYY").format('dddd');
             }
             $scope.getDay = function(date) {
@@ -82,8 +82,9 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
             }, function(response) {
                 services.showAlert('Falhou', 'Please try again');
             });
-            $scope.getData = function(id1, id2) {
-                services.showAlert('Success', 'BOM ' + id1 + ' delivery date changed to ' + id2).then(function(res) {
+            $scope.getData = function(newDate, bom) {
+                services.showAlert('Success', 'BOM ' + bom + ' delivery date changed to ' + moment(newDate, "D_M_YYYY").format('D/M/YYYY')).then(function(res) {
+                    changeDateDataTab(newDate, bom);
                 });
             }
         });
@@ -103,4 +104,8 @@ function randomNumbers(total)
             arr[arr.length] = randomnumber;
     }
     return arr;
+}
+function changeDateDataTab(newDate, bom)
+{
+    $('#'+bom+' td:last').html(moment(newDate, "D_M_YYYY").format('D/M/YYYY'));
 }

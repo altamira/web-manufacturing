@@ -221,11 +221,12 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                         return $(this).closest("tr").is(item.closest("tr")) && $(this).find("*").length == 0;
                     },
                     drop: function(event, ui) {
-                        scope.getData($(this).attr('id'), $(this).data('day'));
+//                        scope.getData(ui.draggable.attr('id'), $(this).data('day'), $(this).attr('id'));
+                        scope.getData($(this).data('day'), $(this).attr('id'));
                         var $this = $(this);
                         $this.append(ui.draggable.css({
                             top: 0,
-                            left: 0
+                            left: '0px !important'
                         }));
                         ui.draggable.position({
                             my: "center",
@@ -233,7 +234,8 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                             of: $this,
                             using: function(pos) {
                                 $(this).animate(pos, 500, "linear", function() {
-                                    $(this).css('top', '0px')
+                                    $(this).css('top', '0px');
+                                    $(this).css('left', '0px');
                                 });
                             }
                         });
@@ -247,29 +249,42 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                 });
                 $('.dataTable tr').hover(function() {
                     var hoverClass = $(this).attr('id');
-                    $(this).css('background-color','#95bcf2');
-                    $('.'+hoverClass).css('background-color','#95bcf2');
+                    $(this).css('background-color', '#95bcf2');
+                    $('.' + hoverClass).css('background-color', '#95bcf2');
                 });
                 $('.dataTable tr').mouseleave(function() {
                     var hoverClass = $(this).attr('id');
-                    $(this).css('background-color','#ffffff');
-                    $('.'+hoverClass).css('background-color','#ffffff');
+                    $(this).css('background-color', '#ffffff');
+                    $('.' + hoverClass).css('background-color', '#ffffff');
                 });
                 $('.mainTable tr').hover(function() {
                     var hoverClass = $(this).attr('class');
-                    $(this).css('background-color','#95bcf2 !important');
-                    $('#'+hoverClass).css('background-color','#95bcf2 !important');
+                    $(this).css('background-color', '#95bcf2 !important');
+                    $('#' + hoverClass).css('background-color', '#95bcf2 !important');
                 });
                 $('.mainTable tr').mouseleave(function() {
                     var hoverClass = $(this).attr('class');
-                    $(this).css('background-color','#ffffff');
-                    $('#'+hoverClass).css('background-color','#ffffff');
+                    $(this).css('background-color', '#ffffff');
+                    $('#' + hoverClass).css('background-color', '#ffffff');
+                });
+                $('.mainTable tr td').on('dblclick', function(e) {
+                    if (!$(this).is(':has(.dragDiv)') && $(this).attr('class') != 'holiday') {
+                        var destTd = $(this);
+                        var srcTd = $(this).parent().find('td:has(.dragDiv)');
+                        var drgElement = srcTd.find('.dragDiv');
+                        var id1 = $(this).data('day');
+                        var id2 = $(this).attr('id');
+                        drgElement.animate({left: "+=" + (destTd.position().left - srcTd.position().left)}, 500, "linear", function() {
+                            drgElement.appendTo(destTd);
+                            drgElement.css({left: 0});
+                            scope.getData(id1, id2);
+                        });
+                    }
                 });
             };
             setTimeout(function() {
                 loadGrid();
             }, 100);
-
         }
     }]);
 

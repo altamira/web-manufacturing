@@ -13,17 +13,17 @@
         </div>
     </ion-header-bar>
     <ion-content>
-        <div class="row">
-            <div class="col col-20 col-offset-80">
+        <div class="row bar-calm-top">
+            <div class="col col">
                 <div class="button-bar bar-calm">
                     <a class="button" ng-class="{month: semanal}">Semanal</a>
-                    <a class="button">Mensal</a>
+                    <a class="button" >Mensal</a>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row planning-col">
             <div class="col col-33 tableTitle">Planejamento de Entrega</div>
-            <div class="col col-33 col-offset-33 tableTitle" style="left: 192px;position: relative;">Hoje : quarta-feira, {{today}}</div>
+            <div class="col col-67 tableTitle" style="text-align: right;">Hoje : quarta-feira, {{today}}</div>
         </div>
         <div class="row">
             <div class="col-25">
@@ -59,7 +59,7 @@
                             <th ng-repeat="day in days track by $index">{{getDay(day)}}</th>
                         </tr>
                         <tr ng-repeat="BOM in dataBOM" class="{{BOM.id}}">
-                            <td ng-repeat="day in days track by $index" id="{{BOM.number}}" data-day='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'">
+                            <td ng-repeat="day in days track by $index" id="{{BOM.id}}" data-day='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'">
                                 <div class="dragDiv" id="{{day}}" ng-if="(checkDay(BOM.delivery) == getDay(day)) && (checkMonth(BOM.delivery) == getMonth(day)) && (checkYear(BOM.delivery) == getYear(day))">&nbsp;</div>
                             </td>
                         </tr>
@@ -69,73 +69,3 @@
         </div>
     </ion-content>
 </ion-pane>
-<style type="text/css">
-    .mainTable tr th, .mainTable tr td {
-        border: 1px solid black;
-        min-height: 26px;
-        min-width: 26px;
-    }
-    .mainTable tr th {
-        background-color: #cccccc;
-    }
-    .mainTable tr td {
-        text-align: left;
-    }
-/*    .mainTable tr:hover {
-        background-color: #95bcf2;
-    }*/
-    .monthTitle {
-        background-color: #00ABA9 !important;
-        height: 30px !important;
-        color: #fff;
-        font-weight: bold;
-        text-align: center !important;
-        vertical-align: middle;
-    }
-    .holiday {
-        background-color: #cccccc !important;
-    }
-    .dragDiv {
-        background-color: #E53B3B;
-        font-size: 8px;
-        height: 25px;
-        margin: auto;
-        position: relative;
-        text-align: center;
-        vertical-align: middle;
-        width: 25px;
-        cursor: move;
-    }
-    .dataTable tr th {
-        background-color: #cccccc;
-        border: 1px solid black;
-        min-width: 130px;
-    }
-/*    .dataTable tr:hover {
-        background-color: #95bcf2;
-    }*/
-    .dataTable tr td {
-        text-align: left;
-        height: 26px;
-        border: 1px solid black;
-        min-width: 130px;
-    }
-    .even {
-        background-color: #eeeeee;
-    }
-    .odd {
-        background-color: #ffffff;
-    }
-    .month{
-        background-color: #fff !important;
-        border: 1px solid !important;
-        border-radius: 5px 0 0 5px !important;
-        color: #00aba9 !important;
-        font-weight: bold;
-    }
-    .tableTitle{
-        font-weight: bold;
-        font-size: 23px;
-    }
-
-</style>
