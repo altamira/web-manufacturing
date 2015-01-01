@@ -9,29 +9,41 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
             moment.locale('pt-br');
             var month = moment.months();
             moment.locale('en');
-            var currentMonth = parseInt(moment().format('M')) - 2;
-            var currentYear = parseInt(moment().format('YYYY'));
-            for (var i = 0; i <= 11; i++)
-            {
-                var temp = currentMonth + i;
-                if (temp > 11)
+            $scope.makeCalender = function(currentMonth, currentYear) {
+//                var currentMonth = parseInt(moment().format('M')) - 2;
+//                var currentYear = parseInt(moment().format('YYYY'));
+                currentMonth = parseInt(currentMonth) - 1;
+                currentYear = parseInt(currentYear);
+                console.log(JSON.stringify(currentMonth));
+                console.log(JSON.stringify(currentYear));
+                if (currentMonth < 0)
                 {
-                    temp = temp - 12;
+                    currentMonth = 11;
+                    currentYear = currentYear - 1;
                 }
-                var arrTemp = {};
-                arrTemp.name = month[temp];
-                if ((currentMonth + i) > 11)
+                for (var i = 0; i <= 11; i++)
                 {
-                    arrTemp.days = range(1, daysInMonth(temp + 1, currentYear + 1));
-                    createDaysArray(arrTemp.days, temp + 1, currentYear + 1);
+                    var temp = currentMonth + i;
+                    if (temp > 11)
+                    {
+                        temp = temp - 12;
+                    }
+                    var arrTemp = {};
+                    arrTemp.name = month[temp];
+                    if ((currentMonth + i) > 11)
+                    {
+                        arrTemp.days = range(1, daysInMonth(temp + 1, currentYear + 1));
+                        createDaysArray(arrTemp.days, temp + 1, currentYear + 1);
+                    }
+                    else
+                    {
+                        arrTemp.days = range(1, daysInMonth(temp + 1, currentYear));
+                        createDaysArray(arrTemp.days, temp + 1, currentYear);
+                    }
+                    $scope.monthDays.push(arrTemp);
                 }
-                else
-                {
-                    arrTemp.days = range(1, daysInMonth(temp + 1, currentYear));
-                    createDaysArray(arrTemp.days, temp + 1, currentYear);
-                }
-                $scope.monthDays.push(arrTemp);
-            }
+            };
+
             function createDaysArray(daysArray, m, y)
             {
                 for (var j = 0; j < daysArray.length; j++) {
@@ -39,7 +51,7 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                 }
             }
             function daysInMonth(month, year) {
-                return moment(month+"-"+year, "MM-YYYY").daysInMonth();
+                return moment(month + "-" + year, "MM-YYYY").daysInMonth();
             }
             function range(a, b, step) {
                 var A = [];
@@ -79,6 +91,26 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                 $scope.loading = false;
                 $scope.totalBOM = response.data.length;
                 $scope.dataBOM = response.data;
+                var tempUnixTS = '';
+
+                for (var i = 0; i < $scope.totalBOM; i++)
+                {
+//                    console.log(JSON.stringify($scope.dataBOM[i].delivery + " = " + $scope.getFullDate($scope.dataBOM[i].delivery)));
+                    if (i == 0)
+                    {
+                        tempUnixTS = parseInt($scope.dataBOM[i].delivery);
+                    }
+                    else
+                    {
+                        if (tempUnixTS > parseInt($scope.dataBOM[i].delivery))
+                        {
+                            tempUnixTS = parseInt($scope.dataBOM[i].delivery);
+                        }
+                    }
+                }
+                $scope.makeCalender($scope.checkMonth(tempUnixTS), $scope.checkYear(tempUnixTS));
+//                console.log(JSON.stringify(tempUnixTS));
+
             }, function(response) {
                 services.showAlert('Falhou', 'Please try again');
             });
@@ -107,5 +139,5 @@ function randomNumbers(total)
 }
 function changeDateDataTab(newDate, bom)
 {
-    $('#'+bom+' td:last').html(moment(newDate, "D_M_YYYY").format('D/M/YYYY'));
+    $('#' + bom + ' td:last').html(moment(newDate, "D_M_YYYY").format('D/M/YYYY'));
 }

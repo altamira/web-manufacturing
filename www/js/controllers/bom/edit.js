@@ -42,17 +42,18 @@ altamiraAppControllers.controller('BomEditCtrl',
                     $scope.postdata.representative = $scope.bomData.representative;
                     $scope.postdata.finish = $scope.bomData.finish;
                     $scope.postdata.quotation = $scope.bomData.quotation;
+                    $scope.postdata.created = moment($scope.bomData.created, 'DD/MM/YYYY').unix();
+                    $scope.postdata.delivery = moment($scope.bomData.delivery, 'DD/MM/YYYY').unix();
 
-                    var createdDate = $scope.bomData.created;
-                    createdDate = createdDate.split("/");
-                    var newCreatedDate = (parseInt(createdDate[1]) + 1) + "/" + createdDate[0] + "/" + createdDate[2];
-                    $scope.postdata.created = new Date(newCreatedDate).getTime();
-
-                    var deliveryDate = $scope.bomData.delivery;
-                    deliveryDate = deliveryDate.split("/");
-                    var newDeliveryDate = (parseInt(deliveryDate[1]) + 1) + "/" + deliveryDate[0] + "/" + deliveryDate[2];
-                    $scope.postdata.delivery = new Date(newDeliveryDate).getTime();
-
+//                    var createdDate = $scope.bomData.created;
+//                    createdDate = createdDate.split("/");
+//                    var newCreatedDate = (parseInt(createdDate[1]) + 1) + "/" + createdDate[0] + "/" + createdDate[2];
+//                    $scope.postdata.created = new Date(newCreatedDate).getTime();
+//
+//                    var deliveryDate = $scope.bomData.delivery;
+//                    deliveryDate = deliveryDate.split("/");
+//                    var newDeliveryDate = (parseInt(deliveryDate[1]) + 1) + "/" + deliveryDate[0] + "/" + deliveryDate[2];
+//                    $scope.postdata.delivery = new Date(newDeliveryDate).getTime();
                     Restangular.one('manufacturing/bom', $scope.bomId).get().then(function(response1) {
                         $scope.postdata.version = response1.data.version;
                         Restangular.one('manufacturing/bom', $scope.bomId).customPUT($scope.postdata).then(function(response) {
