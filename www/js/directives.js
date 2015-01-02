@@ -196,6 +196,50 @@ altamiraApp.directive('calendar', function() {
         link: function(scope, el, attr, ngModel) {
             $(el).datepicker({
                 dateFormat: 'dd/mm/yy',
+                beforeShowDay: function(date) {
+                    var day = date.getDay();
+                    return [day == 1 || day == 2 || day == 3 || day == 4 || day == 5, ''];
+                },
+                onSelect: function(dateText) {
+                    scope.$apply(function() {
+                        ngModel.$setViewValue(dateText);
+                    });
+                }
+            });
+        }
+    };
+})
+altamiraApp.directive('fromDate', function() {
+    return {
+        require: 'ngModel',
+        link: function(scope, el, attr, ngModel) {
+            $(el).datepicker({
+                dateFormat: 'dd/mm/yy',
+                beforeShowDay: function(date) {
+                    var day = date.getDay();
+                    return [day == 1 || day == 2 || day == 3 || day == 4 || day == 5, ''];
+                },
+                onSelect: function(dateText) {
+                    scope.$apply(function() {
+                        ngModel.$setViewValue(dateText);
+                        $("#toDate").datepicker("option", "minDate", dateText)
+                    });
+                }
+            });
+        }
+    };
+})
+altamiraApp.directive('toDate', function() {
+    return {
+        require: 'ngModel',
+        link: function(scope, el, attr, ngModel) {
+            $(el).datepicker({
+                dateFormat: 'dd/mm/yy',
+                minDate: attr.datadate,
+                beforeShowDay: function(date) {
+                    var day = date.getDay();
+                    return [day == 1 || day == 2 || day == 3 || day == 4 || day == 5, ''];
+                },
                 onSelect: function(dateText) {
                     scope.$apply(function() {
                         ngModel.$setViewValue(dateText);
