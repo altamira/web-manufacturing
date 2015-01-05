@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('DeliveryPlanningListCtrl',
-        function($scope, $location, $routeParams, Restangular, services, $filter) {
+        function($scope, $location, Restangular, services, $ionicModal) {
             $scope.loading = true;
             $scope.days = [];
             $scope.monthDays = [];
@@ -14,8 +14,6 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
 //                var currentYear = parseInt(moment().format('YYYY'));
                 currentMonth = parseInt(currentMonth) - 1;
                 currentYear = parseInt(currentYear);
-                console.log(JSON.stringify(currentMonth));
-                console.log(JSON.stringify(currentYear));
                 if (currentMonth < 0)
                 {
                     currentMonth = 11;
@@ -95,7 +93,6 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
 
                 for (var i = 0; i < $scope.totalBOM; i++)
                 {
-//                    console.log(JSON.stringify($scope.dataBOM[i].delivery + " = " + $scope.getFullDate($scope.dataBOM[i].delivery)));
                     if (i == 0)
                     {
                         tempUnixTS = parseInt($scope.dataBOM[i].delivery);
@@ -109,7 +106,6 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                     }
                 }
                 $scope.makeCalender($scope.checkMonth(tempUnixTS), $scope.checkYear(tempUnixTS));
-//                console.log(JSON.stringify(tempUnixTS));
 
             }, function(response) {
                 services.showAlert('Falhou', 'Please try again');
@@ -119,6 +115,102 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                     changeDateDataTab(newDate, bom);
                 });
             }
+            $scope.goBack = function() {
+                $location.path('manufacturing/bom');
+            };
+
+            $ionicModal.fromTemplateUrl('templates/delivery/planning/popup/view.html', {
+                scope: $scope,
+                animation: 'fade-in'
+            }).then(function(modal) {
+                $scope.changeDate = modal;
+            });
+            $scope.changeDateModalShow = function() {
+                $scope.changeDate.show();
+            };
+            $scope.changeDateModalClose = function() {
+                $scope.changeDate.hide();
+            };
+
+
+            $scope.changeDeliveryDate = function(bomId) {
+                Restangular.one('manufacturing/bom', bomId).get().then(function(response) {
+                    var data = response.data;
+                    $scope.bomData = {};
+                    if (data != '')
+                    {
+                        $scope.bomData.id = data.id;
+                        $scope.bomData.version = data.version;
+                        $scope.bomData.number = data.number;
+                        $scope.bomData.project = data.project;
+                        $scope.bomData.customer = data.customer;
+                        $scope.bomData.representative = data.representative;
+                        $scope.bomData.finish = data.finish;
+                        $scope.bomData.quotation = data.quotation;
+                        $scope.bomData.created = moment.unix(data.created).format('DD/MM/YYYY');
+                        $scope.bomData.delivery = moment.unix(data.delivery).format('DD/MM/YYYY');
+                        $scope.bomData.items = data.items;
+                        $scope.changeDateModalShow();
+                    }
+                }, function(response) {
+                    services.showAlert('Falhou', 'Please try again');
+                });
+            };
+            $scope.updatePart = function(bomId, itemId, partId) {
+                $scope.changeDateModalClose();
+                $scope.loading = true;
+                $scope.partData = {};
+                Restangular.one('common/color').get({max: 0}).then(function(response) {
+                    $scope.partData.colorBox = response.data;
+                }, function(response) {
+                    services.showAlert('Falhou', 'Please try again');
+                });
+                Restangular.one('measurement/unit').get({magnitude: 'dimencional'}).then(function(response) {
+                    $scope.partData.unitLengthBox = response.data;
+                }, function(response) {
+                    services.showAlert('Falhou', 'Please try again');
+                });
+                Restangular.one('measurement/unit').get({magnitude: 'peso'}).then(function(response) {
+                    $scope.partData.unitWeightBox = response.data;
+                }, function(response) {
+                    services.showAlert('Falhou', 'Please try again');
+                });
+                Restangular.one('measurement/unit').get({magnitude: 'unidade'}).then(function(response) {
+                    $scope.partData.unitQuantityBox = response.data;
+                }, function(response) {
+                    services.showAlert('Falhou', 'Please try again');
+                });
+                Restangular.one('manufacturing/bom', bomId).one('item', itemId).one('part', partId).get().then(function(response) {
+                    $ionicModal.fromTemplateUrl('templates/delivery/planning/popup/part.html', {
+                        scope: $scope,
+                        animation: 'fade-in'
+                    }).then(function(modal) {
+                        $scope.changePartDate = modal;
+                        $scope.loading = false;
+                        $scope.changePartDate.show();
+                    });
+                    var data = response.data;
+
+                    $scope.partData.version = data.version;
+                    $scope.partData.code = data.material.code;
+                    $scope.partData.description = data.material.description;
+                    $scope.partData.color = data.color.id;
+                    $scope.partData.quantity = data.quantity.value;
+                    $scope.partData.quantityType = data.quantity.unit.id;
+                    $scope.partData.width = data.width.value;
+                    $scope.partData.widthType = data.width.unit.id;
+                    $scope.partData.height = data.height.value;
+                    $scope.partData.heightType = data.height.unit.id;
+                    $scope.partData.length = data.length.value;
+                    $scope.partData.lengthType = data.length.unit.id;
+                    $scope.partData.weight = data.weight.value;
+                    $scope.partData.weightType = data.weight.unit.id;
+//                    console.log(JSON.stringify($scope.partData));
+                }, function(response) {
+                    services.showAlert('Falhou', 'Please try again');
+                });
+            };
+
         });
 function randomNumbers(total)
 {

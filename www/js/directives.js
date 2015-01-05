@@ -237,15 +237,18 @@ altamiraApp.directive('toDate', function() {
                 dateFormat: 'dd/mm/yy',
                 minDate: attr.datadate,
                 beforeShowDay: function(date) {
+
                     var day = date.getDay();
                     return [day == 1 || day == 2 || day == 3 || day == 4 || day == 5, ''];
                 },
                 onSelect: function(dateText) {
+                    alert(dateText);
                     scope.$apply(function() {
                         ngModel.$setViewValue(dateText);
                     });
                 }
             });
+            $('#ui-datepicker-div').css('z-index','999999');
         }
     };
 })
@@ -285,12 +288,19 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                         });
                     }
                 });
-                $(".content").mCustomScrollbar({
+                $(".scroll-div").mCustomScrollbar({
                     axis: "x",
                     theme: "inset-3",
                     scrollButtons: {enable: true},
+                    scrollbarPosition: "outside"
 //                    setLeft: '200px'
                 });
+//                $(".mainRow").mCustomScrollbar({
+//                    axis: "y",
+//                    theme: "inset-3",
+//                    scrollButtons: {enable: true},
+//                    scrollbarPosition: "outside"
+//                });
                 $('.dataTable tr').hover(function() {
                     var hoverClass = $(this).attr('id');
                     $(this).css('background-color', '#95bcf2');
@@ -312,6 +322,7 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                     $('#' + hoverClass).css('background-color', '#ffffff');
                 });
                 $('.mainTable tr td').on('dblclick', function(e) {
+//                    scope.materialListModalShow();
                     if (!$(this).is(':has(.dragDiv)') && $(this).attr('class') != 'holiday') {
                         var destTd = $(this);
                         var srcTd = $(this).parent().find('td:has(.dragDiv)');
@@ -325,10 +336,29 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                         });
                     }
                 });
+                $('.red').on('dblclick', function(e) {
+                    scope.changeDeliveryDate($(this).parent().attr('id'));
+                });
             };
             setTimeout(function() {
                 loadGrid();
             }, 100);
         }
     }]);
+var color = '';
+$('div').click(function() {
+    var x = $(this).css('backgroundColor');
+    hexc(x);
+    alert(color);
+})
 
+function hexc(colorval) {
+    var parts = colorval.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    delete(parts[0]);
+    for (var i = 1; i <= 3; ++i) {
+        parts[i] = parseInt(parts[i]).toString(16);
+        if (parts[i].length == 1)
+            parts[i] = '0' + parts[i];
+    }
+    color = '#' + parts.join('');
+}
