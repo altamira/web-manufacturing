@@ -237,7 +237,6 @@ altamiraApp.directive('toDate', function() {
                 dateFormat: 'dd/mm/yy',
                 minDate: attr.datadate,
                 beforeShowDay: function(date) {
-
                     var day = date.getDay();
                     return [day == 1 || day == 2 || day == 3 || day == 4 || day == 5, ''];
                 },
@@ -248,7 +247,6 @@ altamiraApp.directive('toDate', function() {
                     });
                 }
             });
-            $('#ui-datepicker-div').css('z-index','999999');
         }
     };
 })

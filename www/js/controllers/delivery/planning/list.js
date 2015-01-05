@@ -190,25 +190,46 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                         $scope.changePartDate.show();
                     });
                     var data = response.data;
-
                     $scope.partData.version = data.version;
                     $scope.partData.code = data.material.code;
                     $scope.partData.description = data.material.description;
                     $scope.partData.color = data.color.id;
+
                     $scope.partData.quantity = data.quantity.value;
                     $scope.partData.quantityType = data.quantity.unit.id;
+
                     $scope.partData.width = data.width.value;
-                    $scope.partData.widthType = data.width.unit.id;
+                    $scope.getUnitSymbol(data.width.unit.id, 'width');
+
                     $scope.partData.height = data.height.value;
-                    $scope.partData.heightType = data.height.unit.id;
+                    $scope.getUnitSymbol(data.height.unit.id, 'height');
+
                     $scope.partData.length = data.length.value;
-                    $scope.partData.lengthType = data.length.unit.id;
+                    $scope.getUnitSymbol(data.length.unit.id, 'length');
+
                     $scope.partData.weight = data.weight.value;
-                    $scope.partData.weightType = data.weight.unit.id;
-//                    console.log(JSON.stringify($scope.partData));
+                    $scope.getUnitSymbol(data.weight.unit.id, 'weight');
+
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');
                 });
+                $scope.getUnitSymbol = function(unitId, unitType) {
+                    Restangular.one('measurement/unit', unitId).get().then(function(response) {
+                        var symbol = response.data.symbol;
+                        if (unitType == "width")
+                        {
+                            $scope.partData.widthType = symbol;
+                        } else if (unitType == "height") {
+                            $scope.partData.heightType = symbol;
+                        } else if (unitType == "length") {
+                            $scope.partData.lengthType = symbol;
+                        } else if (unitType == "weight") {
+                            $scope.partData.weightType = symbol;
+                        }
+                    }, function(response) {
+                        services.showAlert('Falhou', 'Please try again');
+                    });
+                }
             };
 
         });
