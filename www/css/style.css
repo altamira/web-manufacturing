@@ -1490,6 +1490,18 @@
     font-size: 24px;
     color: #ffffff;
 }
+.fa-link-header:before{
+    font-family: "fontawesome";
+    content: "\f0c1";
+    font-size: 24px;
+    color: #ffffff;
+}
+.fa-unlink-header:before{
+    font-family: "fontawesome";
+    content: "\f127";
+    font-size: 24px;
+    color: #ffffff;
+}
 .fa-full-arrow-right:before {
     font-family: "fontawesome";
     content: "\f060";

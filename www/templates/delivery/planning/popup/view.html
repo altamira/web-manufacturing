@@ -3,10 +3,9 @@
         <div class="buttons header-margin">
             <button type="button" class="button fa-arrow-left" ng-click="goToCalender()"></button>
             <span class="btn-separator"></span>
-<!--            <span ng-if="bomData.checked == ''">
-                <button type="button" class="button fa-square-o-header" ng-click='makeChecked()'></button>
-            </span>
-            <span ng-if="bomData.checked != ''">
+            <button type="button" class="button fa-link-header"></button>
+            <button type="button" class="button fa-unlink-header"></button>
+<!--            <span ng-if="bomData.checked != ''">
                 <button type="button" class="button fa-check-square-o-header" ng-click='makeUnchecked()'></button>
             </span>
             <button class="button fa-pencil-header" ng-click="edit()" ></button>
@@ -118,20 +117,20 @@
                                 <td class="edit-item-title"><i class="fa-tachometer"></i> <span>Peso</span></td>
                                 <td width="3%" class="edit-item-title">&nbsp;</td>
                             </tr>
-                            <tr ng-repeat='dataPart in data.parts' ng-click='updatePart(bomData.id,data.id,dataPart.id)' style="cursor: pointer">
+                            <tr ng-repeat='dataPart in data.parts'>
                                 <td class="edit-info" style="text-align: center">{{dataPart.quantity.value}} {{dataPart.quantity.unit.symbol}}</td>
-                                <td class="edit-text">{{dataPart.description}}</td>
+                                <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer">{{dataPart.material.description}}</td>
                                 <td class="edit-text">{{dataPart.color.code}}</td>
                                 <td class="edit-info" style="text-align: right">{{dataPart.weight.value / dataPart.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
                                 <td class="edit-info" style="text-align: right">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
-                                <td class="edit-text" ng-if="bomData.checked != ''"><i class="icon plus-icon fa-check-square-o"></i></td>
-                                <td class="edit-text" ng-if="bomData.checked == ''"><i class="icon plus-icon fa-square-o" toggle-class></i></td>
+                                <!--<td class="edit-text" ng-if="bomData.checked != ''"><i class="icon plus-icon fa-check-square-o"></i></td>-->
+                                <td class="edit-text"><i class="icon plus-icon fa-square-o" select-bom datamaterialId="{{dataPart.material.id}}"></i></td>
                             </tr>
                         </table>
                     </div>
                 </div>
             </div>
-            <div id="item_repeat" class="mobile-view" ng-repeat='data in bomData.items'>
+<!--            <div id="item_repeat" class="mobile-view" ng-repeat='data in bomData.items'>
                 <div class="row" style="margin-top:-15px;">
                     <div class="col">
                         <div class="list"> <a class="process-item-list item-icon-right " style="padding-left:0px;" ng-click='updateItem(data.id)'>ITEM {{data.item}}</a></div>
@@ -176,7 +175,7 @@
                         </table>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
     </ion-content>
 </div>

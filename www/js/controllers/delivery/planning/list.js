@@ -28,14 +28,16 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                         temp = temp - 12;
                     }
                     var arrTemp = {};
-                    arrTemp.name = month[temp];
+
                     if ((currentMonth + i) > 11)
                     {
+                        arrTemp.name = month[temp] + ',' + (currentYear + 1);
                         arrTemp.days = range(1, daysInMonth(temp + 1, currentYear + 1));
                         createDaysArray(arrTemp.days, temp + 1, currentYear + 1);
                     }
                     else
                     {
+                        arrTemp.name = month[temp] + ',' + currentYear;
                         arrTemp.days = range(1, daysInMonth(temp + 1, currentYear));
                         createDaysArray(arrTemp.days, temp + 1, currentYear);
                     }
@@ -86,7 +88,7 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
             $scope.getFullDate = function(date) {
                 return moment.unix(date).format('D/M/YYYY');
             }
-            Restangular.one('manufacturing/bom').get({checked: false, search: 'NISARG'}).then(function(response) {
+            Restangular.one('manufacturing/bom').get({checked: false, search: ''}).then(function(response) {
                 $scope.loading = false;
                 $scope.totalBOM = response.data.length;
                 $scope.dataBOM = response.data;
@@ -178,11 +180,11 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
 //                }, function(response) {
 //                    services.showAlert('Falhou', 'Please try again');
 //                });
-//                Restangular.one('measurement/unit').get({magnitude: 'unidade'}).then(function(response) {
-//                    $scope.partData.unitQuantityBox = response.data;
-//                }, function(response) {
-//                    services.showAlert('Falhou', 'Please try again');
-//                });
+                Restangular.one('measurement/unit').get({magnitude: 'unidade'}).then(function(response) {
+                    $scope.partData.unitQuantityBox = response.data;
+                }, function(response) {
+                    services.showAlert('Falhou', 'Please try again');
+                });
                 Restangular.one('manufacturing/bom', bomId).one('item', itemId).one('part', partId).get().then(function(response) {
                     $ionicModal.fromTemplateUrl('templates/delivery/planning/popup/part.html', {
                         scope: $scope,

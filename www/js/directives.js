@@ -369,20 +369,29 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
             }, 100);
         }
     }]);
-var color = '';
-$('div').click(function() {
-    var x = $(this).css('backgroundColor');
-    hexc(x);
-    alert(color);
-})
+altamiraApp.directive('selectBom', function() {
+    return function(scope, elm, attrs) {
+        elm.bind('click', function() {
+            elm.toggleClass('fa-check-square-o');
+            console.log(JSON.stringify(attrs.datamaterialId));
+        });
 
-function hexc(colorval) {
-    var parts = colorval.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-    delete(parts[0]);
-    for (var i = 1; i <= 3; ++i) {
-        parts[i] = parseInt(parts[i]).toString(16);
-        if (parts[i].length == 1)
-            parts[i] = '0' + parts[i];
     }
-    color = '#' + parts.join('');
-}
+});
+//var color = '';
+//$('div').click(function() {
+//    var x = $(this).css('backgroundColor');
+//    hexc(x);
+//    alert(color);
+//})
+//
+//function hexc(colorval) {
+//    var parts = colorval.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+//    delete(parts[0]);
+//    for (var i = 1; i <= 3; ++i) {
+//        parts[i] = parseInt(parts[i]).toString(16);
+//        if (parts[i].length == 1)
+//            parts[i] = '0' + parts[i];
+//    }
+//    color = '#' + parts.join('');
+//}
