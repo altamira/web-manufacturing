@@ -27,9 +27,9 @@
             <div class="col col-33 tableTitle">Planejamento de Entrega</div>
             <div class="col col-67 tableTitle" style="text-align: right;">Hoje : quarta-feira, {{today}}</div>
         </div>
-        <div class="row">
+        <div class="row main-row nested" >
             <div class="col-25">
-                <div class="row scroll-div">
+                <div class="row scroll-div dataRow nested">
                     <table class="dataTable" ng-if='dataBOM'>
                         <tr>
                             <td class="monthTitle" colspan="5">BOM List</td>
@@ -52,7 +52,7 @@
                 </div>
             </div>
             <div class="col-75">
-                <div class="row scroll-div">
+                <div class="row scroll-div mainRow nested">
                     <table border="1" class="mainTable" sortable-func ng-if='dataBOM'>
                         <tr>
                             <th class="monthTitle" colspan="{{month.days.length}}" ng-repeat="month in monthDays">{{month.name}}</th>

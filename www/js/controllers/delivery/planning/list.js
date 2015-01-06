@@ -4,6 +4,7 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
             $scope.days = [];
             $scope.monthDays = [];
             $scope.semanal = true;
+            $scope.showdate = true;
             var pt = moment().locale('pt-br');
             $scope.today = pt.format('LL');
             moment.locale('pt-br');
@@ -131,7 +132,9 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
             $scope.changeDateModalClose = function() {
                 $scope.changeDate.hide();
             };
-
+            $scope.goToCalender = function() {
+                $scope.changeDate.hide();
+            };
 
             $scope.changeDeliveryDate = function(bomId) {
                 Restangular.one('manufacturing/bom', bomId).get().then(function(response) {
@@ -160,40 +163,41 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                 $scope.changeDateModalClose();
                 $scope.loading = true;
                 $scope.partData = {};
-                Restangular.one('common/color').get({max: 0}).then(function(response) {
-                    $scope.partData.colorBox = response.data;
-                }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
-                });
-                Restangular.one('measurement/unit').get({magnitude: 'dimencional'}).then(function(response) {
-                    $scope.partData.unitLengthBox = response.data;
-                }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
-                });
-                Restangular.one('measurement/unit').get({magnitude: 'peso'}).then(function(response) {
-                    $scope.partData.unitWeightBox = response.data;
-                }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
-                });
-                Restangular.one('measurement/unit').get({magnitude: 'unidade'}).then(function(response) {
-                    $scope.partData.unitQuantityBox = response.data;
-                }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
-                });
+//                Restangular.one('common/color').get({max: 0}).then(function(response) {
+//                    $scope.partData.colorBox = response.data;
+//                }, function(response) {
+//                    services.showAlert('Falhou', 'Please try again');
+//                });
+//                Restangular.one('measurement/unit').get({magnitude: 'dimencional'}).then(function(response) {
+//                    $scope.partData.unitLengthBox = response.data;
+//                }, function(response) {
+//                    services.showAlert('Falhou', 'Please try again');
+//                });
+//                Restangular.one('measurement/unit').get({magnitude: 'peso'}).then(function(response) {
+//                    $scope.partData.unitWeightBox = response.data;
+//                }, function(response) {
+//                    services.showAlert('Falhou', 'Please try again');
+//                });
+//                Restangular.one('measurement/unit').get({magnitude: 'unidade'}).then(function(response) {
+//                    $scope.partData.unitQuantityBox = response.data;
+//                }, function(response) {
+//                    services.showAlert('Falhou', 'Please try again');
+//                });
                 Restangular.one('manufacturing/bom', bomId).one('item', itemId).one('part', partId).get().then(function(response) {
                     $ionicModal.fromTemplateUrl('templates/delivery/planning/popup/part.html', {
                         scope: $scope,
                         animation: 'fade-in'
                     }).then(function(modal) {
-                        $scope.changePartDate = modal;
+                        $scope.changePartModal = modal;
                         $scope.loading = false;
-                        $scope.changePartDate.show();
+                        $scope.changePartModal.show();
                     });
                     var data = response.data;
                     $scope.partData.version = data.version;
                     $scope.partData.code = data.material.code;
                     $scope.partData.description = data.material.description;
-                    $scope.partData.color = data.color.id;
+                    $scope.getColorName(data.color.id);
+//                    $scope.partData.color = data.color.id;
 
                     $scope.partData.quantity = data.quantity.value;
                     $scope.partData.quantityType = data.quantity.unit.id;
@@ -229,7 +233,18 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                     }, function(response) {
                         services.showAlert('Falhou', 'Please try again');
                     });
-                }
+                };
+                $scope.getColorName = function(colorId) {
+                    Restangular.one('common/color', colorId).get().then(function(response) {
+                        $scope.partData.color = response.data.name;
+                    }, function(response) {
+                        services.showAlert('Falhou', 'Please try again');
+                    });
+                };
+            };
+            $scope.goBackParent = function() {
+                $scope.changePartModal.hide();
+                $scope.changeDate.show();
             };
 
         });

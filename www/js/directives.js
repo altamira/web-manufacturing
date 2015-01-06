@@ -236,14 +236,36 @@ altamiraApp.directive('toDate', function() {
             $(el).datepicker({
                 dateFormat: 'dd/mm/yy',
                 minDate: attr.datadate,
+                inline: true,
                 beforeShowDay: function(date) {
                     var day = date.getDay();
                     return [day == 1 || day == 2 || day == 3 || day == 4 || day == 5, ''];
                 },
                 onSelect: function(dateText) {
-                    alert(dateText);
                     scope.$apply(function() {
                         ngModel.$setViewValue(dateText);
+                    });
+                }
+            });
+        }
+    };
+});
+altamiraApp.directive('toNewDate', function() {
+    return {
+        link: function(scope, el, attr) {
+            $(el).datepicker({
+                dateFormat: 'dd/mm/yy',
+                minDate: attr.datadate,
+                inline: true,
+                defaultDate: scope.bomData.delivery,
+                beforeShowDay: function(date) {
+                    var day = date.getDay();
+                    return [day == 1 || day == 2 || day == 3 || day == 4 || day == 5, ''];
+                },
+                onSelect: function(dateText) {
+                    scope.$apply(function() {
+                        scope.bomData.delivery = dateText
+                        scope.showdate = true;
                     });
                 }
             });
@@ -286,19 +308,23 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                         });
                     }
                 });
-                $(".scroll-div").mCustomScrollbar({
+                $(".dataRow").mCustomScrollbar({
                     axis: "x",
                     theme: "inset-3",
                     scrollButtons: {enable: true},
                     scrollbarPosition: "outside"
-//                    setLeft: '200px'
                 });
-//                $(".mainRow").mCustomScrollbar({
-//                    axis: "y",
-//                    theme: "inset-3",
-//                    scrollButtons: {enable: true},
-//                    scrollbarPosition: "outside"
-//                });
+                $(".mainRow").mCustomScrollbar({
+                    axis: "x",
+                    theme: "inset-3",
+                    scrollButtons: {enable: true},
+                    scrollbarPosition: "outside",
+                    callbacks: {
+                        whileScrolling: function() {
+//                            $(".dataRow").mCustomScrollbar("scrollTo",[this.mcs.topPct,0]);
+                        }
+                    },
+                });
                 $('.dataTable tr').hover(function() {
                     var hoverClass = $(this).attr('id');
                     $(this).css('background-color', '#95bcf2');

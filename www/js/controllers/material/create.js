@@ -9,6 +9,7 @@ altamiraAppControllers.controller('MaterialCreateCtrl',
                     $scope.loading = true;
                     $scope.postdata.code = $scope.materialData.code;
                     $scope.postdata.description = $scope.materialData.description;
+                    console.log(JSON.stringify($scope.postdata));
                     Restangular.one('common/material').post($scope.postdata).then(function(response) {
                         $scope.loading = false;
                         if (response.status == 201) {

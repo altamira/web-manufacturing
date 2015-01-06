@@ -31,8 +31,9 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                     $scope.consumeData.code = response.data.material.code;
                     $scope.consumeData.version = response.data.version;
                     $scope.consumeData.description = response.data.material.description;
-                    $scope.consumeData.quantity = response.data.quantity.value;
+                    $scope.consumeData.quantity = response.data.quantity.formula;
                     $scope.consumeData.unit = response.data.quantity.unit.id;
+                    console.log(JSON.stringify($scope.consumeData));
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');
                 });
@@ -71,7 +72,8 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                             $scope.postdata.material.component = [];
 
                             $scope.postdata.quantity = {};
-                            $scope.postdata.quantity.value = parseFloat($scope.consumeData.quantity);
+//                            $scope.postdata.quantity.value = parseFloat($scope.consumeData.quantity);
+                            $scope.postdata.quantity.formula = $scope.consumeData.quantity;
                             $scope.postdata.quantity.unit = {};
                             Restangular.one('measurement/unit', $scope.consumeData.unit).get().then(function(response) {
                                 $scope.postdata.quantity.unit.id = response.data.id;

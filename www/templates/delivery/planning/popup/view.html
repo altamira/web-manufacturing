@@ -1,9 +1,9 @@
 <div class="modal">
     <ion-header-bar class="bar-calm">
         <div class="buttons header-margin">
-            <button type="button" class="button fa-arrow-left" ng-click="goBack()"></button>
+            <button type="button" class="button fa-arrow-left" ng-click="goToCalender()"></button>
             <span class="btn-separator"></span>
-            <span ng-if="bomData.checked == ''">
+<!--            <span ng-if="bomData.checked == ''">
                 <button type="button" class="button fa-square-o-header" ng-click='makeChecked()'></button>
             </span>
             <span ng-if="bomData.checked != ''">
@@ -13,7 +13,7 @@
             <button class="button fa-remove-header" ng-click="removeBom()"></button>
             <a href="http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing-report-0.4.0-SNAPSHOT/report/manufacturing/bom/{{bomId}}/checklist" target="_blank">
                 <button type="button" class="button fa-print-header"></button>
-            </a>
+            </a>-->
         </div>
     </ion-header-bar>
     <ion-content>
@@ -118,7 +118,7 @@
                                 <td class="edit-item-title"><i class="fa-tachometer"></i> <span>Peso</span></td>
                                 <td width="3%" class="edit-item-title">&nbsp;</td>
                             </tr>
-                            <tr ng-repeat='dataPart in data.parts' ng-click='updatePart(bomData.id,data.id,dataPart.id)'>
+                            <tr ng-repeat='dataPart in data.parts' ng-click='updatePart(bomData.id,data.id,dataPart.id)' style="cursor: pointer">
                                 <td class="edit-info" style="text-align: center">{{dataPart.quantity.value}} {{dataPart.quantity.unit.symbol}}</td>
                                 <td class="edit-text">{{dataPart.description}}</td>
                                 <td class="edit-text">{{dataPart.color.code}}</td>
