@@ -369,11 +369,44 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
             }, 100);
         }
     }]);
-altamiraApp.directive('selectBom', function() {
-    return function(scope, elm, attrs) {
+var tempMaterialId = '';
+var tempItemId = '';
+altamiraApp.directive('selectBom', function(services) {
+    return function(scope, elm, attr) {
         elm.bind('click', function() {
             elm.toggleClass('fa-check-square-o');
-            console.log(JSON.stringify(attrs.datamaterialId));
+            if (elm.hasClass('fa-check-square-o'))
+            {
+                if (tempMaterialId == '' && tempItemId == '')
+                {
+                    tempMaterialId = attr.datamaterial;
+                    tempItemId = attr.dataitem;
+                    scope.itemPartIdArr.push(parseInt(attr.datapart));
+                    scope.itemId.push(parseInt(tempItemId));
+                } else {
+                    if (tempMaterialId == attr.datamaterial && (scope.itemPartIdArr.indexOf(parseInt(attr.datapart)) < 0) && tempItemId == attr.dataitem) {
+                        scope.itemPartIdArr.push(parseInt(attr.datapart));
+                    }
+                    if (tempMaterialId != attr.datamaterial || tempItemId != attr.dataitem)
+                    {
+                        elm.toggleClass('fa-check-square-o');
+//                        scope.itemId = [];
+                        services.showAlert('Error', 'Not a same material');
+                    }
+                }
+//                console.log(JSON.stringify(scope.itemPartIdArr));
+            }
+            else
+            {
+                scope.itemPartIdArr.splice(scope.itemPartIdArr.indexOf(parseInt(attr.datapart)), 1);
+                if (scope.itemPartIdArr.length == 0) {
+                    tempMaterialId = '';
+                    tempItemId = '';
+                    scope.itemId.splice(scope.itemId.indexOf(parseInt(attr.dataitem)), 1);
+                }
+//                console.log(JSON.stringify(scope.itemPartIdArr));
+            }
+//            console.log(scope.itemId);
         });
 
     }

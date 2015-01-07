@@ -5,6 +5,9 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
             $scope.monthDays = [];
             $scope.semanal = true;
             $scope.showdate = true;
+            $scope.itemPartIdArr = [];
+            $scope.itemId = [];
+            $scope.bomData = {};
             var pt = moment().locale('pt-br');
             $scope.today = pt.format('LL');
             moment.locale('pt-br');
@@ -131,7 +134,7 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
             $scope.changeDateModalShow = function() {
                 $scope.changeDate.show();
             };
-            $scope.changeDateModalClose = function() {
+            $scope.changeDateModalHide = function() {
                 $scope.changeDate.hide();
             };
             $scope.goToCalender = function() {
@@ -141,7 +144,7 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
             $scope.changeDeliveryDate = function(bomId) {
                 Restangular.one('manufacturing/bom', bomId).get().then(function(response) {
                     var data = response.data;
-                    $scope.bomData = {};
+
                     if (data != '')
                     {
                         $scope.bomData.id = data.id;
@@ -161,8 +164,22 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                     services.showAlert('Falhou', 'Please try again');
                 });
             };
+            $ionicModal.fromTemplateUrl('templates/delivery/planning/popup/part.html', {
+                scope: $scope,
+                animation: 'fade-in'
+            }).then(function(modal) {
+                $scope.changePartModal = modal;
+//                $scope.loading = false;
+//                $scope.changePartModal.show();
+            });
+            $scope.changePartModalHide = function() {
+                $scope.changePartModal.hide();
+            };
+            $scope.changePartModalShow = function() {
+                $scope.changePartModal.show();
+            };
             $scope.updatePart = function(bomId, itemId, partId) {
-                $scope.changeDateModalClose();
+                $scope.changeDateModalHide();
                 $scope.loading = true;
                 $scope.partData = {};
 //                Restangular.one('common/color').get({max: 0}).then(function(response) {
@@ -186,20 +203,21 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                     services.showAlert('Falhou', 'Please try again');
                 });
                 Restangular.one('manufacturing/bom', bomId).one('item', itemId).one('part', partId).get().then(function(response) {
-                    $ionicModal.fromTemplateUrl('templates/delivery/planning/popup/part.html', {
-                        scope: $scope,
-                        animation: 'fade-in'
-                    }).then(function(modal) {
-                        $scope.changePartModal = modal;
-                        $scope.loading = false;
-                        $scope.changePartModal.show();
-                    });
+//                    $ionicModal.fromTemplateUrl('templates/delivery/planning/popup/part.html', {
+//                        scope: $scope,
+//                        animation: 'fade-in'
+//                    }).then(function(modal) {
+//                        $scope.changePartModal = modal;
+//                        $scope.loading = false;
+//                        $scope.changePartModal.show();
+//                    });
+                    $scope.changePartModalShow();
+
                     var data = response.data;
                     $scope.partData.version = data.version;
                     $scope.partData.code = data.material.code;
                     $scope.partData.description = data.material.description;
                     $scope.getColorName(data.color.id);
-//                    $scope.partData.color = data.color.id;
 
                     $scope.partData.quantity = data.quantity.value;
                     $scope.partData.quantityType = data.quantity.unit.id;
@@ -248,6 +266,115 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                 $scope.changePartModal.hide();
                 $scope.changeDate.show();
             };
+            $scope.getObjects = function(obj, key, val) {
+                var objects = [];
+                for (var i in obj) {
+                    if (!obj.hasOwnProperty(i))
+                        continue;
+                    if (typeof obj[i] == 'object') {
+                        objects = objects.concat($scope.getObjects(obj[i], key, val));
+                    } else if (i == key && obj[key] == val) {
+                        objects.push(obj);
+                    }
+                }
+                return objects;
+            };
+            $ionicModal.fromTemplateUrl('templates/delivery/planning/popup/divide.html', {
+                scope: $scope,
+                animation: 'fade-in'
+            }).then(function(modal) {
+                $scope.divideDateModal = modal;
+
+            });
+            $scope.divideDateModalShow = function() {
+                $scope.changeDateModalHide();
+                $scope.divideDateModal.show();
+            }
+            $scope.divideDateModalHide = function() {
+                $scope.divideDateModal.hide();
+                $scope.changeDateModalShow();
+            }
+
+            $scope.divideDate = function() {
+                if ($scope.itemPartIdArr.length > 0)
+                {
+                    var tempVar = $scope.getObjects($scope.bomData.items, 'id', $scope.itemId);
+                    var tempParts = [];
+                    var part;
+                    var chnDateTotalQuantity = 0;
+                    var pesoTotal = 0;
+                    for (var i = 0; i < $scope.itemPartIdArr.length; i++)
+                    {
+                        part = $scope.getObjects(tempVar[0].parts, 'id', $scope.itemPartIdArr[i]);
+                        tempParts.push(part[0]);
+                        chnDateTotalQuantity = chnDateTotalQuantity + parseInt(part[0].quantity.value);
+                        pesoTotal = pesoTotal + (parseInt(part[0].quantity.value) * parseInt(part[0].weight.value));
+                    }
+                    console.log(JSON.stringify(tempVar));
+                    $scope.chnDateCode = tempParts[0].material.code;
+                    $scope.chnDateDesc = tempParts[0].material.description;
+                    $scope.chnDateTotalQuantity = chnDateTotalQuantity;
+                    $scope.pesoTotal = pesoTotal;
+                    $scope.chnDateItem = {};
+                    $scope.chnDateItem.id = tempVar[0].id;
+                    $scope.chnDateItem.version = tempVar[0].version;
+                    $scope.chnDateItem.item = tempVar[0].item;
+                    $scope.chnDateItem.description = tempVar[0].description;
+                    $scope.chnDateParts = tempParts;
+                    $scope.divideDateModalShow();
+                }
+                else {
+                    services.showAlert('Falhou', 'Please select components to divide delivery date');
+                }
+            };
+            $ionicModal.fromTemplateUrl('templates/delivery/planning/popup/join.html', {
+                scope: $scope,
+                animation: 'fade-in'
+            }).then(function(modal) {
+                $scope.joinDateModal = modal;
+
+            });
+            $scope.joinDateModalShow = function() {
+                $scope.changeDateModalHide();
+                $scope.joinDateModal.show();
+            }
+            $scope.joinDateModalHide = function() {
+                $scope.joinDateModal.hide();
+                $scope.changeDateModalShow();
+            }
+            $scope.mergeDate = function() {
+                if ($scope.itemPartIdArr.length > 1)
+                {
+                    var tempVar = $scope.getObjects($scope.bomData.items, 'id', $scope.itemId);
+                    var tempParts = [];
+                    var part;
+                    var chnDateTotalQuantity = 0;
+                    var pesoTotal = 0;
+                    for (var i = 0; i < $scope.itemPartIdArr.length; i++)
+                    {
+                        part = $scope.getObjects(tempVar[0].parts, 'id', $scope.itemPartIdArr[i]);
+                        tempParts.push(part[0]);
+                        chnDateTotalQuantity = chnDateTotalQuantity + parseInt(part[0].quantity.value);
+                        pesoTotal = pesoTotal + (parseInt(part[0].quantity.value) * parseInt(part[0].weight.value));
+                    }
+                    $scope.chnDateCode = tempParts[0].material.code;
+                    $scope.chnDateDesc = tempParts[0].material.description;
+                    $scope.chnDateTotalQuantity = chnDateTotalQuantity;
+                    $scope.pesoTotal = pesoTotal;
+                    $scope.chnDateItem = {};
+                    $scope.chnDateItem.id = tempVar[0].id;
+                    $scope.chnDateItem.version = tempVar[0].version;
+                    $scope.chnDateItem.item = tempVar[0].item;
+                    $scope.chnDateItem.description = tempVar[0].description;
+                    $scope.chnDateParts = tempParts;
+                    $scope.joinDateModalShow();
+                }
+                else {
+                    services.showAlert('Falhou', 'Please select atleast 2 components to join delivery date');
+                }
+            };
+
+
 
         });
 function randomNumbers(total)
