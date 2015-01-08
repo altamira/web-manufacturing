@@ -1,0 +1,137 @@
+<div class="modal">
+    <ion-header-bar class="bar-calm">
+        <div class="buttons header-margin">
+            <button type="button" class="button fa-arrow-left" ng-click="goToCalender()"></button>
+            <span class="btn-separator"></span>
+            <button type="button" class="button fa-link-header" ng-click="joinDate()"></button>
+            <button type="button" class="button fa-unlink-header" ng-click="divideDate()"></button>
+<!--            <span ng-if="bomData.checked != ''">
+                <button type="button" class="button fa-check-square-o-header" ng-click='makeUnchecked()'></button>
+            </span>
+            <button class="button fa-pencil-header" ng-click="edit()" ></button>
+            <button class="button fa-remove-header" ng-click="removeBom()"></button>
+            <a href="http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing-report-0.4.0-SNAPSHOT/report/manufacturing/bom/{{bomId}}/checklist" target="_blank">
+                <button type="button" class="button fa-print-header"></button>
+            </a>-->
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <div class="view-content">
+            <div class="row">
+                <div class="col">
+                    <div class="list list-row col-75">
+                        <span class="input-label text-bold">Pedido</span>
+                        <label class="item item-input plain-text">
+                            {{bomData.number}}
+                        </label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Cliente</span>
+                        <label class="item item-input" >
+                            {{bomData.customer}}
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-50">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Representante</span>
+                        <label class="item item-input" >
+                            {{bomData.representative}}
+                        </label>
+                    </div>
+                </div>
+                <div class="col col-50">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Acabamento</span>
+                        <label class="item item-input" >
+                            {{bomData.finish}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-25">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Orcamento</span>
+                        <label class="item item-input" >
+                            {{bomData.quotation}}
+                        </label>
+                    </div>
+                </div>
+                <div class="col col-25">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Projeto</span>
+                        <label class="item item-input" >
+                            {{bomData.project}}
+                        </label>
+                    </div>
+                </div>
+                <div class="col col-25">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Data Pedido</span>
+                        <label class="item item-input" >
+                            {{bomData.created}}
+                        </label>
+                    </div>
+                </div>
+                <div class="col col-25">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Data Entrega </span>
+                        <label class="item item-input" >
+                            {{bomData.delivery}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="list">
+                        <a class="process-item-list item-icon-left item-icon-right">
+                            <i class="icon left-icon fa-list"></i>
+                            Itens
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="item_repeat" ng-repeat='data in bomData.items'>
+                <div class="row" style="margin-top:-15px;">
+                    <div class="col">
+                        <div class="list"> <a class="process-item-list item-icon-right " style="padding-left:0px;">ITEM {{data.item}}  </a> </div>
+                    </div>
+                </div>
+                <div class="edit-item">
+                    <div class="col row">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td colspan="6" style="padding-left:30px; padding-bottom:10px; font-size:16px;">{{data.description}}</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td class="edit-item-title" style="text-align: center;min-width: 130px;"><i class="fa-calender"></i> <span>Entrega</span></td>
+                                <td class="edit-item-title" style="text-align: center;min-width: 130px;"><i class="fa-list-ol"></i> <span>Quantidade</span></td>
+                                <td class="edit-item-title"> Descricao</td>
+                                <td class="edit-item-title" style="text-align: center;min-width: 90px;"><i class="fa-pencil"></i> <span>Cor</span></td>
+                                <td class="edit-item-title" style="text-align: center;min-width: 90px;"><i class="fa-tachometer"></i> <span>Peso</span></td>
+                                <td class="edit-item-title" style="text-align: center;min-width: 90px;"><i class="fa-tachometer"></i> <span>Peso</span></td>
+                                <td class="edit-item-title" style="min-width: 36px;">&nbsp;</td>
+                            </tr>
+                            <tr ng-repeat='dataPart in data.component'>
+                                <!--<td class="edit-info" style="text-align: center">{{dataPart.id}}-{{dataPart.material.id}}</td>-->
+                                <td class="edit-info" style="text-align: center">{{ getFullDate(dataPart.delivery[0].delivery) }}</td>
+                                <td class="edit-info" style="text-align: center">{{dataPart.quantity.value}} {{dataPart.quantity.unit.symbol}}</td>
+                                <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer">{{dataPart.material.description}}</td>
+                                <td class="edit-text">{{dataPart.color.code}}</td>
+                                <td class="edit-info" style="text-align: right">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
+                                <td class="edit-info" style="text-align: right">{{dataPart.weight.value * dataPart.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
+                                <td class="edit-text"><i class="icon plus-icon fa-square-o" select-bom dataitem="{{data.id}}" datapart="{{dataPart.id}}" datamaterial="{{dataPart.material.id}}" ></i></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</div>

@@ -271,7 +271,49 @@ altamiraApp.directive('toNewDate', function() {
             });
         }
     };
-})
+});
+altamiraApp.directive('joinDateChange', function() {
+    return {
+        link: function(scope, el, attr) {
+            $(el).datepicker({
+                dateFormat: 'dd/mm/yy',
+                inline: true,
+                defaultDate: scope.joinData.delivery,
+                beforeShowDay: function(date) {
+                    var day = date.getDay();
+                    return [day == 1 || day == 2 || day == 3 || day == 4 || day == 5, ''];
+                },
+                onSelect: function(dateText) {
+                    scope.$apply(function() {
+                        scope.joinData.delivery = dateText
+                        scope.showdate = true;
+                    });
+                }
+            });
+        }
+    };
+});
+altamiraApp.directive('divideDateChange', function() {
+    return {
+        link: function(scope, el, attr) {
+            $(el).datepicker({
+                dateFormat: 'dd/mm/yy',
+                inline: true,
+                defaultDate: scope.divideData.delivery,
+                beforeShowDay: function(date) {
+                    var day = date.getDay();
+                    return [day == 1 || day == 2 || day == 3 || day == 4 || day == 5, ''];
+                },
+                onSelect: function(dateText) {
+                    scope.$apply(function() {
+                        scope.divideData.delivery = dateText
+                        scope.showdate = true;
+                    });
+                }
+            });
+        }
+    };
+});
 altamiraApp.directive('loadHtml', function() {
     return function(scope, el, attrs) {
         $(el).load('templates/menu.html');
@@ -390,11 +432,9 @@ altamiraApp.directive('selectBom', function(services) {
                     if (tempMaterialId != attr.datamaterial || tempItemId != attr.dataitem)
                     {
                         elm.toggleClass('fa-check-square-o');
-//                        scope.itemId = [];
                         services.showAlert('Error', 'Not a same material');
                     }
                 }
-//                console.log(JSON.stringify(scope.itemPartIdArr));
             }
             else
             {
@@ -404,9 +444,7 @@ altamiraApp.directive('selectBom', function(services) {
                     tempItemId = '';
                     scope.itemId.splice(scope.itemId.indexOf(parseInt(attr.dataitem)), 1);
                 }
-//                console.log(JSON.stringify(scope.itemPartIdArr));
             }
-//            console.log(scope.itemId);
         });
 
     }

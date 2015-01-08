@@ -111,9 +111,9 @@ altamiraApp.config(['$routeProvider',
             templateUrl: 'templates/material/components.html',
             controller: 'MaterialComponentCtrl'
         })
-                .when('/delivery/planning', {
-            templateUrl: 'templates/delivery/planning/list.html',
-            controller: 'DeliveryPlanningListCtrl'
+                .when('/shipping/planning', {
+            templateUrl: 'templates/shipping/planning/list.html',
+            controller: 'ShippingPlanningListCtrl'
         })
                 /* Material pages  End */
 
