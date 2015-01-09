@@ -44,22 +44,22 @@ altamiraAppControllers.controller('BomItemUpdateCtrl',
                     $scope.itemData.version = data.version;
                     $scope.itemData.item = data.item;
                     $scope.itemData.description = data.description;
-                    $scope.itemData.parts = [];
+                    $scope.itemData.components = [];
                     var counter = 0;
-                    for (var i in data.parts)
+                    for (var i in data.component)
                     {
                         var temp = {};
-                        console.log(JSON.stringify(data.parts[i]));
-                        temp.id = data.parts[i].id;
-                        temp.version = data.parts[i].version;
-                        temp.code = data.parts[i].material.code;
-                        temp.description = data.parts[i].material.description;
-                        temp.color = data.parts[i].color;
-                        temp.quantity = data.parts[i].quantity;
-                        temp.width = data.parts[i].width;
-                        temp.height = data.parts[i].height;
-                        temp.length = data.parts[i].length;
-                        temp.weight = data.parts[i].weight;
+                        console.log(JSON.stringify(data.component[i]));
+                        temp.id = data.component[i].id;
+                        temp.version = data.component[i].version;
+                        temp.code = data.component[i].material.code;
+                        temp.description = data.component[i].material.description;
+                        temp.color = data.component[i].color;
+                        temp.quantity = data.component[i].quantity;
+                        temp.width = data.component[i].width;
+                        temp.height = data.component[i].height;
+                        temp.length = data.component[i].length;
+                        temp.weight = data.component[i].weight;
                         if (counter % 2 == 0)
                         {
                             temp.class = '';
@@ -67,7 +67,7 @@ altamiraAppControllers.controller('BomItemUpdateCtrl',
                         {
                             temp.class = 'last';
                         }
-                        $scope.itemData.parts.push(temp);
+                        $scope.itemData.components.push(temp);
                         counter++;
                     }
                 }, function(response) {

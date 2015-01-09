@@ -10,6 +10,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             $scope.bomData = {};
             $scope.joinData = {};
             $scope.divideData = {};
+            $scope.divideData.component = {};
 
             var pt = moment().locale('pt-br');
             $scope.today = pt.format('LL');
@@ -348,7 +349,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             });
             $scope.createComponentModalShow = function() {
                 $scope.divideDateModalHide();
-                $scope.divideData.component = {};
+
 //                $scope.divideData.component.weight = 0;
 //                $scope.divideData.component.quantity = 0;
                 $scope.divideData.component.color = 20;

@@ -14,10 +14,11 @@ altamiraAppControllers.controller('BomCreateCtrl',
                     $scope.postdata.comment = $scope.bomData.observacao;
                     $scope.postdata.quotation = $scope.bomData.quotation;
                     $scope.postdata.project = $scope.bomData.project;
-                    $scope.postdata.items = [];
+                    $scope.postdata.item = [];
                     $scope.postdata.created = moment($scope.bomData.created, 'DD-MM-YYYY').unix();
                     $scope.postdata.delivery = moment($scope.bomData.delivery, 'DD-MM-YYYY').unix();
 
+                    console.log(JSON.stringify($scope.postdata));
                     console.log(JSON.stringify($scope.postdata));
                     Restangular.all('manufacturing/bom').post($scope.postdata).then(function(response) {
                         $scope.loading = false;

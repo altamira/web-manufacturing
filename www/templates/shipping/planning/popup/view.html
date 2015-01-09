@@ -5,14 +5,14 @@
             <span class="btn-separator"></span>
             <button type="button" class="button fa-link-header" ng-click="joinDate()"></button>
             <button type="button" class="button fa-unlink-header" ng-click="divideDate()"></button>
-<!--            <span ng-if="bomData.checked != ''">
-                <button type="button" class="button fa-check-square-o-header" ng-click='makeUnchecked()'></button>
-            </span>
-            <button class="button fa-pencil-header" ng-click="edit()" ></button>
-            <button class="button fa-remove-header" ng-click="removeBom()"></button>
-            <a href="http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing-report-0.4.0-SNAPSHOT/report/manufacturing/bom/{{bomId}}/checklist" target="_blank">
-                <button type="button" class="button fa-print-header"></button>
-            </a>-->
+            <!--            <span ng-if="bomData.checked != ''">
+                            <button type="button" class="button fa-check-square-o-header" ng-click='makeUnchecked()'></button>
+                        </span>
+                        <button class="button fa-pencil-header" ng-click="edit()" ></button>
+                        <button class="button fa-remove-header" ng-click="removeBom()"></button>
+                        <a href="http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing-report-0.4.0-SNAPSHOT/report/manufacturing/bom/{{bomId}}/checklist" target="_blank">
+                            <button type="button" class="button fa-print-header"></button>
+                        </a>-->
         </div>
     </ion-header-bar>
     <ion-content>
@@ -110,23 +110,29 @@
                                 <td>&nbsp;</td>
                             </tr>
                             <tr>
-                                <td class="edit-item-title" style="text-align: center;min-width: 130px;"><i class="fa-calender"></i> <span>Entrega</span></td>
-                                <td class="edit-item-title" style="text-align: center;min-width: 130px;"><i class="fa-list-ol"></i> <span>Quantidade</span></td>
+                                <td class="edit-item-title" style="text-align: center;width: 100px;"><i class="fa-calender"></i> <span>Entrega</span></td>
+                                <td class="edit-item-title" style="text-align: center;width: 130px;"><i class="fa-list-ol"></i> <span>Quantidade</span></td>
                                 <td class="edit-item-title"> Descricao</td>
-                                <td class="edit-item-title" style="text-align: center;min-width: 90px;"><i class="fa-pencil"></i> <span>Cor</span></td>
-                                <td class="edit-item-title" style="text-align: center;min-width: 90px;"><i class="fa-tachometer"></i> <span>Peso</span></td>
-                                <td class="edit-item-title" style="text-align: center;min-width: 90px;"><i class="fa-tachometer"></i> <span>Peso</span></td>
-                                <td class="edit-item-title" style="min-width: 36px;">&nbsp;</td>
+                                <td class="edit-item-title" style="text-align: center;width: 90px;"><i class="fa-pencil"></i> <span>Cor</span></td>
+                                <td class="edit-item-title" style="text-align: center;width: 90px;"><i class="fa-tachometer"></i> <span>Peso</span></td>
+                                <td class="edit-item-title" style="text-align: center;width: 90px;"><i class="fa-tachometer"></i> <span>Peso</span></td>
+                                <td class="edit-item-title" style="width: 37px;">&nbsp;</td>
                             </tr>
                             <tr ng-repeat='dataPart in data.component'>
-                                <!--<td class="edit-info" style="text-align: center">{{dataPart.id}}-{{dataPart.material.id}}</td>-->
-                                <td class="edit-info" style="text-align: center">{{ getFullDate(dataPart.delivery[0].delivery) }}</td>
-                                <td class="edit-info" style="text-align: center">{{dataPart.quantity.value}} {{dataPart.quantity.unit.symbol}}</td>
-                                <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer">{{dataPart.material.description}}</td>
-                                <td class="edit-text">{{dataPart.color.code}}</td>
-                                <td class="edit-info" style="text-align: right">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
-                                <td class="edit-info" style="text-align: right">{{dataPart.weight.value * dataPart.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
-                                <td class="edit-text"><i class="icon plus-icon fa-square-o" select-bom dataitem="{{data.id}}" datapart="{{dataPart.id}}" datamaterial="{{dataPart.material.id}}" ></i></td>
+                                <td colspan="7">
+                                    <table>
+                                        <tr ng-repeat='component in dataPart.delivery'>
+                                            <td class="edit-info" style="text-align: center;width: 100px;">{{ getFullDate(component.delivery) }}</td>
+                                            <td class="edit-info" style="text-align: center;width: 130px;">{{dataPart.quantity.value}} {{dataPart.quantity.unit.symbol}}</td>
+                                            <!--<td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 555px;">{{dataPart.material.description}}</td>-->
+                                            <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 555px;">{{data.id}} - {{dataPart.id}} - {{dataPart.material.id}}</td>
+                                            <td class="edit-text" style="width: 90px;">{{dataPart.color.code}}</td>
+                                            <td class="edit-info" style="text-align: right;width: 90px;">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
+                                            <td class="edit-info" style="text-align: right;width: 90px;">{{dataPart.weight.value * dataPart.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
+                                            <td class="edit-text" style="width: 37px;"><i class="icon plus-icon fa-square-o" select-bom dataitem="{{data.id}}" datapart="{{dataPart.id}}" datamaterial="{{dataPart.material.id}}" ></i></td>
+                                        </tr>
+                                    </table>
+                                </td>
                             </tr>
                         </table>
                     </div>

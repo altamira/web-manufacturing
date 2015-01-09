@@ -124,7 +124,7 @@
                                 <td class="edit-item-title"><i class="fa-tachometer"></i> <span>Peso</span></td>
                                 <td width="3%" class="edit-item-title">&nbsp;</td>
                             </tr>
-                            <tr ng-repeat='dataPart in data.parts'>
+                            <tr ng-repeat='dataPart in data.component'>
                                 <td class="edit-info" style="text-align: center">{{dataPart.quantity.value}} {{dataPart.quantity.unit.symbol}}</td>
                                 <td class="edit-text">{{dataPart.material.description}}</td>
                                 <td class="edit-text">{{dataPart.color.code}}</td>
@@ -143,7 +143,7 @@
                         <div class="list"> <a class="process-item-list item-icon-right " style="padding-left:0px;" ng-click='updateItem(data.id)'>ITEM {{data.item}}</a></div>
                     </div>
                 </div>
-                <div class="col" ng-repeat='dataPart in data.parts'>
+                <div class="col" ng-repeat='dataPart in data.component'>
                     <div class="components-col">
                         <div class="components-title ">
                             <h4>{{dataPart.description}}

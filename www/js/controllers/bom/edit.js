@@ -26,7 +26,7 @@ altamiraAppControllers.controller('BomEditCtrl',
                     $scope.bomData.quotation = data.quotation;
                     $scope.bomData.created = moment.unix(data.created).format('DD/MM/YYYY');
                     $scope.bomData.delivery = moment.unix(data.delivery).format('DD/MM/YYYY');
-                    $scope.bomData.items = data.items;
+                    $scope.bomData.items = data.item;
                 }
             }, function(response) {
                 services.showAlert('Falhou', 'Please try again');
@@ -109,7 +109,7 @@ altamiraAppControllers.controller('BomEditCtrl',
                 services.showConfirmBox('Confirmation', 'Are you sure to remove this Part?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
-                        Restangular.one('manufacturing/bom', $scope.bomId).one('item', itemId).one('part', partId).remove().then(function() {
+                        Restangular.one('manufacturing/bom', $scope.bomId).one('item', itemId).one('component', partId).remove().then(function() {
                             $scope.loading = false;
                             services.showAlert('A Part - ' + partId + ' removed successfully.').then(function(res) {
                                 if (res) {

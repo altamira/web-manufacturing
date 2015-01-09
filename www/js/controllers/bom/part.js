@@ -48,7 +48,7 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
 
             $scope.loadPart = function() {
                 $scope.loading = true;
-                Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('part', $scope.partId).get().then(function(response) {
+                Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('component', $scope.partId).get().then(function(response) {
                     $scope.loading = false;
                     var data = response.data;
                     $scope.partData.version = data.version;
@@ -127,7 +127,7 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
                                 if ($scope.action == 'create')
                                 {
                                     console.log(JSON.stringify($scope.postData));
-                                    Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).all('part').post($scope.postData).then(function(response) {
+                                    Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).all('component').post($scope.postData).then(function(response) {
                                         $scope.loading = false;
                                         $location.path('/bom/part/update/' + $scope.bomId + '/' + $scope.itemId + '/' + response.data.id);
                                     }, function() {
@@ -137,10 +137,10 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
                                 }
                                 else
                                 {
-                                    Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('part', $scope.partId).get().then(function(response1) {
+                                    Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('component', $scope.partId).get().then(function(response1) {
                                         $scope.postData.version = response1.data.version;
                                         console.log(JSON.stringify($scope.postData));
-                                        Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('part', $scope.partId).customPUT($scope.postData).then(function(response) {
+                                        Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('component', $scope.partId).customPUT($scope.postData).then(function(response) {
                                             $scope.loading = false;
                                             $location.path('/bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
                                         }, function(response) {
@@ -173,7 +173,7 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
                 services.showConfirmBox('Confirmation', 'Are you sure to remove this Part?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
-                        Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('part', $scope.partId).remove().then(function() {
+                        Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('component', $scope.partId).remove().then(function() {
                             $scope.loading = false;
                             services.showAlert('A Part - ' + $scope.partId + ' removed successfully.').then(function(res) {
                                 if (res) {
@@ -462,7 +462,7 @@ altamiraAppControllers.controller('BomPartUpdateCtrl',
 
             $scope.loadPart = function() {
                 $scope.loading = true;
-                Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('part', $scope.partId).get().then(function(response) {
+                Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('component', $scope.partId).get().then(function(response) {
                     $scope.loading = false;
                     var data = response.data;
                     $scope.partData.version = data.version;
@@ -546,9 +546,9 @@ altamiraAppControllers.controller('BomPartUpdateCtrl',
                                 $scope.postData.weight.unit = {};
                                 $scope.postData.weight.unit.id = $scope.partData.weightType;
 
-                                Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('part', $scope.partId).get().then(function(response1) {
+                                Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('component', $scope.partId).get().then(function(response1) {
                                     $scope.postData.version = response1.data.version;
-                                    Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('part', $scope.partId).customPUT($scope.postData).then(function(response) {
+                                    Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('component', $scope.partId).customPUT($scope.postData).then(function(response) {
                                         $scope.loading = false;
                                         $location.path('/bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
                                     }, function(response) {
@@ -582,7 +582,7 @@ altamiraAppControllers.controller('BomPartUpdateCtrl',
                 services.showConfirmBox('Confirmation', 'Are you sure to remove this Part?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
-                        Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('part', $scope.partId).remove().then(function() {
+                        Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('component', $scope.partId).remove().then(function() {
                             $scope.loading = false;
                             services.showAlert('A Part - ' + $scope.partId + ' removed successfully.').then(function(res) {
                                 if (res) {
