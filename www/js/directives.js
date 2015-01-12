@@ -377,6 +377,12 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                     scrollButtons: {enable: true},
                     scrollbarPosition: "outside"
                 });
+                $(".shipping_data").mCustomScrollbar({
+                    axis: "y",
+                    theme: "inset-3",
+                    scrollButtons: {enable: true},
+                    scrollbarPosition: "outside"
+                });
                 $(".mainRow").mCustomScrollbar({
                     axis: "x",
                     theme: "inset-3",
@@ -427,6 +433,7 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                     scope.changeDeliveryDate($(this).parent().attr('id'));
                 });
             };
+
             setTimeout(function() {
                 loadGrid();
             }, 100);

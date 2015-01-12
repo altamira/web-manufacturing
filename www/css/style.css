@@ -2371,7 +2371,7 @@
 
 .planning-col {}
 
-.bar-calm-top .button-bar { width:360px; float:right;}
+.bar-calm-top .button-bar { width:360px;}
 
 
 .bar-calm-top .button-bar > .button:last-child {
@@ -2382,4 +2382,23 @@
 }
 .main-row{
     /*height: 100px;*/
+}
+.fa-list-alt:before {
+    font-family: "fontawesome";
+    content: "\f022";
+    font-size: 24px;
+}
+.fa-list-alt-active:before {
+    font-family: "fontawesome";
+    content: "\f022";
+    font-size: 24px;
+}
+.fa-th:before {
+    font-family: "fontawesome";
+    content: "\f00a";
+    font-size: 24px;
+}
+.fa-th-active:before {
+    color: #00ABA9;
+    background-color: #ffffff;
 }
