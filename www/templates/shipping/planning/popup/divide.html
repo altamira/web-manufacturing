@@ -1,5 +1,5 @@
 <div class="modal">
-    <form name="divideComponentForm" novalidate ng-submit="submitUpdateItem(divideComponentForm.$valid)">
+    <form name="divideComponentForm" novalidate ng-submit="submitDivideComponent(divideComponentForm.$valid)">
         <ion-header-bar class="bar-calm">
             <div class="buttons header-margin">
                 <button type="button" class="button fa-arrow-left" ng-click="divideDateModalHide()"></button>
@@ -29,15 +29,43 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col">
+                <div class="col col-50">
                     <div class="list list-row">
-                        <span class="input-label text-bold">Data Entrega</span>
+                        <span class="input-label text-bold">Data Entrega 1</span>
                         <label class="item item-input input-box-extra">
-                            <input type="text" name="delivery" ng-model="divideData.delivery" required ng-click="showdate=false">
+                            <input type="text" name="delivery1" ng-model="divideData.delivery1" required ng-click="showdate_1=false">
                             <i class="icon ion-ios7-search fa-calender"></i>
                         </label>
                     </div>
-                    <div divide-date-change ng-hide="showdate"></div>
+                    <div divide-date-change1 ng-hide="showdate_1"></div>
+                </div>
+                <div class="col col-50">
+                    <div class="list list-row">
+                        <span class="input-label text-bold"><i class="fa fa-list-ol"></i> Quantidade 1</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="quantity1" ng-model="divideData.quantity1" ng-change="change()">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-50">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Data Entrega 2</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="delivery2" ng-model="divideData.delivery2" required ng-click="showdate_2=false">
+                            <i class="icon ion-ios7-search fa-calender"></i>
+                        </label>
+                    </div>
+                    <div divide-date-change2 ng-hide="showdate_2"></div>
+                </div>
+                <div class="col col-50">
+                    <div class="list list-row">
+                        <span class="input-label text-bold"><i class="fa fa-list-ol"></i> Quantidade 2</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="quantity2" ng-model="divideData.quantity2" readonly="readonly">
+                        </label>
+                    </div>
                 </div>
             </div>
             <div class="row">

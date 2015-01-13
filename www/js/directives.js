@@ -293,7 +293,7 @@ altamiraApp.directive('joinDateChange', function() {
         }
     };
 });
-altamiraApp.directive('divideDateChange', function() {
+altamiraApp.directive('divideDateChange1', function() {
     return {
         link: function(scope, el, attr) {
             $(el).datepicker({
@@ -306,8 +306,29 @@ altamiraApp.directive('divideDateChange', function() {
                 },
                 onSelect: function(dateText) {
                     scope.$apply(function() {
-                        scope.divideData.delivery = dateText
-                        scope.showdate = true;
+                        scope.divideData.delivery1 = dateText
+                        scope.showdate_1 = true;
+                    });
+                }
+            });
+        }
+    };
+});
+altamiraApp.directive('divideDateChange2', function() {
+    return {
+        link: function(scope, el, attr) {
+            $(el).datepicker({
+                dateFormat: 'dd/mm/yy',
+                inline: true,
+                defaultDate: scope.divideData.delivery,
+                beforeShowDay: function(date) {
+                    var day = date.getDay();
+                    return [day == 1 || day == 2 || day == 3 || day == 4 || day == 5, ''];
+                },
+                onSelect: function(dateText) {
+                    scope.$apply(function() {
+                        scope.divideData.delivery2 = dateText
+                        scope.showdate_2 = true;
                     });
                 }
             });
@@ -334,6 +355,11 @@ altamiraApp.directive('componentDate', function() {
             });
         }
     };
+});
+altamiraApp.directive('getQuantity', function() {
+    return function(scope, el, attrs) {
+       console.log(JSON.stringify(parseInt(scope.divideData.chnDateTotalQuantity) - parseInt(scope.divideData.quantity1)));
+    }
 });
 altamiraApp.directive('loadHtml', function() {
     return function(scope, el, attrs) {
