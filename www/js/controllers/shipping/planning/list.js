@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('ShippingPlanningListCtrl',
-        function($scope, $location, Restangular, services, $ionicModal) {
+        function($scope, $location, $route, Restangular, services, $ionicModal) {
             $scope.loading = true;
             $scope.days = [];
             $scope.monthDays = [];
@@ -297,9 +297,8 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             }
 
             $scope.divideDate = function() {
-                if ($scope.itemPartIdArr.length > 0)
+                if ($scope.itemPartIdArr.length == 1)
                 {
-
                     var tempVar = $scope.getObjects($scope.bomData.items, 'id', $scope.itemId);
                     var tempParts = [];
                     var part;
@@ -326,10 +325,35 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                     $scope.divideDateModalShow();
                 }
                 else {
-                    services.showAlert('Falhou', 'Please select components to divide delivery date');
+                    if ($scope.itemPartIdArr.length < 1)
+                    {
+                        services.showAlert('Falhou', 'Please select components to divide delivery date');
+                    }
+                    if ($scope.itemPartIdArr.length > 1)
+                    {
+                        services.showAlert('Falhou', 'Please select only one component to divide delivery date');
+                    }
+
                 }
             };
-            
+            $scope.addDate = function() {
+                $scope.postdata1 = {};
+                $scope.postdata1.id = 0;
+                $scope.postdata1.delivery = moment('23/04/2015', 'DD/MM/YYYY').unix();
+                $scope.postdata1.quantity = {};
+                $scope.postdata1.quantity.value = 50;
+                $scope.postdata1.quantity.unit = {};
+                $scope.postdata1.quantity.unit.id = 108;
+                $scope.postdata1.quantity.unit.name = "unidade";
+                $scope.postdata1.quantity.unit.symbol = "un";
+                console.log(JSON.stringify($scope.postdata1));
+                Restangular.one('shipping/planning', 30233).one('item', 30234).one('component', 30238).all('delivery').post($scope.postdata1).then(function(response) {
+                    services.showAlert('Sucess', 'Component divided sucessfully');
+                }, function() {
+                    services.showAlert('Falhou', 'Please try again');
+                });
+            };
+//            $scope.addDate();
             $scope.submitDivideComponent = function(isValid) {
                 if (isValid) {
                     $scope.postdata1 = {};
@@ -341,15 +365,11 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                     $scope.postdata1.quantity.unit.id = $scope.divideData.chnDateParts[0].quantity.unit.id;
                     $scope.postdata1.quantity.unit.name = $scope.divideData.chnDateParts[0].quantity.unit.name;
                     $scope.postdata1.quantity.unit.symbol = $scope.divideData.chnDateParts[0].quantity.unit.symbol;
-                    console.log(JSON.stringify($scope.postdata1));
                     Restangular.one('shipping/planning', $scope.bomData.id)
                             .one('item', $scope.divideData.chnDateItem.id)
                             .one('component', $scope.divideData.chnDateParts[0].id)
-                            .all('delivery').post($scope.postData1).then(function(response) {
-//                        $scope.loading = false;
-//                        services.showAlert('Sucess', 'Component joined sucessfully');
+                            .all('delivery').post($scope.postdata1).then(function(response) {
                     }, function() {
-//                        $scope.loading = false;
                         services.showAlert('Falhou', 'Please try again');
                     });
                     $scope.postdata2 = {};
@@ -361,27 +381,36 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                     $scope.postdata2.quantity.unit.id = $scope.divideData.chnDateParts[0].quantity.unit.id;
                     $scope.postdata2.quantity.unit.name = $scope.divideData.chnDateParts[0].quantity.unit.name;
                     $scope.postdata2.quantity.unit.symbol = $scope.divideData.chnDateParts[0].quantity.unit.symbol;
-                    console.log(JSON.stringify($scope.postdata2));
                     Restangular.one('shipping/planning', $scope.bomData.id)
                             .one('item', $scope.divideData.chnDateItem.id)
                             .one('component', $scope.divideData.chnDateParts[0].id)
-                            .all('delivery').post($scope.postData2).then(function(response) {
-//                        $scope.loading = false;
-//                        services.showAlert('Sucess', 'Component joined sucessfully');
+                            .all('delivery').post($scope.postdata2).then(function(response) {
+
                     }, function() {
-//                        $scope.loading = false;
                         services.showAlert('Falhou', 'Please try again');
                     });
+                    var counter = 1;
                     for (var i = 0; i < $scope.divideData.chnDateParts[0].delivery.length; i++)
                     {
                         Restangular.one('shipping/planning', $scope.bomData.id)
                                 .one('item', $scope.divideData.chnDateItem.id)
                                 .one('component', $scope.divideData.chnDateParts[0].id)
                                 .one('delivery', $scope.divideData.chnDateParts[0].delivery[i].id).remove().then(function(response) {
+                            console.log(JSON.stringify(counter))
+                            if (counter == $scope.divideData.chnDateParts[0].delivery.length)
+                            {
+                                services.showAlert('success', 'Component divided successfully').then(function(res) {
+                                    $scope.divideDateModal.remove();
+                                    $scope.changeDate.remove();
+                                    $route.reload();
+                                });
+                            }
+                            counter++;
                         }, function() {
                             $scope.loading = false;
                             services.showAlert('Falhou', 'Please try again');
                         });
+
                     }
                 }
             }
@@ -395,8 +424,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             $scope.createComponentModalShow = function() {
                 $scope.divideDateModalHide();
 
-//                $scope.divideData.component.weight = 0;
-//                $scope.divideData.component.quantity = 0;
+
                 $scope.divideData.component.color = 20;
                 $scope.divideData.component.lengthType = 104;
                 $scope.divideData.component.heightType = 104;
@@ -428,7 +456,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                 $scope.joinDateModal.hide();
                 $scope.changeDateModalShow();
             }
-            $scope.joinDate = function(getBom) {
+            $scope.joinDate = function() {
                 if ($scope.itemPartIdArr.length > 0)
                 {
                     var tempVar = $scope.getObjects($scope.bomData.items, 'id', $scope.itemId);
@@ -456,6 +484,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                     $scope.joinData.chnDateItem.item = tempVar[0].item;
                     $scope.joinData.chnDateItem.description = tempVar[0].description;
                     $scope.joinData.chnDateParts = tempParts;
+                    console.log(JSON.stringify($scope.joinData.chnDateParts))
                     $scope.joinDateModalShow();
                 }
                 else {
@@ -466,20 +495,45 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             $scope.submitJoinComponent = function(isValid) {
                 if (isValid) {
                     $scope.postdata = {};
+                    $scope.postdata.id = 0;
                     $scope.postdata.delivery = moment($scope.joinData.delivery, 'DD/MM/YYYY').unix();
-                    $scope.postdata.quantity = $scope.joinData.chnDateTotalQuantity;
-                    $scope.postdata.unit = {};
-                    $scope.postdata.unit.id = $scope.joinData.chnDateUnit.id;
-                    $scope.postdata.unit.name = $scope.joinData.chnDateUnit.name;
-                    $scope.postdata.unit.symbol = $scope.joinData.chnDateUnit.symbol;
-                    console.log(JSON.stringify($scope.postdata));
-                    Restangular.one('shipping/planning', $scope.bomData.id).one('item', $scope.joinData.chnDateItem.id).one('component', $scope.joinData.chnDateItem.id).all('delivery').post($scope.postData).then(function(response) {
+                    $scope.postdata.quantity = {};
+                    $scope.postdata.quantity.value = $scope.joinData.chnDateTotalQuantity;
+                    $scope.postdata.quantity.unit = {};
+                    $scope.postdata.quantity.unit.id = $scope.joinData.chnDateUnit.id;
+                    $scope.postdata.quantity.unit.name = $scope.joinData.chnDateUnit.name;
+                    $scope.postdata.quantity.unit.symbol = $scope.joinData.chnDateUnit.symbol;
+                    Restangular.one('shipping/planning', $scope.bomData.id)
+                            .one('item', $scope.joinData.chnDateItem.id)
+                            .one('component', $scope.joinData.chnDateParts[0].id)
+                            .all('delivery').post($scope.postdata).then(function(response) {
                         $scope.loading = false;
                         services.showAlert('Sucess', 'Component joined sucessfully');
                     }, function() {
                         $scope.loading = false;
                         services.showAlert('Falhou', 'Please try again');
                     });
+                    var counter = 1;
+                    for (var i = 0; i < $scope.joinData.chnDateParts[0].delivery.length; i++)
+                    {
+                        Restangular.one('shipping/planning', $scope.bomData.id)
+                                .one('item', $scope.joinData.chnDateItem.id)
+                                .one('component', $scope.joinData.chnDateParts[0].id)
+                                .one('delivery', $scope.joinData.chnDateParts[0].delivery[i].id).remove().then(function(response) {
+                            if (counter == $scope.joinData.chnDateParts[0].delivery.length)
+                            {
+                                services.showAlert('success', 'Component joined successfully').then(function(res) {
+                                    $scope.joinDateModal.remove();
+                                    $scope.changeDate.remove();
+                                    $route.reload();
+                                });
+                            }
+                            counter++;
+                        }, function() {
+                            $scope.loading = false;
+                            services.showAlert('Falhou', 'Please try again');
+                        });
+                    }
                 }
             };
             $scope.viewGrid = false;
