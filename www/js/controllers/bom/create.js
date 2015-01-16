@@ -18,8 +18,6 @@ altamiraAppControllers.controller('BomCreateCtrl',
                     $scope.postdata.created = moment($scope.bomData.created, 'DD-MM-YYYY').unix();
                     $scope.postdata.delivery = moment($scope.bomData.delivery, 'DD-MM-YYYY').unix();
 
-                    console.log(JSON.stringify($scope.postdata));
-                    console.log(JSON.stringify($scope.postdata));
                     Restangular.all('manufacturing/bom').post($scope.postdata).then(function(response) {
                         $scope.loading = false;
                         if (response.status == 201) {

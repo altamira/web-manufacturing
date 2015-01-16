@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('MaterialListCtrl',
-        function($scope, $http, $location, $route, $routeParams, $ionicPopup, $ionicModal, $ionicLoading, $timeout, $state, Restangular, services, $window) {
+        function($scope, IntegrationRestangular ,$http, $location, $route, $routeParams, $ionicPopup, $ionicModal, $ionicLoading, $timeout, $state, Restangular, services, $window) {
 
             if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && sessionStorage.getItem('token') == '')
             {
@@ -232,7 +232,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
                 $scope.searchImportMaterialText = '';
                 $scope.tempImportMaterialSearch = '';
                 $scope.isImportMaterialDataSearch = '';
-                $scope.loadImportMaterial();
+                $scope.loadLegancyMaterialList();
             };
             $scope.loadImportMaterial = function() {
                 Restangular.one('common/material').get({search: $scope.searchImportMaterialText, start: $scope.startImportMaterialPage, max: $scope.maxImportMaterialRecord}).then(function(response) {
@@ -336,7 +336,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
                     $scope.isImportMaterialDataSearch = '';
                     $scope.tempImportMaterialSearch = $scope.searchImportMaterialText;
                 }
-                $scope.loadImportMaterial();
+                $scope.loadLegancyMaterialList();
             };
             $scope.rangeImportMaterial = function() {
                 $scope.pageStackImportMaterial = [];
@@ -378,5 +378,65 @@ altamiraAppControllers.controller('MaterialListCtrl',
                 $scope.materialImportList.hide();
                 $scope.materialCreate.show();
             };
+
+            $scope.loadLegancyMaterialList = function() {
+                IntegrationRestangular.one('material/?search='+$scope.searchImportMaterialText+'&start='+$scope.startImportMaterialPage+'&max='+$scope.maxImportMaterialRecord).get().then(function(response) {
+                    if (response.data == '') {
+                        if ((parseInt($scope.startImportMaterialPage) != 0))
+                        {
+                            $scope.nextImportMaterialButton = false;
+                            $scope.startImportMaterialPage = (parseInt($scope.startImportMaterialPage) - 1);
+                            $scope.loadLegancyMaterialList();
+                        } else
+                        {
+                            $scope.materialType.hide();
+                            services.showAlert('Notice', 'Material list is empty').then(function(res) {
+                            });
+                        }
+                    } else
+                    {
+                        if ($scope.itemsImportMaterial.length <= 0)
+                        {
+                            $scope.itemsImportMaterial = response.data;
+
+                            $scope.itemImportMaterialArray = response.data;
+                            if ($scope.searchImportMaterialText != '')
+                            {
+                                $scope.isImportMaterialDataSearch = 'yes';
+                            }
+                            else
+                            {
+                                $scope.isImportMaterialDataSearch = '';
+                            }
+                            if ($scope.materialImportList != undefined)
+                            {
+                                $scope.materialImportList.hide();
+                            }
+                            $ionicModal.fromTemplateUrl('templates/popup/material_import_list.html', {
+                                scope: $scope,
+                                animation: 'fade-in'
+                            }).then(function(modal) {
+                                $scope.materialImportList = modal;
+                                $scope.materialImportListModalShow();
+                            });
+                        }
+                        else
+                        {
+                            if ($scope.nextImportMaterialButton != false)
+                            {
+                                $scope.temp = response.data;
+                                angular.forEach($scope.temp, function(value, key) {
+                                    $scope.itemImportMaterialArray.push(value);
+                                });
+                                $scope.pageImportMaterial();
+                            }
+                        }
+                        $scope.loading = false;
+                        $scope.rangeImportMaterial();
+                    }
+                }, function(response) {
+                    services.showAlert('Falhou', 'Please try again');
+                });
+            }
 
         });

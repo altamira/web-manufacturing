@@ -402,7 +402,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                                 services.showAlert('success', 'Component divided successfully').then(function(res) {
                                     $scope.divideDateModal.remove();
                                     $scope.changeDate.remove();
-                                    $route.reload();
+                                    location.reload();
                                 });
                             }
                             counter++;
@@ -423,8 +423,6 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             });
             $scope.createComponentModalShow = function() {
                 $scope.divideDateModalHide();
-
-
                 $scope.divideData.component.color = 20;
                 $scope.divideData.component.lengthType = 104;
                 $scope.divideData.component.heightType = 104;
@@ -460,6 +458,9 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                 if ($scope.itemPartIdArr.length > 0)
                 {
                     var tempVar = $scope.getObjects($scope.bomData.items, 'id', $scope.itemId);
+                    console.log(JSON.stringify($scope.bomData.items));
+                    console.log(JSON.stringify($scope.itemId));
+                    console.log(JSON.stringify(tempVar));
                     var tempParts = [];
                     var part;
                     var chnDateTotalQuantity = 0;
@@ -520,12 +521,13 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                                 .one('item', $scope.joinData.chnDateItem.id)
                                 .one('component', $scope.joinData.chnDateParts[0].id)
                                 .one('delivery', $scope.joinData.chnDateParts[0].delivery[i].id).remove().then(function(response) {
+                            console.log(JSON.stringify(counter))
                             if (counter == $scope.joinData.chnDateParts[0].delivery.length)
                             {
                                 services.showAlert('success', 'Component joined successfully').then(function(res) {
                                     $scope.joinDateModal.remove();
                                     $scope.changeDate.remove();
-                                    $route.reload();
+                                    location.reload();
                                 });
                             }
                             counter++;
