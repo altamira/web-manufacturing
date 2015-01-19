@@ -50,57 +50,127 @@ altamiraAppControllers.controller('BomListCtrl',
                 $ionicSideMenuDelegate.toggleLeft();
             };
 
-
-
-            $scope.search = {
-                criteria: '', // search criteria
-                page: 0, // current page
-                last: undefined, // last results
-                pages: [], // page cache
-                size: 10, // page size
-                forward: true, // enable next button
-
-                // clean page cache for a new search results
-                reset: function() {
-                    this.forward = true;
-                    this.pages = [];
-                },
-                // get next page from remote
-                next: function() {
-                    this.get($scope.search.pages.length);
-                },
-                // go to page number stored in the cache
-                go: function(page) {
-                    this.page = page;
-                },
-                // get page from remote api
-                get: function(page) {
-                    page = page === undefined ? 0 : page;
-
-                    if (this.criteria.trim().length > 0) {
-                        $scope.loading = true;
-                        Restangular.one('manufacturing/bom?checked=true').get({checked: true, search: this.criteria, start: page, max: this.size}).then(function(response) {
-                            $scope.loading = false;
-                            $scope.search.last = response.data;
-                        }, function(response) {
-                            services.showAlert('Falhou', 'Please try again');
-                        });
-                    } else {
-                        $scope.loading = true;
-                        Restangular.one('manufacturing/bom').get({checked: false, start: page, max: this.size}).then(function(response) {
-                            $scope.loading = false;
-                            $scope.search.last = response.data;
-                        }, function(response) {
-                            services.showAlert('Falhou', 'Please try again');
-                        });
+            $scope.resetBOM = function() {
+                $scope.startPage = 0;
+                $scope.maxRecord = 10;
+                $scope.bom = '';
+                $scope.bomArray = [];
+                $scope.nextButton = true;
+            };
+            $scope.searchText = sessionStorage.getItem('searchBOM');
+            $scope.isDataSearch = '';
+            $scope.resetBOM();
+            $scope.loadBOM = function() {
+                $scope.loading = true;
+                Restangular.one('manufacturing').one('bom').get({search: sessionStorage.getItem('searchBOM'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
+                    if (response.data == '') {
+                        $scope.loading = false;
+                        if ((parseInt($scope.startPage) != 0))
+                        {
+                            $scope.nextButton = false;
+                            $scope.startPage = (parseInt($scope.startPage) - 1);
+                            $scope.loadBOM();
+                        } else
+                        {
+                            services.showAlert('Notice', 'BOM list is empty').then(function(res) {
+                            });
+                        }
+                    } else
+                    {
+                        if ($scope.bom.length <= 0 && $scope.isDataSearch == '')
+                        {
+                            $scope.bom = response.data;
+                            $scope.bomArray = response.data;
+                            if ($scope.searchText != '')
+                            {
+                                $scope.isDataSearch = 'yes';
+                            }
+                            else
+                            {
+                                $scope.isDataSearch = '';
+                            }
+                        }
+                        else
+                        {
+                            if ($scope.nextButton != false)
+                            {
+                                $scope.temp = response.data;
+                                angular.forEach($scope.temp, function(value, key) {
+                                    $scope.bomArray.push(value);
+                                });
+                                $scope.pageBOM();
+                            }
+                        }
+                        $scope.loading = false;
+                        $scope.range();
                     }
-                },
-                // run the search
-                run: function() {
-                    this.reset();
-                    this.get(0);
+                }, function(response) {
+                    services.showAlert('Falhou', 'Please try again');
+                });
+            };
+            $scope.loadBOM();
+            $scope.pageBOM = function() {
+                $scope.bom = [];
+                $scope.start = $scope.startPage * $scope.maxRecord;
+                $scope.end = ($scope.startPage * $scope.maxRecord) + $scope.maxRecord;
+                for (var i = $scope.start; i < $scope.end; i++)
+                {
+                    if ($scope.bomArray[i])
+                    {
+                        $scope.bom.push($scope.bomArray[i]);
+                    }
+                }
+                if ($scope.bom.length != $scope.maxRecord)
+                {
+                    $scope.nextButton = false;
+                }
+            };
+
+            $scope.searchBOM = function(text) {
+                if (text != '')
+                {
+                    $scope.resetBOM();
+                    sessionStorage.setItem('searchBOM', text);
+                } else
+                {
+                    sessionStorage.setItem('searchBOM', '');
+                    $scope.resetBOM();
+                }
+                $scope.loadBOM();
+            };
+            $scope.range = function() {
+                $scope.pageStack = [];
+                var start = parseInt($scope.startPage) + 1;
+                for (var i = 1; i <= start; i++) {
+                    $scope.pageStack.push(i);
+                }
+            };
+            $scope.nextPage = function(len) {
+                var nextPage = parseInt(len);
+                $scope.startPage = nextPage;
+                $scope.loadBOM();
+
+            }
+            $scope.prevPage = function(nextPage) {
+                $scope.startPage = nextPage;
+                $scope.loadBOM();
+            }
+            $scope.goPage = function(pageNumber) {
+                var nextPage = parseInt(pageNumber) - 1;
+                $scope.startPage = nextPage;
+                if ($scope.bomArray.length > 0)
+                {
+                    if ($scope.searchText == '' || ($scope.searchText != '' && $scope.isDataSearch != ''))
+                    {
+                        $scope.pageBOM();
+                    }
+                }
+                else
+                {
+                    $scope.loadBOM();
                 }
             }
+
             $scope.importOrder = function() {
                 $scope.orderData = {};
                 // An elaborate, custom popup
@@ -162,21 +232,21 @@ altamiraAppControllers.controller('BomListCtrl',
                 $location.path('/bom/create');
             };
             // first load
-            $scope.search.run();
+//            $scope.search.run();
             $scope.checkBtn = 0;
             // add page to the cache
-            $scope.$watch('search.last',
-                    function() {
-                        if ($scope.search.last != undefined) {
-                            if ($scope.search.last.length === 0) {
-                                alert('Nenhum registro encontrado');
-                                $scope.search.forward = false;
-                            } else {
-                                $scope.search.pages.push($scope.search.last);
-                                $scope.search.page = $scope.search.pages.length - 1;
-                            }
-                        }
-                    }
-            );
+//            $scope.$watch('search.last',
+//                    function() {
+//                        if ($scope.search.last != undefined) {
+//                            if ($scope.search.last.length === 0) {
+//                                alert('Nenhum registro encontrado');
+//                                $scope.search.forward = false;
+//                            } else {
+//                                $scope.search.pages.push($scope.search.last);
+//                                $scope.search.page = $scope.search.pages.length - 1;
+//                            }
+//                        }
+//                    }
+//            );
 
         });

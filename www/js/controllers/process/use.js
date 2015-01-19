@@ -124,6 +124,25 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
                     });
                 }
             };
+
+            $scope.goMaterialUpdate = function() {
+                Restangular.one('common/material').get({code: $scope.useData.code}).then(function(response) {
+                    if (response.data != '')
+                    {
+                        $location.path('/material/update/'+response.data.id);
+                    }
+                    else
+                    {
+                        services.showAlert('Error', 'Material not found for written code.Please check it').then(function(res) {
+                            return false;
+                        });
+                    }
+                }, function(response1) {
+                    $scope.loading = false;
+                    services.showAlert('Falhou', 'Material not found for written code.Please check it');
+                });
+            };
+
             $scope.removeUse = function() {
                 services.showConfirmBox('Confirmation', 'Are you sure to remove this use ?').then(function(res) {
                     if (res) {

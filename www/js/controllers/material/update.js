@@ -190,6 +190,26 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                     });
                 }
             };
+
+            $scope.removeMaterial = function() {
+                services.showConfirmBox('Confirmation', 'Are you sure to remove this Material?').then(function(res) {
+                    if (res) {
+                        $scope.loading = true;
+                        Restangular.all('common').one('material', $scope.materialId).remove().then(function() {
+                            $scope.loading = false;
+                            services.showAlert(' A Material - ' + $scope.materialId + ' removed successfully.').then(function(res) {
+                                if (res) {
+                                    $location.path('/material/list');
+                                }
+                            });
+                        }, function() {
+                            $scope.loading = false;
+                            services.showAlert('Falhou', 'Please try again');
+                        });
+                    }
+                });
+            };
+
             $scope.goBack = function() {
                 $location.path('/material/list');
             };

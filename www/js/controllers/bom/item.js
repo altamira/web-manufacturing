@@ -49,7 +49,6 @@ altamiraAppControllers.controller('BomItemUpdateCtrl',
                     for (var i in data.component)
                     {
                         var temp = {};
-                        console.log(JSON.stringify(data.component[i]));
                         temp.id = data.component[i].id;
                         temp.version = data.component[i].version;
                         temp.code = data.component[i].material.code;

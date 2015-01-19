@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('MaterialListCtrl',
-        function($scope, IntegrationRestangular ,$http, $location, $route, $routeParams, $ionicPopup, $ionicModal, $ionicLoading, $timeout, $state, Restangular, services, $window) {
+        function($scope, IntegrationRestangular, $http, $location, $route, $routeParams, $ionicPopup, $ionicModal, $ionicLoading, $timeout, $state, Restangular, services, $window) {
 
             if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && sessionStorage.getItem('token') == '')
             {
@@ -11,16 +11,16 @@ altamiraAppControllers.controller('MaterialListCtrl',
                 $scope.startPage = 0;
                 $scope.maxRecord = 10;
                 $scope.items = '';
-                $scope.itemArray = '';
+                $scope.itemArray = [];
                 $scope.nextButton = true;
             };
-            $scope.searchText = '';
+            $scope.searchText = sessionStorage.getItem('searchMaterial');
             $scope.tempSearch = '';
             $scope.isDataSearch = '';
             $scope.resetMaterial();
             $scope.loadMaterial = function() {
                 $scope.loading = true;
-                Restangular.one('common/material').get({search: $scope.searchText, start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
+                Restangular.one('common/material').get({search: sessionStorage.getItem('searchMaterial'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
                     if (response.data == '') {
                         $scope.loading = false;
                         if ((parseInt($scope.startPage) != 0))
@@ -84,25 +84,34 @@ altamiraAppControllers.controller('MaterialListCtrl',
                 }
             };
             $scope.searchMaterial = function(text) {
-                $scope.searchText = text;
-                if ($scope.isDataSearch == '')
+//                $scope.searchText = text;
+//                if ($scope.isDataSearch == '')
+//                {
+//                    $scope.resetMaterial();
+//                }
+//                if ($scope.searchText == '' && $scope.isDataSearch != '')
+//                {
+//                    $scope.resetMaterial();
+//                    $scope.isDataSearch = '';
+//                }
+//                if ($scope.searchText != '' && ($scope.tempSearch == $scope.searchText))
+//                {
+//                    $scope.tempSearch = $scope.searchText;
+//                }
+//                else
+//                {
+//                    $scope.resetMaterial();
+//                    $scope.isDataSearch = '';
+//                    $scope.tempSearch = $scope.searchText;
+//                }
+                if (text != '')
                 {
                     $scope.resetMaterial();
-                }
-                if ($scope.searchText == '' && $scope.isDataSearch != '')
+                    sessionStorage.setItem('searchMaterial', text);
+                } else
                 {
+                    sessionStorage.setItem('searchMaterial', '');
                     $scope.resetMaterial();
-                    $scope.isDataSearch = '';
-                }
-                if ($scope.searchText != '' && ($scope.tempSearch == $scope.searchText))
-                {
-                    $scope.tempSearch = $scope.searchText;
-                }
-                else
-                {
-                    $scope.resetMaterial();
-                    $scope.isDataSearch = '';
-                    $scope.tempSearch = $scope.searchText;
                 }
                 $scope.loadMaterial();
             };
@@ -380,7 +389,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
             };
 
             $scope.loadLegancyMaterialList = function() {
-                IntegrationRestangular.one('material/?search='+$scope.searchImportMaterialText+'&start='+$scope.startImportMaterialPage+'&max='+$scope.maxImportMaterialRecord).get().then(function(response) {
+                IntegrationRestangular.one('material/?search=' + $scope.searchImportMaterialText + '&start=' + $scope.startImportMaterialPage + '&max=' + $scope.maxImportMaterialRecord).get().then(function(response) {
                     if (response.data == '') {
                         if ((parseInt($scope.startImportMaterialPage) != 0))
                         {

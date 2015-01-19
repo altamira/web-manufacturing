@@ -17,7 +17,7 @@
             </span>
             <button class="button fa-pencil-header" ng-click="edit()" ></button>
             <button class="button fa-remove-header" ng-click="removeBom()"></button>
-            <a href="http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing-report-0.4.0-SNAPSHOT/report/manufacturing/bom/{{bomId}}/checklist" target="_blank">
+            <a ng-click="reportBOM()"  target="_blank">
                 <button type="button" class="button fa-print-header"></button>
             </a>
         </div>
@@ -146,13 +146,13 @@
                 <div class="col" ng-repeat='dataPart in data.component'>
                     <div class="components-col">
                         <div class="components-title ">
-                            <h4>{{dataPart.description}}
+                            <h4>{{dataPart.material.description}}
                                 <div class="edit-text" ng-if="bomData.checked != ''"><i class="icon plus-icon fa-check-square-o" style="float: right;left: 42px;position: relative;top: -31px;" ></i></div>
                                 <div class="edit-text" ng-if="bomData.checked == ''"><i class="icon plus-icon fa-square-o" style="float: right;left: 42px;position: relative;top: -31px;" toggle-class></i></div>
                             </h4>
                             <table width="100%" cellspacing="0" cellpadding="0" border="0">
                                 <tbody><tr>
-                                        <td width="50%"><span>{{dataPart.code}}</span></td>
+                                        <td width="50%"><span>{{dataPart.material.code}}</span></td>
                                         <td><i class="fa fa-pencil"></i></td>
                                         <td align="right">{{dataPart.color.code}}</td>
                                     </tr>

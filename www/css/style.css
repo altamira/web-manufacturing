@@ -1536,6 +1536,12 @@
     font-size: 21px;
     color: #666666; float: left; margin: -1px 8px 0 0; cursor:pointer;
 }
+.fa-md-arrow-right:before {
+    font-family: "fontawesome";
+    content: "\f061";
+    font-size: 21px;
+    color: #666666; float: left; margin: -1px 8px 0 0; cursor:pointer;
+}
 
 .fa-cogs:before {
     font-family: "fontawesome";
@@ -1792,7 +1798,7 @@
     margin:0 5px 0 5px; padding:0;
     overflow:hidden;
     text-overflow:ellipsis;
-    white-space:nowrap;
+    /*white-space:nowrap;*/
     display:inline-block;
 }
 .text-bold{
@@ -1854,7 +1860,7 @@
 .left-col { width:49%; float:left; margin-right:2%;}
 .left-col .process-item-list { padding-left:0px; color:#000; font-size:20px;}
 
-.left-col span { background: none repeat scroll 0 0 #9fc5f8; color: #ffffff; display: inline-block; font-size: 20px; font-weight: normal; padding: 5px 10px 7px; text-transform: uppercase;}
+.left-col span { background: none repeat scroll 0 0 #9fc5f8; color: #ffffff; display: inline-block; font-size: 20px; font-weight: normal; padding: 5px 10px 7px; text-transform: uppercase; vertical-align: top;}
 .left-col ul { list-style:none; margin:0px; padding:0px; width:100%;}
 .left-col ul li { border-bottom:1px solid #cccccc; padding-bottom:5px; margin-bottom:5px; display:block; font-size:16px;}
 .left-col.last { margin-right:0px;}

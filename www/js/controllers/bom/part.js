@@ -123,7 +123,7 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
                                 $scope.postData.weight = {};
                                 $scope.postData.weight.value = parseFloat($scope.partData.weight);
                                 $scope.postData.weight.unit = {};
-                                $scope.postData.weight.unit.id = $scope.partData.weightType.id;
+                                $scope.postData.weight.unit.id = $scope.partData.weightType;
                                 if ($scope.action == 'create')
                                 {
                                     console.log(JSON.stringify($scope.postData));
@@ -168,7 +168,23 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
                     });
                 }
             }
-
+            $scope.goMaterialUpdate = function() {
+                Restangular.one('common/material').get({code: $scope.partData.code}).then(function(response) {
+                    if (response.data != '')
+                    {
+                        $location.path('/material/update/'+response.data.id);
+                    }
+                    else
+                    {
+                        services.showAlert('Error', 'Material not found for written code.Please check it').then(function(res) {
+                            return false;
+                        });
+                    }
+                }, function(response1) {
+                    $scope.loading = false;
+                    services.showAlert('Falhou', 'Material not found for written code.Please check it');
+                });
+            };
             $scope.removePart = function() {
                 services.showConfirmBox('Confirmation', 'Are you sure to remove this Part?').then(function(res) {
                     if (res) {
