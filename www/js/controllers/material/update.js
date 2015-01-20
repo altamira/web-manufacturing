@@ -18,6 +18,7 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');
                 });
+                
 
                 $scope.materialBaseUrl = '';
                 $scope.material.version = response.data.version;
@@ -36,6 +37,8 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                         $scope.material.weightType = response.data.weight.unit.id;
                         $scope.material.depth = response.data.depth.value;
                         $scope.material.depthType = response.data.depth.unit.id;
+                        $scope.material.area = response.data.area.value;
+                        $scope.material.areaType = response.data.area.unit.id;
                         break;
                     case 'Component':
                         $scope.materialBaseUrl = Restangular.all('sales').one('component', $scope.materialId);
@@ -49,6 +52,8 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                         $scope.material.weightType = response.data.weight.unit.id;
                         $scope.material.depth = response.data.depth.value;
                         $scope.material.depthType = response.data.depth.unit.id;
+                        $scope.material.area = response.data.area.value;
+                        $scope.material.areaType = response.data.area.unit.id;
                         break;
                     case 'Material':
                         $scope.materialBaseUrl = Restangular.all('purchase').one('material', $scope.materialId);
@@ -116,6 +121,11 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                             $scope.postData.depth.value = $scope.material.depth;
                             $scope.postData.depth.unit = {};
                             $scope.postData.depth.unit.id = $scope.material.depthType;
+
+                            $scope.postData.area = {};
+                            $scope.postData.area.value = $scope.material.area;
+                            $scope.postData.area.unit = {};
+                            $scope.postData.area.unit.id = $scope.material.areaType;
                             break;
                         case 'Component':
                             $scope.postData.type = "br.com.altamira.data.model.sales.Component";
@@ -143,6 +153,11 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                             $scope.postData.depth.value = $scope.material.depth;
                             $scope.postData.depth.unit = {};
                             $scope.postData.depth.unit.id = $scope.material.depthType;
+
+                            $scope.postData.area = {};
+                            $scope.postData.area.value = $scope.material.area;
+                            $scope.postData.area.unit = {};
+                            $scope.postData.area.unit.id = $scope.material.areaType;
                             break;
                         case 'Material':
                             $scope.postData.type = "br.com.altamira.data.model.sales.Material";

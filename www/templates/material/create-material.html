@@ -17,14 +17,14 @@
             <div class="row">
                 <div class="col">
                     <div class="list">
-                        <span class="input-label text-bold">Codigo</span>
+                        <span class="input-label text-bold">Código</span>
                         <label class="item item-input input-box-extra">
                             <input type="text" name="code" ng-model="materialData.code" required ng-minlength='10' />
                         </label>
                         <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.required">Codigo field is required.</label>
                         <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.minlength">Please enter minimum 10 character.</label>
 
-                        <span class="input-label text-bold">Descricao</span>
+                        <span class="input-label text-bold">Descrição</span>
                         <label class="item item-input input-box-extra">
                             <input type="text" name="description" ng-model="materialData.description" required ng-minlength='10'/>
                         </label>
