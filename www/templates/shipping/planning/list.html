@@ -101,18 +101,36 @@
                                             <td class="edit-item-title" style="text-align: center;width: 6%;"><i class="fa-tachometer"></i> <span>Peso</span></td>
                                             <td class="edit-item-title" style="width: 3%;">&nbsp;</td>
                                         </tr>
-                                        <tr ng-repeat='dataPart in data.component'>
+<!--                                        <tr ng-repeat='dataPart in data.component'>
                                             <td colspan="7">
                                                 <table>
                                                     <tr ng-repeat='component in dataPart.delivery'>
                                                         <td class="edit-info" style="text-align: center;width: 100px;">{{ getFullDate(component.delivery) }}</td>
                                                         <td class="edit-info" style="text-align: center;width: 130px;">{{dataPart.quantity.value}} {{dataPart.quantity.unit.symbol}}</td>
-                                                        <!--<td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 555px;">{{dataPart.material.description}}</td>-->
+                                                        <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 555px;">{{dataPart.material.description}}</td>
                                                         <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 830px;">{{data.id}} - {{dataPart.id}} - {{dataPart.material.id}}</td>
                                                         <td class="edit-text" style="width: 90px;">{{dataPart.color.code}}</td>
                                                         <td class="edit-info" style="text-align: right;width: 90px;">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
                                                         <td class="edit-info" style="text-align: right;width: 90px;">{{dataPart.weight.value * dataPart.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
                                                         <td class="edit-text" style="width: 37px;"><i class="icon plus-icon fa-square-o" select-bom dataitem="{{data.id}}" datapart="{{dataPart.id}}" datamaterial="{{dataPart.material.id}}" ></i></td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>-->
+                                        <tr ng-repeat='dataPart in data.component'>
+                                            <td colspan="7">
+                                                <table>
+                                                    <tr ng-repeat='component in dataPart.delivery'>
+                                                        <td class="edit-info" style="text-align: center;width: 100px;">{{ getFullDate(component.delivery) }}</td>
+                                                        <td class="edit-info" style="text-align: center;width: 130px;">{{component.quantity.value}} {{component.quantity.unit.symbol}}</td>
+                                                        <!--<td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 555px;">{{dataPart.material.description}}{{data.id}} - {{dataPart.id}} - {{dataPart.material.id}} - {{component.id}}</td>-->
+                                                        <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 830px;">{{dataPart.material.description}}</td>
+                                                        <td class="edit-text" style="width: 90px;">{{dataPart.color.code}}</td>
+                                                        <td class="edit-info" style="text-align: right;width: 90px;">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
+                                                        <td class="edit-info" style="text-align: right;width: 90px;">{{dataPart.weight.value * component.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
+                                                        <td class="edit-text" style="width: 37px;">
+                                                            <i class="icon plus-icon fa-square-o" select-bom dataitem="{{data.id}}" datapart="{{dataPart.id}}" datamaterial="{{dataPart.material.id}}" datadelivery="{{component.id}}"></i>
+                                                        </td>
                                                     </tr>
                                                 </table>
                                             </td>

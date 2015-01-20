@@ -7,7 +7,9 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             $scope.showdate = true;
             $scope.showdate_1 = true;
             $scope.showdate_2 = true;
-
+            $scope.itemId = [];
+            $scope.itemPartIdArr = [];
+            $scope.itemPartDeliveryArr = [];
             $scope.bomData = {};
             $scope.joinData = {};
             $scope.divideData = {};
@@ -421,24 +423,41 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                                     .one('component', $scope.itemPartIdArr[0])
                                     .one('delivery', $scope.itemPartDeliveryArr[0]).remove().then(function(response) {
                                 $scope.loading = false;
-                                $scope.changeDeliveryDate($scope.bomData.id);
-                                $scope.bomData = {}
+
+                                if ($scope.viewGrid == true)
+                                {
+                                    $scope.getShippingDetail($scope.bomData.id);
+                                    $scope.bomData = {};
+                                } else
+                                {
+                                    $scope.changeDeliveryDate($scope.bomData.id);
+                                    $scope.bomData = {};
+                                }
                             }, function() {
                                 $scope.loading = false;
                                 services.showAlert('Falhou', 'Please try again').then(function() {
-                                    $scope.divideDateModal.show();
+                                    if ($scope.viewGrid != true)
+                                    {
+                                        $scope.divideDateModal.show();
+                                    }
                                 });
                             });
                         }, function() {
                             $scope.loading = false;
                             services.showAlert('Falhou', 'Please try again').then(function() {
-                                $scope.divideDateModal.show();
+                                if ($scope.viewGrid != true)
+                                {
+                                    $scope.divideDateModal.show();
+                                }
                             });
                         });
                     }, function() {
                         $scope.loading = false;
                         services.showAlert('Falhou', 'Please try again').then(function() {
-                            $scope.divideDateModal.show();
+                            if ($scope.viewGrid != true)
+                            {
+                                $scope.divideDateModal.show();
+                            }
                         });
                     });
 
@@ -586,6 +605,11 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             };
             $scope.getShippingDetail = function(shippingId) {
                 $scope.activeShipping = {};
+                tempMaterialId = '';
+                tempItemId = '';
+                $scope.itemId = [];
+                $scope.itemPartIdArr = [];
+                $scope.itemPartDeliveryArr = [];
                 if ($scope.viewGrid == true)
                 {
                     $scope.loading = true;
