@@ -128,7 +128,7 @@
                                 <td class="edit-info" style="text-align: center">{{dataPart.quantity.value}} {{dataPart.quantity.unit.symbol}}</td>
                                 <td class="edit-text">{{dataPart.material.description}}</td>
                                 <td class="edit-text">{{dataPart.color.code}}</td>
-                                <td class="edit-info" style="text-align: right">{{dataPart.weight.value / dataPart.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
+                                <td class="edit-info" style="text-align: right">{{ ((dataPart.quantity.value > 0 && dataPart.weight.value > 0) ? (dataPart.weight.value / dataPart.quantity.value) : 0 ) | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
                                 <td class="edit-info" style="text-align: right">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
                                 <td class="edit-text" ng-if="bomData.checked != ''"><i class="icon plus-icon fa-check-square-o"></i></td>
                                 <td class="edit-text" ng-if="bomData.checked == ''"><i class="icon plus-icon fa-square-o" toggle-class></i></td>
@@ -170,7 +170,7 @@
                                     <td><i class="fa fa-arrows-v"></i></td>
                                     <td valign="top">{{dataPart.height.value}}  {{dataPart.height.unit.symbol}}</td>
                                     <td valign="top"><i class="fa fa-tachometer"></i></td>
-                                    <td valign="top" align="right">{{dataPart.weight.value / dataPart.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
+                                    <td valign="top" align="right">{{ ((dataPart.quantity.value > 0 && dataPart.weight.value > 0) ? (dataPart.weight.value / dataPart.quantity.value) : 0 ) | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
                                 </tr>
                                 <tr>
                                     <td><i class="fa fa-expand"></i></td>

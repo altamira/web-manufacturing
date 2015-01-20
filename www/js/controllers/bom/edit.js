@@ -106,7 +106,7 @@ altamiraAppControllers.controller('BomEditCtrl',
                 });
             };
             $scope.updatePart = function(itemId, partId) {
-                $location.path('bom/part/update/' + $scope.bomId + '/' + itemId + '/' + partId);
+                $location.path('bom/component/update/' + $scope.bomId + '/' + itemId + '/' + partId);
             };
             $scope.removePart = function(itemId, partId) {
                 services.showConfirmBox('Confirmation', 'Are you sure to remove this Part?').then(function(res) {

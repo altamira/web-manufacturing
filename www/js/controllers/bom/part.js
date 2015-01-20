@@ -10,7 +10,7 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
             $scope.partData.version = '';
             $scope.partData.code = '';
             $scope.partData.description = '';
-            $scope.partData.color = 20;
+            $scope.partData.color = 1020;
 
             $scope.partData.length = 0;
             $scope.partData.height = 0;
@@ -18,11 +18,11 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
             $scope.partData.quantity = 0;
             $scope.partData.weight = 0;
 
-            $scope.partData.lengthType = 104;
-            $scope.partData.heightType = 104;
-            $scope.partData.widthType = 104;
-            $scope.partData.weightType = 106;
-            $scope.partData.quantityType = 108;
+            $scope.partData.lengthType = 213;
+            $scope.partData.heightType = 213;
+            $scope.partData.widthType = 213;
+            $scope.partData.weightType = 215;
+            $scope.partData.quantityType = 217;
 
 
             Restangular.one('common/color').get({max: 0}).then(function(response) {
@@ -129,7 +129,8 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
                                     console.log(JSON.stringify($scope.postData));
                                     Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).all('component').post($scope.postData).then(function(response) {
                                         $scope.loading = false;
-                                        $location.path('/bom/part/update/' + $scope.bomId + '/' + $scope.itemId + '/' + response.data.id);
+//                                        $location.path('/bom/component/update/' + $scope.bomId + '/' + $scope.itemId + '/' + response.data.id);
+                                        $location.path('/bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
                                     }, function() {
                                         $scope.loading = false;
                                         services.showAlert('Falhou', 'Please try again');
@@ -440,7 +441,7 @@ altamiraAppControllers.controller('BomPartUpdateCtrl',
             $scope.partId = $routeParams.partId;
             $scope.partData = {}
             $scope.partData.version = '';
-            $scope.partData.code = 'CZ-PAD';
+            $scope.partData.code = 1020;
             $scope.partData.description = '';
             $scope.partData.color = '';
             $scope.partData.quantity = '';
@@ -449,11 +450,11 @@ altamiraAppControllers.controller('BomPartUpdateCtrl',
             $scope.partData.length = '';
             $scope.partData.weight = '';
 
-            $scope.partData.lengthType = 4;
-            $scope.partData.heightType = 4;
-            $scope.partData.widthType = 4;
-            $scope.partData.weightType = 6;
-            $scope.partData.quantityType = 8;
+            $scope.partData.lengthType = 213;
+            $scope.partData.heightType = 213;
+            $scope.partData.widthType = 213;
+            $scope.partData.weightType = 215;
+            $scope.partData.quantityType = 217;
 
             Restangular.one('common/color').get({max: 0}).then(function(response) {
                 $scope.partData.colorBox = response.data;

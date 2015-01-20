@@ -358,7 +358,7 @@ altamiraApp.directive('componentDate', function() {
 });
 altamiraApp.directive('getQuantity', function() {
     return function(scope, el, attrs) {
-       console.log(JSON.stringify(parseInt(scope.divideData.chnDateTotalQuantity) - parseInt(scope.divideData.quantity1)));
+        console.log(JSON.stringify(parseInt(scope.divideData.chnDateTotalQuantity) - parseInt(scope.divideData.quantity1)));
     }
 });
 altamiraApp.directive('loadHtml', function() {
@@ -473,12 +473,19 @@ altamiraApp.directive('selectBom', function(services) {
             elm.toggleClass('fa-check-square-o');
             if (elm.hasClass('fa-check-square-o'))
             {
+                if (scope.itemPartDeliveryArr.length == 0)
+                {
+                    scope.itemPartDeliveryArr.push(parseInt(attr.datadelivery));
+                } else if (scope.itemPartDeliveryArr.length > 0 && scope.itemPartDeliveryArr.indexOf(parseInt(attr.datadelivery)) < 0)
+                {
+                    scope.itemPartDeliveryArr.push(parseInt(attr.datadelivery));
+                }
                 if (tempMaterialId == '' && tempItemId == '')
                 {
                     tempMaterialId = attr.datamaterial;
                     tempItemId = attr.dataitem;
-                    scope.itemPartIdArr.push(parseInt(attr.datapart));
                     scope.itemId.push(parseInt(tempItemId));
+                    scope.itemPartIdArr.push(parseInt(attr.datapart));
                 } else {
                     if (tempMaterialId == attr.datamaterial && (scope.itemPartIdArr.indexOf(parseInt(attr.datapart)) < 0) && tempItemId == attr.dataitem) {
                         scope.itemPartIdArr.push(parseInt(attr.datapart));
@@ -487,17 +494,29 @@ altamiraApp.directive('selectBom', function(services) {
                     {
                         elm.toggleClass('fa-check-square-o');
                         services.showAlert('Error', 'Not a same material');
+                        scope.itemPartDeliveryArr.splice(scope.itemPartDeliveryArr.indexOf(parseInt(attr.datadelivery)), 1);
                     }
                 }
+                console.log(JSON.stringify(tempItemId));
+                console.log(JSON.stringify(scope.itemId));
+                console.log(JSON.stringify(scope.itemPartIdArr));
+                console.log(JSON.stringify(scope.itemPartDeliveryArr));
             }
             else
             {
-                scope.itemPartIdArr.splice(scope.itemPartIdArr.indexOf(parseInt(attr.datapart)), 1);
-                if (scope.itemPartIdArr.length == 0) {
-                    tempMaterialId = '';
-                    tempItemId = '';
-                    scope.itemId.splice(scope.itemId.indexOf(parseInt(attr.dataitem)), 1);
+                scope.itemPartDeliveryArr.splice(scope.itemPartDeliveryArr.indexOf(parseInt(attr.datadelivery)), 1);
+                if (scope.itemPartDeliveryArr.length == 0)
+                {
+                    scope.itemPartIdArr.splice(scope.itemPartIdArr.indexOf(parseInt(attr.datapart)), 1);
+                    if (scope.itemPartIdArr.length == 0) {
+                        tempMaterialId = '';
+                        tempItemId = '';
+                        scope.itemId.splice(scope.itemId.indexOf(parseInt(attr.dataitem)), 1);
+                    }
                 }
+                console.log(JSON.stringify(scope.itemId));
+                console.log(JSON.stringify(scope.itemPartIdArr));
+                console.log(JSON.stringify(scope.itemPartDeliveryArr));
             }
         });
 

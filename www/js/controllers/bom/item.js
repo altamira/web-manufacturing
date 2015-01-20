@@ -120,11 +120,11 @@ altamiraAppControllers.controller('BomItemUpdateCtrl',
             };
 
             $scope.createPart = function() {
-                $location.path('/bom/part/create/' + $scope.bomId + '/' + $scope.itemId);
+                $location.path('/bom/component/create/' + $scope.bomId + '/' + $scope.itemId);
             };
 
             $scope.updatePart = function(partId) {
-                $location.path('bom/part/update/' + $scope.bomId + '/' + $scope.itemId + '/' + partId);
+                $location.path('bom/component/update/' + $scope.bomId + '/' + $scope.itemId + '/' + partId);
             };
 
             $scope.removePart = function(PartId) {

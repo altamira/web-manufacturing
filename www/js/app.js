@@ -85,11 +85,11 @@ altamiraApp.config(['$routeProvider',
             templateUrl: 'templates/bom/item-update.html',
             controller: 'BomItemUpdateCtrl'
         })
-                .when('/bom/part/create/:bomId/:itemId', {
+                .when('/bom/component/create/:bomId/:itemId', {
             templateUrl: 'templates/bom/part.html',
             controller: 'BomPartOperationCtrl'
         })
-                .when('/bom/part/update/:bomId/:itemId/:partId', {
+                .when('/bom/component/update/:bomId/:itemId/:partId', {
             templateUrl: 'templates/bom/part.html',
             controller: 'BomPartOperationCtrl'
         })

@@ -6,7 +6,7 @@
                 <span class="btn-separator"></span>
                 <h4 class="mf-page-titles">&nbsp;{{divideData.chnDateCode}}&nbsp;</h4>
                 <span class="btn-separator"></span>
-                <button class="button fa-check" ng-click="submitted=true" ></button>
+                <button class="button fa-check" ng-click="submitted=true" ng-if="divideData.quantity2 > 0"></button>
             </div>
         </ion-header-bar>
         <ion-content>
@@ -103,7 +103,7 @@
                     <div class="list">
                         <a class="process-item-list item-icon-right" style="padding-left:0px;">
                             ITEM {{chnDateItem.item}}
-                            <i class="icon plus-icon fa-plus-bom-edit" ng-click='createComponent()'></i>
+                            <!--<i class="icon plus-icon fa-plus-bom-edit" ng-click='createComponent()'></i>-->
                         </a>
                     </div>
                 </div>
@@ -116,7 +116,7 @@
                                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                     <tr>
                                         <td width="25%"><i class="fa fa-calender"></i></td>
-                                        <td width="25%">01/01/2015</td>
+                                        <td width="25%">{{ getFullDate(partDelivery.delivery) }}</td>
                                         <td align="right">
                                             <i ng-click="removePart(components.id)" class="icon plus-icon fa-plus-cross-circle-1" style=" right: 7px;top: 13px;"></i>
                                         </td>
@@ -128,19 +128,19 @@
                                     <td width="25%"><i class="fa fa-arrows-h"></i></td>
                                     <td width="25%" valign="top">{{components.length.value}} {{components.length.unit.symbol}}</td>
                                     <td width="25%" valign="top"><i class="fa fa-list-ol"></i></td>
-                                    <td align="right" valign="top">{{components.quantity.value}} {{components.quantity.unit.symbol}}</td>
+                                    <td align="right" valign="top">{{partDelivery.quantity.value}} {{components.quantity.unit.symbol}}</td>
                                 </tr>
                                 <tr>
                                     <td><i class="fa fa-arrows-v"></i></td>
                                     <td valign="top">{{components.height.value}} {{components.height.unit.symbol}}</td>
                                     <td valign="top"><i class="fa fa-tachometer"></i></td>
-                                    <td align="right" valign="top">{{components.weight.value / components.quantity.value  | setDecimal:3}} {{components.weight.unit.symbol}}</td>
+                                    <td align="right" valign="top">{{components.weight.value | setDecimal:3}} {{partDelivery.quantity.unit.symbol}}</td>
                                 </tr>
                                 <tr>
                                     <td><i class="fa fa-expand"></i></td>
                                     <td valign="top">{{components.width.value}} {{components.width.unit.symbol}}</td>
                                     <td valign="top"><i class="fa fa-tachometer"></i></td>
-                                    <td align="right" valign="top">{{components.weight.value | setDecimal:3}} {{components.weight.unit.symbol}}</td>
+                                    <td align="right" valign="top">{{ (components.weight.value*partDelivery.quantity.value) | setDecimal:3}} {{partDelivery.quantity.unit.symbol}}</td>
                                 </tr>
                             </table>
                         </div>
