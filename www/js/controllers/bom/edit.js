@@ -67,7 +67,7 @@ altamiraAppControllers.controller('BomEditCtrl',
                 $location.path('/bom/item/update/' + $scope.bomId + '/' + itemId);
             };
             $scope.reportBOM = function() {
-                window.open(sessionStorage.getItem('reportBaseUrl')+'/manufacturing-report-0.4.0-SNAPSHOT/report/manufacturing/bom/'+$scope.bomId+'/checklist', '_blank');
+                window.open(sessionStorage.getItem('reportBaseUrl')+'/report/manufacturing/bom/'+$scope.bomId+'/checklist', '_blank');
             };
             $scope.removeBom = function() {
                 services.showConfirmBox('Confirmation', 'Are you sure to remove this BOM?').then(function(res) {

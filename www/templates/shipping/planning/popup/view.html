@@ -124,8 +124,8 @@
                                         <tr ng-repeat='component in dataPart.delivery'>
                                             <td class="edit-info" style="text-align: center;width: 100px;">{{ getFullDate(component.delivery) }}</td>
                                             <td class="edit-info" style="text-align: center;width: 130px;">{{component.quantity.value}} {{component.quantity.unit.symbol}}</td>
-                                            <!--<td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 555px;">{{dataPart.material.description}}{{data.id}} - {{dataPart.id}} - {{dataPart.material.id}} - {{component.id}}</td>-->
-                                            <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 555px;">{{dataPart.material.description}}</td>
+                                            <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 555px;">{{dataPart.material.description}} - {{data.id}} - {{dataPart.id}} - {{dataPart.material.id}} - {{component.id}}</td>
+                                            <!--<td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 555px;">{{dataPart.material.description}}</td>-->
                                             <td class="edit-text" style="width: 90px;">{{dataPart.color.code}}</td>
                                             <td class="edit-info" style="text-align: right;width: 90px;">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
                                             <td class="edit-info" style="text-align: right;width: 90px;">{{dataPart.weight.value * component.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>

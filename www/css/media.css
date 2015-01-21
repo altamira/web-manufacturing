@@ -52,7 +52,7 @@
 
 @media (max-width: 767px){
 	.planning-col .tableTitle { font-size:15px;}
-	
+
 }
 
 
@@ -82,6 +82,9 @@
     }
     .croqui-img {
         width: 100%;
+    }
+    .left-col ul li {
+        margin-left: -10px;
     }
 }
 
@@ -151,5 +154,5 @@
     .croqui-img {
         width: 100%;
     }
-	
+
 }

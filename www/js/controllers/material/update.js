@@ -18,7 +18,7 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');
                 });
-                
+
 
                 $scope.materialBaseUrl = '';
                 $scope.material.version = response.data.version;

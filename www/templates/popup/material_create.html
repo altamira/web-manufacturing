@@ -13,7 +13,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="list list-row">
-                            <span class="input-label text-bold">Codigo</span>
+                            <span class="input-label text-bold">Código</span>
                             <label class="item item-input input-box-extra">
                                 <input type="text" name="code" ng-model="material.code" required ng-minlength='6' />
                             </label>
@@ -21,7 +21,7 @@
                             <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.minlength">Please enter minimum 6 character.</label>
                         </div>
                         <div class="list list-row">
-                            <span class="input-label text-bold">Descricao</span>
+                            <span class="input-label text-bold">Descrição</span>
                             <label class="item item-input input-box-extra">
                                 <input type="text" name="description" ng-model="material.description" required ng-minlength='5'/>
                             </label>
@@ -32,7 +32,7 @@
                 </div>
                 <div class="row">
                     <div style="padding-bottom:0" class="col">
-                        <span class="input-label text-bold">Width</span>
+                        <span class="input-label text-bold">Largura</span>
                     </div>
                 </div>
                 <div class="row">
@@ -41,7 +41,7 @@
                             <label style="background-color: #eeeeee;border: 1px solid #ddd;border-radius: 5px;height: 35px;" class="item item-input">
                                 <input type="text"  ng-model="material.width" name="width" required value="0">
                             </label>
-                            <label class="extra-error" ng-show="submitted && materialCreateForm.width.$error.required">Width field is required.</label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.width.$error.required">Largura field is required.</label>
                         </div>
                     </div>
                     <div class="col">
@@ -56,7 +56,7 @@
                 </div>
                 <div class="row">
                     <div style="padding-bottom:0" class="col">
-                        <span class="input-label text-bold">Height</span>
+                        <span class="input-label text-bold">Altura</span>
                     </div>
                 </div>
                 <div class="row">
@@ -65,7 +65,7 @@
                             <label style="background-color: #eeeeee;border: 1px solid #ddd;border-radius: 5px;height: 35px;" class="item item-input">
                                 <input type="text"  ng-model="material.height" name="height" required>
                             </label>
-                            <label class="extra-error" ng-show="submitted && materialCreateForm.height.$error.required">Height field is required.</label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.height.$error.required">Altura field is required.</label>
                         </div>
                     </div>
                     <div class="col">
@@ -80,7 +80,7 @@
                 </div>
                 <div class="row">
                     <div style="padding-bottom:0" class="col">
-                        <span class="input-label text-bold">Length</span>
+                        <span class="input-label text-bold">Comprimento</span>
                     </div>
                 </div>
                 <div class="row">
@@ -89,7 +89,7 @@
                             <label style="background-color: #eeeeee;border: 1px solid #ddd;border-radius: 5px;height: 35px;" class="item item-input">
                                 <input type="text"  ng-model="material.length" name="length" required>
                             </label>
-                            <label class="extra-error" ng-show="submitted && materialCreateForm.length.$error.required">Length field is required.</label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.length.$error.required">Comprimento field is required.</label>
                         </div>
                     </div>
                     <div class="col">
@@ -104,7 +104,7 @@
                 </div>
                 <div class="row">
                     <div style="padding-bottom:0" class="col">
-                        <span class="input-label text-bold">Depth</span>
+                        <span class="input-label text-bold">Profundidade</span>
                     </div>
                 </div>
                 <div class="row">
@@ -113,7 +113,7 @@
                             <label style="background-color: #eeeeee;border: 1px solid #ddd;border-radius: 5px;height: 35px;" class="item item-input">
                                 <input type="text"  ng-model="material.depth" name="depth" required>
                             </label>
-                            <label class="extra-error" ng-show="submitted && materialCreateForm.depth.$error.required">Depth field is required.</label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.depth.$error.required">Profundidade field is required.</label>
                         </div>
                     </div>
                     <div class="col">
@@ -128,7 +128,31 @@
                 </div>
                 <div class="row">
                     <div style="padding-bottom:0" class="col">
-                        <span class="input-label text-bold">Weight</span>
+                        <span class="input-label text-bold">Area</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="list">
+                            <label style="background-color: #eeeeee;border: 1px solid #ddd;border-radius: 5px;height: 35px;" class="item item-input">
+                                <input type="text" ng-model="material.area" name="area" required>
+                            </label>
+                            <label class="extra-error" ng-show="submitted && materialUpdateForm.area.$error.required">Area field is required.</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="list">
+                            <label style="border-radius: 5px;" class="item item-select">
+                                <div style="top:-2px" class="select-box-hide"></div>
+                                <select name="areaType" ng-model="material.areaType" class="select-box" ng-options='v.id as v.symbol for v in unitLengthBox'>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div style="padding-bottom:0" class="col">
+                        <span class="input-label text-bold">Peso</span>
                     </div>
                 </div>
                 <div class="row">
@@ -137,7 +161,7 @@
                             <label style="background-color: #eeeeee;border: 1px solid #ddd;border-radius: 5px;height: 35px;" class="item item-input">
                                 <input type="text"  ng-model="material.weight" name="weight" required>
                             </label>
-                            <label class="extra-error" ng-show="submitted && materialCreateForm.weight.$error.required">Weight field is required.</label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.weight.$error.required">Peso field is required.</label>
                         </div>
                     </div>
                     <div class="col">
@@ -157,19 +181,19 @@
                 <div class="row">
                     <div class="col">
                         <div class="list list-row">
-                            <span class="input-label text-bold">Codigo</span>
+                            <span class="input-label text-bold">Código</span>
                             <label class="item item-input input-box-extra">
                                 <input type="text" name="code" ng-model="material.code" required ng-minlength='6' />
                             </label>
-                            <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.required">Codigo field is required.</label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.required">Código field is required.</label>
                             <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.minlength">Please enter minimum 6 character.</label>
                         </div>
                         <div class="list list-row">
-                            <span class="input-label text-bold">Descricao</span>
+                            <span class="input-label text-bold">Descrição</span>
                             <label class="item item-input input-box-extra">
                                 <input type="text" name="description" ng-model="material.description" required ng-minlength='5'/>
                             </label>
-                            <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.required">Description field is required.</label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.required">Descrição field is required.</label>
                             <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.minlength">Please enter minimum 5 character.</label>
                         </div>
                         <div class="list list-row">
@@ -177,22 +201,22 @@
                             <label class="item item-input input-box-extra">
                                 <input type="text" name="lamination" ng-model="material.lamination" required ng-minlength='2'/>
                             </label>
-                            <label class="extra-error" ng-show="submitted && materialCreateForm.lamination.$error.required">Lamination field is required.</label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.lamination.$error.required">Laminação field is required.</label>
                             <label class="extra-error" ng-show="submitted && materialCreateForm.lamination.$error.minlength">Please enter minimum 2 character.</label>
                         </div>
                         <div class="list list-row">
-                            <span class="input-label text-bold">Treatment</span>
+                            <span class="input-label text-bold">Tratamento</span>
                             <label class="item item-input input-box-extra">
                                 <input type="text" name="treatment" ng-model="material.treatment" required ng-minlength='2'/>
                             </label>
-                            <label class="extra-error" ng-show="submitted && materialCreateForm.treatment.$error.required">Treatment field is required.</label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.treatment.$error.required">Tratamento field is required.</label>
                             <label class="extra-error" ng-show="submitted && materialCreateForm.treatment.$error.minlength">Please enter minimum 2 character.</label>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div style="padding-bottom:0" class="col">
-                        <span class="input-label text-bold">Thickness</span>
+                        <span class="input-label text-bold">Espessura</span>
                     </div>
                 </div>
                 <div class="row">
@@ -201,7 +225,7 @@
                             <label style="background-color: #eeeeee;border: 1px solid #ddd;border-radius: 5px;height: 35px;" class="item item-input">
                                 <input type="text"  ng-model="material.thickness" name="thickness" required>
                             </label>
-                            <label class="extra-error" ng-show="submitted && materialCreateForm.thickness.$error.required">Thickness field is required.</label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.thickness.$error.required">Espessura field is required.</label>
                         </div>
                     </div>
                     <div class="col">
@@ -216,7 +240,7 @@
                 </div>
                 <div class="row">
                     <div style="padding-bottom:0" class="col">
-                        <span class="input-label text-bold">Width</span>
+                        <span class="input-label text-bold">Largura</span>
                     </div>
                 </div>
                 <div class="row">
@@ -225,7 +249,7 @@
                             <label style="background-color: #eeeeee;border: 1px solid #ddd;border-radius: 5px;height: 35px;" class="item item-input">
                                 <input type="text"  ng-model="material.width" name="width" required>
                             </label>
-                            <label class="extra-error" ng-show="submitted && materialCreateForm.width.$error.required">Width field is required.</label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.width.$error.required">Largura field is required.</label>
                         </div>
                     </div>
                     <div class="col">
@@ -240,7 +264,7 @@
                 </div>
                 <div class="row">
                     <div style="padding-bottom:0" class="col">
-                        <span class="input-label text-bold">Length</span>
+                        <span class="input-label text-bold">Comprimento</span>
                     </div>
                 </div>
                 <div class="row">
@@ -249,7 +273,7 @@
                             <label style="background-color: #eeeeee;border: 1px solid #ddd;border-radius: 5px;height: 35px;" class="item item-input">
                                 <input type="text"  ng-model="material.length" name="length" required>
                             </label>
-                            <label class="extra-error" ng-show="submitted && materialCreateForm.length.$error.required">Length field is required.</label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.length.$error.required">Comprimento field is required.</label>
                         </div>
                     </div>
                     <div class="col">
@@ -266,19 +290,19 @@
             <div class="row" ng-if="materialTypeText == 'inputs' || materialTypeText == 'ink' || materialTypeText == 'machine' || materialTypeText == 'tooling'">
                 <div class="col">
                     <div class="list list-row">
-                        <span class="input-label text-bold">Codigo</span>
+                        <span class="input-label text-bold">Código</span>
                         <label class="item item-input input-box-extra">
                             <input type="text" name="code" ng-model="material.code" required ng-minlength='6' />
                         </label>
-                        <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.required">Codigo field is required.</label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.required">Código field is required.</label>
                         <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.minlength">Please enter minimum 6 character.</label>
                     </div>
                     <div class="list list-row">
-                        <span class="input-label text-bold">Descricao</span>
+                        <span class="input-label text-bold">Descrição</span>
                         <label class="item item-input input-box-extra">
                             <input type="text" name="description" ng-model="material.description" required ng-minlength='5'/>
                         </label>
-                        <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.required">Description field is required.</label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.required">Descrição field is required.</label>
                         <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.minlength">Please enter minimum 5 character.</label>
                     </div>
                 </div>

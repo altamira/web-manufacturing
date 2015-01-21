@@ -49,7 +49,7 @@
                             <th>Data Pedido</th>
                             <th>Data Entrega</th>
                         </tr>
-                        <tr ng-repeat="bom in dataBOM" ng-class-odd="'odd'" ng-class-even="'even'" id="{{bom.id}}" ng-click="getShippingDetail({{bom.id}})" style="cursor: pointer">
+                        <tr ng-repeat="bom in dataBOM" ng-if="checkYear(bom.delivery) <= maxYear" id="{{bom.id}}" ng-click="getShippingDetail({{bom.id}})" style="cursor: pointer">
                             <td>{{bom.id}}</td>
                             <td>{{bom.number}}</td>
                             <td>{{bom.customer}}</td>
@@ -66,11 +66,15 @@
                             <th class="monthTitle" colspan="{{month.days.length}}" ng-repeat="month in monthDays">{{month.name}}</th>
                         </tr>
                         <tr>
-                            <th ng-repeat="day in days track by $index">{{getDay(day)}}</th>
+                            <th ng-repeat="day in days track by $index">
+                                <div ng-repeat="deliveryVal in day">{{getDay(deliveryVal.value)}}</div>
+                            </th>
                         </tr>
-                        <tr ng-repeat="BOM in dataBOM" class="{{BOM.id}}">
-                            <td ng-repeat="day in days track by $index" id="{{BOM.id}}" data-day='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'">
-                                <div class="dragDiv red" id="{{day}}" ng-if="(checkDay(BOM.delivery) == getDay(day)) && (checkMonth(BOM.delivery) == getMonth(day)) && (checkYear(BOM.delivery) == getYear(day))">&nbsp;</div>
+                        <tr ng-repeat="BOM in dataBOM" class="{{BOM.id}}" ng-if="checkYear(BOM.delivery) <= maxYear">
+                            <td ng-repeat="day in days track by $index" id="{{BOM.id}}" data-day='{{day}}'>
+                                <div ng-repeat="deliveryVal in day" id="{{deliveryVal.value}}" ng-class="(getWeekDay(deliveryVal.value) == 'Sunday' || getWeekDay(deliveryVal.value) == 'Saturday')? 'holiday':'makeDroppable'">
+                                    <div class="dragDiv red" ng-if="(checkDay(BOM.delivery) == getDay(deliveryVal.value)) && (checkMonth(BOM.delivery) == getMonth(deliveryVal.value)) && (checkYear(BOM.delivery) == getYear(deliveryVal.value))">&nbsp;</div>
+                                </div>
                             </td>
                         </tr>
                     </table>
@@ -101,22 +105,6 @@
                                             <td class="edit-item-title" style="text-align: center;width: 6%;"><i class="fa-tachometer"></i> <span>Peso</span></td>
                                             <td class="edit-item-title" style="width: 3%;">&nbsp;</td>
                                         </tr>
-<!--                                        <tr ng-repeat='dataPart in data.component'>
-                                            <td colspan="7">
-                                                <table>
-                                                    <tr ng-repeat='component in dataPart.delivery'>
-                                                        <td class="edit-info" style="text-align: center;width: 100px;">{{ getFullDate(component.delivery) }}</td>
-                                                        <td class="edit-info" style="text-align: center;width: 130px;">{{dataPart.quantity.value}} {{dataPart.quantity.unit.symbol}}</td>
-                                                        <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 555px;">{{dataPart.material.description}}</td>
-                                                        <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 830px;">{{data.id}} - {{dataPart.id}} - {{dataPart.material.id}}</td>
-                                                        <td class="edit-text" style="width: 90px;">{{dataPart.color.code}}</td>
-                                                        <td class="edit-info" style="text-align: right;width: 90px;">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
-                                                        <td class="edit-info" style="text-align: right;width: 90px;">{{dataPart.weight.value * dataPart.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
-                                                        <td class="edit-text" style="width: 37px;"><i class="icon plus-icon fa-square-o" select-bom dataitem="{{data.id}}" datapart="{{dataPart.id}}" datamaterial="{{dataPart.material.id}}" ></i></td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>-->
                                         <tr ng-repeat='dataPart in data.component'>
                                             <td colspan="7">
                                                 <table>

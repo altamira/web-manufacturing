@@ -23,13 +23,12 @@
                         </label>
                         <label class="extra-error" ng-show="submitted && processCreateForm.code.$error.required">Codigo field is required.</label>
                         <label class="extra-error" ng-show="submitted && processCreateForm.code.$error.minlength">Please enter minimum 10 character.</label>
-
-                        <span class="input-label text-bold">Descricao</span>
-                        <label class="item item-input input-box-extra">
-                            <input type="text" name="description" ng-model="processData.description" required ng-minlength='10'/>
-                        </label>
-                        <label class="extra-error" ng-show="submitted && processCreateForm.description.$error.required">Description field is required.</label>
-                        <label class="extra-error" ng-show="submitted && processCreateForm.description.$error.minlength">Please enter minimum 10 character.</label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Descrição</span>
+                        <textarea name="description" ng-model="processData.description" required ng-minlength='10' class="textarea-extra" required ></textarea>
+                        <label class="extra-error" ng-show="submitted && processUpdateForm.description.$error.required">Description field is required.</label>
+                        <label class="extra-error" ng-show="submitted && processUpdateForm.description.$error.minlength">Please enter minimum 10 character.</label>
                     </div>
                 </div>
             </div>

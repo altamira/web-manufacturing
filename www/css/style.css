@@ -1798,7 +1798,7 @@
     margin:0 5px 0 5px; padding:0;
     overflow:hidden;
     text-overflow:ellipsis;
-    /*white-space:nowrap;*/
+    white-space:nowrap;
     display:inline-block;
 }
 .text-bold{
@@ -1898,7 +1898,7 @@
 .create-col { width:49%; float:left; margin-right:2%;}
 .create-col-bot { width:100%; float:left; margin-right:0%;}
 .create-col.last { margin-right:0px;}
-.create-col input {background-color: #eeeeee; border:1px solid #dddddd;  border-radius:5px;  height:35px;  padding: 5px 10px; font-size:18px; color:#000; font-weight:bold; text-align:right; margin-top:-2px;}
+.create-col input {background-color: #eeeeee; border:1px solid #dddddd;  border-radius:5px;  height:35px;  padding: 5px 10px; font-size:14px; color:#000; text-align:right; margin-top:-2px;}
 .create-col .fa-arrows-h:before { position:relative; top:2px;}
 .create-col-bot input { color:#666; font-weight:bold; font-size:20px;}
 .create-col .fa-arrows-v:before { display:inline-block; width:22px; padding-left:2px;}

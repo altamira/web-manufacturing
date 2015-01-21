@@ -49,7 +49,6 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
                 if (isValid) {
                     $scope.loading = true;
                     Restangular.one('common/material').get({code: $scope.useData.code}).then(function(response) {
-                        $scope.loading = false;
                         if (response.data != '')
                         {
                             var materiralData = response.data;
