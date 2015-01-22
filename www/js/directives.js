@@ -373,15 +373,13 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                 $(".dragDiv").draggable({
                     revert: 'invalid'
                 });
-                $(".holiday").parent().css( "background-color", "#cccccc");
-                $(".makeDroppable").parent().droppable({
+                $(".makeDroppable").droppable({
                     accept: function(item) {
-//                        return $(this).closest("tr").is(item.closest("tr")) && $(this).find("*").length == 0;
-                        return $(this).closest("tr").is(item.closest("tr"));
+                        return $(this).closest("tr").is(item.closest("tr")) && $(this).find("*").length == 0;
                     },
                     drop: function(event, ui) {
 //                        scope.getData(ui.draggable.attr('id'), $(this).data('day'), $(this).attr('id'));
-                        scope.getData($(this).children().attr('id'), $(this).attr('id'));
+                        scope.getData($(this).data('day'), $(this).attr('id'));
                         var $this = $(this);
                         $this.append(ui.draggable.css({
                             top: 0,
@@ -459,7 +457,23 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                     }
                 });
                 $('.red').on('dblclick', function(e) {
-                    scope.changeDeliveryDate($(this).parent().parent().attr('id'));
+                    scope.resetViewDeliveryId();
+                    if (isNumber($(this).data('viewdeliveryid')))
+                    {
+                        scope.viewDeliveryId.push($(this).data('viewdeliveryid'));
+                        scope.changeDeliveryDate($(this).parent().attr('id'));
+                    }
+                    else
+                    {
+                        var tempViewDeliveryId = $(this).data('viewdeliveryid').split(',');
+                        for (var z = 0; z < tempViewDeliveryId.length; z++)
+                        {
+                            scope.viewDeliveryId.push(parseInt(tempViewDeliveryId[z]));
+                        }
+                        scope.changeDeliveryDate($(this).parent().attr('id'));
+                    }
+                    console.log(JSON.stringify(scope.viewDeliveryId));
+
                 });
             };
 
@@ -510,57 +524,13 @@ altamiraApp.directive('selectBom', function(services) {
             console.log(JSON.stringify(scope.itemId));
             console.log(JSON.stringify(scope.itemPartIdArr));
             console.log(JSON.stringify(scope.itemPartDeliveryArr));
-//            if (elm.hasClass('fa-check-square-o'))
-//            {
-//                if (scope.itemPartDeliveryArr.length == 0)
-//                {
-//                    scope.itemPartDeliveryArr.push(parseInt(attr.datadelivery));
-//                } else if (scope.itemPartDeliveryArr.length > 0 && scope.itemPartDeliveryArr.indexOf(parseInt(attr.datadelivery)) < 0)
-//                {
-//                    scope.itemPartDeliveryArr.push(parseInt(attr.datadelivery));
-//                }
-//                if (tempMaterialId == '' && tempItemId == '')
-//                {
-//                    tempMaterialId = attr.datamaterial;
-//                    tempItemId = attr.dataitem;
-//                    scope.itemId.push(parseInt(tempItemId));
-//                    scope.itemPartIdArr.push(parseInt(attr.datapart));
-//                } else {
-//                    if (tempMaterialId == attr.datamaterial && (scope.itemPartIdArr.indexOf(parseInt(attr.datapart)) < 0) && tempItemId == attr.dataitem) {
-//                        scope.itemPartIdArr.push(parseInt(attr.datapart));
-//                    }
-//                    if (tempMaterialId != attr.datamaterial || tempItemId != attr.dataitem)
-//                    {
-//                        elm.toggleClass('fa-check-square-o');
-//                        services.showAlert('Error', 'Not a same material');
-//                        scope.itemPartDeliveryArr.splice(scope.itemPartDeliveryArr.indexOf(parseInt(attr.datadelivery)), 1);
-//                    }
-//                }
-//                console.log(JSON.stringify(tempItemId));
-//                console.log(JSON.stringify(scope.itemId));
-//                console.log(JSON.stringify(scope.itemPartIdArr));
-//                console.log(JSON.stringify(scope.itemPartDeliveryArr));
-//            }
-//            else
-//            {
-//                scope.itemPartDeliveryArr.splice(scope.itemPartDeliveryArr.indexOf(parseInt(attr.datadelivery)), 1);
-//                if (scope.itemPartDeliveryArr.length == 0)
-//                {
-//                    scope.itemPartIdArr.splice(scope.itemPartIdArr.indexOf(parseInt(attr.datapart)), 1);
-//                    if (scope.itemPartIdArr.length == 0) {
-//                        tempMaterialId = '';
-//                        tempItemId = '';
-//                        scope.itemId.splice(scope.itemId.indexOf(parseInt(attr.dataitem)), 1);
-//                    }
-//                }
-//                console.log(JSON.stringify(scope.itemId));
-//                console.log(JSON.stringify(scope.itemPartIdArr));
-//                console.log(JSON.stringify(scope.itemPartDeliveryArr));
-//            }
         });
 
     }
 });
+function isNumber(o) {
+    return !isNaN(o - 0) && o !== null && o !== "" && o !== false;
+}
 //var color = '';
 //$('div').click(function() {
 //    var x = $(this).css('backgroundColor');

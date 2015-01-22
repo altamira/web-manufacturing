@@ -10,6 +10,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             $scope.itemId = [];
             $scope.itemPartIdArr = [];
             $scope.itemPartDeliveryArr = [];
+
             $scope.bomData = {};
             $scope.joinData = {};
             $scope.divideData = {};
@@ -20,6 +21,9 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             moment.locale('pt-br');
             var month = moment.months();
             moment.locale('en');
+            $scope.resetViewDeliveryId = function() {
+                $scope.viewDeliveryId = [];
+            };
             $scope.makeCalender = function(currentMonth, currentYear) {
 //                var currentMonth = parseInt(moment().format('M')) - 2;
 //                var currentYear = parseInt(moment().format('YYYY'));
@@ -59,12 +63,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             function createDaysArray(daysArray, m, y)
             {
                 for (var j = 0; j < daysArray.length; j++) {
-                    $scope.days[dayCounter] = [];
-                    $scope.days[dayCounter].push({'value': daysArray[j] + '_' + m + '_' + y});
-//                    var tempdayArr = [];
-//                    tempdayArr['value'] = daysArray[j] + '_' + m + '_' + y;
-//                    $scope.days.push(daysArray[j] + '_' + m + '_' + y);
-                    dayCounter++;
+                    $scope.days.push(daysArray[j] + '_' + m + '_' + y);
                 }
             }
             function daysInMonth(month, year) {
@@ -104,6 +103,47 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             $scope.getFullDate = function(date) {
                 return moment.unix(date).format('D/M/YYYY');
             }
+            $scope.getObjects = function(obj, key, val) {
+                var objects = [];
+                for (var i in obj) {
+                    if (!obj.hasOwnProperty(i))
+                        continue;
+                    if (typeof obj[i] == 'object') {
+                        objects = objects.concat($scope.getObjects(obj[i], key, val));
+                    } else if (i == key && obj[key] == val) {
+                        objects.push(obj);
+                    }
+                }
+                return objects;
+            };
+//            console.log('deliveryDate=' + deliveryDate);
+//                console.log('$scope.viewDeliveryId=' + $scope.viewDeliveryId);
+//                console.log(Object.prototype.toString.call($scope.viewDeliveryId));
+//                if (Object.prototype.toString.call($scope.viewDeliveryId) === '[object Array]') {
+//                    if (in_array(deliveryDate, $scope.viewDeliveryId))
+//                    {
+//                        return 1;
+//                    }
+//                    else
+//                    {
+//                        return 0;
+//                    }
+//                }
+//                else
+//                {
+//
+//                    if (deliveryDate == $scope.viewDeliveryId)
+//                    {
+//                        return 1;
+//                    }
+//                    else
+//                    {
+//                        return 0;
+//                    }
+//                }
+            $scope.checkForViewDelivery = function(deliveryDate) {
+                return $scope.viewDeliveryId.indexOf(parseInt(deliveryDate));
+            };
 
             $scope.loadGrid = function() {
                 Restangular.one('shipping/planning').get({checked: false, search: ''}).then(function(response) {
@@ -127,30 +167,122 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                             }
                         }
                     }
-//                    $scope.planningArr = [];
-//                    for (var i = 0; i < $scope.totalBOM; i++)
-//                    {
-//                        var temp = {};
-//                        temp[i] = {};
-//                        temp[i].delivery = [];
-//                        temp[i].id = $scope.dataBOM[i].id;
-//                        var tempn = [];
-//                        for (var j = 0; j < $scope.dataBOM[i].item.length; j++)
-//                        {
-//                            for (var k = 0; k < $scope.dataBOM[i].item[j].component.length; k++)
-//                            {
-//                                if ($scope.dataBOM[i].item[j].component[k].delivery.length > 0)
-//                                {
-//                                    tempn.push($scope.dataBOM[i].item[j].component[k].delivery);
-//                                }
-//                            }
-//                        }
-//                        temp[i].delivery = tempn[0];
-//                        $scope.planningArr.push(temp[i]);
-//                    }
-//                    console.log(JSON.stringify($scope.planningArr));
+                    $scope.planningArr = [];
+                    for (var i = 0; i < $scope.totalBOM; i++)
+                    {
+                        var temp = {};
+                        temp[i] = {};
+                        temp[i].id = $scope.dataBOM[i].id;
+                        temp[i].component = [];
+                        var tempCom = [];
+                        var tempCom2 = [];
+                        for (var j = 0; j < $scope.dataBOM[i].item.length; j++)
+                        {
+                            tempCom.push($scope.dataBOM[i].item[j].component);
+                        }
+                        for (var k = 0; k < tempCom.length; k++)
+                        {
+                            for (var n = 0; n < tempCom[k].length; n++)
+                            {
+                                tempCom2.push(tempCom[k][n]);
+                            }
+                        }
+                        for (var p = 0; p < tempCom2.length; p++)
+                        {
+                            temp[i].component.push(tempCom2[p]);
+                        }
+                        $scope.planningArr.push(temp[i]);
+                    }
+                    $scope.tempPlanningArr = [];
+                    for (var a = 0; a < $scope.planningArr.length; a++)
+                    {
+                        for (var b = 0; b < $scope.planningArr[a].component.length; b++)
+                        {
+                            for (var c = 0; c < $scope.planningArr[a].component[b].delivery.length; c++)
+                            {
+                                $scope.tempPlanningArr.push({'bomid': $scope.planningArr[a].id, 'weight': $scope.planningArr[a].component[b].weight.value, 'deliveryid': $scope.planningArr[a].component[b].delivery[c].id, 'deliverydate': $scope.planningArr[a].component[b].delivery[c].delivery, 'quantity': $scope.planningArr[a].component[b].delivery[c].quantity.value});
+//                                console.log(JSON.stringify($scope.planningArr[a].component[b].delivery[c]));
+                            }
+                        }
+                    }
+                    $scope.tempPlanningArrCopy = $scope.tempPlanningArr;
+                    $scope.bomPlanningArr = [];
+                    $scope.tempbomPlanningArr = [];
+                    for (var d = 0; d < $scope.tempPlanningArr.length; d++)
+                    {
+                        if ($scope.tempbomPlanningArr.indexOf($scope.tempPlanningArr[d].bomid) < 0)
+                        {
+                            $scope.tempbomPlanningArr.push($scope.tempPlanningArr[d].bomid);
+                            var tempBOM = {};
+                            tempBOM[d] = {}
+                            tempBOM[d].id = $scope.tempPlanningArr[d].bomid;
+                            $scope.bomPlanningArr.push(tempBOM[d]);
+                        }
+                    }
+                    for (var e = 0; e < $scope.bomPlanningArr.length; e++)
+                    {
+                        $scope.bomPlanningArr[e].delivery = [];
+                        for (var f = 0; f < $scope.tempPlanningArr.length; f++)
+                        {
+                            if ($scope.bomPlanningArr[e].id == $scope.tempPlanningArr[f].bomid)
+                            {
+                                $scope.bomPlanningArr[e].delivery.push({'deliveryid': $scope.tempPlanningArr[f].deliveryid, 'date': $scope.tempPlanningArr[f].deliverydate, 'totalweight': ($scope.tempPlanningArr[f].weight * $scope.tempPlanningArr[f].quantity)});
+                            }
+                        }
+                    }
+//                    console.log(JSON.stringify($scope.bomPlanningArr));
+                    $scope.bomDatesArr = [];
+                    for (var g = 0; g < $scope.bomPlanningArr.length; g++)
+                    {
+                        var tempBomDelDates = {};
+                        tempBomDelDates[g] = {};
+                        tempBomDelDates[g].id = $scope.bomPlanningArr[g].id;
+                        tempBomDelDates[g].components = [];
+                        for (var h = 0; h < $scope.bomPlanningArr[g].delivery.length; h++)
+                        {
+                            var tempDateArr = [];
+                            var tempDeliveryId = '';
+                            var tempDeliveryDate = $scope.bomPlanningArr[g].delivery[h].date;
+                            var tempTotalweight = 0;
+                            tempDateArr = $scope.getObjects($scope.bomPlanningArr[g].delivery, 'date', $scope.bomPlanningArr[g].delivery[h].date);
+                            if (tempDateArr.length > 0)
+                            {
+                                for (var i = 0; i < tempDateArr.length; i++)
+                                {
+                                    if (tempDeliveryId == '')
+                                    {
+                                        tempDeliveryId = tempDateArr[i].deliveryid;
+                                    }
+                                    else
+                                    {
+                                        tempDeliveryId = tempDeliveryId + ',' + tempDateArr[i].deliveryid;
+                                    }
+                                    if (tempTotalweight == 0)
+                                    {
+                                        tempTotalweight = tempDateArr[i].totalweight;
+                                    }
+                                    else
+                                    {
+                                        tempTotalweight = tempTotalweight + tempDateArr[i].totalweight;
+                                    }
+
+                                }
+                            }
+//                            console.log(JSON.stringify(tempDateArr));
+//                            console.log(JSON.stringify(tempDeliveryId));
+//                            console.log(JSON.stringify(tempTotalweight));
+//                            tempBomDelDates[g].components[h] = [];
+                            if ($scope.getObjects(tempBomDelDates[g].components, 'deliverydate', tempDeliveryDate).length < 1)
+                            {
+                                tempBomDelDates[g].components.push({'deliveryid': tempDeliveryId, 'deliverydate': tempDeliveryDate, 'deliveryweight': tempTotalweight});
+                            }
+
+                        }
+                        $scope.bomDatesArr.push(tempBomDelDates[g]);
+                    }
+                    console.log(JSON.stringify($scope.bomDatesArr));
                     $scope.makeCalender($scope.checkMonth(tempUnixTS), $scope.checkYear(tempUnixTS));
-//                    console.log(JSON.stringify($scope.days));
+                    //                    console.log(JSON.stringify($scope.days));
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');
                 });
@@ -236,7 +368,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             }).then(function(modal) {
                 $scope.changePartModal = modal;
 //                $scope.loading = false;
-//                $scope.changePartModal.show();
+                //                $scope.changePartModal.show();
             });
             $scope.changePartModalHide = function() {
                 $scope.changePartModal.hide();
@@ -251,7 +383,6 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
 
                 Restangular.one('shipping/planning', bomId).one('item', itemId).one('component', partId).get().then(function(response) {
                     $scope.changePartModalShow();
-
                     var data = response.data;
                     $scope.partData.version = data.version;
                     $scope.partData.code = data.material.code;
@@ -305,19 +436,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                 $scope.changePartModal.hide();
                 $scope.changeDate.show();
             };
-            $scope.getObjects = function(obj, key, val) {
-                var objects = [];
-                for (var i in obj) {
-                    if (!obj.hasOwnProperty(i))
-                        continue;
-                    if (typeof obj[i] == 'object') {
-                        objects = objects.concat($scope.getObjects(obj[i], key, val));
-                    } else if (i == key && obj[key] == val) {
-                        objects.push(obj);
-                    }
-                }
-                return objects;
-            };
+
             $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/divide.html', {
                 scope: $scope,
                 animation: 'fade-in'
@@ -353,7 +472,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
 //                        console.log(JSON.stringify(part));
 //                        tempParts.push(part[0]);
 //                        chnDateTotalQuantity = chnDateTotalQuantity + parseInt(part[0].quantity.value);
-//                        pesoTotal = pesoTotal + (parseInt(part[0].quantity.value) * parseInt(part[0].weight.value));
+                    //                        pesoTotal = pesoTotal + (parseInt(part[0].quantity.value) * parseInt(part[0].weight.value));
 //                    }
 
                     part = $scope.getObjects(tempVar[0].component, 'id', $scope.itemPartIdArr[0]);
@@ -369,7 +488,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                     $scope.divideData.chnDateItem.item = tempVar[0].item;
                     $scope.divideData.chnDateItem.description = tempVar[0].description;
                     $scope.divideData.chnDateParts = part;
-//                    console.log(JSON.stringify($scope.divideData.chnDateParts));
+                    //                    console.log(JSON.stringify($scope.divideData.chnDateParts));
                     $scope.divideDateModalShow();
                 }
                 else {
@@ -384,7 +503,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
 
                 }
             };
-//            $scope.addDate();
+            //            $scope.addDate();
             $scope.submitDivideComponent = function(isValid) {
                 if (isValid) {
                     $scope.divideDateModal.hide();
@@ -510,7 +629,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                 if ($scope.itemPartDeliveryArr.length > 1)
                 {
                     var tempVar = $scope.getObjects($scope.bomData.items, 'id', $scope.itemId);
-//                    console.log(JSON.stringify(tempVar));
+                    //                    console.log(JSON.stringify(tempVar));
                     $scope.joinData.chnDateParts = [];
                     var part;
                     var delivery;
@@ -570,7 +689,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                             .one('component', $scope.joinData.chnDateParts[0].id)
                             .all('delivery').post($scope.postdata).then(function(response) {
                         $scope.loading = false;
-//                        services.showAlert('Sucess', 'Component joined sucessfully');
+                        //                        services.showAlert('Sucess', 'Component joined sucessfully');
                         var i;
                         for (i = 0; i < $scope.joinData.chnDateParts.length; i++)
                         {
@@ -659,78 +778,116 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                     });
                 }
             };
-
             $scope.change = function() {
                 $scope.divideData.quantity2 = parseInt($scope.divideData.chnDateTotalQuantity) - parseInt($scope.divideData.quantity1);
             }
         });
-function randomNumbers(total)
-{
-    var arr = []
-    while (arr.length < total) {
-        var randomnumber = Math.ceil(Math.random() * 1000)
-        var found = false;
-        for (var i = 0; i < arr.length; i++) {
-            if (arr[i] == randomnumber) {
-                found = true;
-                break
+        function randomNumbers(total) {
+            var arr = []
+            while (arr.length < total) {
+                var randomnumber = Math.ceil(Math.random() * 1000)
+                var found = false;
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i] == randomnumber) {
+                        found = true;
+                        break
+                    }
+                }
+                if (!found)
+                    arr[arr.length] = randomnumber;
             }
+            return arr;
         }
-        if (!found)
-            arr[arr.length] = randomnumber;
-    }
-    return arr;
-}
-function changeDateDataTab(newDate, bom)
-{
-    $('#' + bom + ' td:last').html(moment(newDate, "D_M_YYYY").format('D/M/YYYY'));
-}
-function unique_arr(array) {
-    return array.filter(function(el, index, arr) {
-        return index == arr.indexOf(el);
-    });
-}
-function array_unique(inputArr) {
-    //  discuss at: http://phpjs.org/functions/array_unique/
-    // original by: Carlos R. L. Rodrigues (http://www.jsfromhell.com)
-    //    input by: duncan
-    //    input by: Brett Zamir (http://brett-zamir.me)
-    // bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-    // bugfixed by: Nate
-    // bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-    // bugfixed by: Brett Zamir (http://brett-zamir.me)
-    // improved by: Michael Grier
-    //        note: The second argument, sort_flags is not implemented;
-    //        note: also should be sorted (asort?) first according to docs
-    //   example 1: array_unique(['Kevin','Kevin','van','Zonneveld','Kevin']);
-    //   returns 1: {0: 'Kevin', 2: 'van', 3: 'Zonneveld'}
-    //   example 2: array_unique({'a': 'green', 0: 'red', 'b': 'green', 1: 'blue', 2: 'red'});
-    //   returns 2: {a: 'green', 0: 'red', 1: 'blue'}
+        function changeDateDataTab(newDate, bom)
+        {
+            $('#' + bom + ' td:last').html(moment(newDate, "D_M_YYYY").format('D/M/YYYY'));
+        }
+        function unique_arr(array) {
+            return array.filter(function(el, index, arr) {
+                return index == arr.indexOf(el);
+            });
+        }
+        function array_unique(inputArr) {
+            //  discuss at: http://phpjs.org/functions/array_unique/
+            // original by: Carlos R. L. Rodrigues (http://www.jsfromhell.com)
+            //    input by: duncan
+            //    input by: Brett Zamir (http://brett-zamir.me)
+            // bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+            // bugfixed by: Nate
+            // bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+            // bugfixed by: Brett Zamir (http://brett-zamir.me)
+            // improved by: Michael Grier
+            //        note: The second argument, sort_flags is not implemented;
+            //        note: also should be sorted (asort?) first according to docs
+            //   example 1: array_unique(['Kevin','Kevin','van','Zonneveld','Kevin']);
+            //   returns 1: {0: 'Kevin', 2: 'van', 3: 'Zonneveld'}
+            //   example 2: array_unique({'a': 'green', 0: 'red', 'b': 'green', 1: 'blue', 2: 'red'});
+            //   returns 2: {a: 'green', 0: 'red', 1: 'blue'}
 
-    var key = '',
-            tmp_arr2 = {},
-            val = '';
+            var key = '',
+                    tmp_arr2 = {},
+                    val = '';
 
-    var __array_search = function(needle, haystack) {
-        var fkey = '';
-        for (fkey in haystack) {
-            if (haystack.hasOwnProperty(fkey)) {
-                if ((haystack[fkey] + '') === (needle + '')) {
-                    return fkey;
+            var __array_search = function(needle, haystack) {
+                var fkey = '';
+                for (fkey in haystack) {
+                    if (haystack.hasOwnProperty(fkey)) {
+                        if ((haystack[fkey] + '') === (needle + '')) {
+                            return fkey;
+                        }
+                    }
+                }
+                return false;
+            };
+
+            for (key in inputArr) {
+                if (inputArr.hasOwnProperty(key)) {
+                    val = inputArr[key];
+                    if (false === __array_search(val, tmp_arr2)) {
+                        tmp_arr2[key] = val;
+                    }
                 }
             }
-        }
-        return false;
-    };
 
-    for (key in inputArr) {
-        if (inputArr.hasOwnProperty(key)) {
-            val = inputArr[key];
-            if (false === __array_search(val, tmp_arr2)) {
-                tmp_arr2[key] = val;
+            return tmp_arr2;
+        }
+        function in_array(needle, haystack, argStrict) {
+            //  discuss at: http://phpjs.org/functions/in_array/
+            // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+            // improved by: vlado houba
+            // improved by: Jonas Sciangula Street (Joni2Back)
+            //    input by: Billy
+            // bugfixed by: Brett Zamir (http://brett-zamir.me)
+            //   example 1: in_array('van', ['Kevin', 'van', 'Zonneveld']);
+            //   returns 1: true
+            //   example 2: in_array('vlado', {0: 'Kevin', vlado: 'van', 1: 'Zonneveld'});
+            //   returns 2: false
+            //   example 3: in_array(1, ['1', '2', '3']);
+            //   example 3: in_array(1, ['1', '2', '3'], false);
+            //   returns 3: true
+            //   returns 3: true
+            //   example 4: in_array(1, ['1', '2', '3'], true);
+            //   returns 4: false
+
+            var key = '',
+                    strict = !!argStrict;
+
+            //we prevent the double check (strict && arr[key] === ndl) || (!strict && arr[key] == ndl)
+            //in just one for, in order to improve the performance
+            //deciding wich type of comparation will do before walk array
+            if (strict) {
+                for (key in haystack) {
+                    if (haystack[key] === needle) {
+                        return true;
+                    }
+                }
+            } else {
+                for (key in haystack) {
+                    if (haystack[key] == needle) {
+                        return true;
+                    }
+                }
             }
-        }
-    }
 
-    return tmp_arr2;
-}
+            return false;
+        }
