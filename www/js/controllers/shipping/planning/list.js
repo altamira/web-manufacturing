@@ -91,6 +91,10 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
 
                 return moment(date, "D_M_YYYY").format('dddd');
             }
+            $scope.getWeekDayShort = function(date) {
+//                moment().locale('pt-br');
+                return moment(date, "D_M_YYYY").locale('pt-br').format('ddd');
+            }
             $scope.getDay = function(date) {
                 return parseInt(moment(date, "D_M_YYYY").format('D'));
             }
@@ -755,6 +759,17 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                         });
                     });
                 }
+            };
+            $scope.viewWeekly = false;
+            $scope.weeklyView = function() {
+                $scope.viewWeekly = true;
+                $('#weeklyShowBtn').addClass('month');
+                $('#monthlyShowBtn').removeClass('month');
+            };
+            $scope.monthlyView = function() {
+                $scope.viewWeekly = false;
+                $('#weeklyShowBtn').removeClass('month');
+                $('#monthlyShowBtn').addClass('month');
             };
             $scope.viewGrid = false;
             $scope.gridView = function() {

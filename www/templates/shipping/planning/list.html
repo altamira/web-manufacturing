@@ -10,8 +10,8 @@
             <button class="button fa-bars"></button>
             <span class="btn-separator"></span>
             <button class="button fa-check" ng-click="submitted=true" ></button>
-            <button type="button" class="button fa-remove-header" ng-click="removeBom()"></button>
-            <button type="button" class="button fa-print-header" ng-click="removeBom()"></button>
+            <button type="button" class="button fa-remove-header"></button>
+            <button type="button" class="button fa-print-header"></button>
             <button type="button" class="button fa-link-header" ng-click="joinDate()" ng-show="viewGrid"></button>
             <button type="button" class="button fa-unlink-header" ng-click="divideDate()" ng-show="viewGrid"></button>
         </div>
@@ -20,8 +20,8 @@
         <div class="row bar-calm-top">
             <div class="col col-50">
                 <div class="button-bar bar-calm">
-                    <a class="button" ng-class="{month: semanal}">Semanal</a>
-                    <a class="button" >Mensal</a>
+                    <a class="button month" ng-click='monthlyView()' id="monthlyShowBtn" style="border-radius: 5px 0 0 5px;">Mensal</a>
+                    <a class="button" ng-click='weeklyView()' id="weeklyShowBtn">Semanal</a>
                 </div>
             </div>
             <div class="col col-50">
@@ -66,7 +66,8 @@
                             <th class="monthTitle" colspan="{{month.days.length}}" ng-repeat="month in monthDays">{{month.name}}</th>
                         </tr>
                         <tr>
-                            <th ng-repeat="day in days track by $index">{{getDay(day)}}</th>
+                            <th ng-repeat="day in days track by $index" ng-if='viewWeekly == false'>{{getDay(day)}}</th>
+                            <th ng-repeat="day in days track by $index" ng-if='viewWeekly == true'>{{getWeekDayShort(day)}}</th>
                         </tr>
                         <tr ng-repeat="BOM in finalArr" class="{{BOM.id}}" ng-if="checkYear(BOM.delivery) <= maxYear">
                             <td ng-repeat="day in days track by $index" id="{{BOM.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components != ''">
