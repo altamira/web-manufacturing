@@ -378,8 +378,21 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                         return $(this).closest("tr").is(item.closest("tr")) && $(this).find("*").length == 0;
                     },
                     drop: function(event, ui) {
-//                        scope.getData(ui.draggable.attr('id'), $(this).data('day'), $(this).attr('id'));
-                        scope.getData($(this).data('day'), $(this).attr('id'));
+                        scope.resetViewDeliveryId();
+                        if (isNumber(ui.draggable.data('viewdeliveryid')))
+                        {
+                            scope.viewDeliveryId.push(ui.draggable.data('viewdeliveryid'));
+                            scope.getData($(this).data('day'), $(this).attr('id'));
+                        }
+                        else
+                        {
+                            var tempViewDeliveryId = ui.draggable.data('viewdeliveryid').split(',');
+                            for (var z = 0; z < tempViewDeliveryId.length; z++)
+                            {
+                                scope.viewDeliveryId.push(parseInt(tempViewDeliveryId[z]));
+                            }
+                            scope.getData($(this).data('day'), $(this).attr('id'));
+                        }
                         var $this = $(this);
                         $this.append(ui.draggable.css({
                             top: 0,
@@ -473,8 +486,8 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                         scope.changeDeliveryDate($(this).parent().attr('id'));
                     }
                     console.log(JSON.stringify(scope.viewDeliveryId));
-
                 });
+                totalWeightCal();
             };
 
             setTimeout(function() {
@@ -528,6 +541,23 @@ altamiraApp.directive('selectBom', function(services) {
 
     }
 });
+function totalWeightCal() {
+    $('.totalWeightRow td').each(function(e) {
+        var $th = $(this);
+        var tempTotalWeight = 0;
+        $('.' + $th.data('date')).each(function(f) {
+            if ($(this).children().data('weight') != undefined && $(this).children().data('weight') != '')
+            {
+                tempTotalWeight += parseInt($(this).children().data('weight'));
+            }
+        });
+        if (tempTotalWeight != 0)
+        {
+            $th.addClass('totalWeightShow');
+            $th.html(tempTotalWeight);
+        }
+    });
+}
 function isNumber(o) {
     return !isNaN(o - 0) && o !== null && o !== "" && o !== false;
 }

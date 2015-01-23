@@ -49,12 +49,12 @@
                             <th>Data Pedido</th>
                             <th>Data Entrega</th>
                         </tr>
-                        <tr ng-repeat="bom in dataBOM" id="{{bom.id}}" ng-click="getShippingDetail({{bom.id}})" style="cursor: pointer" ng-if="checkYear(bom.delivery) <= maxYear">
-                            <td>{{bom.id}}</td>
-                            <td>{{bom.number}}</td>
-                            <td>{{bom.customer}}</td>
-                            <td>{{getFullDate(bom.created)}}</td>
-                            <td>{{getFullDate(bom.delivery)}}</td>
+                        <tr ng-repeat="BOM in finalArr" id="{{BOM.id}}" ng-click="getShippingDetail({{BOM.id}})" style="cursor: pointer" ng-if="checkYear(BOM.delivery) <= maxYear">
+                            <td>{{BOM.id}}</td>
+                            <td>{{BOM.number}}</td>
+                            <td>{{BOM.customer}}</td>
+                            <td>{{getFullDate(BOM.created)}}</td>
+                            <td>{{getFullDate(BOM.delivery)}}</td>
                         </tr>
                     </table>
                 </div>
@@ -68,11 +68,19 @@
                         <tr>
                             <th ng-repeat="day in days track by $index">{{getDay(day)}}</th>
                         </tr>
-                        <tr ng-repeat="BOM in bomDatesArr" class="{{BOM.id}}">
-                            <td ng-repeat="day in days track by $index" id="{{BOM.id}}" data-day='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'">
-                                <div class="dragDiv red" ng-repeat="del in BOM.components" id="{{day}}" data-viewdeliveryid="{{del.deliveryid}}" ng-if="(checkDay(del.deliverydate) == getDay(day)) && (checkMonth(del.deliverydate) == getMonth(day)) && (checkYear(del.deliverydate) == getYear(day))">
+                        <tr ng-repeat="BOM in finalArr" class="{{BOM.id}}" ng-if="checkYear(BOM.delivery) <= maxYear">
+                            <td ng-repeat="day in days track by $index" id="{{BOM.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components != ''">
+                                <div class="dragDiv red" ng-repeat="del in BOM.components" id="{{day}}" data-viewdeliveryid="{{del.deliveryid}}" ng-if="(checkDay(del.deliverydate) == getDay(day)) && (checkMonth(del.deliverydate) == getMonth(day)) && (checkYear(del.deliverydate) == getYear(day))" data-weight='{{del.deliveryweight}}'>
                                     {{del.deliveryweight}}
                                 </div>
+                            </td>
+                            <td ng-repeat="day in days track by $index" id="{{BOM.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components == ''" style="width: 25px;height: 25px;">
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr class="totalWeightRow">
+                            <td ng-repeat="day in days track by $index" data-date='{{day}}'>
+                                &nbsp;
                             </td>
                         </tr>
                     </table>

@@ -2308,8 +2308,8 @@
 }
 .mainTable tr th, .mainTable tr td {
     border: 1px solid black;
-    min-height: 26px;
-    min-width: 26px;
+    min-height: 30px;
+    min-width: 30px;
 }
 .mainTable tr th {
     background-color: #cccccc;
@@ -2332,15 +2332,29 @@
     background-color: #cccccc !important;
 }
 .dragDiv {
-    background-color: #E53B3B;
-    font-size: 8px;
-    height: 25px;
+    background-color: #93c47d;
+    color: #fff;
+    cursor: move;
+    font-size: 12px;
+    font-weight: bold;
+    height: 29px;
     margin: auto;
     position: relative;
     text-align: center;
     vertical-align: middle;
-    width: 25px;
+    width: 29px;
+}
+.totalWeightShow {
+    background-color: #cc0000;
+    color: #fff;
     cursor: move;
+    font-size: 12px;
+    font-weight: bold;
+    height: 29px;
+    margin: auto;
+    position: inherit;
+    text-align: center !important;
+    vertical-align: middle;
 }
 .dataTable tr th {
     background-color: #cccccc;
@@ -2352,7 +2366,7 @@
     }*/
 .dataTable tr td {
     text-align: left;
-    height: 26px;
+    height: 29px;
     border: 1px solid black;
     min-width: 130px;
 }
@@ -2409,6 +2423,6 @@
     background-color: #ffffff;
 }
 .componet-form-text {
-     font-size: 18px;
-     font-weight: bold;
+    font-size: 18px;
+    font-weight: bold;
 }

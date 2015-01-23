@@ -280,17 +280,45 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                         }
                         $scope.bomDatesArr.push(tempBomDelDates[g]);
                     }
-                    console.log(JSON.stringify($scope.bomDatesArr));
+                    $scope.finalArr = [];
+                    for (var k = 0; k < $scope.dataBOM.length; k++)
+                    {
+                        var tempFinalArr = {};
+                        tempFinalArr[k] = {};
+                        tempFinalArr[k].id = $scope.dataBOM[k].id;
+                        tempFinalArr[k].type = $scope.dataBOM[k].type;
+                        tempFinalArr[k].number = $scope.dataBOM[k].number;
+                        tempFinalArr[k].customer = $scope.dataBOM[k].customer;
+                        tempFinalArr[k].representative = $scope.dataBOM[k].representative;
+                        tempFinalArr[k].created = $scope.dataBOM[k].created;
+                        tempFinalArr[k].delivery = $scope.dataBOM[k].delivery;
+                        tempFinalArr[k].quotation = $scope.dataBOM[k].quotation;
+                        tempFinalArr[k].comment = $scope.dataBOM[k].comment;
+                        tempFinalArr[k].finish = $scope.dataBOM[k].finish;
+                        tempFinalArr[k].project = $scope.dataBOM[k].project;
+                        tempFinalArr[k].checked = $scope.dataBOM[k].checked;
+                        tempFinalArr[k].components = [];
+                        for (var l = 0; l < $scope.bomDatesArr.length; l++)
+                        {
+                            if ($scope.dataBOM[k].id == $scope.bomDatesArr[l]['id'])
+                            {
+                                tempFinalArr[k].components = $scope.bomDatesArr[l].components;
+                            }
+                        }
+
+                        $scope.finalArr.push(tempFinalArr[k]);
+                    }
                     $scope.makeCalender($scope.checkMonth(tempUnixTS), $scope.checkYear(tempUnixTS));
-                    //                    console.log(JSON.stringify($scope.days));
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');
                 });
             };
             $scope.loadGrid();
             $scope.getData = function(newDate, bom) {
+                console.log(JSON.stringify($scope.viewDeliveryId));
                 services.showAlert('Success', 'BOM ' + bom + ' delivery date changed to ' + moment(newDate, "D_M_YYYY").format('D/M/YYYY')).then(function(res) {
-                    changeDateDataTab(newDate, bom);
+//                    changeDateDataTab(newDate, bom);
+                    totalWeightCal();
                 });
             }
             $scope.goBack = function() {
@@ -782,112 +810,112 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                 $scope.divideData.quantity2 = parseInt($scope.divideData.chnDateTotalQuantity) - parseInt($scope.divideData.quantity1);
             }
         });
-        function randomNumbers(total) {
-            var arr = []
-            while (arr.length < total) {
-                var randomnumber = Math.ceil(Math.random() * 1000)
-                var found = false;
-                for (var i = 0; i < arr.length; i++) {
-                    if (arr[i] == randomnumber) {
-                        found = true;
-                        break
-                    }
-                }
-                if (!found)
-                    arr[arr.length] = randomnumber;
+function randomNumbers(total) {
+    var arr = []
+    while (arr.length < total) {
+        var randomnumber = Math.ceil(Math.random() * 1000)
+        var found = false;
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i] == randomnumber) {
+                found = true;
+                break
             }
-            return arr;
         }
-        function changeDateDataTab(newDate, bom)
-        {
-            $('#' + bom + ' td:last').html(moment(newDate, "D_M_YYYY").format('D/M/YYYY'));
-        }
-        function unique_arr(array) {
-            return array.filter(function(el, index, arr) {
-                return index == arr.indexOf(el);
-            });
-        }
-        function array_unique(inputArr) {
-            //  discuss at: http://phpjs.org/functions/array_unique/
-            // original by: Carlos R. L. Rodrigues (http://www.jsfromhell.com)
-            //    input by: duncan
-            //    input by: Brett Zamir (http://brett-zamir.me)
-            // bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-            // bugfixed by: Nate
-            // bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-            // bugfixed by: Brett Zamir (http://brett-zamir.me)
-            // improved by: Michael Grier
-            //        note: The second argument, sort_flags is not implemented;
-            //        note: also should be sorted (asort?) first according to docs
-            //   example 1: array_unique(['Kevin','Kevin','van','Zonneveld','Kevin']);
-            //   returns 1: {0: 'Kevin', 2: 'van', 3: 'Zonneveld'}
-            //   example 2: array_unique({'a': 'green', 0: 'red', 'b': 'green', 1: 'blue', 2: 'red'});
-            //   returns 2: {a: 'green', 0: 'red', 1: 'blue'}
+        if (!found)
+            arr[arr.length] = randomnumber;
+    }
+    return arr;
+}
+function changeDateDataTab(newDate, bom)
+{
+    $('#' + bom + ' td:last').html(moment(newDate, "D_M_YYYY").format('D/M/YYYY'));
+}
+function unique_arr(array) {
+    return array.filter(function(el, index, arr) {
+        return index == arr.indexOf(el);
+    });
+}
+function array_unique(inputArr) {
+    //  discuss at: http://phpjs.org/functions/array_unique/
+    // original by: Carlos R. L. Rodrigues (http://www.jsfromhell.com)
+    //    input by: duncan
+    //    input by: Brett Zamir (http://brett-zamir.me)
+    // bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+    // bugfixed by: Nate
+    // bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+    // bugfixed by: Brett Zamir (http://brett-zamir.me)
+    // improved by: Michael Grier
+    //        note: The second argument, sort_flags is not implemented;
+    //        note: also should be sorted (asort?) first according to docs
+    //   example 1: array_unique(['Kevin','Kevin','van','Zonneveld','Kevin']);
+    //   returns 1: {0: 'Kevin', 2: 'van', 3: 'Zonneveld'}
+    //   example 2: array_unique({'a': 'green', 0: 'red', 'b': 'green', 1: 'blue', 2: 'red'});
+    //   returns 2: {a: 'green', 0: 'red', 1: 'blue'}
 
-            var key = '',
-                    tmp_arr2 = {},
-                    val = '';
+    var key = '',
+            tmp_arr2 = {},
+            val = '';
 
-            var __array_search = function(needle, haystack) {
-                var fkey = '';
-                for (fkey in haystack) {
-                    if (haystack.hasOwnProperty(fkey)) {
-                        if ((haystack[fkey] + '') === (needle + '')) {
-                            return fkey;
-                        }
-                    }
-                }
-                return false;
-            };
-
-            for (key in inputArr) {
-                if (inputArr.hasOwnProperty(key)) {
-                    val = inputArr[key];
-                    if (false === __array_search(val, tmp_arr2)) {
-                        tmp_arr2[key] = val;
-                    }
+    var __array_search = function(needle, haystack) {
+        var fkey = '';
+        for (fkey in haystack) {
+            if (haystack.hasOwnProperty(fkey)) {
+                if ((haystack[fkey] + '') === (needle + '')) {
+                    return fkey;
                 }
             }
-
-            return tmp_arr2;
         }
-        function in_array(needle, haystack, argStrict) {
-            //  discuss at: http://phpjs.org/functions/in_array/
-            // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-            // improved by: vlado houba
-            // improved by: Jonas Sciangula Street (Joni2Back)
-            //    input by: Billy
-            // bugfixed by: Brett Zamir (http://brett-zamir.me)
-            //   example 1: in_array('van', ['Kevin', 'van', 'Zonneveld']);
-            //   returns 1: true
-            //   example 2: in_array('vlado', {0: 'Kevin', vlado: 'van', 1: 'Zonneveld'});
-            //   returns 2: false
-            //   example 3: in_array(1, ['1', '2', '3']);
-            //   example 3: in_array(1, ['1', '2', '3'], false);
-            //   returns 3: true
-            //   returns 3: true
-            //   example 4: in_array(1, ['1', '2', '3'], true);
-            //   returns 4: false
+        return false;
+    };
 
-            var key = '',
-                    strict = !!argStrict;
-
-            //we prevent the double check (strict && arr[key] === ndl) || (!strict && arr[key] == ndl)
-            //in just one for, in order to improve the performance
-            //deciding wich type of comparation will do before walk array
-            if (strict) {
-                for (key in haystack) {
-                    if (haystack[key] === needle) {
-                        return true;
-                    }
-                }
-            } else {
-                for (key in haystack) {
-                    if (haystack[key] == needle) {
-                        return true;
-                    }
-                }
+    for (key in inputArr) {
+        if (inputArr.hasOwnProperty(key)) {
+            val = inputArr[key];
+            if (false === __array_search(val, tmp_arr2)) {
+                tmp_arr2[key] = val;
             }
-
-            return false;
         }
+    }
+
+    return tmp_arr2;
+}
+function in_array(needle, haystack, argStrict) {
+    //  discuss at: http://phpjs.org/functions/in_array/
+    // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+    // improved by: vlado houba
+    // improved by: Jonas Sciangula Street (Joni2Back)
+    //    input by: Billy
+    // bugfixed by: Brett Zamir (http://brett-zamir.me)
+    //   example 1: in_array('van', ['Kevin', 'van', 'Zonneveld']);
+    //   returns 1: true
+    //   example 2: in_array('vlado', {0: 'Kevin', vlado: 'van', 1: 'Zonneveld'});
+    //   returns 2: false
+    //   example 3: in_array(1, ['1', '2', '3']);
+    //   example 3: in_array(1, ['1', '2', '3'], false);
+    //   returns 3: true
+    //   returns 3: true
+    //   example 4: in_array(1, ['1', '2', '3'], true);
+    //   returns 4: false
+
+    var key = '',
+            strict = !!argStrict;
+
+    //we prevent the double check (strict && arr[key] === ndl) || (!strict && arr[key] == ndl)
+    //in just one for, in order to improve the performance
+    //deciding wich type of comparation will do before walk array
+    if (strict) {
+        for (key in haystack) {
+            if (haystack[key] === needle) {
+                return true;
+            }
+        }
+    } else {
+        for (key in haystack) {
+            if (haystack[key] == needle) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
