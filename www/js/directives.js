@@ -469,7 +469,7 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                         });
                     }
                 });
-                $('.red').on('dblclick', function(e) {
+                $('.dragDiv').on('dblclick', function(e) {
                     scope.resetViewDeliveryId();
                     if (isNumber($(this).data('viewdeliveryid')))
                     {
@@ -485,9 +485,42 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                         }
                         scope.changeDeliveryDate($(this).parent().attr('id'));
                     }
-                    console.log(JSON.stringify(scope.viewDeliveryId));
                 });
                 totalWeightCal();
+                makeDummyRow();
+
+//                var i = 0;
+                var dragging = false;
+                $('#dragbar').mousedown(function(e) {
+                    e.preventDefault();
+
+                    dragging = true;
+                    var main = $('.planning-detail');
+                    var ghostbar = $('<div>',
+                            {id: 'ghostbar',
+                                css: {
+                                    height: main.outerHeight(),
+                                    top: main.offset().top,
+                                    left: main.offset().left
+                                }
+                            }).appendTo('body');
+
+                    $(document).mousemove(function(e) {
+                        ghostbar.css("left", e.pageX + 2);
+                    });
+                });
+
+                $(document).mouseup(function(e) {
+                    if (dragging)
+                    {
+                        $('#sidebar').css("width", e.pageX + 2);
+                        $('.planning-detail').css("left", e.pageX + 2);
+                        $('.planning-detail').css("width", ($('.main-row').width() - e.pageX + 7));
+                        $('#ghostbar').remove();
+                        $(document).unbind('mousemove');
+                        dragging = false;
+                    }
+                });
             };
 
             setTimeout(function() {
@@ -551,30 +584,47 @@ function totalWeightCal() {
                 tempTotalWeight += parseInt($(this).children().data('weight'));
             }
         });
-        if (tempTotalWeight != 0)
+        if (tempTotalWeight != 0 && (tempTotalWeight / 1000 < 60))
         {
             $th.addClass('totalWeightShow');
+            $th.addClass('green');
             $th.html(tempTotalWeight);
+        } else if (tempTotalWeight != 0 && (tempTotalWeight / 1000 > 60))
+        {
+            $th.addClass('totalWeightShow');
+            $th.addClass('red');
+            $th.html(tempTotalWeight);
+        }
+        else
+        {
+            $th.removeClass('totalWeightShow');
+            $th.html('');
         }
     });
 }
 function isNumber(o) {
     return !isNaN(o - 0) && o !== null && o !== "" && o !== false;
 }
-//var color = '';
-//$('div').click(function() {
-//    var x = $(this).css('backgroundColor');
-//    hexc(x);
-//    alert(color);
-//})
-//
-//function hexc(colorval) {
-//    var parts = colorval.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-//    delete(parts[0]);
-//    for (var i = 1; i <= 3; ++i) {
-//        parts[i] = parseInt(parts[i]).toString(16);
-//        if (parts[i].length == 1)
-//            parts[i] = '0' + parts[i];
-//    }
-//    color = '#' + parts.join('');
-//}
+
+function totalRow() {
+    return $('.dataTable tr').length;
+}
+function makeDummyRow() {
+    var totalrow = 25;
+    var usedrow = $('.dataTable tr').length;
+    var mainTableTR = '<tr style="height: 29px;">';
+    $('.mainTable tr:nth-last-child(2) td').each(function() {
+        var strClass = $(this).attr("class");
+        if (strClass.indexOf('holiday') > -1) {
+            mainTableTR += '<td class="holiday">&nbsp;</td>';
+        } else {
+            mainTableTR += '<td>&nbsp;</td>';
+        }
+    });
+    mainTableTR += '</tr>';
+    for (usedrow; usedrow <= totalrow; usedrow++)
+    {
+        $('.dataTable tr:last').before('<tr><td></td><td></td><td></td><td></td><td></td></tr>');
+        $('.mainTable tr:last').before(mainTableTR);
+    }
+}

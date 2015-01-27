@@ -78,6 +78,17 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                 }
                 return A;
             }
+            $scope.getCellColor = function(st, weight) {
+                if (st > moment().unix() || (parseInt(weight) / 1000 > 20))
+                {
+                    return 'red';
+                } else
+                {
+                    return 'green';
+                }
+//                moment().unix()
+//                return moment.unix(st).format('D');
+            }
             $scope.checkDay = function(st) {
                 return moment.unix(st).format('D');
             }
@@ -88,7 +99,6 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                 return moment.unix(st).format('YYYY');
             }
             $scope.getWeekDay = function(date) {
-
                 return moment(date, "D_M_YYYY").format('dddd');
             }
             $scope.getWeekDayShort = function(date) {
@@ -309,7 +319,6 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                                 tempFinalArr[k].components = $scope.bomDatesArr[l].components;
                             }
                         }
-
                         $scope.finalArr.push(tempFinalArr[k]);
                     }
                     $scope.makeCalender($scope.checkMonth(tempUnixTS), $scope.checkYear(tempUnixTS));
@@ -319,7 +328,6 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             };
             $scope.loadGrid();
             $scope.getData = function(newDate, bom) {
-                console.log(JSON.stringify($scope.viewDeliveryId));
                 services.showAlert('Success', 'BOM ' + bom + ' delivery date changed to ' + moment(newDate, "D_M_YYYY").format('D/M/YYYY')).then(function(res) {
 //                    changeDateDataTab(newDate, bom);
                     totalWeightCal();
@@ -775,16 +783,16 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             $scope.gridView = function() {
                 $scope.viewGrid = true;
                 $('#grid-view').show();
-                $('#gridShowBtn').addClass('month');
+                $('#gridShowBtn').removeClass('month');
                 $('#list-view').hide();
-                $('#listShowBtn').removeClass('month');
+                $('#listShowBtn').addClass('month');
             };
             $scope.listView = function() {
                 $scope.viewGrid = false;
                 $('#list-view').show();
-                $('#listShowBtn').addClass('month');
+                $('#listShowBtn').removeClass('month');
                 $('#grid-view').hide();
-                $('#gridShowBtn').removeClass('month');
+                $('#gridShowBtn').addClass('month');
             };
             $scope.getShippingDetail = function(shippingId) {
                 $scope.activeShipping = {};
@@ -823,6 +831,9 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             };
             $scope.change = function() {
                 $scope.divideData.quantity2 = parseInt($scope.divideData.chnDateTotalQuantity) - parseInt($scope.divideData.quantity1);
+            }
+            $scope.openBOM = function(bomId) {
+                $location.path('/bom/edit/' + bomId);
             }
         });
 function randomNumbers(total) {

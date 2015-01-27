@@ -18,16 +18,16 @@
     </ion-header-bar>
     <ion-content>
         <div class="row bar-calm-top">
-            <div class="col col-50">
+            <div class="col col-50" style="display: none">
                 <div class="button-bar bar-calm">
                     <a class="button month" ng-click='monthlyView()' id="monthlyShowBtn" style="border-radius: 5px 0 0 5px;">Mensal</a>
                     <a class="button" ng-click='weeklyView()' id="weeklyShowBtn">Semanal</a>
                 </div>
             </div>
-            <div class="col col-50">
+            <div class="col col-50 col-offset-50">
                 <div class="button-bar bar-calm" style="float: right">
-                    <a class="button fa-list-alt month" ng-click="listView()" id="listShowBtn" style="border-radius: 5px 0 0 5px;"></a>
-                    <a class="button fa-th" ng-click="gridView()" id="gridShowBtn"></a>
+                    <a class="button fa-list-alt" ng-click="listView()" id="listShowBtn" style="border-radius: 5px 0 0 5px;"></a>
+                    <a class="button fa-th month" ng-click="gridView()" id="gridShowBtn"></a>
                 </div>
             </div>
         </div>
@@ -36,30 +36,38 @@
             <div class="col col-67 tableTitle" style="text-align: right;">Hoje : quarta-feira, {{today}}</div>
         </div>
         <div class="row main-row nested" >
-            <div class="col-25">
+            <div id="sidebar" style="width: 500px">
                 <div class="row scroll-div dataRow nested">
                     <table class="dataTable" ng-if='dataBOM'>
                         <tr>
                             <td class="monthTitle" colspan="5">BOM List</td>
                         </tr>
                         <tr>
-                            <th>Id</th>
+                            <th>&nbsp;</th>
                             <th>Pedido</th>
                             <th>Cliente</th>
                             <th>Data Pedido</th>
                             <th>Data Entrega</th>
                         </tr>
                         <tr ng-repeat="BOM in finalArr" id="{{BOM.id}}" ng-click="getShippingDetail({{BOM.id}})" style="cursor: pointer" ng-if="checkYear(BOM.delivery) <= maxYear">
-                            <td>{{BOM.id}}</td>
+                            <td style="text-align: center" class="fa-md-arrow-right-planning" ng-click="openBOM({{BOM.id}})"></td>
                             <td>{{BOM.number}}</td>
                             <td>{{BOM.customer}}</td>
                             <td>{{getFullDate(BOM.created)}}</td>
                             <td>{{getFullDate(BOM.delivery)}}</td>
                         </tr>
+                        <tr id="checkone">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
                     </table>
                 </div>
+                <div id="dragbar"></div>
             </div>
-            <div class="col-75" id="list-view">
+            <div id="list-view" class="planning-detail" style="width: 1340px;">
                 <div class="row scroll-div mainRow nested">
                     <table border="1" class="mainTable" sortable-func ng-if='dataBOM'>
                         <tr>
@@ -71,7 +79,7 @@
                         </tr>
                         <tr ng-repeat="BOM in finalArr" class="{{BOM.id}}" ng-if="checkYear(BOM.delivery) <= maxYear">
                             <td ng-repeat="day in days track by $index" id="{{BOM.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components != ''">
-                                <div class="dragDiv red" ng-repeat="del in BOM.components" id="{{day}}" data-viewdeliveryid="{{del.deliveryid}}" ng-if="(checkDay(del.deliverydate) == getDay(day)) && (checkMonth(del.deliverydate) == getMonth(day)) && (checkYear(del.deliverydate) == getYear(day))" data-weight='{{del.deliveryweight}}'>
+                                <div class="dragDiv" ng-repeat="del in BOM.components" id="{{day}}" data-viewdeliveryid="{{del.deliveryid}}" ng-class="getCellColor(del.deliverydate,del.deliveryweight)" ng-if="(checkDay(del.deliverydate) == getDay(day)) && (checkMonth(del.deliverydate) == getMonth(day)) && (checkYear(del.deliverydate) == getYear(day))" data-weight='{{del.deliveryweight}}'>
                                     {{del.deliveryweight}}
                                 </div>
                             </td>
@@ -87,7 +95,7 @@
                     </table>
                 </div>
             </div>
-            <div class="col-75" id="grid-view" style="display: none;">
+            <div class="planning-detail" id="grid-view" style="display: none;">
                 <div class="row monthTitle" style="background-color: #00aba9;height: 30px;margin-bottom: 15px;margin-top: 5px;"> {{activeShipping.number}} </div>
                 <div  class="shipping_data" style="height: 740px;">
                     <div class="row" ng-repeat='data in activeShipping.item'>
