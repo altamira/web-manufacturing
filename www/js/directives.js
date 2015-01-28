@@ -514,6 +514,8 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                     if (dragging)
                     {
                         $('#sidebar').css("width", e.pageX + 2);
+                        $('.dataRow').css("width", e.pageX + 2);
+                        $('.dataTable').css("width", e.pageX + 2);
                         $('.planning-detail').css("left", e.pageX + 2);
                         $('.planning-detail').css("width", ($('.main-row').width() - e.pageX + 7));
                         $('#ghostbar').remove();
@@ -584,12 +586,12 @@ function totalWeightCal() {
                 tempTotalWeight += parseInt($(this).children().data('weight'));
             }
         });
-        if (tempTotalWeight != 0 && (tempTotalWeight / 1000 < 60))
+        if (tempTotalWeight != 0 && (tempTotalWeight / 1000 < 40))
         {
             $th.addClass('totalWeightShow');
             $th.addClass('green');
             $th.html(tempTotalWeight);
-        } else if (tempTotalWeight != 0 && (tempTotalWeight / 1000 > 60))
+        } else if (tempTotalWeight != 0 && (tempTotalWeight / 1000 > 40))
         {
             $th.addClass('totalWeightShow');
             $th.addClass('red');

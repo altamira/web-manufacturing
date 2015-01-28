@@ -2362,10 +2362,11 @@
     text-align: center !important;
     vertical-align: middle;
 }
+.dataTable tr th:first-child { min-width: 40px; }
+.dataTable tr td:first-child { min-width: 40px; }
 .dataTable tr th {
     background-color: #cccccc;
-    border: 1px solid black;
-    min-width: 130px;
+    border: 1px solid #ffffff;
 }
 /*    .dataTable tr:hover {
         background-color: #95bcf2;
@@ -2373,9 +2374,10 @@
 .dataTable tr td {
     text-align: left;
     height: 29px;
-    border: 1px solid black;
-    min-width: 130px;
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #000000;
 }
+
 .even {
     background-color: #eeeeee;
 }

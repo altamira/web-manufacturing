@@ -26,8 +26,8 @@
             </div>
             <div class="col col-50 col-offset-50">
                 <div class="button-bar bar-calm" style="float: right">
-                    <a class="button fa-list-alt" ng-click="listView()" id="listShowBtn" style="border-radius: 5px 0 0 5px;"></a>
-                    <a class="button fa-th month" ng-click="gridView()" id="gridShowBtn"></a>
+                    <a class="button fa-list-alt month" ng-click="gridView()" id="listShowBtn" style="border-radius: 5px 0 0 5px;"></a>
+                    <a class="button fa-th" ng-click="listView()" id="gridShowBtn"></a>
                 </div>
             </div>
         </div>
@@ -36,21 +36,21 @@
             <div class="col col-67 tableTitle" style="text-align: right;">Hoje : quarta-feira, {{today}}</div>
         </div>
         <div class="row main-row nested" >
-            <div id="sidebar" style="width: 500px">
+            <div id="sidebar" style="width: 450px">
                 <div class="row scroll-div dataRow nested">
                     <table class="dataTable" ng-if='dataBOM'>
                         <tr>
-                            <td class="monthTitle" colspan="5">BOM List</td>
+                            <th class="monthTitle" colspan="5" style="text-align: left !important;padding-left: 10px;">Pedidos</th>
                         </tr>
                         <tr>
                             <th>&nbsp;</th>
-                            <th>Pedido</th>
-                            <th>Cliente</th>
-                            <th>Data Pedido</th>
-                            <th>Data Entrega</th>
+                            <th style="min-width: 75px">Pedido</th>
+                            <th style="min-width: 140px">Cliente</th>
+                            <th style="min-width: 100px">Data Pedido</th>
+                            <th style="min-width: 100px">Data Entrega</th>
                         </tr>
                         <tr ng-repeat="BOM in finalArr" id="{{BOM.id}}" ng-click="getShippingDetail({{BOM.id}})" style="cursor: pointer" ng-if="checkYear(BOM.delivery) <= maxYear">
-                            <td style="text-align: center" class="fa-md-arrow-right-planning" ng-click="openBOM({{BOM.id}})"></td>
+                            <td style="text-align: center;" class="fa-md-arrow-right-planning" ng-click="openBOM({{BOM.id}})"></td>
                             <td>{{BOM.number}}</td>
                             <td>{{BOM.customer}}</td>
                             <td>{{getFullDate(BOM.created)}}</td>
@@ -67,7 +67,7 @@
                 </div>
                 <div id="dragbar"></div>
             </div>
-            <div id="list-view" class="planning-detail" style="width: 1340px;">
+            <div id="list-view" class="planning-detail" style="width: 1395px;">
                 <div class="row scroll-div mainRow nested">
                     <table border="1" class="mainTable" sortable-func ng-if='dataBOM'>
                         <tr>
@@ -95,8 +95,8 @@
                     </table>
                 </div>
             </div>
-            <div class="planning-detail" id="grid-view" style="display: none;">
-                <div class="row monthTitle" style="background-color: #00aba9;height: 30px;margin-bottom: 15px;margin-top: 5px;"> {{activeShipping.number}} </div>
+            <div class="planning-detail" id="grid-view" style="display: none;width: 1395px;">
+                <div class="row monthTitle" style="background-color: #00aba9;height: 30px;margin-bottom: 15px;margin-top: 5px;width: 100%"> {{activeShipping.number}} </div>
                 <div  class="shipping_data" style="height: 740px;">
                     <div class="row" ng-repeat='data in activeShipping.item'>
                         <div id="item_repeat" style="width: 100%">
@@ -114,24 +114,23 @@
                                         <tr>
                                             <td class="edit-item-title" style="text-align: center;width: 8%;"><i class="fa-calender"></i> <span>Entrega</span></td>
                                             <td class="edit-item-title" style="text-align: center;width: 9%;"><i class="fa-list-ol"></i> <span>Quantidade</span></td>
-                                            <td class="edit-item-title" style="width: 62%"> Descricao</td>
-                                            <td class="edit-item-title" style="text-align: center;width: 6%;"><i class="fa-pencil"></i> <span>Cor</span></td>
+                                            <td class="edit-item-title" style="width: 60%"> Descricao</td>
+                                            <td class="edit-item-title" style="text-align: center;width: 8%;"><i class="fa-pencil"></i> <span>Cor</span></td>
                                             <td class="edit-item-title" style="text-align: center;width: 6%;"><i class="fa-tachometer"></i> <span>Peso</span></td>
                                             <td class="edit-item-title" style="text-align: center;width: 6%;"><i class="fa-tachometer"></i> <span>Peso</span></td>
                                             <td class="edit-item-title" style="width: 3%;">&nbsp;</td>
                                         </tr>
                                         <tr ng-repeat='dataPart in data.component'>
                                             <td colspan="7">
-                                                <table>
+                                                <table style="width: 100%">
                                                     <tr ng-repeat='component in dataPart.delivery'>
-                                                        <td class="edit-info" style="text-align: center;width: 100px;">{{ getFullDate(component.delivery) }}</td>
-                                                        <td class="edit-info" style="text-align: center;width: 130px;">{{component.quantity.value}} {{component.quantity.unit.symbol}}</td>
-                                                        <!--<td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 555px;">{{dataPart.material.description}}{{data.id}} - {{dataPart.id}} - {{dataPart.material.id}} - {{component.id}}</td>-->
-                                                        <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 830px;">{{dataPart.material.description}}</td>
-                                                        <td class="edit-text" style="width: 90px;">{{dataPart.color.code}}</td>
-                                                        <td class="edit-info" style="text-align: right;width: 90px;">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
-                                                        <td class="edit-info" style="text-align: right;width: 90px;">{{dataPart.weight.value * component.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
-                                                        <td class="edit-text" style="width: 37px;">
+                                                        <td class="edit-info" style="text-align: center;width: 8%;">{{ getFullDate(component.delivery) }}</td>
+                                                        <td class="edit-info" style="text-align: center;width: 9%;">{{component.quantity.value}} {{component.quantity.unit.symbol}}</td>
+                                                        <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 60%;">{{dataPart.material.description}}</td>
+                                                        <td class="edit-text" style="width: 8%;">{{dataPart.color.code}}</td>
+                                                        <td class="edit-info" style="text-align: right;width: 6%;">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
+                                                        <td class="edit-info" style="text-align: right;width: 6%;">{{dataPart.weight.value * component.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
+                                                        <td class="edit-text" style="width: 3%;">
                                                             <i class="icon plus-icon fa-square-o" select-bom dataitem="{{data.id}}" datapart="{{dataPart.id}}" datamaterial="{{dataPart.material.id}}" datadelivery="{{component.id}}"></i>
                                                         </td>
                                                     </tr>
