@@ -72,6 +72,7 @@ altamiraAppControllers.controller('BomListCtrl',
                             $scope.loadBOM();
                         } else
                         {
+                            $scope.pageStack = [];
                             services.showAlert('Notice', 'BOM list is empty').then(function(res) {
                             });
                         }

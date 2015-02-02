@@ -33,7 +33,7 @@
         </div>
         <div class="row planning-col">
             <div class="col col-33 tableTitle">Planejamento de Entrega</div>
-            <div class="col col-67 tableTitle" style="text-align: right;">Hoje : quarta-feira, {{today}}</div>
+            <div class="col col-67 tableTitle" style="text-align: right;">Hoje : {{today}}</div>
         </div>
         <div class="row main-row nested" >
             <div id="sidebar" style="width: 450px">
@@ -51,7 +51,7 @@
                         </tr>
                         <tr ng-repeat="BOM in finalArr" id="{{BOM.id}}" ng-click="getShippingDetail({{BOM.id}})" style="cursor: pointer" ng-if="checkYear(BOM.delivery) <= maxYear">
                             <td style="text-align: center;" class="fa-md-arrow-right-planning" ng-click="openBOM({{BOM.id}})"></td>
-                            <td>{{BOM.number}}</td>
+                            <td id="{{BOM.id}}">{{BOM.number}}</td>
                             <td>{{BOM.customer}}</td>
                             <td>{{getFullDate(BOM.created)}}</td>
                             <td>{{getFullDate(BOM.delivery)}}</td>
@@ -96,7 +96,7 @@
                 </div>
             </div>
             <div class="planning-detail" id="grid-view" style="display: none;width: 1395px;">
-                <div class="row monthTitle" style="background-color: #00aba9;height: 30px;margin-bottom: 15px;margin-top: 5px;width: 100%"> {{activeShipping.number}} </div>
+                <div class="row monthTitle" style="background-color: #00aba9;height: 30px;margin-bottom: 15px;margin-top: 5px;width: 100%"> {{activeShipping.number}} - {{activeShipping.customer}}  </div>
                 <div  class="shipping_data" style="height: 740px;">
                     <div class="row" ng-repeat='data in activeShipping.item'>
                         <div id="item_repeat" style="width: 100%">
@@ -123,7 +123,7 @@
                                         <tr ng-repeat='dataPart in data.component'>
                                             <td colspan="7">
                                                 <table style="width: 100%">
-                                                    <tr ng-repeat='component in dataPart.delivery'>
+                                                    <tr ng-repeat='component in dataPart.delivery' id="{{component.id}}" data-itemId="{{data.id}}">
                                                         <td class="edit-info" style="text-align: center;width: 8%;">{{ getFullDate(component.delivery) }}</td>
                                                         <td class="edit-info" style="text-align: center;width: 9%;">{{component.quantity.value}} {{component.quantity.unit.symbol}}</td>
                                                         <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 60%;">{{dataPart.material.description}}</td>

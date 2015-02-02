@@ -29,6 +29,7 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                             $scope.loadProcess();
                         } else
                         {
+                            $scope.pageStack = [];
                             services.showAlert('Notice', 'Process list is empty').then(function(res) {
                             });
                         }

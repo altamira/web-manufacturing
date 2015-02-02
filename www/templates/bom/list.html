@@ -65,7 +65,7 @@
                                 <a ng-repeat="n in pageStack" ng-click="goPage(n)">
                                     <span class="page" ng-class="{'active':n == startPage + 1}">{{n}}</span>
                                 </a>
-                                <a class="page fa-arrow-right next-arrow" ng-show='nextButton' ng-click="nextPage(pageStack.length)"></a>
+                                <a class="page fa-arrow-right next-arrow" ng-show='nextButton' ng-click="nextPage(pageStack.length)" ng-if="pageStack.length > 0"></a>
                             </div>
                         </div>
                     </ion-content>

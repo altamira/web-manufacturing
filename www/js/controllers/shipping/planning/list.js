@@ -11,14 +11,44 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             $scope.itemPartIdArr = [];
             $scope.itemPartDeliveryArr = [];
             $scope.activeShipping = '';
-
+            $scope.viewWeekly = false;
+            $scope.weeklyView = function() {
+                $scope.viewWeekly = true;
+                $('#weeklyShowBtn').addClass('month');
+                $('#monthlyShowBtn').removeClass('month');
+            };
+            $scope.monthlyView = function() {
+                $scope.viewWeekly = false;
+                $('#weeklyShowBtn').removeClass('month');
+                $('#monthlyShowBtn').addClass('month');
+            };
+            $scope.viewGrid = false;
+            $scope.gridView = function() {
+                $scope.viewGrid = true;
+                $('#grid-view').show();
+                $('#gridShowBtn').addClass('month');
+                $('#list-view').hide();
+                $('#listShowBtn').removeClass('month');
+                if ($scope.activeShipping == '')
+                {
+                    $scope.getShippingDetail(parseInt($('.dataTable tr:nth-child(3) td:nth-child(2)').attr('id')));
+                }
+            };
+            $scope.listView = function() {
+                $scope.viewGrid = false;
+                $('#list-view').show();
+                $('#listShowBtn').addClass('month');
+                $('#grid-view').hide();
+                $('#gridShowBtn').removeClass('month');
+            };
             $scope.bomData = {};
             $scope.joinData = {};
             $scope.divideData = {};
             $scope.divideData.component = {};
 
             var pt = moment().locale('pt-br');
-            $scope.today = pt.format('LL');
+//            $scope.today = pt.format('LLLL');
+            $scope.today = pt.format('dddd, LL');
             moment.locale('pt-br');
             var month = moment.months();
             moment.locale('en');
@@ -148,17 +178,28 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
 
                     for (var i = 0; i < $scope.totalBOM; i++)
                     {
-                        if (i == 0)
+                        for (var j = 0; j < $scope.dataBOM[i].item.length; j++)
                         {
-                            tempUnixTS = parseInt($scope.dataBOM[i].delivery);
-                        }
-                        else
-                        {
-                            if (tempUnixTS > parseInt($scope.dataBOM[i].delivery))
+                            for (var k = 0; k < $scope.dataBOM[i].item[j].component.length; k++)
                             {
-                                tempUnixTS = parseInt($scope.dataBOM[i].delivery);
+                                for (var l = 0; l < $scope.dataBOM[i].item[j].component[k].delivery.length; l++)
+                                {
+                                    if (tempUnixTS == '')
+                                    {
+                                        tempUnixTS = parseInt($scope.dataBOM[i].item[j].component[k].delivery[l].delivery);
+                                    }
+                                    else
+                                    {
+                                        if (tempUnixTS > parseInt($scope.dataBOM[i].item[j].component[k].delivery[l].delivery))
+                                        {
+                                            tempUnixTS = parseInt($scope.dataBOM[i].item[j].component[k].delivery[l].delivery);
+                                        }
+                                    }
+                                }
+
                             }
                         }
+
                     }
                     $scope.planningArr = [];
                     for (var i = 0; i < $scope.totalBOM; i++)
@@ -193,11 +234,13 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                         {
                             for (var c = 0; c < $scope.planningArr[a].component[b].delivery.length; c++)
                             {
-                                $scope.tempPlanningArr.push({'bomid': $scope.planningArr[a].id, 'weight': $scope.planningArr[a].component[b].weight.value, 'deliveryid': $scope.planningArr[a].component[b].delivery[c].id, 'deliverydate': $scope.planningArr[a].component[b].delivery[c].delivery, 'quantity': $scope.planningArr[a].component[b].delivery[c].quantity.value});
+//                                $scope.tempPlanningArr.push({'bomid': $scope.planningArr[a].id, 'weight': $scope.planningArr[a].component[b].weight.value, 'deliveryid': $scope.planningArr[a].component[b].delivery[c].id, 'deliverydate': $scope.planningArr[a].component[b].delivery[c].delivery, 'quantity': $scope.planningArr[a].component[b].delivery[c].quantity.value});
+                                $scope.tempPlanningArr.push({'bomid': $scope.planningArr[a].id, 'weight': $scope.planningArr[a].component[b].weight.value, 'deliveryid': $scope.planningArr[a].component[b].delivery[c].id, 'deliverydate': $scope.planningArr[a].component[b].delivery[c].delivery, 'quantity': $scope.planningArr[a].component[b].delivery[c].remaining.value});
 //                                console.log(JSON.stringify($scope.planningArr[a].component[b].delivery[c]));
                             }
                         }
                     }
+//                    console.log(JSON.stringify($scope.tempPlanningArr));
                     $scope.tempPlanningArrCopy = $scope.tempPlanningArr;
                     $scope.bomPlanningArr = [];
                     $scope.tempbomPlanningArr = [];
@@ -300,6 +343,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                         }
                         $scope.finalArr.push(tempFinalArr[k]);
                     }
+//                    console.log(JSON.stringify($scope.finalArr));
                     $scope.makeCalender($scope.checkMonth(tempUnixTS), $scope.checkYear(tempUnixTS));
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');
@@ -480,19 +524,11 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                 if ($scope.itemPartIdArr.length == 1)
                 {
                     var tempVar = $scope.getObjects($scope.bomData.items, 'id', $scope.itemId);
-                    var tempParts = [];
+//                    var tempParts = [];
                     var part;
                     var partDelivery;
-                    var chnDateTotalQuantity = 0;
-                    var pesoTotal = 0;
-//                    for (var i = 0; i < $scope.itemPartIdArr.length; i++)
-//                    {
-//                        part = $scope.getObjects(tempVar[0].component, 'id', $scope.itemPartIdArr[i]);
-//                        console.log(JSON.stringify(part));
-//                        tempParts.push(part[0]);
-//                        chnDateTotalQuantity = chnDateTotalQuantity + parseInt(part[0].quantity.value);
-                    //                        pesoTotal = pesoTotal + (parseInt(part[0].quantity.value) * parseInt(part[0].weight.value));
-//                    }
+//                    var chnDateTotalQuantity = 0;
+//                    var pesoTotal = 0;
 
                     part = $scope.getObjects(tempVar[0].component, 'id', $scope.itemPartIdArr[0]);
                     $scope.divideData.chnDateCode = part[0].material.code;
@@ -560,7 +596,6 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                                     .one('component', $scope.itemPartIdArr[0])
                                     .one('delivery', $scope.itemPartDeliveryArr[0]).remove().then(function(response) {
                                 $scope.loading = false;
-
                                 if ($scope.viewGrid == true)
                                 {
                                     $scope.getShippingDetail($scope.bomData.id);
@@ -682,7 +717,6 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                     $scope.joinData.chnDateItem.version = tempVar[0].version;
                     $scope.joinData.chnDateItem.item = tempVar[0].item;
                     $scope.joinData.chnDateItem.description = tempVar[0].description;
-                    console.log(JSON.stringify($scope.joinData.chnDateParts));
                     $scope.joinDateModalShow();
                 }
                 else {
@@ -747,37 +781,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                     });
                 }
             };
-            $scope.viewWeekly = false;
-            $scope.weeklyView = function() {
-                $scope.viewWeekly = true;
-                $('#weeklyShowBtn').addClass('month');
-                $('#monthlyShowBtn').removeClass('month');
-            };
-            $scope.monthlyView = function() {
-                $scope.viewWeekly = false;
-                $('#weeklyShowBtn').removeClass('month');
-                $('#monthlyShowBtn').addClass('month');
-            };
-            $scope.viewGrid = false;
-            $scope.gridView = function() {
-                $scope.viewGrid = true;
-                $('#grid-view').show();
-                $('#gridShowBtn').addClass('month');
-                $('#list-view').hide();
-                $('#listShowBtn').removeClass('month');
-                if ($scope.activeShipping == '')
-                {
-                    $scope.getShippingDetail($scope.finalArr[0].id);
-                }
-            };
-            $scope.listView = function() {
-                $scope.viewGrid = false;
-                $('#list-view').show();
-                $('#listShowBtn').addClass('month');
-                $('#grid-view').hide();
-                $('#gridShowBtn').removeClass('month');
 
-            };
             $scope.getShippingDetail = function(shippingId) {
                 tempMaterialId = '';
                 tempItemId = '';

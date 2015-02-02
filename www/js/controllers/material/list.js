@@ -30,6 +30,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
                             $scope.loadMaterial();
                         } else
                         {
+                            $scope.pageStack = [];
                             services.showAlert('Notice', 'Material list is empty').then(function(res) {
                             });
                         }
