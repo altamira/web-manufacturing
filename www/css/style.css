@@ -2459,3 +2459,12 @@
 .green {
     background-color: #93C47D;
 }
+/*.mainTable tr:hover{
+    background-color: #95bcf2 !important;
+}
+.dataTable tr:hover{
+    background-color: #95bcf2 !important;
+}*/
+.hover {
+  background: #95bcf2;
+}

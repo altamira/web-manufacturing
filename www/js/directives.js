@@ -446,16 +446,14 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                 });
                 $('.mainTable tr').hover(function() {
                     var hoverClass = $(this).attr('class');
-                    $(this).css('background-color', '#95bcf2 !important');
                     $('#' + hoverClass).css('background-color', '#95bcf2 !important');
                 });
                 $('.mainTable tr').mouseleave(function() {
                     var hoverClass = $(this).attr('class');
-                    $(this).css('background-color', '#ffffff');
                     $('#' + hoverClass).css('background-color', '#ffffff');
                 });
+
                 $('.mainTable tr td').on('dblclick', function(e) {
-//                    scope.materialListModalShow();
                     if (!$(this).is(':has(.dragDiv)') && $(this).attr('class') != 'holiday') {
                         var destTd = $(this);
                         var srcTd = $(this).parent().find('td:has(.dragDiv)');
@@ -488,8 +486,17 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                 });
                 totalWeightCal();
                 makeDummyRow();
+                var allCells = $(".mainTable td");
 
-//                var i = 0;
+                allCells.on("mouseover", function() {
+                    var el = $(this),
+                            pos = el.index();
+                    el.parent().find("th, td").addClass("hover");
+                    allCells.filter(":nth-child(" + (pos + 1) + ")").addClass("hover");
+                })
+                        .on("mouseout", function() {
+                    allCells.removeClass("hover");
+                });
                 var dragging = false;
                 $('#dragbar').mousedown(function(e) {
                     e.preventDefault();
@@ -593,7 +600,7 @@ function totalWeightCal() {
             if (tempTotalWeight >= 1000)
             {
                 var ton = Math.floor(tempTotalWeight / 1000);
-                $th.html(ton+' T');
+                $th.html(ton + ' T');
             } else
             {
                 $th.html(Math.ceil(tempTotalWeight));
@@ -605,7 +612,7 @@ function totalWeightCal() {
             if (tempTotalWeight >= 1000)
             {
                 var ton = Math.floor(tempTotalWeight / 1000);
-                $th.html(ton+' T');
+                $th.html(ton + ' T');
             }
             else
             {
@@ -632,10 +639,11 @@ function makeDummyRow() {
     var mainTableTR = '<tr style="height: 29px;">';
     $('.mainTable tr:nth-last-child(2) td').each(function() {
         var strClass = $(this).attr("class");
+        var dataDay = $(this).data("day");
         if (strClass.indexOf('holiday') > -1) {
-            mainTableTR += '<td class="holiday">&nbsp;</td>';
+            mainTableTR += '<td class="' + dataDay + ' holiday">&nbsp;</td>';
         } else {
-            mainTableTR += '<td>&nbsp;</td>';
+            mainTableTR += '<td class="' + dataDay + '">&nbsp;</td>';
         }
     });
     mainTableTR += '</tr>';
