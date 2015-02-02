@@ -821,6 +821,17 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             $scope.openBOM = function(bomId) {
                 $location.path('/bom/edit/' + bomId);
             }
+
+            $scope.showWeight = function(weight) {
+                if (weight >= 1000)
+                {
+                    var t = Math.floor(weight / 1000);
+                    return t+' T';
+                } else
+                {
+                    return Math.ceil(weight);
+                }
+            }
         });
 function randomNumbers(total) {
     var arr = []

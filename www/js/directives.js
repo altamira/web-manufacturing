@@ -590,12 +590,27 @@ function totalWeightCal() {
         {
             $th.addClass('totalWeightShow');
             $th.addClass('green');
-            $th.html(tempTotalWeight.toFixed(3));
+            if (tempTotalWeight >= 1000)
+            {
+                var ton = Math.floor(tempTotalWeight / 1000);
+                $th.html(ton+' T');
+            } else
+            {
+                $th.html(Math.ceil(tempTotalWeight));
+            }
         } else if (tempTotalWeight != 0 && (tempTotalWeight / 1000 > 40))
         {
             $th.addClass('totalWeightShow');
             $th.addClass('red');
-            $th.html(tempTotalWeight.toFixed(3));
+            if (tempTotalWeight >= 1000)
+            {
+                var ton = Math.floor(tempTotalWeight / 1000);
+                $th.html(ton+' T');
+            }
+            else
+            {
+                $th.html(Math.ceil(tempTotalWeight));
+            }
         }
         else
         {
