@@ -56,20 +56,54 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             $scope.resetViewDeliveryId = function() {
                 $scope.viewDeliveryId = [];
             };
-//            $scope.makeCalender = function() {
-//                console.log(JSON.stringify($scope.tempUnixTS));
-//                var startMonth = moment.unix($scope.tempUnixTS[$scope.tempUnixTS.length - 1]).format('M');
-//                console.log(JSON.stringify(startMonth));
-//                var startYear = moment.unix($scope.tempUnixTS[$scope.tempUnixTS.length - 1]).format('YYYY');
-//                var endMonth = moment.unix($scope.tempUnixTS[0]).format('M');
-//                console.log(JSON.stringify(endMonth));
-//                var endYear = moment.unix($scope.tempUnixTS[0]).format('YYYY');
-//                var currentMonth = parseInt(moment().format('M')) - 2;
-//                var currentYear = parseInt(moment().format('YYYY'));
-////                console.log(JSON.stringify(currentMonth))
-////                console.log(JSON.stringify(currentYear))
-//                currentMonth = parseInt(startMonth) - 1;
-//                currentYear = parseInt(startYear);
+            $scope.makeCalender = function() {
+                console.log(JSON.stringify($scope.tempUnixTS));
+                var startMonth = moment.unix($scope.tempUnixTS[$scope.tempUnixTS.length - 1]).format('M');
+                console.log(JSON.stringify(startMonth));
+                var startYear = moment.unix($scope.tempUnixTS[$scope.tempUnixTS.length - 1]).format('YYYY');
+                var endMonth = moment.unix($scope.tempUnixTS[0]).format('M');
+                console.log(JSON.stringify(endMonth));
+                var endYear = moment.unix($scope.tempUnixTS[0]).format('YYYY');
+                startMonth = parseInt(startMonth) - 1;
+                startYear = parseInt(startYear);
+                $scope.maxYear = startYear + 1;
+                if (startMonth < 0)
+                {
+                    startMonth = 11;
+                    startYear = startYear - 1;
+                }
+                for (var i = 0; i <= 11; i++)
+                {
+                    var temp = startMonth + i;
+                    if (temp > 11)
+                    {
+                        if (startYear + 1 == endYear)
+                        {
+                            var arrTemp = {};
+                            temp = temp - 12;
+                            arrTemp.name = month[temp] + ',' + (startYear + 1);
+                            arrTemp.days = range(1, daysInMonth(temp + 1, startYear + 1));
+                            createDaysArray(arrTemp.days, temp + 1, startYear + 1);
+                            $scope.monthDays.push(arrTemp);
+                        }
+                    } else
+                    {
+                        if (temp < endMonth)
+                        {
+                            var arrTemp = {};
+                            arrTemp.name = month[temp] + ',' + startYear;
+                            arrTemp.days = range(1, daysInMonth(temp + 1, startYear));
+                            createDaysArray(arrTemp.days, temp + 1, startYear);
+                            $scope.monthDays.push(arrTemp);
+                        }
+                    }
+                }
+            };
+//            $scope.makeCalender = function(currentMonth, currentYear) {
+//                console.log(JSON.stringify(currentMonth))
+//                console.log(JSON.stringify(currentYear))
+//                currentMonth = parseInt(currentMonth) - 1;
+//                currentYear = parseInt(currentYear);
 //                $scope.maxYear = currentYear + 1;
 //                if (currentMonth < 0)
 //                {
@@ -79,67 +113,27 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
 //                for (var i = 0; i <= 11; i++)
 //                {
 //                    var temp = currentMonth + i;
-//                    console.log(JSON.stringify(temp));
-//                    console.log(JSON.stringify(endMonth));
 //                    if (temp > 11)
 //                    {
 //                        temp = temp - 12;
 //                    }
-//                    if (temp <= endMonth)
-//                    {
-//                        var arrTemp = {};
+//                    var arrTemp = {};
 //
-//                        if ((currentMonth + i) > 11)
-//                        {
-//                            arrTemp.name = month[temp] + ',' + (currentYear + 1);
-//                            arrTemp.days = range(1, daysInMonth(temp + 1, currentYear + 1));
-//                            createDaysArray(arrTemp.days, temp + 1, currentYear + 1);
-//                        }
-//                        else
-//                        {
-//                            arrTemp.name = month[temp] + ',' + currentYear;
-//                            arrTemp.days = range(1, daysInMonth(temp + 1, currentYear));
-//                            createDaysArray(arrTemp.days, temp + 1, currentYear);
-//                        }
-//                        $scope.monthDays.push(arrTemp);
+//                    if ((currentMonth + i) > 11)
+//                    {
+//                        arrTemp.name = month[temp] + ',' + (currentYear + 1);
+//                        arrTemp.days = range(1, daysInMonth(temp + 1, currentYear + 1));
+//                        createDaysArray(arrTemp.days, temp + 1, currentYear + 1);
 //                    }
+//                    else
+//                    {
+//                        arrTemp.name = month[temp] + ',' + currentYear;
+//                        arrTemp.days = range(1, daysInMonth(temp + 1, currentYear));
+//                        createDaysArray(arrTemp.days, temp + 1, currentYear);
+//                    }
+//                    $scope.monthDays.push(arrTemp);
 //                }
 //            };
-            $scope.makeCalender = function(currentMonth, currentYear) {
-                console.log(JSON.stringify(currentMonth))
-                console.log(JSON.stringify(currentYear))
-                currentMonth = parseInt(currentMonth) - 1;
-                currentYear = parseInt(currentYear);
-                $scope.maxYear = currentYear + 1;
-                if (currentMonth < 0)
-                {
-                    currentMonth = 11;
-                    currentYear = currentYear - 1;
-                }
-                for (var i = 0; i <= 11; i++)
-                {
-                    var temp = currentMonth + i;
-                    if (temp > 11)
-                    {
-                        temp = temp - 12;
-                    }
-                    var arrTemp = {};
-
-                    if ((currentMonth + i) > 11)
-                    {
-                        arrTemp.name = month[temp] + ',' + (currentYear + 1);
-                        arrTemp.days = range(1, daysInMonth(temp + 1, currentYear + 1));
-                        createDaysArray(arrTemp.days, temp + 1, currentYear + 1);
-                    }
-                    else
-                    {
-                        arrTemp.name = month[temp] + ',' + currentYear;
-                        arrTemp.days = range(1, daysInMonth(temp + 1, currentYear));
-                        createDaysArray(arrTemp.days, temp + 1, currentYear);
-                    }
-                    $scope.monthDays.push(arrTemp);
-                }
-            };
             var dayCounter = 0;
             function createDaysArray(daysArray, m, y)
             {
@@ -237,13 +231,13 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                                     $scope.tempUnixTS.push(parseInt($scope.dataBOM[i].item[j].component[k].delivery[l].delivery) / 1000);
                                     if (tempUnixTS == '')
                                     {
-                                        tempUnixTS = parseInt($scope.dataBOM[i].item[j].component[k].delivery[l].delivery)/1000;
+                                        tempUnixTS = parseInt($scope.dataBOM[i].item[j].component[k].delivery[l].delivery) / 1000;
                                     }
                                     else
                                     {
-                                        if (tempUnixTS > parseInt($scope.dataBOM[i].item[j].component[k].delivery[l].delivery)/1000)
+                                        if (tempUnixTS > parseInt($scope.dataBOM[i].item[j].component[k].delivery[l].delivery) / 1000)
                                         {
-                                            tempUnixTS = parseInt($scope.dataBOM[i].item[j].component[k].delivery[l].delivery)/1000;
+                                            tempUnixTS = parseInt($scope.dataBOM[i].item[j].component[k].delivery[l].delivery) / 1000;
                                         }
                                     }
                                 }
@@ -251,9 +245,9 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                             }
                         }
                     }
-//                    console.log(JSON.stringify($scope.tempUnixTS.sort(function(a, b) {
-//                        return b - a
-//                    })));
+                    $scope.tempUnixTS.sort(function(a, b) {
+                        return b - a
+                    });
                     $scope.planningArr = [];
                     for (var i = 0; i < $scope.totalBOM; i++)
                     {
@@ -287,7 +281,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                         {
                             for (var c = 0; c < $scope.planningArr[a].component[b].delivery.length; c++)
                             {
-                                $scope.tempPlanningArr.push({'bomid': $scope.planningArr[a].id, 'weight': $scope.planningArr[a].component[b].weight.value, 'deliveryid': $scope.planningArr[a].component[b].delivery[c].id, 'deliverydate': $scope.planningArr[a].component[b].delivery[c].delivery/1000, 'quantity': $scope.planningArr[a].component[b].delivery[c].remaining.value});
+                                $scope.tempPlanningArr.push({'bomid': $scope.planningArr[a].id, 'weight': $scope.planningArr[a].component[b].weight.value, 'deliveryid': $scope.planningArr[a].component[b].delivery[c].id, 'deliverydate': $scope.planningArr[a].component[b].delivery[c].delivery / 1000, 'quantity': $scope.planningArr[a].component[b].delivery[c].remaining.value});
                             }
                         }
                     }
