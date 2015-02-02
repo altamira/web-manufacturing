@@ -583,19 +583,19 @@ function totalWeightCal() {
         $('.' + $th.data('date')).each(function(f) {
             if ($(this).children().data('weight') != undefined && $(this).children().data('weight') != '')
             {
-                tempTotalWeight += parseInt($(this).children().data('weight'));
+                tempTotalWeight += parseFloat($(this).children().data('weight'));
             }
         });
         if (tempTotalWeight != 0 && (tempTotalWeight / 1000 < 40))
         {
             $th.addClass('totalWeightShow');
             $th.addClass('green');
-            $th.html(tempTotalWeight);
+            $th.html(tempTotalWeight.toFixed(3));
         } else if (tempTotalWeight != 0 && (tempTotalWeight / 1000 > 40))
         {
             $th.addClass('totalWeightShow');
             $th.addClass('red');
-            $th.html(tempTotalWeight);
+            $th.html(tempTotalWeight.toFixed(3));
         }
         else
         {
