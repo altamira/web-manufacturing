@@ -264,7 +264,7 @@ altamiraApp.directive('toNewDate', function() {
                 },
                 onSelect: function(dateText) {
                     scope.$apply(function() {
-                        scope.bomData.delivery = dateText
+                        scope.partData.delivery = dateText
                         scope.showdate = true;
                     });
                 }
@@ -484,8 +484,8 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                         scope.changeDeliveryDate($(this).parent().attr('id'));
                     }
                 });
-                totalWeightCal();
                 makeDummyRow();
+                totalWeightCal();
                 var allCells = $(".mainTable td");
 
                 allCells.on("mouseover", function() {
@@ -590,7 +590,7 @@ function totalWeightCal() {
         $('.' + $th.data('date')).each(function(f) {
             if ($(this).children().data('weight') != undefined && $(this).children().data('weight') != '')
             {
-                tempTotalWeight += parseFloat($(this).children().data('weight'));
+                tempTotalWeight += Math.ceil(parseFloat($(this).children().data('weight')));
             }
         });
         if (tempTotalWeight != 0 && (tempTotalWeight / 1000 < 40))
