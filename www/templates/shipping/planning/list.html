@@ -84,12 +84,12 @@
                                     {{showWeight(del.deliveryweight)}}
                                 </div>
                             </td>
-                            <td ng-repeat="day in days track by $index" id="{{BOM.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components == ''" style="width: 25px;height: 25px;">
+                            <td ng-repeat="day in days track by $index" id="{{BOM.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components == ''" style="width: 50px;height: 30px;">
                                 &nbsp;
                             </td>
                         </tr>
                         <tr class="totalWeightRow">
-                            <td ng-repeat="day in days track by $index" data-date='{{day}}'>
+                            <td ng-repeat="day in days track by $index" data-date='{{day}}' style="height: 30px;">
                                 &nbsp;
                             </td>
                         </tr>

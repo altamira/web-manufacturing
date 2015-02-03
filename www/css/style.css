@@ -2316,7 +2316,7 @@
 .mainTable tr th, .mainTable tr td {
     border: 1px solid black;
     min-height: 30px;
-    min-width: 30px;
+    min-width: 50px;
 }
 .mainTable tr th {
     background-color: #cccccc;
@@ -2373,9 +2373,11 @@
     }*/
 .dataTable tr td {
     text-align: left;
-    height: 29px;
+    height: 30px;
     border-top: 1px solid #ffffff;
     border-bottom: 1px solid #000000;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .even {

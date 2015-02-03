@@ -453,20 +453,20 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                     $('#' + hoverClass).css('background-color', '#ffffff');
                 });
 
-                $('.mainTable tr td').on('dblclick', function(e) {
-                    if (!$(this).is(':has(.dragDiv)') && $(this).attr('class') != 'holiday') {
-                        var destTd = $(this);
-                        var srcTd = $(this).parent().find('td:has(.dragDiv)');
-                        var drgElement = srcTd.find('.dragDiv');
-                        var id1 = $(this).data('day');
-                        var id2 = $(this).attr('id');
-                        drgElement.animate({left: "+=" + (destTd.position().left - srcTd.position().left)}, 500, "linear", function() {
-                            drgElement.appendTo(destTd);
-                            drgElement.css({left: 0});
-                            scope.getData(id1, id2);
-                        });
-                    }
-                });
+//                $('.mainTable tr td').on('dblclick', function(e) {
+//                    if (!$(this).is(':has(.dragDiv)') && $(this).attr('class') != 'holiday') {
+//                        var destTd = $(this);
+//                        var srcTd = $(this).parent().find('td:has(.dragDiv)');
+//                        var drgElement = srcTd.find('.dragDiv');
+//                        var id1 = $(this).data('day');
+//                        var id2 = $(this).attr('id');
+//                        drgElement.animate({left: "+=" + (destTd.position().left - srcTd.position().left)}, 500, "linear", function() {
+//                            drgElement.appendTo(destTd);
+//                            drgElement.css({left: 0});
+//                            scope.getData(id1, id2);
+//                        });
+//                    }
+//                });
                 $('.dragDiv').on('dblclick', function(e) {
                     scope.resetViewDeliveryId();
                     if (isNumber($(this).data('viewdeliveryid')))
@@ -484,8 +484,12 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                         scope.changeDeliveryDate($(this).parent().attr('id'));
                     }
                 });
-                totalWeightCal();
-                makeDummyRow();
+                if ($('#dataTable tr').length > 2)
+                {
+                    totalWeightCal();
+                    makeDummyRow();
+                }
+
                 var allCells = $(".mainTable td");
 
                 allCells.on("mouseover", function() {
@@ -576,9 +580,9 @@ altamiraApp.directive('selectBom', function(services) {
                 scope.itemPartIdArr.splice(scope.itemPartIdArr.indexOf(parseInt(attr.datapart)), 1);
                 scope.itemPartDeliveryArr.splice(scope.itemPartDeliveryArr.indexOf(parseInt(attr.datadelivery)), 1);
             }
-            console.log(JSON.stringify(scope.itemId));
-            console.log(JSON.stringify(scope.itemPartIdArr));
-            console.log(JSON.stringify(scope.itemPartDeliveryArr));
+//            console.log(JSON.stringify(scope.itemId));
+//            console.log(JSON.stringify(scope.itemPartIdArr));
+//            console.log(JSON.stringify(scope.itemPartDeliveryArr));
         });
 
     }
@@ -634,9 +638,9 @@ function totalRow() {
     return $('.dataTable tr').length;
 }
 function makeDummyRow() {
-    var totalrow = 25;
+    var totalrow = 24;
     var usedrow = $('.dataTable tr').length;
-    var mainTableTR = '<tr style="height: 29px;">';
+    var mainTableTR = '<tr style="height: 30px;">';
     $('.mainTable tr:nth-last-child(2) td').each(function() {
         var strClass = $(this).attr("class");
         var dataDay = $(this).data("day");

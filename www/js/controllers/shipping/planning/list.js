@@ -13,6 +13,8 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             $scope.tempUnixTS = [];
             $scope.activeShipping = '';
             $scope.viewWeekly = false;
+            $scope.currentYear = moment().format('YYYY');
+            $scope.validYears = [$scope.currentYear - 1, $scope.currentYear, $scope.currentYear + 1];
             $scope.weeklyView = function() {
                 $scope.viewWeekly = true;
                 $('#weeklyShowBtn').addClass('month');
@@ -59,14 +61,12 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             $scope.makeCalender = function() {
                 console.log(JSON.stringify($scope.tempUnixTS));
                 var startMonth = moment.unix($scope.tempUnixTS[$scope.tempUnixTS.length - 1]).format('M');
-                console.log(JSON.stringify(startMonth));
                 var startYear = moment.unix($scope.tempUnixTS[$scope.tempUnixTS.length - 1]).format('YYYY');
                 var endMonth = moment.unix($scope.tempUnixTS[0]).format('M');
-                console.log(JSON.stringify(endMonth));
                 var endYear = moment.unix($scope.tempUnixTS[0]).format('YYYY');
                 startMonth = parseInt(startMonth) - 1;
                 startYear = parseInt(startYear);
-                $scope.maxYear = startYear + 1;
+                $scope.maxYear = endYear + 1;
                 if (startMonth < 0)
                 {
                     startMonth = 11;
@@ -228,20 +228,11 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                             {
                                 for (var l = 0; l < $scope.dataBOM[i].item[j].component[k].delivery.length; l++)
                                 {
-                                    $scope.tempUnixTS.push(parseInt($scope.dataBOM[i].item[j].component[k].delivery[l].delivery) / 1000);
-                                    if (tempUnixTS == '')
+                                    if ($.inArray($scope.checkYear(parseInt($scope.dataBOM[i].item[j].component[k].delivery[l].delivery) / 1000), $scope.validYears) !== -1)
                                     {
-                                        tempUnixTS = parseInt($scope.dataBOM[i].item[j].component[k].delivery[l].delivery) / 1000;
-                                    }
-                                    else
-                                    {
-                                        if (tempUnixTS > parseInt($scope.dataBOM[i].item[j].component[k].delivery[l].delivery) / 1000)
-                                        {
-                                            tempUnixTS = parseInt($scope.dataBOM[i].item[j].component[k].delivery[l].delivery) / 1000;
-                                        }
+                                        $scope.tempUnixTS.push(parseInt($scope.dataBOM[i].item[j].component[k].delivery[l].delivery) / 1000);
                                     }
                                 }
-
                             }
                         }
                     }
@@ -281,7 +272,11 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                         {
                             for (var c = 0; c < $scope.planningArr[a].component[b].delivery.length; c++)
                             {
-                                $scope.tempPlanningArr.push({'bomid': $scope.planningArr[a].id, 'weight': $scope.planningArr[a].component[b].weight.value, 'deliveryid': $scope.planningArr[a].component[b].delivery[c].id, 'deliverydate': $scope.planningArr[a].component[b].delivery[c].delivery / 1000, 'quantity': $scope.planningArr[a].component[b].delivery[c].remaining.value});
+                                if ($.inArray($scope.checkYear(parseInt($scope.planningArr[a].component[b].delivery[c].delivery) / 1000), $scope.validYears) !== -1 && $scope.planningArr[a].component[b].delivery[c].remaining.value > 0)
+                                {
+                                    $scope.tempPlanningArr.push({'bomid': $scope.planningArr[a].id, 'weight': $scope.planningArr[a].component[b].weight.value, 'deliveryid': $scope.planningArr[a].component[b].delivery[c].id, 'deliverydate': $scope.planningArr[a].component[b].delivery[c].delivery / 1000, 'quantity': $scope.planningArr[a].component[b].delivery[c].remaining.value});
+                                }
+
                             }
                         }
                     }
@@ -382,8 +377,9 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                         }
                         $scope.finalArr.push(tempFinalArr[k]);
                     }
-                    $scope.makeCalender($scope.checkMonth(tempUnixTS), $scope.checkYear(tempUnixTS));
-//                    $scope.makeCalender();
+                    console.log(JSON.stringify($scope.finalArr));
+//                    $scope.makeCalender($scope.checkMonth(tempUnixTS), $scope.checkYear(tempUnixTS));
+                    $scope.makeCalender();
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');
                 });
@@ -604,7 +600,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                     $scope.loading = true;
                     $scope.postdata1 = {};
                     $scope.postdata1.id = 0;
-                    $scope.postdata1.delivery = moment($scope.divideData.delivery1, 'DD/MM/YYYY').unix();
+                    $scope.postdata1.delivery = moment($scope.divideData.delivery1, 'DD/MM/YYYY').unix()*1000;
                     $scope.postdata1.quantity = {};
                     $scope.postdata1.quantity.value = $scope.divideData.quantity1;
                     $scope.postdata1.quantity.unit = {};
@@ -618,7 +614,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
 
                         $scope.postdata2 = {};
                         $scope.postdata2.id = 0;
-                        $scope.postdata2.delivery = moment($scope.divideData.delivery2, 'DD/MM/YYYY').unix();
+                        $scope.postdata2.delivery = moment($scope.divideData.delivery2, 'DD/MM/YYYY').unix()*1000;
                         $scope.postdata2.quantity = {};
                         $scope.postdata2.quantity.value = $scope.divideData.quantity2;
                         $scope.postdata2.quantity.unit = {};
@@ -769,7 +765,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                     $scope.loading = true;
                     $scope.postdata = {};
                     $scope.postdata.id = 0;
-                    $scope.postdata.delivery = moment($scope.joinData.delivery, 'DD/MM/YYYY').unix();
+                    $scope.postdata.delivery = moment($scope.joinData.delivery, 'DD/MM/YYYY').unix()*1000;
                     $scope.postdata.quantity = {};
                     $scope.postdata.quantity.value = $scope.joinData.chnDateTotalQuantity;
                     $scope.postdata.quantity.unit = {};
