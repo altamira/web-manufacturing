@@ -484,12 +484,8 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                         scope.changeDeliveryDate($(this).parent().attr('id'));
                     }
                 });
-                if ($('#dataTable tr').length > 2)
-                {
-                    totalWeightCal();
-                    makeDummyRow();
-                }
-
+                totalWeightCal();
+                makeDummyRow();
                 var allCells = $(".mainTable td");
 
                 allCells.on("mouseover", function() {
