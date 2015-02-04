@@ -13,6 +13,6 @@ altamiraAppControllers.filter('setDecimal',
 altamiraAppControllers.filter('getDate',
         function() {
             return function(input) {
-                return moment(input).format('D/M/YYYY');
+                return moment(input).format('DD/MM/YYYY');
             };
         });

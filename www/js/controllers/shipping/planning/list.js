@@ -792,6 +792,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                             .one('component', $scope.joinData.chnDateParts[0].id)
                             .all('delivery').post($scope.postdata).then(function(response) {
                         $scope.loading = false;
+                        
                         var i;
                         for (i = 0; i < $scope.joinData.chnDateParts.length; i++)
                         {
