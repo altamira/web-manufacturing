@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('ShippingPlanningListCtrl',
-        function($scope, $location, $route, Restangular, services, $ionicModal) {
+        function($scope, $location, $route, Restangular, services, $ionicModal, CommonFun) {
             $scope.loading = true;
             $scope.days = [];
             $scope.monthDays = [];
@@ -50,7 +50,6 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             $scope.divideData.component = {};
 
             var pt = moment().locale('pt-br');
-//            $scope.today = pt.format('LLLL');
             $scope.today = pt.format('dddd, LL');
             moment.locale('pt-br');
             var month = moment.months();
@@ -59,11 +58,10 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                 $scope.viewDeliveryId = [];
             };
             $scope.makeCalender = function() {
-                console.log(JSON.stringify($scope.tempUnixTS));
-                var startMonth = moment.unix($scope.tempUnixTS[$scope.tempUnixTS.length - 1]).format('M');
-                var startYear = moment.unix($scope.tempUnixTS[$scope.tempUnixTS.length - 1]).format('YYYY');
-                var endMonth = moment.unix($scope.tempUnixTS[0]).format('M');
-                var endYear = moment.unix($scope.tempUnixTS[0]).format('YYYY');
+                var startMonth = moment($scope.tempUnixTS[$scope.tempUnixTS.length - 1]).format('M');
+                var startYear = moment($scope.tempUnixTS[$scope.tempUnixTS.length - 1]).format('YYYY');
+                var endMonth = moment($scope.tempUnixTS[0]).format('M');
+                var endYear = moment($scope.tempUnixTS[0]).format('YYYY');
                 startMonth = parseInt(startMonth) - 1;
                 startYear = parseInt(startYear);
                 $scope.maxYear = endYear + 1;
@@ -99,41 +97,6 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                     }
                 }
             };
-//            $scope.makeCalender = function(currentMonth, currentYear) {
-//                console.log(JSON.stringify(currentMonth))
-//                console.log(JSON.stringify(currentYear))
-//                currentMonth = parseInt(currentMonth) - 1;
-//                currentYear = parseInt(currentYear);
-//                $scope.maxYear = currentYear + 1;
-//                if (currentMonth < 0)
-//                {
-//                    currentMonth = 11;
-//                    currentYear = currentYear - 1;
-//                }
-//                for (var i = 0; i <= 11; i++)
-//                {
-//                    var temp = currentMonth + i;
-//                    if (temp > 11)
-//                    {
-//                        temp = temp - 12;
-//                    }
-//                    var arrTemp = {};
-//
-//                    if ((currentMonth + i) > 11)
-//                    {
-//                        arrTemp.name = month[temp] + ',' + (currentYear + 1);
-//                        arrTemp.days = range(1, daysInMonth(temp + 1, currentYear + 1));
-//                        createDaysArray(arrTemp.days, temp + 1, currentYear + 1);
-//                    }
-//                    else
-//                    {
-//                        arrTemp.name = month[temp] + ',' + currentYear;
-//                        arrTemp.days = range(1, daysInMonth(temp + 1, currentYear));
-//                        createDaysArray(arrTemp.days, temp + 1, currentYear);
-//                    }
-//                    $scope.monthDays.push(arrTemp);
-//                }
-//            };
             var dayCounter = 0;
             function createDaysArray(daysArray, m, y)
             {
@@ -154,30 +117,27 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                 return A;
             }
             $scope.getCellColor = function(st, weight) {
-                if (st < moment().unix() || (parseInt(weight) / 1000 > 20))
+                if (st < moment().valueOf() || (parseInt(weight) / 1000 > 20))
                 {
                     return 'red';
                 } else
                 {
                     return 'green';
                 }
-//                moment().unix()
-//                return moment.unix(st).format('D');
             }
             $scope.checkDay = function(st) {
-                return moment.unix(st).format('D');
+                return moment(st).format('D');
             }
             $scope.checkMonth = function(st) {
-                return moment.unix(st).format('M');
+                return moment(st).format('M');
             }
             $scope.checkYear = function(st) {
-                return moment.unix(st).format('YYYY');
+                return moment(st).format('YYYY');
             }
             $scope.getWeekDay = function(date) {
                 return moment(date, "D_M_YYYY").format('dddd');
             }
             $scope.getWeekDayShort = function(date) {
-//                moment().locale('pt-br');
                 return moment(date, "D_M_YYYY").locale('pt-br').format('ddd');
             }
             $scope.getDay = function(date) {
@@ -188,9 +148,6 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
             }
             $scope.getYear = function(date) {
                 return moment(date, "D_M_YYYY").format('YYYY')
-            }
-            $scope.getFullDate = function(date) {
-                return moment.unix(date).format('D/M/YYYY');
             }
             $scope.getObjects = function(obj, key, val) {
                 var objects = [];
@@ -228,9 +185,9 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                             {
                                 for (var l = 0; l < $scope.dataBOM[i].item[j].component[k].delivery.length; l++)
                                 {
-                                    if ($.inArray($scope.checkYear(parseInt($scope.dataBOM[i].item[j].component[k].delivery[l].delivery) / 1000), $scope.validYears) !== -1)
+                                    if ($.inArray($scope.checkYear(parseInt($scope.dataBOM[i].item[j].component[k].delivery[l].delivery)), $scope.validYears) !== -1)
                                     {
-                                        $scope.tempUnixTS.push(parseInt($scope.dataBOM[i].item[j].component[k].delivery[l].delivery) / 1000);
+                                        $scope.tempUnixTS.push(parseInt($scope.dataBOM[i].item[j].component[k].delivery[l].delivery));
                                     }
                                 }
                             }
@@ -272,11 +229,10 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                         {
                             for (var c = 0; c < $scope.planningArr[a].component[b].delivery.length; c++)
                             {
-                                if ($.inArray($scope.checkYear(parseInt($scope.planningArr[a].component[b].delivery[c].delivery) / 1000), $scope.validYears) !== -1 && $scope.planningArr[a].component[b].delivery[c].remaining.value > 0)
+                                if ($.inArray($scope.checkYear(parseInt($scope.planningArr[a].component[b].delivery[c].delivery)), $scope.validYears) !== -1 && $scope.planningArr[a].component[b].delivery[c].remaining.value > 0)
                                 {
-                                    $scope.tempPlanningArr.push({'bomid': $scope.planningArr[a].id, 'weight': $scope.planningArr[a].component[b].weight.value, 'deliveryid': $scope.planningArr[a].component[b].delivery[c].id, 'deliverydate': $scope.planningArr[a].component[b].delivery[c].delivery / 1000, 'quantity': $scope.planningArr[a].component[b].delivery[c].remaining.value});
+                                    $scope.tempPlanningArr.push({'bomid': $scope.planningArr[a].id, 'weight': $scope.planningArr[a].component[b].weight.value, 'deliveryid': $scope.planningArr[a].component[b].delivery[c].id, 'deliverydate': $scope.planningArr[a].component[b].delivery[c].delivery, 'quantity': $scope.planningArr[a].component[b].delivery[c].remaining.value});
                                 }
-
                             }
                         }
                     }
@@ -377,8 +333,6 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                         }
                         $scope.finalArr.push(tempFinalArr[k]);
                     }
-                    console.log(JSON.stringify($scope.finalArr));
-//                    $scope.makeCalender($scope.checkMonth(tempUnixTS), $scope.checkYear(tempUnixTS));
                     $scope.makeCalender();
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');
@@ -443,10 +397,9 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                         $scope.bomData.representative = data.representative;
                         $scope.bomData.finish = data.finish;
                         $scope.bomData.quotation = data.quotation;
-                        $scope.bomData.created = moment.unix(data.created).format('DD/MM/YYYY');
-                        $scope.bomData.delivery = moment.unix(data.delivery).format('DD/MM/YYYY');
+                        $scope.bomData.created = data.created;
+                        $scope.bomData.delivery = data.delivery;
                         $scope.bomData.items = data.item;
-                        console.log(JSON.stringify($scope.bomData));
                     }
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');
@@ -489,7 +442,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                     $scope.partData.materialId = data.material.id;
                     $scope.partData.code = data.material.code;
                     $scope.partData.description = data.material.description;
-                    $scope.partData.delivery = data.delivery.delivery / 1000;
+                    $scope.partData.delivery = data.delivery.delivery;
                     $scope.getColorName(data.color.id);
 
                     $scope.partData.quantity = data.quantity.value;
@@ -506,7 +459,6 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
 
                     $scope.partData.weight = data.weight.value;
                     $scope.getUnitSymbol(data.weight.unit.id, 'weight');
-                    console.log(JSON.stringify($scope.partData));
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');
                 });
@@ -514,7 +466,6 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                     Restangular.one('measurement/unit', unitId).get().then(function(response) {
                         var symbol = response.data.symbol;
                         var id = response.data.id;
-                        console.log(JSON.stringify(id));
                         if (unitType == "width")
                         {
                             $scope.partData.widthType = symbol;
@@ -633,11 +584,8 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                 if ($scope.itemPartIdArr.length == 1)
                 {
                     var tempVar = $scope.getObjects($scope.bomData.items, 'id', $scope.itemId);
-//                    var tempParts = [];
                     var part;
                     var partDelivery;
-//                    var chnDateTotalQuantity = 0;
-//                    var pesoTotal = 0;
 
                     part = $scope.getObjects(tempVar[0].component, 'id', $scope.itemPartIdArr[0]);
                     $scope.divideData.chnDateCode = part[0].material.code;
@@ -667,14 +615,13 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
 
                 }
             };
-            //            $scope.addDate();
             $scope.submitDivideComponent = function(isValid) {
                 if (isValid) {
                     $scope.divideDateModal.hide();
                     $scope.loading = true;
                     $scope.postdata1 = {};
                     $scope.postdata1.id = 0;
-                    $scope.postdata1.delivery = moment($scope.divideData.delivery1, 'DD/MM/YYYY').unix() * 1000;
+                    $scope.postdata1.delivery = CommonFun.getFullTimestamp($scope.divideData.delivery1);
                     $scope.postdata1.quantity = {};
                     $scope.postdata1.quantity.value = $scope.divideData.quantity1;
                     $scope.postdata1.quantity.unit = {};
@@ -685,10 +632,9 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                             .one('item', $scope.itemId)
                             .one('component', $scope.itemPartIdArr[0])
                             .all('delivery').post($scope.postdata1).then(function(response) {
-
                         $scope.postdata2 = {};
                         $scope.postdata2.id = 0;
-                        $scope.postdata2.delivery = moment($scope.divideData.delivery2, 'DD/MM/YYYY').unix() * 1000;
+                        $scope.postdata2.delivery = CommonFun.getFullTimestamp($scope.divideData.delivery2);
                         $scope.postdata2.quantity = {};
                         $scope.postdata2.quantity.value = $scope.divideData.quantity2;
                         $scope.postdata2.quantity.unit = {};
@@ -699,7 +645,6 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                                 .one('item', $scope.itemId)
                                 .one('component', $scope.itemPartIdArr[0])
                                 .all('delivery').post($scope.postdata2).then(function(response) {
-
                             Restangular.one('shipping/planning', $scope.bomData.id)
                                     .one('item', $scope.itemId)
                                     .one('component', $scope.itemPartIdArr[0])
@@ -741,8 +686,6 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                             }
                         });
                     });
-
-
                 }
             }
             $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/component.html', {
@@ -750,7 +693,6 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                 animation: 'fade-in'
             }).then(function(modal) {
                 $scope.createComponentModal = modal;
-
             });
             $scope.createComponentModalShow = function() {
                 $scope.divideDateModalHide();
@@ -792,7 +734,6 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                 if ($scope.itemPartDeliveryArr.length > 1)
                 {
                     var tempVar = $scope.getObjects($scope.bomData.items, 'id', $scope.itemId);
-                    //                    console.log(JSON.stringify(tempVar));
                     $scope.joinData.chnDateParts = [];
                     var part;
                     var delivery;
@@ -839,7 +780,7 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                     $scope.loading = true;
                     $scope.postdata = {};
                     $scope.postdata.id = 0;
-                    $scope.postdata.delivery = moment($scope.joinData.delivery, 'DD/MM/YYYY').unix() * 1000;
+                    $scope.postdata.delivery = CommonFun.getFullTimestamp($scope.joinData.delivery);
                     $scope.postdata.quantity = {};
                     $scope.postdata.quantity.value = $scope.joinData.chnDateTotalQuantity;
                     $scope.postdata.quantity.unit = {};
@@ -851,7 +792,6 @@ altamiraAppControllers.controller('ShippingPlanningListCtrl',
                             .one('component', $scope.joinData.chnDateParts[0].id)
                             .all('delivery').post($scope.postdata).then(function(response) {
                         $scope.loading = false;
-                        //                        services.showAlert('Sucess', 'Component joined sucessfully');
                         var i;
                         for (i = 0; i < $scope.joinData.chnDateParts.length; i++)
                         {
@@ -966,88 +906,4 @@ function unique_arr(array) {
     return array.filter(function(el, index, arr) {
         return index == arr.indexOf(el);
     });
-}
-function array_unique(inputArr) {
-    //  discuss at: http://phpjs.org/functions/array_unique/
-    // original by: Carlos R. L. Rodrigues (http://www.jsfromhell.com)
-    //    input by: duncan
-    //    input by: Brett Zamir (http://brett-zamir.me)
-    // bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-    // bugfixed by: Nate
-    // bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-    // bugfixed by: Brett Zamir (http://brett-zamir.me)
-    // improved by: Michael Grier
-    //        note: The second argument, sort_flags is not implemented;
-    //        note: also should be sorted (asort?) first according to docs
-    //   example 1: array_unique(['Kevin','Kevin','van','Zonneveld','Kevin']);
-    //   returns 1: {0: 'Kevin', 2: 'van', 3: 'Zonneveld'}
-    //   example 2: array_unique({'a': 'green', 0: 'red', 'b': 'green', 1: 'blue', 2: 'red'});
-    //   returns 2: {a: 'green', 0: 'red', 1: 'blue'}
-
-    var key = '',
-            tmp_arr2 = {},
-            val = '';
-
-    var __array_search = function(needle, haystack) {
-        var fkey = '';
-        for (fkey in haystack) {
-            if (haystack.hasOwnProperty(fkey)) {
-                if ((haystack[fkey] + '') === (needle + '')) {
-                    return fkey;
-                }
-            }
-        }
-        return false;
-    };
-
-    for (key in inputArr) {
-        if (inputArr.hasOwnProperty(key)) {
-            val = inputArr[key];
-            if (false === __array_search(val, tmp_arr2)) {
-                tmp_arr2[key] = val;
-            }
-        }
-    }
-
-    return tmp_arr2;
-}
-function in_array(needle, haystack, argStrict) {
-    //  discuss at: http://phpjs.org/functions/in_array/
-    // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-    // improved by: vlado houba
-    // improved by: Jonas Sciangula Street (Joni2Back)
-    //    input by: Billy
-    // bugfixed by: Brett Zamir (http://brett-zamir.me)
-    //   example 1: in_array('van', ['Kevin', 'van', 'Zonneveld']);
-    //   returns 1: true
-    //   example 2: in_array('vlado', {0: 'Kevin', vlado: 'van', 1: 'Zonneveld'});
-    //   returns 2: false
-    //   example 3: in_array(1, ['1', '2', '3']);
-    //   example 3: in_array(1, ['1', '2', '3'], false);
-    //   returns 3: true
-    //   returns 3: true
-    //   example 4: in_array(1, ['1', '2', '3'], true);
-    //   returns 4: false
-
-    var key = '',
-            strict = !!argStrict;
-
-    //we prevent the double check (strict && arr[key] === ndl) || (!strict && arr[key] == ndl)
-    //in just one for, in order to improve the performance
-    //deciding wich type of comparation will do before walk array
-    if (strict) {
-        for (key in haystack) {
-            if (haystack[key] === needle) {
-                return true;
-            }
-        }
-    } else {
-        for (key in haystack) {
-            if (haystack[key] == needle) {
-                return true;
-            }
-        }
-    }
-
-    return false;
 }

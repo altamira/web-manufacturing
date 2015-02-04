@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('BomEditCtrl',
-        function($scope, $http, $location, $route, $routeParams, $ionicPopup, Restangular, services) {
+        function($scope, $http, $location, $route, $routeParams, $ionicPopup, Restangular, services, CommonFun) {
             $scope.bomId = $routeParams.bomId;
             $scope.project = '';
             $scope.bomData = {};
@@ -24,8 +24,8 @@ altamiraAppControllers.controller('BomEditCtrl',
                     $scope.bomData.representative = data.representative;
                     $scope.bomData.finish = data.finish;
                     $scope.bomData.quotation = data.quotation;
-                    $scope.bomData.created = moment.unix(data.created).format('DD/MM/YYYY');
-                    $scope.bomData.delivery = moment.unix(data.delivery).format('DD/MM/YYYY');
+                    $scope.bomData.created = CommonFun.getFullDate(data.created);
+                    $scope.bomData.delivery = CommonFun.getFullDate(data.delivery);
                     $scope.bomData.items = data.item;
                 }
             }, function(response) {
@@ -42,8 +42,8 @@ altamiraAppControllers.controller('BomEditCtrl',
                     $scope.postdata.representative = $scope.bomData.representative;
                     $scope.postdata.finish = $scope.bomData.finish;
                     $scope.postdata.quotation = $scope.bomData.quotation;
-                    $scope.postdata.created = moment($scope.bomData.created, 'DD/MM/YYYY').unix();
-                    $scope.postdata.delivery = moment($scope.bomData.delivery, 'DD/MM/YYYY').unix();
+                    $scope.postdata.created = CommonFun.getFullTimestamp($scope.bomData.created);
+                    $scope.postdata.delivery = CommonFun.getFullTimestamp($scope.bomData.delivery);
 
                     Restangular.one('manufacturing/bom', $scope.bomId).get().then(function(response1) {
                         $scope.postdata.version = response1.data.version;

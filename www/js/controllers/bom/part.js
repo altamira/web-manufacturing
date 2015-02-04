@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('BomPartOperationCtrl',
-        function($scope, $http, $location, $routeParams, $ionicPopup, Restangular, services, $ionicModal) {
+        function($scope, $http, $location, $routeParams, $ionicPopup, Restangular, services, $ionicModal, CommonFun) {
             $scope.bomId = $routeParams.bomId;
             $scope.itemId = $routeParams.itemId;
             $scope.partId = $routeParams.partId;
@@ -10,7 +10,7 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
             $scope.partData.version = '';
             $scope.partData.code = '';
             $scope.partData.description = '';
-            $scope.partData.color = 1020;
+            $scope.partData.color = CommonFun.getDefaultColor;
 
             $scope.partData.length = 0;
             $scope.partData.height = 0;
@@ -18,11 +18,11 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
             $scope.partData.quantity = 0;
             $scope.partData.weight = 0;
 
-            $scope.partData.lengthType = 213;
-            $scope.partData.heightType = 213;
-            $scope.partData.widthType = 213;
-            $scope.partData.weightType = 215;
-            $scope.partData.quantityType = 217;
+            $scope.partData.lengthType = CommonFun.getDefaultLengthType;
+            $scope.partData.heightType = CommonFun.getDefaultHeightType;
+            $scope.partData.widthType = CommonFun.getDefaultWidthType;
+            $scope.partData.weightType = CommonFun.getDefaultWeightType;
+            $scope.partData.quantityType = CommonFun.getDefaultQuantityType;
 
 
             Restangular.one('common/color').get({max: 0}).then(function(response) {
@@ -435,13 +435,13 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
         });
 
 altamiraAppControllers.controller('BomPartUpdateCtrl',
-        function($scope, $http, $location, $routeParams, $route, $ionicPopup, Restangular, services, $ionicModal, $ionicLoading) {
+        function($scope, $http, $location, $routeParams, $route, $ionicPopup, Restangular, services, $ionicModal, $ionicLoading, CommonFun) {
             $scope.bomId = $routeParams.bomId;
             $scope.itemId = $routeParams.itemId;
             $scope.partId = $routeParams.partId;
             $scope.partData = {}
             $scope.partData.version = '';
-            $scope.partData.code = 1020;
+            $scope.partData.code = '';
             $scope.partData.description = '';
             $scope.partData.color = '';
             $scope.partData.quantity = '';
@@ -450,11 +450,11 @@ altamiraAppControllers.controller('BomPartUpdateCtrl',
             $scope.partData.length = '';
             $scope.partData.weight = '';
 
-            $scope.partData.lengthType = 213;
-            $scope.partData.heightType = 213;
-            $scope.partData.widthType = 213;
-            $scope.partData.weightType = 215;
-            $scope.partData.quantityType = 217;
+            $scope.partData.lengthType = CommonFun.getDefaultLengthType;
+            $scope.partData.heightType = CommonFun.getDefaultHeightType;
+            $scope.partData.widthType = CommonFun.getDefaultWidthType;
+            $scope.partData.weightType = CommonFun.getDefaultWeightType;
+            $scope.partData.quantityType = CommonFun.getDefaultQuantityType;
 
             Restangular.one('common/color').get({max: 0}).then(function(response) {
                 $scope.partData.colorBox = response.data;
@@ -616,11 +616,6 @@ altamiraAppControllers.controller('BomPartUpdateCtrl',
             $scope.goBack = function() {
                 $location.path('bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
             };
-
-
-
-
-
 
             $scope.resetMaterial = function() {
                 $scope.startPage = 0;

@@ -116,7 +116,7 @@
                                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                     <tr>
                                         <td width="25%"><i class="fa fa-calender"></i></td>
-                                        <td width="25%">{{ getFullDate(partDelivery.delivery) }}</td>
+                                        <td width="25%">{{ partDelivery.delivery | getDate }}</td>
                                         <td align="right">
                                             <i ng-click="removePart(components.id)" class="icon plus-icon fa-plus-cross-circle-1" style=" right: 7px;top: 13px;"></i>
                                         </td>

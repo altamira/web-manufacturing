@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('BomCreateCtrl',
-        function($scope, $http, $location, $route, $routeParams, $ionicPopup, $ionicLoading, $timeout, $state, Restangular, IntegrationRestangular, $ionicSideMenuDelegate, services, $window) {
+        function($scope, $location, Restangular, services, CommonFun) {
             $scope.loading = false;
             $scope.bomData = {};
             $scope.submitBomForm = function(isValid) {
@@ -15,8 +15,8 @@ altamiraAppControllers.controller('BomCreateCtrl',
                     $scope.postdata.quotation = $scope.bomData.quotation;
                     $scope.postdata.project = $scope.bomData.project;
                     $scope.postdata.item = [];
-                    $scope.postdata.created = moment($scope.bomData.created, 'DD-MM-YYYY').unix();
-                    $scope.postdata.delivery = moment($scope.bomData.delivery, 'DD-MM-YYYY').unix();
+                    $scope.postdata.created = CommonFun.getFullTimestamp($scope.bomData.created);
+                    $scope.postdata.delivery = CommonFun.getFullTimestamp($scope.bomData.delivery);
 
                     Restangular.all('manufacturing/bom').post($scope.postdata).then(function(response) {
                         $scope.loading = false;

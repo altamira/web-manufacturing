@@ -18,7 +18,6 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                         }
                     }
                 }
-
             }, function(response) {
                 services.showAlert('Falhou', 'Please try again');
             });
@@ -33,7 +32,6 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                     $scope.consumeData.description = response.data.material.description;
                     $scope.consumeData.quantity = response.data.quantity.value;
                     $scope.consumeData.unit = response.data.quantity.unit.id;
-                    console.log(JSON.stringify($scope.consumeData));
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');
                 });
@@ -84,7 +82,6 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
 
                                 if (method == 'POST')
                                 {
-                                    console.log(JSON.stringify($scope.postdata));
                                     Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).all('consume').post($scope.postdata).then(function(response) {
                                         $scope.loading = false;
                                         if (response.status == 201) {
@@ -213,6 +210,16 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                 animation: 'fade-in'
             }).then(function(modal) {
                 $scope.materialCreate = modal;
+                Restangular.one('measurement/unit').get({magnitude: 'dimencional'}).then(function(response) {
+                    $scope.unitLengthBox = response.data;
+                }, function(response) {
+                    services.showAlert('Falhou', 'Please try again');
+            });
+                Restangular.one('measurement/unit').get({magnitude: 'peso'}).then(function(response) {
+                    $scope.unitWeightBox = response.data;
+                }, function(response) {
+                    services.showAlert('Falhou', 'Please try again');
+                });
             });
 
             $scope.materialCreateModalShow = function() {

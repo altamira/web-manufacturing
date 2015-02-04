@@ -25,8 +25,8 @@ altamiraAppControllers.controller('BomViewCtrl',
                     $scope.bomData.representative = data.representative;
                     $scope.bomData.finish = data.finish;
                     $scope.bomData.quotation = data.quotation;
-                    $scope.bomData.created = moment.unix(data.created).format('DD/MM/YYYY');
-                    $scope.bomData.delivery = moment.unix(data.delivery).format('DD/MM/YYYY');
+                    $scope.bomData.created = data.created;
+                    $scope.bomData.delivery = data.delivery;
                     $scope.bomData.items = data.item;
                 }
             }, function(response) {

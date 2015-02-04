@@ -73,7 +73,7 @@
                     <div class="list list-row">
                         <span class="input-label text-bold">Data Pedido</span>
                         <label class="item item-input" >
-                            {{bomData.created}}
+                            {{bomData.created | getDate}}
                         </label>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                     <div class="list list-row">
                         <span class="input-label text-bold">Data Entrega </span>
                         <label class="item item-input" >
-                            {{bomData.delivery}}
+                            {{bomData.delivery | getDate}}
                         </label>
                     </div>
                 </div>
@@ -122,7 +122,7 @@
                                 <td colspan="7">
                                     <table>
                                         <tr ng-repeat='component in dataPart.delivery' ng-if="checkForViewDelivery(component.id) > -1">
-                                            <td class="edit-info" style="text-align: center;width: 100px;">{{ getFullDate(component.delivery) }}</td>
+                                            <td class="edit-info" style="text-align: center;width: 100px;">{{ component.delivery | getDate }}</td>
                                             <td class="edit-info" style="text-align: center;width: 130px;">{{component.quantity.value}} {{component.quantity.unit.symbol}}</td>
                                             <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 555px;">{{dataPart.material.description}} - {{data.id}} - {{dataPart.id}} - {{dataPart.material.id}} - {{component.id}}</td>
                                             <!--<td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 555px;">{{dataPart.material.description}}</td>-->

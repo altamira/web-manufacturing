@@ -80,7 +80,7 @@
                     <div class="list list-row">
                         <span class="input-label text-bold">Data Pedido</span>
                         <label class="item item-input" >
-                            {{bomData.created}}
+                            {{bomData.created | getDate}}
                         </label>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                     <div class="list list-row">
                         <span class="input-label text-bold">Data Entrega </span>
                         <label class="item item-input" >
-                            {{bomData.delivery}}
+                            {{bomData.delivery | getDate}}
                         </label>
                     </div>
                 </div>

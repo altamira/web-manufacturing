@@ -53,8 +53,8 @@
                             <td style="text-align: center;" class="fa-md-arrow-right-planning" ng-click="openBOM({{BOM.id}})"></td>
                             <td id="{{BOM.id}}">{{BOM.number}}</td>
                             <td>{{BOM.customer}}</td>
-                            <td>{{getFullDate(BOM.created)}}</td>
-                            <td>{{getFullDate(BOM.delivery)}}</td>
+                            <td>{{BOM.created | getDate}}</td>
+                            <td>{{BOM.delivery| getDate}}</td>
                         </tr>
                         <tr id="checkone">
                             <td></td>
@@ -125,7 +125,7 @@
                                             <td colspan="7">
                                                 <table style="width: 100%">
                                                     <tr ng-repeat='component in dataPart.delivery' id="{{component.id}}" data-itemId="{{data.id}}">
-                                                        <td class="edit-info" style="text-align: center;width: 8%;">{{ getFullDate(component.delivery) }}</td>
+                                                        <td class="edit-info" style="text-align: center;width: 8%;">{{ component.delivery | getDate }}</td>
                                                         <td class="edit-info" style="text-align: center;width: 9%;">{{component.quantity.value}} {{component.quantity.unit.symbol}}</td>
                                                         <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 60%;">{{dataPart.material.description}}</td>
                                                         <td class="edit-text" style="width: 8%;">{{dataPart.color.code}}</td>

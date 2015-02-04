@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('CommonCtrl',
-        function($scope, $location, $routeParams, $ionicPopup, $ionicModal, Restangular, IntegrationRestangular, services, $ionicLoading, $timeout, $route) {
+        function($scope, $location, $routeParams, $ionicPopup, $ionicModal, Restangular, IntegrationRestangular, services, $ionicLoading, $timeout, $route, CommonFun) {
             $scope.material = {};
             $scope.material.width = 0;
             $scope.material.height = 0;
@@ -8,12 +8,13 @@ altamiraAppControllers.controller('CommonCtrl',
             $scope.material.weight = 0;
             $scope.material.thickness = 0;
 
-            $scope.material.widthType = 104;
-            $scope.material.heightType = 104;
-            $scope.material.lengthType = 104;
-            $scope.material.depthType = 104;
-            $scope.material.weightType = 106;
-            $scope.material.thicknessType = 104;
+            $scope.material.widthType = CommonFun.getDefaultWidthType;
+            $scope.material.heightType = CommonFun.getDefaultHeightType;
+            $scope.material.lengthType = CommonFun.getDefaultLengthType;
+            $scope.material.depthType = CommonFun.getDefaultDepthType;
+            $scope.material.weightType = CommonFun.getDefaultWeightType;
+            $scope.material.thicknessType = CommonFun.getDefaultThicknessType;
+            $scope.material.areaType = CommonFun.getDefaultAreaType;
 
             $scope.resetMaterial = function() {
                 $scope.startPage = 0;
