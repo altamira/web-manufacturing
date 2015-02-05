@@ -1,4 +1,4 @@
-altamiraApp.factory('CommonFun', ['$http','Restangular', function($http, Restangular) {
+altamiraApp.factory('CommonFun', ['$http', 'Restangular', function($http, Restangular) {
 
         return {
             // call to get rates
@@ -15,14 +15,17 @@ altamiraApp.factory('CommonFun', ['$http','Restangular', function($http, Restang
             getDefaultQuantityType: 217,
             getDefaultColor: 1016,
             getColorBox: function() {
-                    return $http.get(Restangular.configuration.baseUrl+'/common/color');
+                return $http.get(Restangular.configuration.baseUrl + '/common/color');
             },
-            getFullTimestamp : function(date) {
+            getFullTimestamp: function(date) {
                 return moment(date, 'DD/MM/YYYY').valueOf();
             },
-            getFullDate : function(timestamp) {
+            getFullDate: function(timestamp) {
                 return moment(timestamp).format('DD/MM/YYYY');
-            }
+            },
+            setDefaultDateFormat: function(dateString,format) {
+                return moment(dateString,format).format('DD/MM/YYYY');
+            },
         }
 
     }]);

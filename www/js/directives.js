@@ -382,7 +382,7 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                         if (isNumber(ui.draggable.data('viewdeliveryid')))
                         {
                             scope.viewDeliveryId.push(ui.draggable.data('viewdeliveryid'));
-                            scope.getData($(this).data('day'), $(this).attr('id'));
+                            scope.getData($(this).data('day'), $(this).attr('id'),ui.draggable.data('itemid'),ui.draggable.data('componentid'));
                         }
                         else
                         {
@@ -391,7 +391,7 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                             {
                                 scope.viewDeliveryId.push(parseInt(tempViewDeliveryId[z]));
                             }
-                            scope.getData($(this).data('day'), $(this).attr('id'));
+                            scope.getData($(this).data('day'), $(this).attr('id'),ui.draggable.data('itemid'),ui.draggable.data('componentid'));
                         }
                         var $this = $(this);
                         $this.append(ui.draggable.css({

@@ -79,7 +79,7 @@
                         </tr>
                         <tr ng-repeat="BOM in finalArr" class="{{BOM.id}}" ng-if="checkYear(BOM.delivery) <= maxYear">
                             <td ng-repeat="day in days track by $index" id="{{BOM.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components != ''">
-                                <div class="dragDiv" ng-repeat="del in BOM.components" id="{{day}}" data-viewdeliveryid="{{del.deliveryid}}" ng-class="getCellColor(del.deliverydate,del.deliveryweight)" ng-if="(checkDay(del.deliverydate) == getDay(day)) && (checkMonth(del.deliverydate) == getMonth(day)) && (checkYear(del.deliverydate) == getYear(day))" data-weight='{{del.deliveryweight}}'>
+                                <div class="dragDiv" ng-repeat="del in BOM.components" id="{{day}}" data-itemid="{{del.itemid}}" data-componentid="{{del.componentid}}" data-viewdeliveryid="{{del.deliveryid}}" ng-class="getCellColor(del.deliverydate,del.deliveryweight)" ng-if="(checkDay(del.deliverydate) == getDay(day)) && (checkMonth(del.deliverydate) == getMonth(day)) && (checkYear(del.deliverydate) == getYear(day))" data-weight='{{del.deliveryweight}}'>
                                     <!--{{del.deliveryweight | setDecimal:1}}-->
                                     {{showWeight(del.deliveryweight)}}
                                 </div>
