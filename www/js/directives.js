@@ -583,6 +583,15 @@ altamiraApp.directive('selectBom', function(services) {
 
     }
 });
+altamiraApp.directive('changeRemainingQuantity', function(services) {
+    return function(scope, elm, attr) {
+        elm.bind('click', function() {
+            elm.toggleClass('fa-check-square-o');
+            scope.changeRemainingQun($('#remaining_'+attr.datadelivery).val(),attr.dataitem, attr.datapart, attr.datadelivery);
+        });
+
+    }
+});
 function totalWeightCal() {
     $('.totalWeightRow td').each(function(e) {
         var $th = $(this);

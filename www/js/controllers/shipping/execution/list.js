@@ -1,4 +1,4 @@
-altamiraAppControllers.controller('ShippingPlanningCtrl',
+altamiraAppControllers.controller('ShippingExecutionCtrl',
         function($scope, $location, $route, Restangular, services, $ionicModal, CommonFun) {
             $scope.loading = true;
             $scope.days = [];
@@ -170,7 +170,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
             };
 
             $scope.loadGrid = function() {
-                Restangular.one('shipping/planning').get({checked: false, search: ''}).then(function(response) {
+                Restangular.one('shipping/execution').get({checked: false, search: ''}).then(function(response) {
                     $scope.loading = false;
                     $scope.totalBOM = response.data.length;
                     $scope.dataBOM = response.data;
@@ -345,7 +345,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
             $scope.getData = function(newDate, bomid, itemid, componentid) {
                 var i = 0;
                 $scope.updateDeliveryDate = function() {
-                    Restangular.one('shipping/planning', bomid).one('item', itemid).one('component', componentid).one('delivery', $scope.viewDeliveryId[i]).get().then(function(response) {
+                    Restangular.one('shipping/execution', bomid).one('item', itemid).one('component', componentid).one('delivery', $scope.viewDeliveryId[i]).get().then(function(response) {
                         $scope.chgDeliveryData = {};
                         $scope.chgDeliveryData.id = response.data.id;
                         $scope.chgDeliveryData.version = response.data.version;
@@ -355,7 +355,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         $scope.chgDeliveryData.delivered = response.data.delivered;
                         $scope.chgDeliveryData.remaining = response.data.remaining;
                         console.log(JSON.stringify($scope.chgDeliveryData));
-                        Restangular.all('shipping').one('planning', bomid).one('item', itemid).one('component', componentid).one('delivery', $scope.chgDeliveryData.id).customPUT($scope.chgDeliveryData).then(function(response) {
+                        Restangular.all('shipping').one('execution', bomid).one('item', itemid).one('component', componentid).one('delivery', $scope.chgDeliveryData.id).customPUT($scope.chgDeliveryData).then(function(response) {
                             i++;
                             if (i < $scope.viewDeliveryId.length) {
                                 $scope.updateDeliveryDate();
@@ -376,7 +376,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 $scope.updateDeliveryDate();
 //                for (var i = 0; i < $scope.viewDeliveryId.length; i++)
 //                {
-//                    Restangular.one('shipping/planning', bomid).one('item', itemid).one('component', componentid).one('delivery', $scope.viewDeliveryId[i]).get().then(function(response) {
+//                    Restangular.one('shipping/execution', bomid).one('item', itemid).one('component', componentid).one('delivery', $scope.viewDeliveryId[i]).get().then(function(response) {
 //                        $scope.chgDeliveryData = {};
 //                        $scope.chgDeliveryData.id = response.data.id;
 //                        $scope.chgDeliveryData.version = response.data.version;
@@ -386,7 +386,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
 //                        $scope.chgDeliveryData.delivered = response.data.delivered;
 //                        $scope.chgDeliveryData.remaining = response.data.remaining;
 //                        console.log(JSON.stringify($scope.chgDeliveryData));
-//                        Restangular.all('shipping').one('planning', bomid).one('item', itemid).one('component', componentid).one('delivery', $scope.chgDeliveryData.id).customPUT($scope.chgDeliveryData).then(function(response) {
+//                        Restangular.all('shipping').one('execution', bomid).one('item', itemid).one('component', componentid).one('delivery', $scope.chgDeliveryData.id).customPUT($scope.chgDeliveryData).then(function(response) {
 //                            console.log(JSON.stringify(response.data));
 //                        }, function(response) {
 //                            services.showAlert('Falhou', 'error in put');
@@ -421,7 +421,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
             }, function(response) {
                 services.showAlert('Falhou', 'Please try again');
             });
-            $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/view.html', {
+            $ionicModal.fromTemplateUrl('templates/shipping/execution/popup/view.html', {
                 scope: $scope,
                 animation: 'fade-in'
             }).then(function(modal) {
@@ -438,7 +438,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 $scope.changeDate.hide();
             };
             $scope.getBomData = function(bomId) {
-                Restangular.one('shipping/planning', bomId).get().then(function(response) {
+                Restangular.one('shipping/execution', bomId).get().then(function(response) {
                     var data = response.data;
                     if (data != '')
                     {
@@ -476,8 +476,8 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 $scope.DELIVERYId = deliveryid;
                 $scope.partData = {};
 
-                Restangular.one('shipping/planning', bomId).one('item', itemId).one('component', partId).get().then(function(response) {
-                    $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/part.html', {
+                Restangular.one('shipping/execution', bomId).one('item', itemId).one('component', partId).get().then(function(response) {
+                    $ionicModal.fromTemplateUrl('templates/shipping/execution/popup/part.html', {
                         scope: $scope,
                         animation: 'fade-in'
                     }).then(function(modal) {
@@ -514,7 +514,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
 
                     $scope.partData.weight = data.weight.value;
                     $scope.getUnitSymbol(data.weight.unit.id, 'weight');
-                    Restangular.one('shipping/planning', bomId).one('item', itemId).one('component', partId).one('delivery', deliveryid).get().then(function(response1) {
+                    Restangular.one('shipping/execution', bomId).one('item', itemId).one('component', partId).one('delivery', deliveryid).get().then(function(response1) {
                         $scope.partData.delivery = CommonFun.getFullDate(response1.data.delivery);
 
                     }, function(response1) {
@@ -614,7 +614,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
 //                        $scope.loading = false;
 //                        services.showAlert('Falhou', 'Please try again');
 //                    });
-                    Restangular.all('shipping').one('planning', $scope.BOMId).one('item', $scope.ITEMId).one('component', $scope.PARTId).one('delivery', $scope.DELIVERYId).get().then(function(response) {
+                    Restangular.all('shipping').one('execution', $scope.BOMId).one('item', $scope.ITEMId).one('component', $scope.PARTId).one('delivery', $scope.DELIVERYId).get().then(function(response) {
                         $scope.chgDeliveryData = {};
                         $scope.chgDeliveryData.id = response.data.id;
                         $scope.chgDeliveryData.version = response.data.version;
@@ -623,7 +623,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         $scope.chgDeliveryData.quantity = response.data.quantity;
                         $scope.chgDeliveryData.delivered = response.data.delivered;
                         $scope.chgDeliveryData.remaining = response.data.remaining;
-                        Restangular.all('shipping').one('planning', $scope.BOMId).one('item', $scope.ITEMId).one('component', $scope.PARTId).one('delivery', $scope.DELIVERYId).customPUT($scope.chgDeliveryData).then(function(response) {
+                        Restangular.all('shipping').one('execution', $scope.BOMId).one('item', $scope.ITEMId).one('component', $scope.PARTId).one('delivery', $scope.DELIVERYId).customPUT($scope.chgDeliveryData).then(function(response) {
 
                             services.showAlert('Success', 'Delivery date changed to ' + $scope.partData.delivery).then(function(res) {
                                 location.reload();
@@ -643,7 +643,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 $scope.changeDate.show();
             };
 
-            $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/divide.html', {
+            $ionicModal.fromTemplateUrl('templates/shipping/execution/popup/divide.html', {
                 scope: $scope,
                 animation: 'fade-in'
             }).then(function(modal) {
@@ -711,7 +711,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     $scope.postdata1.quantity.unit.id = $scope.divideData.chnDateParts[0].quantity.unit.id;
                     $scope.postdata1.quantity.unit.name = $scope.divideData.chnDateParts[0].quantity.unit.name;
                     $scope.postdata1.quantity.unit.symbol = $scope.divideData.chnDateParts[0].quantity.unit.symbol;
-                    Restangular.one('shipping/planning', $scope.bomData.id)
+                    Restangular.one('shipping/execution', $scope.bomData.id)
                             .one('item', $scope.itemId)
                             .one('component', $scope.itemPartIdArr[0])
                             .all('delivery').post($scope.postdata1).then(function(response) {
@@ -724,11 +724,11 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         $scope.postdata2.quantity.unit.id = $scope.divideData.chnDateParts[0].quantity.unit.id;
                         $scope.postdata2.quantity.unit.name = $scope.divideData.chnDateParts[0].quantity.unit.name;
                         $scope.postdata2.quantity.unit.symbol = $scope.divideData.chnDateParts[0].quantity.unit.symbol;
-                        Restangular.one('shipping/planning', $scope.bomData.id)
+                        Restangular.one('shipping/execution', $scope.bomData.id)
                                 .one('item', $scope.itemId)
                                 .one('component', $scope.itemPartIdArr[0])
                                 .all('delivery').post($scope.postdata2).then(function(response) {
-                            Restangular.one('shipping/planning', $scope.bomData.id)
+                            Restangular.one('shipping/execution', $scope.bomData.id)
                                     .one('item', $scope.itemId)
                                     .one('component', $scope.itemPartIdArr[0])
                                     .one('delivery', $scope.itemPartDeliveryArr[0]).remove().then(function(response) {
@@ -771,7 +771,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     });
                 }
             }
-            $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/component.html', {
+            $ionicModal.fromTemplateUrl('templates/shipping/execution/popup/component.html', {
                 scope: $scope,
                 animation: 'fade-in'
             }).then(function(modal) {
@@ -795,7 +795,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 $scope.createComponentModalShow();
             };
 
-            $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/join.html', {
+            $ionicModal.fromTemplateUrl('templates/shipping/execution/popup/join.html', {
                 scope: $scope,
                 animation: 'fade-in'
             }).then(function(modal) {
@@ -870,7 +870,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     $scope.postdata.quantity.unit.id = $scope.joinData.chnDateUnit.id;
                     $scope.postdata.quantity.unit.name = $scope.joinData.chnDateUnit.name;
                     $scope.postdata.quantity.unit.symbol = $scope.joinData.chnDateUnit.symbol;
-                    Restangular.one('shipping/planning', $scope.bomData.id)
+                    Restangular.one('shipping/execution', $scope.bomData.id)
                             .one('item', $scope.joinData.chnDateItem.id)
                             .one('component', $scope.joinData.chnDateParts[0].id)
                             .all('delivery').post($scope.postdata).then(function(response) {
@@ -881,7 +881,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         {
                             for (var j = 0; j < $scope.joinData.chnDateParts[i].deliveryArr.length; j++)
                             {
-                                Restangular.one('shipping/planning', $scope.bomData.id)
+                                Restangular.one('shipping/execution', $scope.bomData.id)
                                         .one('item', $scope.joinData.chnDateItem.id)
                                         .one('component', $scope.joinData.chnDateParts[i].id)
                                         .one('delivery', $scope.joinData.chnDateParts[i].delivery[j].id).remove().then(function(response) {
@@ -924,7 +924,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 if ($scope.viewGrid == true)
                 {
                     $scope.loading = true;
-                    Restangular.one('shipping/planning', shippingId).get().then(function(response) {
+                    Restangular.one('shipping/execution', shippingId).get().then(function(response) {
                         $scope.activeShipping = response.data;
                         var data = response.data;
                         if (data != '')
@@ -964,6 +964,28 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 {
                     return Math.ceil(weight);
                 }
+            }
+
+            $scope.changeRemainingQun = function(remainingVal, itemId, componentId, deliveryId) {
+                $scope.loading = true;
+                Restangular.all('shipping').one('execution', $scope.bomData.id).one('item', itemId).one('component', componentId).get().then(function(response) {
+                    $scope.postData = {};
+                    $scope.postData.version = 0;
+                    $scope.postData.type = 'br.com.altamira.data.model.shipping.execution.Delivered';
+                    $scope.postData.delivery = moment().valueOf();
+                    $scope.postData.quantity = {};
+                    $scope.postData.quantity.value = remainingVal;
+                    $scope.postData.quantity.unit = response.data.quantity.unit;
+                    Restangular.all('shipping').one('execution', $scope.bomData.id).one('item', itemId).one('component', componentId).all('delivered').post($scope.postData).then(function(response) {
+                        $scope.getShippingDetail($scope.bomData.id);
+                    }, function(response) {
+                        $scope.loading = false;
+                        services.showAlert('Falhou', 'Error in getting details of delivery');
+                    });
+                }, function(response) {
+                    $scope.loading = false;
+                    services.showAlert('Falhou', 'Error in getting details of delivery');
+                });
             }
         });
 function randomNumbers(total) {

@@ -1,0 +1,155 @@
+<div class="loding_div" ng-show="loading">
+    <div id="loadingProgressG">
+        <div id="loadingProgressG_1" class="loadingProgressG">
+        </div>
+    </div>
+</div>
+<ion-pane>
+    <ion-header-bar class="bar-calm">
+        <div class="buttons header-margin">
+            <button class="button fa-bars"></button>
+            <span class="btn-separator"></span>
+            <button class="button fa-check" ng-click="submitted=true" ></button>
+            <button type="button" class="button fa-remove-header"></button>
+            <button type="button" class="button fa-print-header"></button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <div class="row bar-calm-top">
+            <div class="col col-50" style="display: none">
+                <div class="button-bar bar-calm">
+                    <a class="button month" ng-click='monthlyView()' id="monthlyShowBtn" style="border-radius: 5px 0 0 5px;">Mensal</a>
+                    <a class="button" ng-click='weeklyView()' id="weeklyShowBtn">Semanal</a>
+                </div>
+            </div>
+            <div class="col col-50 col-offset-50">
+                <div class="button-bar bar-calm" style="float: right">
+                    <a class="button fa-list-alt month" ng-click="gridView()" id="listShowBtn" style="border-radius: 5px 0 0 5px;"></a>
+                    <a class="button fa-th" ng-click="listView()" id="gridShowBtn"></a>
+                </div>
+            </div>
+        </div>
+        <div class="row planning-col">
+            <div class="col col-33 tableTitle">Planejamento de Entrega</div>
+            <div class="col col-67 tableTitle" style="text-align: right;">Hoje : {{today}}</div>
+        </div>
+        <div class="row main-row nested" >
+            <div id="sidebar" style="width: 450px">
+                <div class="row scroll-div dataRow nested">
+                    <table class="dataTable" ng-if='dataBOM'>
+                        <tr>
+                            <th class="monthTitle" colspan="5" style="text-align: left !important;padding-left: 10px;">Pedidos</th>
+                        </tr>
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th style="min-width: 75px">Pedido</th>
+                            <th style="min-width: 140px">Cliente</th>
+                            <th style="min-width: 100px">Data Pedido</th>
+                            <th style="min-width: 100px">Data Entrega</th>
+                        </tr>
+                        <tr ng-repeat="BOM in finalArr" id="{{BOM.id}}" ng-click="getShippingDetail({{BOM.id}})" style="cursor: pointer" ng-if="checkYear(BOM.delivery) <= maxYear">
+                            <td style="text-align: center;" class="fa-md-arrow-right-planning" ng-click="openBOM({{BOM.id}})"></td>
+                            <td id="{{BOM.id}}">{{BOM.number}}</td>
+                            <td>{{BOM.customer}}</td>
+                            <td>{{BOM.created | getDate}}</td>
+                            <td>{{BOM.delivery| getDate}}</td>
+                        </tr>
+                        <tr id="checkone">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="dragbar"></div>
+            </div>
+            <div id="list-view" class="planning-detail" style="width: 1400px;">
+                <div class="row scroll-div mainRow nested">
+                    <table border="1" class="mainTable" sortable-func ng-if='dataBOM'>
+                        <tr>
+                            <th class="monthTitle" colspan="{{month.days.length}}" ng-repeat="month in monthDays">{{month.name}}</th>
+                        </tr>
+                        <tr>
+                            <th ng-repeat="day in days track by $index" ng-if='viewWeekly == false'>{{getDay(day)}}</th>
+                            <th ng-repeat="day in days track by $index" ng-if='viewWeekly == true'>{{getWeekDayShort(day)}}</th>
+                        </tr>
+                        <tr ng-repeat="BOM in finalArr" class="{{BOM.id}}" ng-if="checkYear(BOM.delivery) <= maxYear">
+                            <td ng-repeat="day in days track by $index" id="{{BOM.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components != ''">
+                                <div class="dragDiv" ng-repeat="del in BOM.components" id="{{day}}" data-itemid="{{del.itemid}}" data-componentid="{{del.componentid}}" data-viewdeliveryid="{{del.deliveryid}}" ng-class="getCellColor(del.deliverydate,del.deliveryweight)" ng-if="(checkDay(del.deliverydate) == getDay(day)) && (checkMonth(del.deliverydate) == getMonth(day)) && (checkYear(del.deliverydate) == getYear(day))" data-weight='{{del.deliveryweight}}'>
+                                    <!--{{del.deliveryweight | setDecimal:1}}-->
+                                    {{showWeight(del.deliveryweight)}}
+                                </div>
+                            </td>
+                            <td ng-repeat="day in days track by $index" id="{{BOM.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components == ''" style="width: 50px;height: 30px;">
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr class="totalWeightRow">
+                            <td ng-repeat="day in days track by $index" data-date='{{day}}' style="height: 30px;">
+                                &nbsp;
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="planning-detail" id="grid-view" style="display: none;width: 1395px;">
+                <div class="row monthTitle" style="background-color: #00aba9;height: 30px;margin-bottom: 15px;margin-top: 5px;width: 100%"> {{activeShipping.number}} - {{activeShipping.customer}}  </div>
+                <div  class="shipping_data" style="height: 740px;">
+                    <div class="row" ng-repeat='data in activeShipping.item'>
+                        <div id="item_repeat" style="width: 100%">
+                            <div class="row" style="margin-top:-15px;">
+                                <div class="col">
+                                    <div class="list"> <a class="process-item-list item-icon-right " style="padding-left:0px;">ITEM {{data.item}}  </a> </div>
+                                </div>
+                            </div>
+                            <div class="edit-item">
+                                <div class="col row">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td colspan="7" style="padding-left:30px; padding-bottom:10px; font-size:16px;">{{data.description}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="edit-item-title" style="text-align: center;width: 8%;"><i class="fa-calender"></i> <span>Entrega</span></td>
+                                            <td class="edit-item-title" style="text-align: center;width: 9%;"><i class="fa-list-ol"></i> <span>Quantidade</span></td>
+                                            <td class="edit-item-title" style="text-align: center;width: 9%;"><i class="fa-list-ol"></i> <span>Entregue</span></td>
+                                            <td class="edit-item-title" style="text-align: center;width: 9%;"><i class="fa-list-ol"></i> <span>Saldo</span></td>
+                                            <td class="edit-item-title" style="width: 42%"> Descricao</td>
+                                            <td class="edit-item-title" style="text-align: center;width: 8%;"><i class="fa-pencil"></i> <span>Cor</span></td>
+                                            <td class="edit-item-title" style="text-align: center;width: 6%;"><i class="fa-tachometer"></i> <span>Peso</span></td>
+                                            <td class="edit-item-title" style="text-align: center;width: 6%;"><i class="fa-tachometer"></i> <span>Peso</span></td>
+                                            <td class="edit-item-title" style="width: 3%;">&nbsp;</td>
+                                        </tr>
+                                        <tr ng-repeat='dataPart in data.component'>
+                                            <td colspan="9">
+                                                <table style="width: 100%">
+                                                    <tr ng-repeat='component in dataPart.delivery' id="{{component.id}}" data-itemId="{{data.id}}">
+                                                        <td class="edit-info" style="text-align: center;width: 8%;">{{ component.delivery | getDate }}</td>
+                                                        <td class="edit-info" style="text-align: center;width: 9%;">{{component.quantity.value}} {{component.quantity.unit.symbol}}</td>
+                                                        <td class="edit-info" style="text-align: center;width: 9%;">{{component.delivered.value}} {{component.quantity.unit.symbol}}</td>
+                                                        <td class="edit-info" style="text-align: center;width: 9%;"><input type="number" id="remaining_{{component.id}}" value="{{component.remaining.value}}" class="saldo"></td>
+                                                        <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 42%;">{{dataPart.material.description}}</td>
+                                                        <td class="edit-text" style="width: 8%;">{{dataPart.color.code}}</td>
+                                                        <td class="edit-info" style="text-align: right;width: 6%;">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
+                                                        <td class="edit-info" style="text-align: right;width: 6%;">{{dataPart.weight.value * component.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
+                                                        <td class="edit-text" style="width: 3%;">
+                                                            <i class="icon plus-icon fa-square-o" change-remaining-quantity dataitem="{{data.id}}" datapart="{{dataPart.id}}" datamaterial="{{dataPart.material.id}}" datadelivery="{{component.id}}"></i>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="activeShipping.item == ''">
+                        <h2>No Items found.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-pane>
