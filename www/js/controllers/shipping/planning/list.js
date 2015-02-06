@@ -170,9 +170,10 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
             };
 
             $scope.loadGrid = function() {
-                Restangular.one('shipping/planning').get({checked: false, search: ''}).then(function(response) {
+                Restangular.one('shipping/planning').get({max:999}).then(function(response) {
                     $scope.loading = false;
                     $scope.totalBOM = response.data.length;
+                    console.log(JSON.stringify($scope.totalBOM));
                     $scope.dataBOM = response.data;
                     var tempUnixTS = '';
                     $scope.planningArr = [];
@@ -940,6 +941,8 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                             $scope.bomData.created = moment.unix(data.created).format('DD/MM/YYYY');
                             $scope.bomData.delivery = moment.unix(data.delivery).format('DD/MM/YYYY');
                             $scope.bomData.items = data.item;
+
+                            $('.shipping_data').css('height',$('.scroll-div').height()-37);
                         }
                         $scope.loading = false;
                     }, function() {
