@@ -520,11 +520,25 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                 $(document).mouseup(function(e) {
                     if (dragging)
                     {
-                        $('#sidebar').css("width", e.pageX - 30);
-                        $('.dataRow').css("width", e.pageX - 30);
-                        $('.dataTable').css("width", e.pageX - 30);
+//                        $('#sidebar').css("width", e.pageX - 30);
+//                        $('.dataRow').css("width", e.pageX - 30);
+//                        $('.dataTable').css("width", e.pageX - 30);
+//                        $('.planning-detail').css("left", e.pageX + 32);
+//                        $('.planning-detail').css("width", ($('.main-row').width() - e.pageX + 32));
+//                        $('#ghostbar').remove();
+//                        $(document).unbind('mousemove');
+//                        dragging = false;
+                        var width = $(window).width();
+                        var parentWidth = e.pageX;
+                        var percent = 100 * parentWidth / width;
+                        console.log(JSON.stringify(width));
+                        console.log(JSON.stringify(percent));
+                        console.log(JSON.stringify(e.pageX));
+                        $('#sidebar').css("width", percent+"%");
+//                        $('.dataRow').css("width", e.pageX - 30);
+//                        $('.dataTable').css("width", e.pageX - 30);
                         $('.planning-detail').css("left", e.pageX + 32);
-                        $('.planning-detail').css("width", ($('.main-row').width() - e.pageX + 32));
+                        $('.planning-detail').css("width", (100-percent)+'%');
                         $('#ghostbar').remove();
                         $(document).unbind('mousemove');
                         dragging = false;

@@ -1947,7 +1947,7 @@
 .edit-item-title .fa-list-ol:before { font-size:16px; padding-left:10px;}
 .edit-item-title .fa-pencil:before  { font-size:16px;}
 .edit-item-title .fa-tachometer:before { font-size:16px;}
-.edit-text {font-size:18px; color:#000; text-transform:uppercase; border-bottom:1px solid #cccccc; padding-left:10px; padding-top:5px; padding-bottom:5px;}
+.edit-text {font-size:18px; color:#000; text-transform:uppercase; border-bottom:1px solid #cccccc; padding-left:10px; padding-top:5px; padding-bottom:5px;word-wrap: break-word}
 .edit-info {font-size:18px; color:#666666;border-bottom:1px solid #cccccc; padding-left:10px;}
 .fa-check-square-o:before {  font-family: "fontawesome";
                              content: "\f046";
@@ -2362,6 +2362,7 @@
     text-align: center !important;
     vertical-align: middle;
 }
+.dataTable { width: 100%;}
 .dataTable tr th:first-child { min-width: 40px; }
 .dataTable tr td:first-child { min-width: 40px; }
 .dataTable tr th {
@@ -2378,6 +2379,8 @@
     border-bottom: 1px solid #000000;
     text-overflow: ellipsis;
     white-space: nowrap;
+    overflow: hidden;
+    margin: 0 5px;
 }
 
 .even {
@@ -2468,7 +2471,7 @@
     background-color: #95bcf2 !important;
 }*/
 .hover {
-  background: #95bcf2;
+    background: #95bcf2;
 }
 .saldo {
     background-color: #eeeeee;
@@ -2477,4 +2480,83 @@
     margin-bottom: -3px;
     margin-top: 5px;
     padding-left: 5px !important;
+}
+.topBtnRadius {
+    border-radius: 5px 0 0 5px;
+}
+
+.align-right {
+    text-align: right;
+}
+.align-center {
+    text-align: center;
+}
+.align-left {
+    text-align: left;
+}
+.dataTable-title {
+    text-align: left !important;padding-left: 10px;
+}
+.width-3 {
+    width: 3%;
+}
+.width-5 {
+    width: 5%;
+}
+.width-6 {
+    width: 6%;
+}
+.width-8 {
+    width: 8%;
+}
+.width-9 {
+    width: 9%;
+}
+.width-10 {
+    width: 10%;
+}
+.width-15 {
+    width: 15%;
+}
+.width-20 {
+    width: 20%;
+}
+.width-30 {
+    width: 30%;
+}
+.width-40 {
+    width: 40%;
+}
+.width-42 {
+    width: 42%;
+}
+.width-50 {
+    width: 50%;
+}
+.width-60 {
+    width: 60%;
+}
+.width-70 {
+    width: 70%;
+}
+.width-80 {
+    width: 80%;
+}
+.width-90 {
+    width: 90%;
+}
+.width-100 {
+    width: 100%;
+}
+.totalWeightRow td {
+    height: 30px;
+}
+.view-title {
+    background-color: #00aba9;height: 30px;margin-bottom: 15px;margin-top: 5px;width: 100%
+}
+.shipping_data {
+    height: 740px;
+}
+.data-description{
+    padding-left:30px; padding-bottom:10px; font-size:16px;
 }
