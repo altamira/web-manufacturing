@@ -625,16 +625,18 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         $scope.chgDeliveryData.delivered = response.data.delivered;
                         $scope.chgDeliveryData.remaining = response.data.remaining;
                         Restangular.all('shipping').one('planning', $scope.BOMId).one('item', $scope.ITEMId).one('component', $scope.PARTId).one('delivery', $scope.DELIVERYId).customPUT($scope.chgDeliveryData).then(function(response) {
-
+                            $scope.loading = false;
                             services.showAlert('Success', 'Delivery date changed to ' + $scope.partData.delivery).then(function(res) {
                                 location.reload();
                             });
 
                         }, function(response) {
-                            services.showAlert('Falhou', 'Error in PUT request - ' + (i + 1));
+                            $scope.loading = false;
+                            services.showAlert('Falhou', 'Error in PUT request');
                         });
                     }, function(response) {
-                        services.showAlert('Falhou', 'Error in PUT request - ' + (i + 1));
+                        $scope.loading = false;
+                        services.showAlert('Falhou', 'Error in GET request');
                     });
                 }
             }

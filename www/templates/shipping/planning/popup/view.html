@@ -124,7 +124,8 @@
                                         <tr ng-repeat='component in dataPart.delivery' ng-if="checkForViewDelivery(component.id) > -1">
                                             <td class="edit-info" style="text-align: center;width: 10%;">{{ component.delivery | getDate }}</td>
                                             <td class="edit-info" style="text-align: center;width: 11%;">{{component.quantity.value}} {{component.quantity.unit.symbol}}</td>
-                                            <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id,component.id)'  style="cursor: pointer;width: 50%;">{{dataPart.material.description}} - {{data.id}} - {{dataPart.id}} - {{dataPart.material.id}} - {{component.id}}</td>
+                                            <!--<td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id,component.id)'  style="cursor: pointer;width: 50%;">{{dataPart.material.description}} - {{data.id}} - {{dataPart.id}} - {{dataPart.material.id}} - {{component.id}}</td>-->
+                                            <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id,component.id)'  style="cursor: pointer;width: 50%;">{{dataPart.material.description}}</td>
                                             <td class="edit-text" style="width: 9%;">{{dataPart.color.code}}</td>
                                             <td class="edit-info" style="text-align: right;width: 8%;">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
                                             <td class="edit-info" style="text-align: right;width: 9%;">{{dataPart.weight.value * component.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>

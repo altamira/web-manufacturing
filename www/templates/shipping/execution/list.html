@@ -98,7 +98,7 @@
                 <div class="row monthTitle view-title"> {{activeShipping.number}} - {{activeShipping.customer}}  </div>
                 <div  class="shipping_data" style="height: 740px;">
                     <div class="row" ng-repeat='data in activeShipping.item'>
-                        <div id="item_repeat width-100">
+                        <div id="item_repeat" class="width-100">
                             <div class="row" style="margin-top:-15px;">
                                 <div class="col">
                                     <div class="list"> <a class="process-item-list item-icon-right " style="padding-left:0px;">ITEM {{data.item}}  </a> </div>
@@ -108,31 +108,32 @@
                                 <div class="col row">
                                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                         <tr>
-                                            <td colspan="7" class="data-description">{{data.description}}</td>
+                                            <td colspan="9" class="data-description">{{data.description}}</td>
                                         </tr>
                                         <tr>
-                                            <td class="edit-item-title align-center width-8"><i class="fa-calender"></i> <span>Entrega</span></td>
-                                            <td class="edit-item-title align-center width-9"><i class="fa-list-ol"></i> <span>Quantidade</span></td>
-                                            <td class="edit-item-title align-center width-9"><i class="fa-list-ol"></i> <span>Entregue</span></td>
-                                            <td class="edit-item-title align-center width-9"><i class="fa-list-ol"></i> <span>Saldo</span></td>
-                                            <td class="edit-item-title align-center width-42"> Descricao</td>
-                                            <td class="edit-item-title align-center width-8"><i class="fa-pencil"></i> <span>Cor</span></td>
-                                            <td class="edit-item-title align-center width-6"><i class="fa-tachometer"></i> <span>Peso</span></td>
-                                            <td class="edit-item-title align-center width-6"><i class="fa-tachometer"></i> <span>Peso</span></td>
+                                            <td class="edit-item-title align-center width-9"><i class="fa-calender"></i> <span>Entrega</span></td>
+                                            <td class="edit-item-title align-center width-8"><i class="fa-list-ol"></i> <span>Quantidade</span></td>
+                                            <td class="edit-item-title align-center width-8"><i class="fa-list-ol"></i> <span>Entregue</span></td>
+                                            <td class="edit-item-title align-center width-8"><i class="fa-list-ol"></i> <span>Restante</span></td>
+                                            <td class="edit-item-title align-center width-40"> Descricao</td>
+                                            <td class="edit-item-title align-center width-10"><i class="fa-pencil"></i> <span>Cor</span></td>
+                                            <td class="edit-item-title align-center width-7"><i class="fa-tachometer"></i> <span>Peso</span></td>
+                                            <td class="edit-item-title align-center width-7"><i class="fa-tachometer"></i> <span>Peso</span></td>
                                             <td class="edit-item-title align-center width-3">&nbsp;</td>
                                         </tr>
                                         <tr ng-repeat='dataPart in data.component'>
                                             <td colspan="9">
                                                 <table style="width: 100%">
                                                     <tr ng-repeat='component in dataPart.delivery' id="{{component.id}}" data-itemId="{{data.id}}">
-                                                        <td class="edit-info align-center width-8">{{ component.delivery | getDate }}</td>
-                                                        <td class="edit-info align-center width-9">{{component.quantity.value}} {{component.quantity.unit.symbol}}</td>
-                                                        <td class="edit-info align-center width-9">{{component.delivered.value}} {{component.quantity.unit.symbol}}</td>
-                                                        <td class="edit-info align-center width-9"><input type="number" id="remaining_{{component.id}}" value="{{component.remaining.value}}" class="saldo"></td>
-                                                        <td class="edit-text align-center width-42" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;">{{dataPart.material.description}}</td>
-                                                        <td class="edit-text align-center width-8">{{dataPart.color.code}}</td>
-                                                        <td class="edit-info align-center width-6">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
-                                                        <td class="edit-info align-center width-6">{{dataPart.weight.value * component.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
+                                                        <td class="edit-info align-center width-9">{{ component.delivery | getDate }}</td>
+                                                        <!--<td class="edit-info align-center width-8">{{component.delivered.value}} {{component.quantity.unit.symbol}}</td>-->
+                                                        <td class="edit-info align-center width-8">{{component.quantity.value}} {{component.quantity.unit.symbol}}</td>
+                                                        <td class="edit-info align-center width-8"><input type="number" id="remaining_{{component.id}}" value="{{component.remaining.value}}" class="saldo"></td>
+                                                        <td class="edit-info align-center width-8">{{component.remaining.value}}</td>
+                                                        <td class="edit-text align-left width-40" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;">{{dataPart.material.description}}</td>
+                                                        <td class="edit-text align-center width-10">{{dataPart.color.code}}</td>
+                                                        <td class="edit-info align-center width-7">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
+                                                        <td class="edit-info align-center width-7">{{dataPart.weight.value * component.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
                                                         <td class="edit-text align-center width-3">
                                                             <i class="icon plus-icon fa-square-o" change-remaining-quantity dataitem="{{data.id}}" datapart="{{dataPart.id}}" datamaterial="{{dataPart.material.id}}" datadelivery="{{component.id}}"></i>
                                                         </td>

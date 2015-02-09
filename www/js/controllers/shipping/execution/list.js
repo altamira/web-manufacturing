@@ -170,7 +170,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
             };
 
             $scope.loadGrid = function() {
-                Restangular.one('shipping/execution').get({checked: false, search: ''}).then(function(response) {
+                Restangular.one('shipping/execution').get({max:999}).then(function(response) {
                     $scope.loading = false;
                     $scope.totalBOM = response.data.length;
                     $scope.dataBOM = response.data;
@@ -518,10 +518,12 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         $scope.partData.delivery = CommonFun.getFullDate(response1.data.delivery);
 
                     }, function(response1) {
+                        $scope.loading = false;
                         services.showAlert('Falhou', 'Please try again');
                     });
 
                 }, function(response) {
+                    $scope.loading = false;
                     services.showAlert('Falhou', 'Please try again');
                 });
                 $scope.getUnitSymbol = function(unitId, unitType) {
