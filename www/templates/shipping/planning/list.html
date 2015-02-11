@@ -99,7 +99,7 @@
             <div class="planning-detail width-70" id="grid-view" style="display: none;">
                 <div class="row monthTitle view-title"> {{activeShipping.number}} - {{activeShipping.customer}}  </div>
                 <div  class="shipping_data">
-                    <div class="row" ng-repeat='data in activeShipping.item'>
+                    <div class="row" ng-repeat='data in finalList'>
                         <div id="item_repeat" class="width-100">
                             <div class="row" style="margin-top:-15px;">
                                 <div class="col">
@@ -123,23 +123,17 @@
                                             <td class="edit-item-title align-center width-7"><i class="fa-tachometer"></i> <span>Peso</span></td>
                                             <td class="edit-item-title align-center width-3">&nbsp;</td>
                                         </tr>
-                                        <tr ng-repeat='dataPart in data.component'>
-                                            <td colspan="9">
-                                                <table class="width-100">
-                                                    <tr ng-repeat='component in dataPart.delivery' id="{{component.id}}" data-itemId="{{data.id}}">
-                                                        <td class="edit-info align-center width-9">{{ component.delivery | getDate }}</td>
-                                                        <td class="edit-info align-center width-8">{{component.quantity.value}} {{component.quantity.unit.symbol}}</td>
-                                                        <td class="edit-info align-center width-8">{{component.delivered.value}} {{component.quantity.unit.symbol}}</td>
-                                                        <td class="edit-info align-center width-8">{{component.remaining.value}}</td>
-                                                        <td class="edit-text width-40" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;">{{dataPart.material.description}}</td>
-                                                        <td class="edit-text align-center width-10">{{dataPart.color.code}}</td>
-                                                        <td class="edit-info align-right width-7">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
-                                                        <td class="edit-info align-right width-7">{{dataPart.weight.value * component.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
-                                                        <td class="edit-text align-center width-3">
-                                                            <i class="icon plus-icon fa-square-o" select-bom dataitem="{{data.id}}" datapart="{{dataPart.id}}" datamaterial="{{dataPart.material.id}}" datadelivery="{{component.id}}"></i>
-                                                        </td>
-                                                    </tr>
-                                                </table>
+                                        <tr ng-repeat='component in data.delivery' id="{{component.delivery.id}}" data-itemId="{{data.id}}">
+                                            <td class="edit-info align-center width-9">{{ component.delivery.delivery | getDate }}</td>
+                                            <td class="edit-info align-right width-8">{{component.delivery.quantity.value}} {{component.delivery.quantity.unit.symbol}}</td>
+                                            <td class="edit-info align-right width-8">{{component.delivery.delivered.value}} {{component.delivery.quantity.unit.symbol}}</td>
+                                            <td class="edit-info align-right width-8">{{component.delivery.remaining.value}} {{component.delivery.quantity.unit.symbol}}</td>
+                                            <td class="edit-text width-40" ng-click='updatePart(bomData.id,data.id,component.componentId)'  style="cursor: pointer;">{{component.description}}</td>
+                                            <td class="edit-text align-center width-10">{{component.color}}</td>
+                                            <td class="edit-info align-right width-7">{{component.weight | setDecimal:2}} {{component.weightType}}</td>
+                                            <td class="edit-info align-right width-7">{{component.weight * component.delivery.quantity.value | setDecimal:3}} {{component.weightType}}</td>
+                                            <td class="edit-text align-center width-3">
+                                                <i class="icon plus-icon fa-square-o" select-bom dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}"></i>
                                             </td>
                                         </tr>
                                     </table>

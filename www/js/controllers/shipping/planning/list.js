@@ -48,7 +48,6 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
             $scope.joinData = {};
             $scope.divideData = {};
             $scope.divideData.component = {};
-
             var pt = moment().locale('pt-br');
             $scope.today = pt.format('dddd, LL');
             moment.locale('pt-br');
@@ -168,16 +167,13 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     return $scope.viewDeliveryId.indexOf(parseInt(deliveryId));
                 }
             };
-
             $scope.loadGrid = function() {
-                Restangular.one('shipping/planning').get({max:999}).then(function(response) {
+                Restangular.one('shipping/planning').get({max: 999}).then(function(response) {
                     $scope.loading = false;
                     $scope.totalBOM = response.data.length;
-                    console.log(JSON.stringify($scope.totalBOM));
                     $scope.dataBOM = response.data;
                     var tempUnixTS = '';
                     $scope.planningArr = [];
-
                     for (var i = 0; i < $scope.totalBOM; i++)
                     {
                         for (var j = 0; j < $scope.dataBOM[i].item.length; j++)
@@ -476,7 +472,6 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 $scope.PARTId = partId;
                 $scope.DELIVERYId = deliveryid;
                 $scope.partData = {};
-
                 Restangular.one('shipping/planning', bomId).one('item', itemId).one('component', partId).get().then(function(response) {
                     $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/part.html', {
                         scope: $scope,
@@ -500,28 +495,21 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     $scope.partData.description = data.material.description;
                     $scope.partData.delivery = data.delivery.delivery;
                     $scope.getColorName(data.color.id);
-
                     $scope.partData.quantity = data.quantity.value;
                     $scope.partData.quantityType = data.quantity.unit.symbol;
-
                     $scope.partData.width = data.width.value;
                     $scope.getUnitSymbol(data.width.unit.id, 'width');
-
                     $scope.partData.height = data.height.value;
                     $scope.getUnitSymbol(data.height.unit.id, 'height');
-
                     $scope.partData.length = data.length.value;
                     $scope.getUnitSymbol(data.length.unit.id, 'length');
-
                     $scope.partData.weight = data.weight.value;
                     $scope.getUnitSymbol(data.weight.unit.id, 'weight');
                     Restangular.one('shipping/planning', bomId).one('item', itemId).one('component', partId).one('delivery', deliveryid).get().then(function(response1) {
                         $scope.partData.delivery = CommonFun.getFullDate(response1.data.delivery);
-
                     }, function(response1) {
                         services.showAlert('Falhou', 'Please try again');
                     });
-
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');
                 });
@@ -559,7 +547,6 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     });
                 };
             };
-
             $scope.submitPartForm = function(isValid) {
                 if (isValid) {
                     $scope.loading = true;
@@ -629,7 +616,6 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                             services.showAlert('Success', 'Delivery date changed to ' + $scope.partData.delivery).then(function(res) {
                                 location.reload();
                             });
-
                         }, function(response) {
                             $scope.loading = false;
                             services.showAlert('Falhou', 'Error in PUT request');
@@ -645,13 +631,11 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 $scope.changePartModal.hide();
                 $scope.changeDate.show();
             };
-
             $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/divide.html', {
                 scope: $scope,
                 animation: 'fade-in'
             }).then(function(modal) {
                 $scope.divideDateModal = modal;
-
             });
             $scope.divideDateModalShow = function() {
                 $scope.changeDateModalHide();
@@ -672,7 +656,6 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     var tempVar = $scope.getObjects($scope.bomData.items, 'id', $scope.itemId);
                     var part;
                     var partDelivery;
-
                     part = $scope.getObjects(tempVar[0].component, 'id', $scope.itemPartIdArr[0]);
                     $scope.divideData.chnDateCode = part[0].material.code;
                     $scope.divideData.chnDateDesc = part[0].material.description;
@@ -797,13 +780,11 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
             $scope.createComponent = function() {
                 $scope.createComponentModalShow();
             };
-
             $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/join.html', {
                 scope: $scope,
                 animation: 'fade-in'
             }).then(function(modal) {
                 $scope.joinDateModal = modal;
-
             });
             $scope.joinDateModalShow = function() {
                 $scope.changeDateModalHide();
@@ -859,7 +840,6 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     services.showAlert('Falhou', 'Please select atleast 2 components to join delivery date');
                 }
             };
-
             $scope.submitJoinComponent = function(isValid) {
                 if (isValid) {
                     $scope.joinDateModal.hide();
@@ -878,7 +858,6 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                             .one('component', $scope.joinData.chnDateParts[0].id)
                             .all('delivery').post($scope.postdata).then(function(response) {
                         $scope.loading = false;
-
                         var i;
                         for (i = 0; i < $scope.joinData.chnDateParts.length; i++)
                         {
@@ -917,7 +896,6 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     });
                 }
             };
-
             $scope.getShippingDetail = function(shippingId) {
                 tempMaterialId = '';
                 tempItemId = '';
@@ -930,6 +908,36 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     Restangular.one('shipping/planning', shippingId).get().then(function(response) {
                         $scope.activeShipping = response.data;
                         var data = response.data;
+                        $scope.finalList = [];
+                        for (var j = 0; j < data.item.length; j++)
+                        {
+                            $scope.tempList = {};
+                            $scope.tempList.id = data.item[j].id;
+                            $scope.tempList.version = data.item[j].version;
+                            $scope.tempList.type = data.item[j].type;
+                            $scope.tempList.item = data.item[j].item;
+                            $scope.tempList.description = data.item[j].description;
+                            $scope.tempList.delivery = [];
+                            for (var k = 0; k < data.item[j].component.length; k++)
+                            {
+                                for (var l = 0; l < data.item[j].component[k].delivery.length; l++)
+                                {
+                                    $scope.tempListComponent = {};
+                                    $scope.tempListComponent.componentId = data.item[j].component[k].id;
+                                    $scope.tempListComponent.materialId = data.item[j].component[k].material.id;
+                                    $scope.tempListComponent.description = data.item[j].component[k].material.description;
+                                    $scope.tempListComponent.color = data.item[j].component[k].color.code;
+                                    $scope.tempListComponent.weight = data.item[j].component[k].weight.value;
+                                    $scope.tempListComponent.weightType = data.item[j].component[k].weight.unit.symbol;
+                                    $scope.tempListComponent.quantity = data.item[j].component[k].quantity.value;
+                                    $scope.tempListComponent.delivery = data.item[j].component[k].delivery[l];
+                                    $scope.tempList.delivery.push($scope.tempListComponent);
+                                }
+                            }
+                            $scope.finalList.push($scope.tempList);
+                        }
+                        console.log(JSON.stringify($scope.finalList));
+
                         if (data != '')
                         {
                             $scope.bomData.id = data.id;
@@ -943,8 +951,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                             $scope.bomData.created = moment.unix(data.created).format('DD/MM/YYYY');
                             $scope.bomData.delivery = moment.unix(data.delivery).format('DD/MM/YYYY');
                             $scope.bomData.items = data.item;
-
-                            $('.shipping_data').css('height',$('.scroll-div').height()-37);
+                            $('.shipping_data').css('height', $('.scroll-div').height() - 37);
                         }
                         $scope.loading = false;
                     }, function() {
