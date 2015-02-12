@@ -544,6 +544,7 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                         dragging = false;
                     }
                 });
+                $('.mainTable').fixedHeaderTable({ footer: false, cloneHeadToFoot: false, fixedColumn: false });
             };
 
             setTimeout(function() {

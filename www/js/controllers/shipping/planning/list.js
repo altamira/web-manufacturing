@@ -629,7 +629,11 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
 
             $scope.goBackParent = function() {
                 $scope.changePartModal.hide();
-                $scope.changeDate.show();
+                if ($scope.viewGrid != true)
+                {
+                    $scope.changeDate.show();
+                }
+
             };
             $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/divide.html', {
                 scope: $scope,
