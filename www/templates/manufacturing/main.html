@@ -1,0 +1,122 @@
+<div class="loding_div" ng-show="loading">
+    <div id="loadingProgressG">
+        <div id="loadingProgressG_1" class="loadingProgressG">
+        </div>
+    </div>
+</div>
+<ion-pane class="login-container">
+    <ion-content>
+        <div class="row">
+            <div class="col-80 desktop-view logo logo-small" ng-click="goToLogin()"><img src="img/altamira_logo.png" alt=""> Altamira Industria Metalurgica</div>
+            <div class="col logo-des"><img src="img/altamira_logo.png" alt=""> <span>Altamira</span></div>
+        </div>
+        <div class="row">
+            <div class="col home-container">
+                <div class="row">
+                    <div class="col-20">
+                        <div style="margin-bottom:6px;" class="row list-box">
+                            <div class="col icon-list-box">
+                                <a style="text-decoration: none;color: #000000" ng-click="goAltamira('/material/list')">
+                                    <div class="row">
+                                        <div style="padding-top:15px;" class="col"> <span class="icon-side-list"></span> </div>
+                                    </div>
+                                    <div class="row produce-name">
+                                        <div class="col"> <span>Lista de Material</span> </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col icon-list-box">
+                                <a style="text-decoration: none;color: #000000" ng-click="goAltamira('/manufacturing/process')">
+                                    <div class="row">
+                                        <div style="padding-top:15px;" class="col"> <span class="icon-side-github-6"></span> </div>
+                                    </div>
+                                    <div class="row produce-name">
+                                        <div class="col"> <span>Processo</span> </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div style="margin-bottom:6px;" class="row list-box">
+                            <div class="col icon-list-box">
+                                <a style="text-decoration: none;color: #000000" ng-click="goAltamira('/manufacturing/bom')">
+                                    <div class="row">
+                                        <div style="padding-top:15px;" class="col"> <span class="icon-side-flag-2"></span> </div>
+                                    </div>
+                                    <div class="row produce-name">
+                                        <div class="col"> <span>Bill of material</span> </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col icon-list-box">
+                                <a style="text-decoration: none;color: #000000" ng-click="goAltamira('/shipping/planning')">
+                                    <div class="row">
+                                        <div style="padding-top:15px;" class="col"> <span class="icon-side-attachment"></span> </div>
+                                    </div>
+                                    <div class="row produce-name">
+                                        <div class="col"> <span>Shipping planning</span> </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div style="margin-bottom:6px;" class="row list-box">
+                            <div class="col icon-list-box">
+                                <a style="text-decoration: none;color: #000000" ng-click="goAltamira('/shipping/execution')">
+                                    <div class="row">
+                                        <div style="padding-top:15px;" class="col"> <span class="icon-side-newspaper"></span> </div>
+                                    </div>
+                                    <div class="row produce-name">
+                                        <div class="col"> <span>Shipping execution</span> </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col icon-list-box">
+                                <a style="text-decoration: none;color: #000000">
+                                    <div class="row">
+                                        <div style="padding-top:15px;" class="col"> <span class="icon-side-link"></span> </div>
+                                    </div>
+                                    <div class="row produce-name">
+                                        <div class="col"> <span>Processo</span> </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+<!--                        <div style="margin-bottom:6px;" class="row list-box">
+                            <div class="col icon-list-box">
+                                <a style="text-decoration: none;color: #000000">
+                                    <div class="row">
+                                        <div style="padding-top:15px;" class="col"> <span class="icon-side-play-2"></span> </div>
+                                    </div>
+                                    <div class="row produce-name">
+                                        <div class="col"> <span>O.S.</span> </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col icon-list-box">
+                                <a style="text-decoration: none;color: #000000" href="#">
+                                    <div class="row">
+                                        <div style="padding-top:15px;" class="col"> <span class="icon-side-checkbox"></span> </div>
+                                    </div>
+                                    <div class="row produce-name">
+                                        <div class="col"> <span>Apontamento</span> </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>-->
+<!--                        <div class="row list-box">
+                            <div class="col icon-box2"> <span class="icon-side-flag-2"></span> </div>
+                            <div class="col  icon-box2"> <span class="icon-side-attachment"></span> </div>
+                            <div class="col  icon-box2"> <span class="icon-side-newspaper"></span> </div>
+                            <div class="col  icon-box2"> <span class="icon-side-link"></span> </div>
+                        </div>
+                        <div style="background-color: #00ABA9;margin: auto;width: 100%;margin-bottom: 10px; padding-top:4px; padding-bottom:4px;" class="row">
+                            <div class="col"> <i class="icon-side-play-2 fg-white" style="margin-top:6px;"></i> <span class="icon-title">O.S.</span> </div>
+                        </div>
+                        <div style="background-color: #00ABA9;margin: auto;width: 100%;margin-bottom: 10px; padding-top:8px; padding-bottom:8px;" class="row">
+                            <div class="col"> <i class="icon-side-checkbox fg-white"></i> <span class="icon-title">Apontamento</span> </div>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-pane>

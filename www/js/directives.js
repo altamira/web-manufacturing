@@ -609,6 +609,8 @@ altamiraApp.directive('changeRemainingQuantity', function(services) {
 function totalWeightCal() {
     $('.totalWeightRow td').each(function(e) {
         var $th = $(this);
+        $th.removeClass('totalWeightShow');
+        $th.removeClass('green');
         var tempTotalWeight = 0;
         $('.' + $th.data('date')).each(function(f) {
             if ($(this).children().data('weight') != undefined && $(this).children().data('weight') != '')

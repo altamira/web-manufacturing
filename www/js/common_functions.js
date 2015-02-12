@@ -15,9 +15,9 @@ altamiraApp.factory('CommonFun', ['$http', 'Restangular', function($http, Restan
             getDefaultQuantityType: 217,
             getDefaultColor: 1016,
             getColorBox: function() {
-//                sessionStorage.setItem('colorBoxData','http://data.altamira.com.br/manufacturing-report-0.4.0-SNAPSHOT');
-                console.log(JSON.stringify($http.get(Restangular.configuration.baseUrl + '/common/color')));
-                ;
+                Restangular.one('common/color').get({max: 0}).then(function(response) {
+                    sessionStorage.setItem('colorBoxData',response.data);
+                });
 //                return $http.get(Restangular.configuration.baseUrl + '/common/color');
             },
             getFullTimestamp: function(date) {
@@ -26,8 +26,8 @@ altamiraApp.factory('CommonFun', ['$http', 'Restangular', function($http, Restan
             getFullDate: function(timestamp) {
                 return moment(timestamp).format('DD/MM/YYYY');
             },
-            setDefaultDateFormat: function(dateString,format) {
-                return moment(dateString,format).format('DD/MM/YYYY');
+            setDefaultDateFormat: function(dateString, format) {
+                return moment(dateString, format).format('DD/MM/YYYY');
             },
         }
 
