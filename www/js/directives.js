@@ -253,11 +253,11 @@ altamiraApp.directive('toDate', function() {
 altamiraApp.directive('toNewDate', function() {
     return {
         link: function(scope, el, attr) {
+            console.log(JSON.stringify(attr.defaultdate));
             $(el).datepicker({
                 dateFormat: 'dd/mm/yy',
-                minDate: attr.datadate,
                 inline: true,
-                defaultDate: scope.bomData.delivery,
+                defaultDate: attr.defaultdate,
                 beforeShowDay: function(date) {
                     var day = date.getDay();
                     return [day == 1 || day == 2 || day == 3 || day == 4 || day == 5, ''];
@@ -544,7 +544,6 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                         dragging = false;
                     }
                 });
-                $('.mainTable').fixedHeaderTable({ footer: false, cloneHeadToFoot: false, fixedColumn: false });
             };
 
             setTimeout(function() {

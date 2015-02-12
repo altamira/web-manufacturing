@@ -473,20 +473,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 $scope.DELIVERYId = deliveryid;
                 $scope.partData = {};
                 Restangular.one('shipping/planning', bomId).one('item', itemId).one('component', partId).get().then(function(response) {
-                    $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/part.html', {
-                        scope: $scope,
-                        animation: 'fade-in'
-                    }).then(function(modal) {
-                        $scope.changePartModal = modal;
-                        $scope.loading = false;
-                        $scope.changePartModal.show();
-                    });
-                    $scope.changePartModalHide = function() {
-                        $scope.changePartModal.hide();
-                    };
-                    $scope.changePartModalShow = function() {
-                        $scope.changePartModal.show();
-                    };
+
                     var data = response.data;
 //                    console.log(JSON.stringify(data));
                     $scope.partData.version = data.version;
@@ -507,6 +494,20 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     $scope.getUnitSymbol(data.weight.unit.id, 'weight');
                     Restangular.one('shipping/planning', bomId).one('item', itemId).one('component', partId).one('delivery', deliveryid).get().then(function(response1) {
                         $scope.partData.delivery = CommonFun.getFullDate(response1.data.delivery);
+                        $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/part.html', {
+                            scope: $scope,
+                            animation: 'fade-in'
+                        }).then(function(modal) {
+                            $scope.changePartModal = modal;
+                            $scope.loading = false;
+                            $scope.changePartModal.show();
+                        });
+                        $scope.changePartModalHide = function() {
+                            $scope.changePartModal.hide();
+                        };
+                        $scope.changePartModalShow = function() {
+                            $scope.changePartModal.show();
+                        };
                     }, function(response1) {
                         services.showAlert('Falhou', 'Please try again');
                     });
