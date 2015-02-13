@@ -140,6 +140,25 @@ altamiraApp.directive('toggleClass', function() {
         });
     }
 });
+altamiraApp.directive('reportToggle', function() {
+    return function(scope, elm, attrs) {
+        elm.bind('click', function() {
+            if (elm.hasClass('fa-check-square-o') == false)
+            {
+                if ($.inArray(attrs.reportname, scope.totalReport) < 0)
+                {
+                    scope.totalReport.push(attrs.reportname);
+                }
+            } else
+            {
+                 scope.totalReport = $.grep(scope.totalReport, function(value) {
+                    return value != attrs.reportname;
+                });
+            }
+            elm.toggleClass('fa-check-square-o');
+        });
+    }
+});
 altamiraApp.directive('toggleViewClass', function() {
     return function(scope, elm, attrs) {
 
@@ -382,7 +401,7 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                         if (isNumber(ui.draggable.data('viewdeliveryid')))
                         {
                             scope.viewDeliveryId.push(ui.draggable.data('viewdeliveryid'));
-                            scope.getData($(this).data('day'), $(this).attr('id'),ui.draggable.data('itemid'),ui.draggable.data('componentid'));
+                            scope.getData($(this).data('day'), $(this).attr('id'), ui.draggable.data('itemid'), ui.draggable.data('componentid'));
                         }
                         else
                         {
@@ -391,7 +410,7 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                             {
                                 scope.viewDeliveryId.push(parseInt(tempViewDeliveryId[z]));
                             }
-                            scope.getData($(this).data('day'), $(this).attr('id'),ui.draggable.data('itemid'),ui.draggable.data('componentid'));
+                            scope.getData($(this).data('day'), $(this).attr('id'), ui.draggable.data('itemid'), ui.draggable.data('componentid'));
                         }
                         var $this = $(this);
                         $this.append(ui.draggable.css({
@@ -534,11 +553,11 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                         console.log(JSON.stringify(width));
                         console.log(JSON.stringify(percent));
                         console.log(JSON.stringify(e.pageX));
-                        $('#sidebar').css("width", percent+"%");
+                        $('#sidebar').css("width", percent + "%");
 //                        $('.dataRow').css("width", e.pageX - 30);
 //                        $('.dataTable').css("width", e.pageX - 30);
                         $('.planning-detail').css("left", e.pageX + 32);
-                        $('.planning-detail').css("width", (100-percent)+'%');
+                        $('.planning-detail').css("width", (100 - percent) + '%');
                         $('#ghostbar').remove();
                         $(document).unbind('mousemove');
                         dragging = false;
@@ -601,7 +620,7 @@ altamiraApp.directive('changeRemainingQuantity', function(services) {
     return function(scope, elm, attr) {
         elm.bind('click', function() {
             elm.toggleClass('fa-check-square-o');
-            scope.changeRemainingQun($('#remaining_'+attr.datadelivery).val(),attr.dataitem, attr.datapart, attr.datadelivery);
+            scope.changeRemainingQun($('#remaining_' + attr.datadelivery).val(), attr.dataitem, attr.datapart, attr.datadelivery);
         });
 
     }

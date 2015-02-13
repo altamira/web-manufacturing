@@ -132,7 +132,7 @@ altamiraApp.config(['$routeProvider',
 
 altamiraApp.config(function(RestangularProvider) {
     RestangularProvider.setBaseUrl('http://data.altamira.com.br/data-rest-0.7.5-SNAPSHOT');
-    sessionStorage.setItem('reportBaseUrl','http://data.altamira.com.br/manufacturing-report-0.4.0-SNAPSHOT');
+    sessionStorage.setItem('reportBaseUrl','http://data.altamira.com.br/manufacturing-report-0.5.1-SNAPSHOT');
     RestangularProvider.setFullResponse(true);
     RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json; charset=iso-8859-1'});
     RestangularProvider.setRestangularFields({

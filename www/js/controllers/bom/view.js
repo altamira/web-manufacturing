@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('BomViewCtrl',
-        function($scope, $location, $route, $routeParams, Restangular, services) {
+        function($scope, $location, $route, $routeParams, Restangular, services, $ionicModal) {
             $scope.bomId = $routeParams.bomId;
             $scope.project = '';
             $scope.bomData = {};
@@ -99,8 +99,24 @@ altamiraAppControllers.controller('BomViewCtrl',
                 });
             };
             $scope.reportBOM = function() {
-                window.open(sessionStorage.getItem('reportBaseUrl')+'/report/manufacturing/bom/'+$scope.bomId+'/checklist', '_blank');
+                $ionicModal.fromTemplateUrl('templates/bom/report_type.html', {
+                    scope: $scope,
+                    animation: 'fade-in'
+                }).then(function(modal) {
+                    $scope.reportType = modal;
+                    $scope.reportType.show();
+                    $scope.totalReport = [];
+                });
+                $scope.reportTypeModalShow = function() {
+                    $scope.reportType.show();
+                };
+                $scope.reportTypeModalClose = function() {
+                    $scope.reportType.hide();
+                };
             };
+            $scope.genrateReport = function() {
+                window.open(sessionStorage.getItem('reportBaseUrl') + '/report/manufacturing/bom/' + $scope.bomId + '?report=' + $scope.totalReport.join('&report='), '_blank');
+            }
             $scope.updatePart = function(itemId, partId) {
                 $location.path('bom/component/update/' + $scope.bomId + '/' + itemId + '/' + partId);
             };

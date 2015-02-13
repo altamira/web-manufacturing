@@ -1,0 +1,73 @@
+<div class="modal">
+    <ion-header-bar class="bar-calm">
+        <div class="buttons header-margin">
+            <button type="button" class="button fa-arrow-left" ng-click="reportTypeModalClose()"></button>
+            <span class="btn-separator"></span>
+            <h4 class="mf-page-titles">&nbsp;Escolha tipo de relatório</h4>
+            <span class="btn-separator"></span>
+            <button class="button fa-check" ng-click="genrateReport()" ></button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <div class="row">
+            <div class="col">
+                <div class="list list-inset listing-col">
+                    <a class="item-list item-icon-left item-icon-right">
+                        <i class="icon fa-cart-produto material-type-list-icon"></i>
+                        <div class="material-type-list">Engenharia</div>
+                        <i class="icon plus-icon fa-square-o" report-toggle reportname="checklist"></i>
+                    </a>
+                </div>
+                <div class="list list-inset listing-col">
+                    <a class="item-list item-icon-left item-icon-right">
+                        <i class="icon fa-component material-type-list-icon"></i>
+                        <div class="material-type-list">Produção</div>
+                        <i class="icon plus-icon fa-square-o" report-toggle reportname="production"></i>
+                    </a>
+                </div>
+                <div class="list list-inset listing-col">
+                    <a class="item-list item-icon-left item-icon-right">
+                        <i class="icon fa-material-prima material-type-list-icon"></i>
+                        <div class="material-type-list">Pintura</div>
+                        <i class="icon plus-icon fa-square-o" report-toggle reportname="painting"></i>
+                    </a>
+                </div>
+                <div class="list list-inset listing-col">
+                    <a class="item-list item-icon-left item-icon-right">
+                        <i class="icon fa-insumos material-type-list-icon"></i>
+                        <div class="material-type-list">Solda</div>
+                        <i class="icon plus-icon fa-square-o" report-toggle reportname="weld"></i>
+                    </a>
+                </div>
+                <div class="list list-inset listing-col">
+                    <a class="item-list item-icon-left item-icon-right">
+                        <i class="icon fa-tinta material-type-list-icon"></i>
+                        <div class="material-type-list">Montagem</div>
+                        <i class="icon plus-icon fa-square-o" report-toggle reportname="editor"></i>
+                    </a>
+                </div>
+                <div class="list list-inset listing-col">
+                    <a class="item-list item-icon-left item-icon-right">
+                        <i class="icon fa-maquinas material-type-list-icon"></i>
+                        <div class="material-type-list">Almoxarifado</div>
+                        <i class="icon plus-icon fa-square-o" report-toggle reportname="warehouse"></i>
+                    </a>
+                </div>
+                <div class="list list-inset listing-col">
+                    <a class="item-list item-icon-left item-icon-right">
+                        <i class="icon fa-ferramentas material-type-list-icon"></i>
+                        <div class="material-type-list">Expedição</div>
+                        <i class="icon plus-icon fa-square-o" report-toggle reportname="shipping"></i>
+                    </a>
+                </div>
+                <div class="list list-inset listing-col">
+                    <a class="item-list item-icon-left item-icon-right">
+                        <i class="icon fa-ferramentas material-type-list-icon"></i>
+                        <div class="material-type-list">Transporte</div>
+                        <i class="icon plus-icon fa-square-o" report-toggle reportname="transport"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</div>
