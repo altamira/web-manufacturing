@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('BomEditCtrl',
-        function($scope, $http, $location, $route, $routeParams, $ionicPopup, Restangular, services, CommonFun) {
+        function($scope, $http, $location, $route, $routeParams, $ionicPopup, Restangular, services, CommonFun, $ionicModal) {
             $scope.bomId = $routeParams.bomId;
             $scope.project = '';
             $scope.bomData = {};
@@ -67,7 +67,7 @@ altamiraAppControllers.controller('BomEditCtrl',
                 $location.path('/bom/item/update/' + $scope.bomId + '/' + itemId);
             };
             $scope.reportBOM = function() {
-                window.open(sessionStorage.getItem('reportBaseUrl')+'/report/manufacturing/bom/'+$scope.bomId+'/checklist', '_blank');
+                window.open(sessionStorage.getItem('reportBaseUrl') + '/report/manufacturing/bom/' + $scope.bomId + '/checklist', '_blank');
             };
             $scope.removeBom = function() {
                 services.showConfirmBox('Confirmation', 'Are you sure to remove this BOM?').then(function(res) {
@@ -126,6 +126,25 @@ altamiraAppControllers.controller('BomEditCtrl',
                     }
                 });
             };
+            $scope.reportBOM = function() {
+                $ionicModal.fromTemplateUrl('templates/bom/report_type.html', {
+                    scope: $scope,
+                    animation: 'fade-in'
+                }).then(function(modal) {
+                    $scope.reportType = modal;
+                    $scope.reportType.show();
+                    $scope.totalReport = [];
+                });
+                $scope.reportTypeModalShow = function() {
+                    $scope.reportType.show();
+                };
+                $scope.reportTypeModalClose = function() {
+                    $scope.reportType.hide();
+                };
+            };
+            $scope.genrateReport = function() {
+                window.open(sessionStorage.getItem('reportBaseUrl') + '/report/manufacturing/bom/' + $scope.bomId + '?report=' + $scope.totalReport.join('&report='), '_blank');
+            }
             $scope.goBack = function() {
                 $location.path('manufacturing/bom');
             };
