@@ -2212,6 +2212,7 @@
 .icon-list-box:last-child { margin-right:2px;}
 .icon-list-box .row{ padding:0px;}
 .list-box { }
+.list-box:hover {cursor: pointer }
 .list-box .col { padding:0px;}
 .produce-name { text-align:center; font-size:14px; text-align:center; width:100%; min-height:30px; line-height:30px; background:#fff; position:relative; top:23px;}
 

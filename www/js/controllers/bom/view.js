@@ -115,7 +115,12 @@ altamiraAppControllers.controller('BomViewCtrl',
                 };
             };
             $scope.genrateReport = function() {
-                window.open(sessionStorage.getItem('reportBaseUrl') + '/report/manufacturing/bom/' + $scope.bomId + '?report=' + $scope.totalReport.join('&report='), '_blank');
+                if ($scope.totalReport.length > 0) {
+                    $scope.reportTypeModalClose();
+                    window.open(sessionStorage.getItem('reportBaseUrl') + '/report/manufacturing/bom/' + $scope.bomId + '?report=' + $scope.totalReport.join('&report='), '_blank');
+                } else {
+                    services.showAlert('Falhou', 'Please select report type');
+                }
             }
             $scope.updatePart = function(itemId, partId) {
                 $location.path('bom/component/update/' + $scope.bomId + '/' + itemId + '/' + partId);
