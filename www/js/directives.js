@@ -503,6 +503,23 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                         scope.changeDeliveryDate($(this).parent().attr('id'));
                     }
                 });
+                $('.undragDiv').on('dblclick', function(e) {
+                    scope.resetViewDeliveryId();
+                    if (isNumber($(this).data('viewdeliveryid')))
+                    {
+                        scope.viewDeliveryId.push($(this).data('viewdeliveryid'));
+                        scope.changeDeliveryDate($(this).parent().attr('id'));
+                    }
+                    else
+                    {
+                        var tempViewDeliveryId = $(this).data('viewdeliveryid').split(',');
+                        for (var z = 0; z < tempViewDeliveryId.length; z++)
+                        {
+                            scope.viewDeliveryId.push(parseInt(tempViewDeliveryId[z]));
+                        }
+                        scope.changeDeliveryDate($(this).parent().attr('id'));
+                    }
+                });
                 makeDummyRow();
                 totalWeightCal();
                 var allCells = $(".mainTable td");

@@ -170,7 +170,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
             };
 
             $scope.loadGrid = function() {
-                Restangular.one('shipping/execution').get({max: 999}).then(function(response) {
+                Restangular.one('shipping/execution').get({max: 1}).then(function(response) {
                     $scope.loading = false;
                     $scope.totalBOM = response.data.length;
                     $scope.dataBOM = response.data;
@@ -225,6 +225,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         }
                         $scope.planningArr.push(temp[i]);
                     }
+//                    console.log(JSON.stringify($scope.planningArr));
                     $scope.tempPlanningArr = [];
                     for (var a = 0; a < $scope.planningArr.length; a++)
                     {
@@ -239,6 +240,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                             }
                         }
                     }
+                    console.log(JSON.stringify($scope.tempPlanningArr));
                     $scope.tempPlanningArrCopy = $scope.tempPlanningArr;
                     $scope.bomPlanningArr = [];
                     $scope.tempbomPlanningArr = [];
@@ -336,6 +338,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         }
                         $scope.finalArr.push(tempFinalArr[k]);
                     }
+                    console.log(JSON.stringify($scope.finalArr));
                     $scope.makeCalender();
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');

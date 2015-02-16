@@ -1640,7 +1640,7 @@
 }
 .remove-list{
     position: absolute;
-    right: 11px;
+    right: 0px;
     top: 16px;
     z-index: 999;
 }

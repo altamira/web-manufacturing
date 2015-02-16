@@ -333,6 +333,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         }
                         $scope.finalArr.push(tempFinalArr[k]);
                     }
+//                    console.log(JSON.stringify($scope.finalArr));
                     $scope.makeCalender();
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');

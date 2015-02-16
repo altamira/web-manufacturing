@@ -2351,6 +2351,19 @@
     vertical-align: middle;
     width: auto;
 }
+.undragDiv {
+    background-color: #93c47d;
+    color: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    height: 29px;
+    margin: auto;
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+    width: auto;
+}
 .totalWeightShow {
     color: #fff;
     cursor: move;
@@ -2536,8 +2549,14 @@
 .width-42 {
     width: 42%;
 }
+.width-45 {
+    width: 45%;
+}
 .width-50 {
     width: 50%;
+}
+.width-53 {
+    width: 53%;
 }
 .width-60 {
     width: 60%;
