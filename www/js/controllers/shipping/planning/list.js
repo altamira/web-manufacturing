@@ -168,7 +168,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 }
             };
             $scope.loadGrid = function() {
-                Restangular.one('shipping/planning').get({max: 10}).then(function(response) {
+                Restangular.one('shipping/planning').get({max: 999}).then(function(response) {
                     $scope.loading = false;
                     $scope.totalBOM = response.data.length;
                     $scope.dataBOM = response.data;
