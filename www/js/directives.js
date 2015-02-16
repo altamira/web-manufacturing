@@ -156,9 +156,11 @@ altamiraApp.directive('reportToggle', function() {
                 });
             }
             elm.toggleClass('fa-check-square-o');
+            console.log(JSON.stringify(scope.totalReport));
         });
     }
 });
+
 altamiraApp.directive('toggleViewClass', function() {
     return function(scope, elm, attrs) {
 

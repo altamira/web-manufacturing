@@ -134,6 +134,7 @@ altamiraAppControllers.controller('BomEditCtrl',
                     $scope.reportType = modal;
                     $scope.reportType.show();
                     $scope.totalReport = [];
+                    $scope.totalReport.push('checklist');
                 });
                 $scope.reportTypeModalShow = function() {
                     $scope.reportType.show();
@@ -146,9 +147,22 @@ altamiraAppControllers.controller('BomEditCtrl',
                 if ($scope.totalReport.length > 0) {
                     $scope.reportTypeModalClose();
                     window.open(sessionStorage.getItem('reportBaseUrl') + '/report/manufacturing/bom/' + $scope.bomId + '?report=' + $scope.totalReport.join('&report='), '_blank');
-                }else {
+                } else {
                     services.showAlert('Falhou', 'Please select report type');
                 }
+            }
+            $scope.selectAllReport = function() {
+                $scope.totalReport = [];
+                $('.bom-report').each(function() {
+                    $(this).addClass('fa-check-square-o');
+                    $scope.totalReport.push($(this).attr('reportname'));
+                });
+            }
+            $scope.UnSelectAllReport = function() {
+                $scope.totalReport = [];
+                $('.bom-report').each(function() {
+                    $(this).removeClass('fa-check-square-o');
+                });
             }
             $scope.goBack = function() {
                 $location.path('manufacturing/bom');

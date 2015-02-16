@@ -106,6 +106,7 @@ altamiraAppControllers.controller('BomViewCtrl',
                     $scope.reportType = modal;
                     $scope.reportType.show();
                     $scope.totalReport = [];
+                    $scope.totalReport.push('checklist');
                 });
                 $scope.reportTypeModalShow = function() {
                     $scope.reportType.show();
@@ -121,6 +122,20 @@ altamiraAppControllers.controller('BomViewCtrl',
                 } else {
                     services.showAlert('Falhou', 'Please select report type');
                 }
+            }
+
+            $scope.selectAllReport = function() {
+                $scope.totalReport = [];
+                $('.bom-report').each(function() {
+                    $(this).addClass('fa-check-square-o');
+                    $scope.totalReport.push($(this).attr('reportname'));
+                });
+            }
+            $scope.UnSelectAllReport = function() {
+                $scope.totalReport = [];
+                $('.bom-report').each(function() {
+                    $(this).removeClass('fa-check-square-o');
+                });
             }
             $scope.updatePart = function(itemId, partId) {
                 $location.path('bom/component/update/' + $scope.bomId + '/' + itemId + '/' + partId);
