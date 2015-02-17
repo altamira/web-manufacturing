@@ -5,14 +5,6 @@
             <span class="btn-separator"></span>
             <button type="button" class="button fa-link-header" ng-click="joinDate()"></button>
             <button type="button" class="button fa-unlink-header" ng-click="divideDate()"></button>
-            <!--            <span ng-if="bomData.checked != ''">
-                            <button type="button" class="button fa-check-square-o-header" ng-click='makeUnchecked()'></button>
-                        </span>
-                        <button class="button fa-pencil-header" ng-click="edit()" ></button>
-                        <button class="button fa-remove-header" ng-click="removeBom()"></button>
-                        <a href="http://data.altamira.com.br/data-rest-0.7.0-SNAPSHOT/manufacturing-report-0.4.0-SNAPSHOT/report/manufacturing/bom/{{bomId}}/checklist" target="_blank">
-                            <button type="button" class="button fa-print-header"></button>
-                        </a>-->
         </div>
     </ion-header-bar>
     <ion-content>
@@ -106,30 +98,29 @@
                     <div class="col row">
                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
-                                <td colspan="6" style="padding-left:30px; padding-bottom:10px; font-size:16px;">{{data.description}}</td>
-                                <td>&nbsp;</td>
+                                <td colspan="8" style="padding-left:30px; padding-bottom:10px; font-size:16px;">{{data.description}}</td>
                             </tr>
                             <tr>
                                 <td class="edit-item-title" style="text-align: center;width: 10%;"><i class="fa-calender"></i> <span>Entrega</span></td>
                                 <td class="edit-item-title" style="text-align: center;width: 9%;"><i class="fa-list-ol"></i> <span>Quantidade</span></td>
                                 <td class="edit-item-title" style="text-align: center;width: 9%;"><i class="fa-list-ol"></i> <span>Entregue</span></td>
                                 <td class="edit-item-title" style="text-align: center;width: 9%;"><i class="fa-list-ol"></i> <span>Saldo</span></td>
-                                <td class="edit-item-title" style="width: 39%"> Descricao</td>
+                                <td class="edit-item-title" style="width: 37%"> Descricao</td>
                                 <td class="edit-item-title" style="text-align: center;width: 10%;"><i class="fa-pencil"></i> <span>Cor</span></td>
-                                <td class="edit-item-title" style="text-align: center;width: 6%;"><i class="fa-tachometer"></i> <span>Peso</span></td>
+                                <td class="edit-item-title" style="text-align: center;width: 8%;"><i class="fa-tachometer"></i> <span>Peso</span></td>
                                 <td class="edit-item-title" style="text-align: center;width: 8%;"><i class="fa-tachometer"></i> <span>Peso</span></td>
                             </tr>
                             <tr ng-repeat='dataPart in data.component'>
                                 <td colspan="8">
-                                    <table>
+                                    <table style="width: 100%">
                                         <tr ng-repeat='component in dataPart.delivery' ng-if="checkForViewDelivery(component.id) > -1">
                                             <td class="edit-info" style="text-align: center;width: 10%;">{{ component.delivery | getDate }}</td>
                                             <td class="edit-info" style="text-align: center;width: 9%;">{{component.quantity.value}} {{component.quantity.unit.symbol}}</td>
                                             <td class="edit-info" style="text-align: center;width: 9%;">{{component.delivered.value}} {{component.quantity.unit.symbol}}</td>
-                                            <td class="edit-info" style="text-align: center;width: 9%;"><input type="number" id="remaining_{{component.id}}" value="{{component.remaining.value}}" class="saldo"></td>
-                                            <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 39%;">{{dataPart.material.description}}</td>
+                                            <td class="edit-info" style="text-align: center;width: 9%;"><input type="number" id="remaining_{{component.id}}" value="{{component.remaining.value}}" class="saldo" style="margin-bottom: 5px;"></td>
+                                            <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 37%;">{{dataPart.material.description}}</td>
                                             <td class="edit-text" style="width: 10%;">{{dataPart.color.code}}</td>
-                                            <td class="edit-info" style="text-align: right;width: 6%;">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
+                                            <td class="edit-info" style="text-align: right;width: 8%;">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
                                             <td class="edit-info" style="text-align: right;width: 8%;">{{dataPart.weight.value * component.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
                                         </tr>
                                     </table>
