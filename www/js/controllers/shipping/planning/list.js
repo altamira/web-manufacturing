@@ -53,8 +53,9 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
             moment.locale('pt-br');
             var month = moment.months();
             moment.locale('en');
-            $scope.resetViewDeliveryId = function() {
-                $scope.viewDeliveryId = [];
+            $scope.resetViewCompDelArr = function() {
+                $scope.viewComponentidArr = [];
+                $scope.viewDeliveryidArr = [];
             };
             $scope.makeCalender = function() {
                 var startMonth = moment($scope.tempUnixTS[$scope.tempUnixTS.length - 1]).format('M');
@@ -162,14 +163,18 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 return objects;
             };
             $scope.checkForViewDelivery = function(deliveryId) {
-                if ($scope.viewDeliveryId != undefined)
+                if ($scope.viewDeliveryidArr != undefined)
                 {
-                    return $scope.viewDeliveryId.indexOf(parseInt(deliveryId));
+                    return $scope.viewDeliveryidArr.indexOf(parseInt(deliveryId));
                 }
             };
             $scope.loadGrid = function() {
-                Restangular.one('shipping/planning').get({max: 999}).then(function(response) {
+                Restangular.one('shipping/planning').get({max:15}).then(function(response) {
                     $scope.loading = false;
+//                    $scope.test = [];
+//                    $scope.test.push(response.data);
+//                    $scope.totalBOM = $scope.test.length;
+//                    $scope.dataBOM = $scope.test;
                     $scope.totalBOM = response.data.length;
                     $scope.dataBOM = response.data;
                     var tempUnixTS = '';
@@ -270,11 +275,62 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         tempBomDelDates[g].components = [];
                         for (var h = 0; h < $scope.bomPlanningArr[g].delivery.length; h++)
                         {
+                            var tempComponetArr = [];
+                            tempComponetArr = $scope.getObjects($scope.bomPlanningArr[g].delivery, 'componentid', $scope.bomPlanningArr[g].delivery[h].componentid);
+                            if (tempComponetArr.length > 0) {
+                                for (var z = 0; z < tempComponetArr.length; z++)
+                                {
+                                    var tempDateArr = [];
+                                    var tempDeliveryId = '';
+                                    var tempDeliveryDate = tempComponetArr[z].date;
+                                    var tempTotalweight = 0;
+                                    tempDateArr = $scope.getObjects(tempComponetArr[z], 'date', tempComponetArr[z].date);
+                                    if (tempDateArr.length > 0)
+                                    {
+                                        for (var i = 0; i < tempDateArr.length; i++)
+                                        {
+                                            if (tempDeliveryId == '')
+                                            {
+                                                tempDeliveryId = tempDateArr[i].deliveryid;
+                                            }
+                                            else
+                                            {
+                                                tempDeliveryId = tempDeliveryId + ',' + tempDateArr[i].deliveryid;
+                                            }
+                                            if (tempTotalweight == 0)
+                                            {
+                                                tempTotalweight = tempDateArr[i].totalweight;
+                                            }
+                                            else
+                                            {
+                                                tempTotalweight = tempTotalweight + tempDateArr[i].totalweight;
+                                            }
+                                        }
+                                    }
+                                    if ($scope.getObjects(tempBomDelDates[g].components, 'componentid', tempComponetArr[z].componentid).length < 1)
+                                    {
+                                        tempBomDelDates[g].components.push({'itemid': tempComponetArr[z].itemid, 'componentid': tempComponetArr[z].componentid, 'deliveryid': tempDeliveryId, 'deliverydate': tempDeliveryDate, 'deliveryweight': tempTotalweight});
+                                    }
+                                }
+                            }
+                        }
+                        $scope.bomDatesArr.push(tempBomDelDates[g]);
+                    }
+                    $scope.finalDateArr = [];
+                    for (var a = 0; a < $scope.bomDatesArr.length; a++)
+                    {
+                        $scope.preFinalArr = [];
+                        $scope.preFinalArr[a] = {};
+                        $scope.preFinalArr[a].id = $scope.bomDatesArr[a].id;
+                        $scope.preFinalArr[a].components = [];
+                        for (var b = 0; b < $scope.bomDatesArr[a].components.length; b++)
+                        {
                             var tempDateArr = [];
                             var tempDeliveryId = '';
-                            var tempDeliveryDate = $scope.bomPlanningArr[g].delivery[h].date;
+                            var tempDeliveryDate = $scope.bomDatesArr[a].components[b].deliverydate;
                             var tempTotalweight = 0;
-                            tempDateArr = $scope.getObjects($scope.bomPlanningArr[g].delivery, 'date', $scope.bomPlanningArr[g].delivery[h].date);
+                            var tempCompoDeli = '';
+                            tempDateArr = $scope.getObjects($scope.bomDatesArr[a].components, 'deliverydate', $scope.bomDatesArr[a].components[b].deliverydate);
                             if (tempDateArr.length > 0)
                             {
                                 for (var i = 0; i < tempDateArr.length; i++)
@@ -289,22 +345,29 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                                     }
                                     if (tempTotalweight == 0)
                                     {
-                                        tempTotalweight = tempDateArr[i].totalweight;
+                                        tempTotalweight = tempDateArr[i].deliveryweight;
                                     }
                                     else
                                     {
-                                        tempTotalweight = tempTotalweight + tempDateArr[i].totalweight;
+                                        tempTotalweight = tempTotalweight + tempDateArr[i].deliveryweight;
                                     }
-
+                                    if (tempCompoDeli == '')
+                                    {
+                                        tempCompoDeli = tempDateArr[i].componentid + '-' + tempDateArr[i].deliveryid;
+                                    }
+                                    else
+                                    {
+                                        tempCompoDeli = tempCompoDeli + ',' + tempDateArr[i].componentid + '-' + tempDateArr[i].deliveryid;
+                                    }
                                 }
                             }
-                            if ($scope.getObjects(tempBomDelDates[g].components, 'deliverydate', tempDeliveryDate).length < 1)
+                            if ($scope.getObjects($scope.preFinalArr[a].components, 'deliverydate', tempDeliveryDate).length < 1)
                             {
-                                tempBomDelDates[g].components.push({'itemid': $scope.bomPlanningArr[g].delivery[h].itemid, 'componentid': $scope.bomPlanningArr[g].delivery[h].componentid, 'deliveryid': tempDeliveryId, 'deliverydate': tempDeliveryDate, 'deliveryweight': tempTotalweight});
+                                $scope.preFinalArr[a].components.push({'itemid': $scope.bomDatesArr[a].components[b].itemid,'comdel': tempCompoDeli,'deliverydate': tempDeliveryDate, 'deliveryweight': tempTotalweight});
                             }
-
                         }
-                        $scope.bomDatesArr.push(tempBomDelDates[g]);
+                        $scope.finalDateArr.push($scope.preFinalArr[a]);
+
                     }
                     $scope.finalArr = [];
                     for (var k = 0; k < $scope.dataBOM.length; k++)
@@ -324,26 +387,26 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         tempFinalArr[k].project = $scope.dataBOM[k].project;
                         tempFinalArr[k].checked = $scope.dataBOM[k].checked;
                         tempFinalArr[k].components = [];
-                        for (var l = 0; l < $scope.bomDatesArr.length; l++)
+                        for (var l = 0; l < $scope.finalDateArr.length; l++)
                         {
-                            if ($scope.dataBOM[k].id == $scope.bomDatesArr[l]['id'])
+                            if ($scope.dataBOM[k].id == $scope.finalDateArr[l]['id'])
                             {
-                                tempFinalArr[k].components = $scope.bomDatesArr[l].components;
+                                tempFinalArr[k].components = $scope.finalDateArr[l].components;
                             }
                         }
                         $scope.finalArr.push(tempFinalArr[k]);
                     }
-//                    console.log(JSON.stringify($scope.finalArr));
                     $scope.makeCalender();
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');
                 });
             };
             $scope.loadGrid();
-            $scope.getData = function(newDate, bomid, itemid, componentid) {
+            $scope.getData = function(newDate, bomid, itemid) {
+                $scope.loading = true;
                 var i = 0;
                 $scope.updateDeliveryDate = function() {
-                    Restangular.one('shipping/planning', bomid).one('item', itemid).one('component', componentid).one('delivery', $scope.viewDeliveryId[i]).get().then(function(response) {
+                    Restangular.one('shipping/planning', bomid).one('item', itemid).one('component', $scope.viewComponentidArr[i]).one('delivery', $scope.viewDeliveryidArr[i]).get().then(function(response) {
                         $scope.chgDeliveryData = {};
                         $scope.chgDeliveryData.id = response.data.id;
                         $scope.chgDeliveryData.version = response.data.version;
@@ -352,23 +415,25 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         $scope.chgDeliveryData.quantity = response.data.quantity;
                         $scope.chgDeliveryData.delivered = response.data.delivered;
                         $scope.chgDeliveryData.remaining = response.data.remaining;
-                        console.log(JSON.stringify($scope.chgDeliveryData));
-                        Restangular.all('shipping').one('planning', bomid).one('item', itemid).one('component', componentid).one('delivery', $scope.chgDeliveryData.id).customPUT($scope.chgDeliveryData).then(function(response) {
+
+                        Restangular.all('shipping').one('planning', bomid).one('item', itemid).one('component', $scope.viewComponentidArr[i]).one('delivery', $scope.viewDeliveryidArr[i]).customPUT($scope.chgDeliveryData).then(function(response) {
                             i++;
-                            if (i < $scope.viewDeliveryId.length) {
+                            if (i < $scope.viewComponentidArr.length) {
                                 $scope.updateDeliveryDate();
                             } else
                             {
-                                services.showAlert('Success', 'BOM ' + bomid + ' delivery date changed to ' + CommonFun.setDefaultDateFormat(newDate, 'D_M_YYYY')).then(function(res) {
-//                                    changeDateDataTab(newDate, bomid);
+                                $scope.loading = false;
+                                services.showAlert('Success', 'Successfully delivery date changed to ' + CommonFun.setDefaultDateFormat(newDate, 'D_M_YYYY')).then(function(res) {
                                     totalWeightCal();
                                 });
                             }
                         }, function(response) {
+                            $scope.loading = false;
                             services.showAlert('Falhou', 'Error in PUT request - ' + (i + 1));
                         });
                     }, function(response) {
-                        services.showAlert('Falhou', 'Sorry data not available for ' + $scope.viewDeliveryId[i]);
+                        $scope.loading = false;
+                        services.showAlert('Falhou', 'Sorry data not available for ' + $scope.viewDeliveryidArr[i]);
                     });
                 }
                 $scope.updateDeliveryDate();

@@ -151,7 +151,7 @@ altamiraApp.directive('reportToggle', function() {
                 }
             } else
             {
-                 scope.totalReport = $.grep(scope.totalReport, function(value) {
+                scope.totalReport = $.grep(scope.totalReport, function(value) {
                     return value != attrs.reportname;
                 });
             }
@@ -399,21 +399,29 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                         return $(this).closest("tr").is(item.closest("tr")) && $(this).find("*").length == 0;
                     },
                     drop: function(event, ui) {
-                        scope.resetViewDeliveryId();
-                        if (isNumber(ui.draggable.data('viewdeliveryid')))
+                        scope.resetViewCompDelArr();
+                        var tempCompDelivery = ui.draggable.data('comdel').split(',');
+                        for (var z = 0; z < tempCompDelivery.length; z++)
                         {
-                            scope.viewDeliveryId.push(ui.draggable.data('viewdeliveryid'));
-                            scope.getData($(this).data('day'), $(this).attr('id'), ui.draggable.data('itemid'), ui.draggable.data('componentid'));
+                            var tempSeprate = tempCompDelivery[z].split('-');
+                            scope.viewComponentidArr.push(parseInt(tempSeprate[0]));
+                            scope.viewDeliveryidArr.push(parseInt(tempSeprate[1]));
                         }
-                        else
-                        {
-                            var tempViewDeliveryId = ui.draggable.data('viewdeliveryid').split(',');
-                            for (var z = 0; z < tempViewDeliveryId.length; z++)
-                            {
-                                scope.viewDeliveryId.push(parseInt(tempViewDeliveryId[z]));
-                            }
-                            scope.getData($(this).data('day'), $(this).attr('id'), ui.draggable.data('itemid'), ui.draggable.data('componentid'));
-                        }
+                        scope.getData($(this).data('day'), $(this).attr('id'), ui.draggable.data('itemid'));
+//                        if (isNumber(ui.draggable.data('viewdeliveryid')))
+//                        {
+//                            scope.viewDeliveryId.push(ui.draggable.data('viewdeliveryid'));
+//                            scope.getData($(this).data('day'), $(this).attr('id'), ui.draggable.data('itemid'), ui.draggable.data('componentid'));
+//                        }
+//                        else
+//                        {
+//                            var tempViewDeliveryId = ui.draggable.data('viewdeliveryid').split(',');
+//                            for (var z = 0; z < tempViewDeliveryId.length; z++)
+//                            {
+//                                scope.viewDeliveryId.push(parseInt(tempViewDeliveryId[z]));
+//                            }
+//                            scope.getData($(this).data('day'), $(this).attr('id'), ui.draggable.data('itemid'), ui.draggable.data('componentid'));
+//                        }
                         var $this = $(this);
                         $this.append(ui.draggable.css({
                             top: 0,
@@ -489,38 +497,26 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
 //                    }
 //                });
                 $('.dragDiv').on('dblclick', function(e) {
-                    scope.resetViewDeliveryId();
-                    if (isNumber($(this).data('viewdeliveryid')))
+                    scope.resetViewCompDelArr();
+                    var tempCompDelivery = $(this).data('comdel').split(',');
+                    for (var z = 0; z < tempCompDelivery.length; z++)
                     {
-                        scope.viewDeliveryId.push($(this).data('viewdeliveryid'));
-                        scope.changeDeliveryDate($(this).parent().attr('id'));
+                        var tempSeprate = tempCompDelivery[z].split('-');
+                        scope.viewComponentidArr.push(parseInt(tempSeprate[0]));
+                        scope.viewDeliveryidArr.push(parseInt(tempSeprate[1]));
                     }
-                    else
-                    {
-                        var tempViewDeliveryId = $(this).data('viewdeliveryid').split(',');
-                        for (var z = 0; z < tempViewDeliveryId.length; z++)
-                        {
-                            scope.viewDeliveryId.push(parseInt(tempViewDeliveryId[z]));
-                        }
-                        scope.changeDeliveryDate($(this).parent().attr('id'));
-                    }
+                    scope.changeDeliveryDate($(this).parent().attr('id'));
                 });
                 $('.undragDiv').on('dblclick', function(e) {
-                    scope.resetViewDeliveryId();
-                    if (isNumber($(this).data('viewdeliveryid')))
+                    scope.resetViewCompDelArr();
+                    var tempCompDelivery = $(this).data('comdel').split(',');
+                    for (var z = 0; z < tempCompDelivery.length; z++)
                     {
-                        scope.viewDeliveryId.push($(this).data('viewdeliveryid'));
-                        scope.changeDeliveryDate($(this).parent().attr('id'));
+                        var tempSeprate = tempCompDelivery[z].split('-');
+                        scope.viewComponentidArr.push(parseInt(tempSeprate[0]));
+                        scope.viewDeliveryidArr.push(parseInt(tempSeprate[1]));
                     }
-                    else
-                    {
-                        var tempViewDeliveryId = $(this).data('viewdeliveryid').split(',');
-                        for (var z = 0; z < tempViewDeliveryId.length; z++)
-                        {
-                            scope.viewDeliveryId.push(parseInt(tempViewDeliveryId[z]));
-                        }
-                        scope.changeDeliveryDate($(this).parent().attr('id'));
-                    }
+                    scope.changeDeliveryDate($(this).parent().attr('id'));
                 });
                 makeDummyRow();
                 totalWeightCal();
