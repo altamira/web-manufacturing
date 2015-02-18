@@ -566,34 +566,6 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                     });
                 };
             };
-
-            $scope.submitPartForm = function(isValid) {
-                if (isValid) {
-                    $scope.loading = true;
-                    Restangular.all('shipping').one('execution', $scope.BOMId).one('item', $scope.ITEMId).one('component', $scope.PARTId).one('delivery', $scope.DELIVERYId).get().then(function(response) {
-                        $scope.chgDeliveryData = {};
-                        $scope.chgDeliveryData.id = response.data.id;
-                        $scope.chgDeliveryData.version = response.data.version;
-                        $scope.chgDeliveryData.type = response.data.type;
-                        $scope.chgDeliveryData.delivery = CommonFun.getFullTimestamp($scope.partData.delivery);
-                        $scope.chgDeliveryData.quantity = response.data.quantity;
-                        $scope.chgDeliveryData.delivered = response.data.delivered;
-                        $scope.chgDeliveryData.remaining = response.data.remaining;
-                        Restangular.all('shipping').one('execution', $scope.BOMId).one('item', $scope.ITEMId).one('component', $scope.PARTId).one('delivery', $scope.DELIVERYId).customPUT($scope.chgDeliveryData).then(function(response) {
-
-                            services.showAlert('Success', 'Delivery date changed to ' + $scope.partData.delivery).then(function(res) {
-                                location.reload();
-                            });
-
-                        }, function(response) {
-                            services.showAlert('Falhou', 'Error in PUT request - ' + (i + 1));
-                        });
-                    }, function(response) {
-                        services.showAlert('Falhou', 'Error in PUT request - ' + (i + 1));
-                    });
-                }
-            }
-
             $scope.goBackParent = function() {
                 $scope.changePartModal.hide();
                 $scope.changeDate.show();
@@ -705,7 +677,6 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
             }
 
             $scope.changeRemainingQun = function() {
-                $scope.loading = true;
                 var i = 0;
                 $scope.updateRemainingQtn = function() {
                     Restangular.all('shipping').one('execution', $scope.bomData.id).one('item', $("[datadelivery='" + $scope.remainingQtnArr[i] + "']").attr('dataitem')).one('component', $("[datadelivery='" + $scope.remainingQtnArr[i] + "']").attr('datapart')).get().then(function(response) {
@@ -749,7 +720,15 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         services.showAlert('Falhou', 'Error in getting details of delivery');
                     });
                 }
-                $scope.updateRemainingQtn();
+                if ($scope.remainingQtnArr.length > 0)
+                {
+                    $scope.loading = true;
+                    $scope.updateRemainingQtn();
+                } else
+                {
+                    services.showAlert('Falhou', 'Please select atleast one delivery');
+                }
+
             }
         });
 function randomNumbers(total) {
