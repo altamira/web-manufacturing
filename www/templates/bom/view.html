@@ -126,7 +126,7 @@
                             </tr>
                             <tr ng-repeat='dataPart in data.component'>
                                 <td class="edit-info" style="text-align: center">{{dataPart.quantity.value}} {{dataPart.quantity.unit.symbol}}</td>
-                                <td class="edit-text">{{dataPart.material.description}}</td>
+                                <td class="edit-text">{{dataPart.description}}</td>
                                 <td class="edit-text">{{dataPart.color.code}}</td>
                                 <!--                                <td class="edit-info" style="text-align: right">{{ ((dataPart.quantity.value > 0 && dataPart.weight.value > 0) ? (dataPart.weight.value / dataPart.quantity.value) : 0 ) | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
                                                                 <td class="edit-info" style="text-align: right">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>-->
