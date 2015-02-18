@@ -172,7 +172,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
             };
 
             $scope.loadGrid = function() {
-                Restangular.one('shipping/execution').get({max: 999}).then(function(response) {
+                Restangular.one('shipping/execution').get({max: 10}).then(function(response) {
                     $scope.loading = false;
                     $scope.totalBOM = response.data.length;
                     $scope.dataBOM = response.data;
@@ -637,8 +637,8 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         $scope.bomData.representative = data.representative;
                         $scope.bomData.finish = data.finish;
                         $scope.bomData.quotation = data.quotation;
-                        $scope.bomData.created = moment.unix(data.created).format('DD/MM/YYYY');
-                        $scope.bomData.delivery = moment.unix(data.delivery).format('DD/MM/YYYY');
+                        $scope.bomData.created = CommonFun.getFullDate(data.created);
+                        $scope.bomData.delivery = CommonFun.getFullDate(data.delivery);
                         $scope.bomData.items = data.item;
                     }
                     $scope.loading = false;
@@ -657,6 +657,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                 {
                     getShippingArr(shippingId);
                 }
+
             };
             $scope.change = function() {
                 $scope.divideData.quantity2 = parseInt($scope.divideData.chnDateTotalQuantity) - parseInt($scope.divideData.quantity1);

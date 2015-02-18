@@ -63,7 +63,8 @@
                     <div class="list list-row">
                         <span class="input-label text-bold">Data Pedido</span>
                         <label class="item item-input" >
-                            {{bomData.created | getDate}}
+                            <!--{{bomData.created | getDate}}-->
+                            {{bomData.created}}
                         </label>
                     </div>
                 </div>
@@ -71,7 +72,8 @@
                     <div class="list list-row">
                         <span class="input-label text-bold">Data Entrega </span>
                         <label class="item item-input" >
-                            {{bomData.delivery | getDate}}
+                            {{bomData.delivery}}
+                            <!--{{bomData.delivery | getDate}}-->
                         </label>
                     </div>
                 </div>
@@ -114,13 +116,17 @@
                                     <td class="edit-info align-center width-9">{{ component.delivery.delivery | getDate }}</td>
                                     <td class="edit-info align-right width-8">{{component.delivery.quantity.value}} {{component.delivery.quantity.unit.symbol}}</td>
                                     <td class="edit-info align-right width-8">{{component.delivery.delivered.value}} {{component.delivery.quantity.unit.symbol}}</td>
-                                    <td class="edit-info align-right width-8"><input type="number" id="remaining_popup_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;"></td>
+                                    <td class="edit-info align-right width-9">
+                                        <input type="number" id="remaining_popup_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value > 0">
+                                        <input type="number" id="remaining_popup_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value < 1" readonly>
+                                    </td>
                                     <td class="edit-text width-40" ng-click='updatePart(bomData.id,data.id,component.componentId)'  style="cursor: pointer;">{{component.description}}</td>
-                                    <td class="edit-text align-center width-10">{{component.color}}</td>
+                                    <td class="edit-text align-center width-9">{{component.color}}</td>
                                     <td class="edit-info align-right width-7">{{component.weight | setDecimal:2}} {{component.weightType}}</td>
                                     <td class="edit-info align-right width-7">{{component.weight * component.delivery.quantity.value | setDecimal:3}} {{component.weightType}}</td>
                                     <td class="edit-text align-center width-3">
-                                        <i class="icon plus-icon fa-square-o" change-remaining-quantity dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}"></i>
+                                        <i class="icon plus-icon fa-square-o" change-remaining-quantity dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}" ng-if="component.delivery.remaining.value > 0"></i>
+                                        <i class="icon plus-icon fa-square-o" dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}" ng-if="component.delivery.remaining.value < 1" style="cursor: not-allowed"></i>
                                     </td>
                                 </tr>
                             </table>
