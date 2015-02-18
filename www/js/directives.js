@@ -508,6 +508,7 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                     scope.changeDeliveryDate($(this).parent().attr('id'));
                 });
                 $('.undragDiv').on('dblclick', function(e) {
+                    scope.remainingQtnArr = [];
                     scope.resetViewCompDelArr();
                     var tempCompDelivery = $(this).data('comdel').split(',');
                     for (var z = 0; z < tempCompDelivery.length; z++)
@@ -635,7 +636,17 @@ altamiraApp.directive('changeRemainingQuantity', function(services) {
     return function(scope, elm, attr) {
         elm.bind('click', function() {
             elm.toggleClass('fa-check-square-o');
-            scope.changeRemainingQun($('#remaining_' + attr.datadelivery).val(), attr.dataitem, attr.datapart, attr.datadelivery);
+            if (elm.hasClass('fa-check-square-o'))
+            {
+                scope.remainingQtnArr.push(parseInt(attr.datadelivery));
+            }
+            else
+            {
+                scope.remainingQtnArr.splice(scope.remainingQtnArr.indexOf(parseInt(attr.datadelivery)), 1);
+            }
+//            console.log(JSON.stringify($("[datadelivery='"+attr.datadelivery+"']").attr('dataitem')));
+//            console.log(JSON.stringify(scope.remainingQtnArr));
+//            scope.changeRemainingQun($('#remaining_' + attr.datadelivery).val(), attr.dataitem, attr.datapart, attr.datadelivery);
         });
 
     }

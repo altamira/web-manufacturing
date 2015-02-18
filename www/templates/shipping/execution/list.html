@@ -9,9 +9,7 @@
         <div class="buttons header-margin">
             <button class="button fa-bars"></button>
             <span class="btn-separator"></span>
-            <button class="button fa-check" ng-click="submitted=true" ></button>
-            <button type="button" class="button fa-remove-header"></button>
-            <button type="button" class="button fa-print-header"></button>
+            <button class="button fa-check" ng-click="changeRemainingQun()"></button>
         </div>
     </ion-header-bar>
     <ion-content>
@@ -125,7 +123,7 @@
                                             <td class="edit-info align-center width-9">{{ component.delivery.delivery | getDate }}</td>
                                             <td class="edit-info align-right width-8">{{component.delivery.quantity.value}} {{component.delivery.quantity.unit.symbol}}</td>
                                             <td class="edit-info align-right width-8">{{component.delivery.delivered.value}} {{component.delivery.quantity.unit.symbol}}</td>
-                                            <td class="edit-info align-right width-8"><input type="number" id="remaining_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo"></td>
+                                            <td class="edit-info align-right width-8"><input type="number" id="remaining_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;"></td>
                                             <td class="edit-text width-40" ng-click='updatePart(bomData.id,data.id,component.componentId)'  style="cursor: pointer;">{{component.description}}</td>
                                             <td class="edit-text align-center width-10">{{component.color}}</td>
                                             <td class="edit-info align-right width-7">{{component.weight | setDecimal:2}} {{component.weightType}}</td>

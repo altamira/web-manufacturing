@@ -1007,8 +1007,6 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                             }
                             $scope.finalList.push($scope.tempList);
                         }
-                        console.log(JSON.stringify($scope.finalList));
-
                         if (data != '')
                         {
                             $scope.bomData.id = data.id;
