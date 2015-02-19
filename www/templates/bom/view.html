@@ -113,25 +113,22 @@
                     <div class="col row">
                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
-                                <td colspan="6" style="padding-left:30px; padding-bottom:10px; font-size:16px;">{{data.description}}</td>
-                                <td>&nbsp;</td>
+                                <td colspan="5" style="padding-left:30px; padding-bottom:10px; font-size:16px;">{{data.description}}</td>
                             </tr>
                             <tr>
                                 <td class="edit-item-title width-10" style="text-align: center"><i class="fa-list-ol"></i> <span>Quantidade</span></td>
                                 <td class="edit-item-title width-53"> Descricao</td>
                                 <td class="edit-item-title width-15"><i class="fa-pencil"></i> <span>Cor</span></td>
                                 <td class="edit-item-title width-10"><i class="fa-tachometer"></i> <span>Peso</span></td>
-                                <td class="edit-item-title width-10"><i class="fa-tachometer"></i> <span>Peso</span></td>
+                                <!--<td class="edit-item-title width-10"><i class="fa-tachometer"></i> <span>Peso</span></td>-->
                                 <td width="3%" class="edit-item-title width-2">&nbsp;</td>
                             </tr>
                             <tr ng-repeat='dataPart in data.component'>
                                 <td class="edit-info" style="text-align: center">{{dataPart.quantity.value}} {{dataPart.quantity.unit.symbol}}</td>
                                 <td class="edit-text">{{dataPart.material.description}}</td>
                                 <td class="edit-text">{{dataPart.color.code}}</td>
-                                <!--                                <td class="edit-info" style="text-align: right">{{ ((dataPart.quantity.value > 0 && dataPart.weight.value > 0) ? (dataPart.weight.value / dataPart.quantity.value) : 0 ) | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
-                                                                <td class="edit-info" style="text-align: right">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>-->
                                 <td class="edit-info" style="text-align: right">{{ dataPart.weight.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
-                                <td class="edit-info" style="text-align: right">{{ (dataPart.weight.value*dataPart.quantity.value) | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
+                                <!--<td class="edit-info" style="text-align: right">{{ (dataPart.weight.value*dataPart.quantity.value) | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>-->
                                 <td class="edit-text" ng-if="bomData.checked != ''"><i class="icon plus-icon fa-check-square-o"></i></td>
                                 <td class="edit-text" ng-if="bomData.checked == ''"><i class="icon plus-icon fa-square-o" toggle-class></i></td>
                             </tr>
@@ -153,10 +150,15 @@
                                 <div class="edit-text" ng-if="bomData.checked == ''"><i class="icon plus-icon fa-square-o" style="float: right;left: 42px;position: relative;top: -31px;" toggle-class></i></div>
                             </h4>
                             <table width="100%" cellspacing="0" cellpadding="0" border="0">
-                                <tbody><tr>
-                                        <td width="50%"><span>{{dataPart.material.code}}</span></td>
-                                        <td><i class="fa fa-pencil"></i></td>
-                                        <td align="right">{{dataPart.color.code}}</td>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="4"><span>{{dataPart.material.code}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"><i class="fa fa-pencil"></i></td>
+                                        <td width="25%" align="right">{{dataPart.color.code}}</td>
+                                        <td width="25%">&nbsp;</td>
+                                        <td width="25%">&nbsp;</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -178,8 +180,10 @@
                                 <tr>
                                     <td><i class="fa fa-expand"></i></td>
                                     <td valign="top">{{dataPart.width.value}} {{dataPart.width.unit.symbol}}</td>
-                                    <td valign="top"><i class="fa fa-tachometer"></i></td>
-                                    <td valign="top" align="right">{{(dataPart.weight.value*dataPart.quantity.value) | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+<!--                                    <td valign="top"><i class="fa fa-tachometer"></i></td>
+                                    <td valign="top" align="right">{{(dataPart.weight.value*dataPart.quantity.value) | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>-->
                                 </tr>
                             </tbody>
                         </table>

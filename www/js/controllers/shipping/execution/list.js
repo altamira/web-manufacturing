@@ -27,7 +27,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                 $('#monthlyShowBtn').addClass('month');
             };
             $scope.viewGrid = false;
-            $scope.gridView = function() {
+            $scope.listView = function() {
                 $scope.viewGrid = true;
                 $('#grid-view').show();
                 $('#gridShowBtn').addClass('month');
@@ -38,7 +38,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                     $scope.getShippingDetail(parseInt($('.dataTable tr:nth-child(3) td:nth-child(2)').attr('id')));
                 }
             };
-            $scope.listView = function() {
+            $scope.gridView = function() {
                 $scope.viewGrid = false;
                 $('#list-view').show();
                 $('#listShowBtn').addClass('month');
@@ -172,7 +172,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
             };
 
             $scope.loadGrid = function() {
-                Restangular.one('shipping/execution').get({max: 10}).then(function(response) {
+                Restangular.one('shipping/execution').get({max:999}).then(function(response) {
                     $scope.loading = false;
                     $scope.totalBOM = response.data.length;
                     $scope.dataBOM = response.data;
@@ -227,7 +227,6 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         }
                         $scope.planningArr.push(temp[i]);
                     }
-//                    console.log(JSON.stringify($scope.planningArr));
                     $scope.tempPlanningArr = [];
                     for (var a = 0; a < $scope.planningArr.length; a++)
                     {
@@ -464,12 +463,9 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                 });
             };
             $scope.changeDeliveryDate = function(bomId) {
-                tempMaterialId = '';
-                tempItemId = '';
                 $scope.itemId = [];
                 $scope.itemPartIdArr = [];
                 $scope.itemPartDeliveryArr = [];
-//                $scope.getBomData(bomId);
                 getShippingArr(bomId);
                 $scope.changeDateModalShow();
             };
@@ -485,7 +481,6 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                 Restangular.one('shipping/execution', bomId).one('item', itemId).one('component', partId).get().then(function(response) {
 
                     var data = response.data;
-//                    console.log(JSON.stringify(data));
                     $scope.partData.version = data.version;
                     $scope.partData.materialId = data.material.id;
                     $scope.partData.code = data.material.code;
@@ -648,8 +643,6 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                 });
             }
             $scope.getShippingDetail = function(shippingId) {
-                tempMaterialId = '';
-                tempItemId = '';
                 $scope.itemId = [];
                 $scope.itemPartIdArr = [];
                 $scope.itemPartDeliveryArr = [];

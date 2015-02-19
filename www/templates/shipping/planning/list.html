@@ -26,8 +26,8 @@
             </div>
             <div class="col col-50 col-offset-50">
                 <div class="button-bar bar-calm" style="float: right">
-                    <a class="button topBtnRadius fa-list-alt month" ng-click="gridView()" id="listShowBtn"></a>
-                    <a class="button fa-th" ng-click="listView()" id="gridShowBtn"></a>
+                    <a class="button topBtnRadius fa-list-alt" ng-click="listView()" id="listShowBtn"></a>
+                    <a class="button fa-th month" ng-click="gridView()" id="gridShowBtn"></a>
                 </div>
             </div>
         </div>
@@ -49,7 +49,8 @@
                             <th style="min-width: 100px">Data Pedido</th>
                             <th style="min-width: 100px">Data Entrega</th>
                         </tr>
-                        <tr ng-repeat="BOM in finalArr" id="{{BOM.id}}" ng-click="getShippingDetail({{BOM.id}})" style="cursor: pointer" ng-if="checkYear(BOM.delivery) <= maxYear">
+                        <!--<tr ng-repeat="BOM in finalArr" id="{{BOM.id}}" ng-click="getShippingDetail({{BOM.id}})" style="cursor: pointer" ng-if="checkYear(BOM.delivery) <= maxYear">-->
+                        <tr ng-repeat="BOM in finalArr" id="{{BOM.id}}" ng-click="getShippingDetail({{BOM.id}})" style="cursor: pointer">
                             <td class="align-center fa-md-arrow-right-planning" ng-click="openBOM({{BOM.id}})"></td>
                             <td id="{{BOM.id}}">{{BOM.number}}</td>
                             <td>{{BOM.customer}}</td>
@@ -67,7 +68,7 @@
                 </div>
                 <div id="dragbar"></div>
             </div>
-            <div id="list-view" class="planning-detail width-70">
+            <div id="list-view" class="planning-detail width-70" style="display: none;">
                 <div class="row scroll-div mainRow nested">
                     <table border="1" class="mainTable" sortable-func ng-if='dataBOM'>
                         <tr>
@@ -96,7 +97,7 @@
                     </table>
                 </div>
             </div>
-            <div class="planning-detail width-70" id="grid-view" style="display: none;">
+            <div class="planning-detail width-70" id="grid-view">
                 <div class="row monthTitle view-title"> {{activeShipping.number}} - {{activeShipping.customer}}  </div>
                 <div  class="shipping_data">
                     <div class="row" ng-repeat='data in finalList'>

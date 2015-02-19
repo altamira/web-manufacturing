@@ -389,197 +389,7 @@ altamiraApp.directive('loadHtml', function() {
 });
 altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
         return function(scope, el, attrs) {
-            var loadGrid = function() {
-//                $(".dataBOM>tr:even").css("background-color", "#000000");
-                $(".dragDiv").draggable({
-                    revert: 'invalid'
-                });
-                $(".makeDroppable").droppable({
-                    accept: function(item) {
-                        return $(this).closest("tr").is(item.closest("tr")) && $(this).find("*").length == 0;
-                    },
-                    drop: function(event, ui) {
-                        scope.resetViewCompDelArr();
-                        var tempCompDelivery = ui.draggable.data('comdel').split(',');
-                        for (var z = 0; z < tempCompDelivery.length; z++)
-                        {
-                            var tempSeprate = tempCompDelivery[z].split('-');
-                            scope.viewComponentidArr.push(parseInt(tempSeprate[0]));
-                            scope.viewDeliveryidArr.push(parseInt(tempSeprate[1]));
-                        }
-                        scope.getData($(this).data('day'), $(this).attr('id'), ui.draggable.data('itemid'));
-//                        if (isNumber(ui.draggable.data('viewdeliveryid')))
-//                        {
-//                            scope.viewDeliveryId.push(ui.draggable.data('viewdeliveryid'));
-//                            scope.getData($(this).data('day'), $(this).attr('id'), ui.draggable.data('itemid'), ui.draggable.data('componentid'));
-//                        }
-//                        else
-//                        {
-//                            var tempViewDeliveryId = ui.draggable.data('viewdeliveryid').split(',');
-//                            for (var z = 0; z < tempViewDeliveryId.length; z++)
-//                            {
-//                                scope.viewDeliveryId.push(parseInt(tempViewDeliveryId[z]));
-//                            }
-//                            scope.getData($(this).data('day'), $(this).attr('id'), ui.draggable.data('itemid'), ui.draggable.data('componentid'));
-//                        }
-                        var $this = $(this);
-                        $this.append(ui.draggable.css({
-                            top: 0,
-                            left: '0px !important'
-                        }));
-                        ui.draggable.position({
-                            my: "center",
-                            at: "center",
-                            of: $this,
-                            using: function(pos) {
-                                $(this).animate(pos, 500, "linear", function() {
-                                    $(this).css('top', '0px');
-                                    $(this).css('left', '0px');
-                                });
-                            }
-                        });
-                    }
-                });
-                $(".dataRow").mCustomScrollbar({
-                    axis: "x",
-                    theme: "inset-3",
-                    scrollButtons: {enable: true},
-                    scrollbarPosition: "outside"
-                });
-                $(".shipping_data").mCustomScrollbar({
-                    axis: "y",
-                    theme: "inset-3",
-                    scrollButtons: {enable: true},
-                    scrollbarPosition: "outside"
-                });
-                $(".mainRow").mCustomScrollbar({
-                    axis: "x",
-                    theme: "inset-3",
-                    scrollButtons: {enable: true},
-                    scrollbarPosition: "outside",
-                    callbacks: {
-                        whileScrolling: function() {
-//                            $(".dataRow").mCustomScrollbar("scrollTo",[this.mcs.topPct,0]);
-                        }
-                    },
-                });
-                $('.dataTable tr').hover(function() {
-                    var hoverClass = $(this).attr('id');
-                    $(this).css('background-color', '#95bcf2');
-                    $('.' + hoverClass).css('background-color', '#95bcf2');
-                });
-                $('.dataTable tr').mouseleave(function() {
-                    var hoverClass = $(this).attr('id');
-                    $(this).css('background-color', '#ffffff');
-                    $('.' + hoverClass).css('background-color', '#ffffff');
-                });
-                $('.mainTable tr').hover(function() {
-                    var hoverClass = $(this).attr('class');
-                    $('#' + hoverClass).css('background-color', '#95bcf2 !important');
-                });
-                $('.mainTable tr').mouseleave(function() {
-                    var hoverClass = $(this).attr('class');
-                    $('#' + hoverClass).css('background-color', '#ffffff');
-                });
 
-//                $('.mainTable tr td').on('dblclick', function(e) {
-//                    if (!$(this).is(':has(.dragDiv)') && $(this).attr('class') != 'holiday') {
-//                        var destTd = $(this);
-//                        var srcTd = $(this).parent().find('td:has(.dragDiv)');
-//                        var drgElement = srcTd.find('.dragDiv');
-//                        var id1 = $(this).data('day');
-//                        var id2 = $(this).attr('id');
-//                        drgElement.animate({left: "+=" + (destTd.position().left - srcTd.position().left)}, 500, "linear", function() {
-//                            drgElement.appendTo(destTd);
-//                            drgElement.css({left: 0});
-//                            scope.getData(id1, id2);
-//                        });
-//                    }
-//                });
-                $('.dragDiv').on('dblclick', function(e) {
-                    scope.resetViewCompDelArr();
-                    var tempCompDelivery = $(this).data('comdel').split(',');
-                    for (var z = 0; z < tempCompDelivery.length; z++)
-                    {
-                        var tempSeprate = tempCompDelivery[z].split('-');
-                        scope.viewComponentidArr.push(parseInt(tempSeprate[0]));
-                        scope.viewDeliveryidArr.push(parseInt(tempSeprate[1]));
-                    }
-                    scope.changeDeliveryDate($(this).parent().attr('id'));
-                });
-                $('.undragDiv').on('dblclick', function(e) {
-                    scope.remainingQtnArr = [];
-                    scope.resetViewCompDelArr();
-                    var tempCompDelivery = $(this).data('comdel').split(',');
-                    for (var z = 0; z < tempCompDelivery.length; z++)
-                    {
-                        var tempSeprate = tempCompDelivery[z].split('-');
-                        scope.viewComponentidArr.push(parseInt(tempSeprate[0]));
-                        scope.viewDeliveryidArr.push(parseInt(tempSeprate[1]));
-                    }
-                    scope.changeDeliveryDate($(this).parent().attr('id'));
-                });
-                makeDummyRow();
-                totalWeightCal();
-                var allCells = $(".mainTable td");
-
-                allCells.on("mouseover", function() {
-                    var el = $(this),
-                            pos = el.index();
-                    el.parent().find("th, td").addClass("hover");
-                    allCells.filter(":nth-child(" + (pos + 1) + ")").addClass("hover");
-                })
-                        .on("mouseout", function() {
-                    allCells.removeClass("hover");
-                });
-                var dragging = false;
-                $('#dragbar').mousedown(function(e) {
-                    e.preventDefault();
-
-                    dragging = true;
-                    var main = $('.planning-detail');
-                    var ghostbar = $('<div>',
-                            {id: 'ghostbar',
-                                css: {
-                                    height: main.outerHeight(),
-                                    top: main.offset().top,
-                                    left: main.offset().left
-                                }
-                            }).appendTo('body');
-
-                    $(document).mousemove(function(e) {
-                        ghostbar.css("left", e.pageX + 2);
-                    });
-                });
-
-                $(document).mouseup(function(e) {
-                    if (dragging)
-                    {
-//                        $('#sidebar').css("width", e.pageX - 30);
-//                        $('.dataRow').css("width", e.pageX - 30);
-//                        $('.dataTable').css("width", e.pageX - 30);
-//                        $('.planning-detail').css("left", e.pageX + 32);
-//                        $('.planning-detail').css("width", ($('.main-row').width() - e.pageX + 32));
-//                        $('#ghostbar').remove();
-//                        $(document).unbind('mousemove');
-//                        dragging = false;
-                        var width = $(window).width();
-                        var parentWidth = e.pageX;
-                        var percent = 100 * parentWidth / width;
-                        console.log(JSON.stringify(width));
-                        console.log(JSON.stringify(percent));
-                        console.log(JSON.stringify(e.pageX));
-                        $('#sidebar').css("width", percent + "%");
-//                        $('.dataRow').css("width", e.pageX - 30);
-//                        $('.dataTable').css("width", e.pageX - 30);
-                        $('.planning-detail').css("left", e.pageX + 32);
-                        $('.planning-detail').css("width", (100 - percent) + '%');
-                        $('#ghostbar').remove();
-                        $(document).unbind('mousemove');
-                        dragging = false;
-                    }
-                });
-            };
 
             setTimeout(function() {
                 loadGrid();
@@ -651,6 +461,161 @@ altamiraApp.directive('changeRemainingQuantity', function(services) {
 
     }
 });
+var loadGrid = function() {
+
+    $(document).ready(function() {
+        $(".dragDiv").draggable({
+            revert: 'invalid'
+        });
+        $(".makeDroppable").droppable({
+            accept: function(item) {
+                return $(this).closest("tr").is(item.closest("tr")) && $(this).find("*").length == 0;
+            },
+            drop: function(event, ui) {
+                $scope.resetViewCompDelArr();
+                var tempCompDelivery = ui.draggable.data('comdel').split(',');
+                for (var z = 0; z < tempCompDelivery.length; z++)
+                {
+                    var tempSeprate = tempCompDelivery[z].split('-');
+                    $scope.viewComponentidArr.push(parseInt(tempSeprate[0]));
+                    $scope.viewDeliveryidArr.push(parseInt(tempSeprate[1]));
+                }
+                $scope.getData($(this).data('day'), $(this).attr('id'), ui.draggable.data('itemid'));
+
+                var $this = $(this);
+                $this.append(ui.draggable.css({
+                    top: 0,
+                    left: '0px !important'
+                }));
+                ui.draggable.position({
+                    my: "center",
+                    at: "center",
+                    of: $this,
+                    using: function(pos) {
+                        $(this).animate(pos, 500, "linear", function() {
+                            $(this).css('top', '0px');
+                            $(this).css('left', '0px');
+                        });
+                    }
+                });
+            }
+        });
+        $(".dataRow").mCustomScrollbar({
+            axis: "x",
+            theme: "inset-3",
+            scrollButtons: {enable: true},
+            scrollbarPosition: "outside"
+        });
+        $(".shipping_data").mCustomScrollbar({
+            axis: "y",
+            theme: "inset-3",
+            scrollButtons: {enable: true},
+//                    scrollbarPosition: "outside"
+        });
+        $(".mainRow").mCustomScrollbar({
+            axis: "x",
+            theme: "inset-3",
+            scrollButtons: {enable: true},
+            scrollbarPosition: "outside",
+            callbacks: {
+                whileScrolling: function() {
+//                            $(".dataRow").mCustomScrollbar("scrollTo",[this.mcs.topPct,0]);
+                }
+            },
+        });
+        $('.dataTable tr').hover(function() {
+            var hoverClass = $(this).attr('id');
+            $(this).css('background-color', '#95bcf2');
+            $('.' + hoverClass).css('background-color', '#95bcf2');
+        });
+        $('.dataTable tr').mouseleave(function() {
+            var hoverClass = $(this).attr('id');
+            $(this).css('background-color', '#ffffff');
+            $('.' + hoverClass).css('background-color', '#ffffff');
+        });
+        $('.mainTable tr').hover(function() {
+            var hoverClass = $(this).attr('class');
+            $('#' + hoverClass).css('background-color', '#95bcf2 !important');
+        });
+        $('.mainTable tr').mouseleave(function() {
+            var hoverClass = $(this).attr('class');
+            $('#' + hoverClass).css('background-color', '#ffffff');
+        });
+        $('.dragDiv').on('dblclick', function(e) {
+            $scope.resetViewCompDelArr();
+            var tempCompDelivery = $(this).data('comdel').split(',');
+            for (var z = 0; z < tempCompDelivery.length; z++)
+            {
+                var tempSeprate = tempCompDelivery[z].split('-');
+                $scope.viewComponentidArr.push(parseInt(tempSeprate[0]));
+                $scope.viewDeliveryidArr.push(parseInt(tempSeprate[1]));
+            }
+            $scope.changeDeliveryDate($(this).parent().attr('id'));
+        });
+        $('.undragDiv').on('dblclick', function(e) {
+            $scope.remainingQtnArr = [];
+            $scope.resetViewCompDelArr();
+            var tempCompDelivery = $(this).data('comdel').split(',');
+            for (var z = 0; z < tempCompDelivery.length; z++)
+            {
+                var tempSeprate = tempCompDelivery[z].split('-');
+                $scope.viewComponentidArr.push(parseInt(tempSeprate[0]));
+                $scope.viewDeliveryidArr.push(parseInt(tempSeprate[1]));
+            }
+            $scope.changeDeliveryDate($(this).parent().attr('id'));
+        });
+
+        var allCells = $(".mainTable td");
+
+        allCells.on("mouseover", function() {
+            var el = $(this),
+                    pos = el.index();
+            el.parent().find("th, td").addClass("hover");
+            allCells.filter(":nth-child(" + (pos + 1) + ")").addClass("hover");
+        })
+                .on("mouseout", function() {
+            allCells.removeClass("hover");
+        });
+        var dragging = false;
+        $('#dragbar').mousedown(function(e) {
+            e.preventDefault();
+
+            dragging = true;
+            var main = $('.planning-detail');
+            var ghostbar = $('<div>',
+                    {id: 'ghostbar',
+                        css: {
+                            height: main.outerHeight(),
+                            top: main.offset().top,
+                            left: main.offset().left
+                        }
+                    }).appendTo('body');
+
+            $(document).mousemove(function(e) {
+                ghostbar.css("left", e.pageX + 2);
+            });
+        });
+
+        $(document).mouseup(function(e) {
+            if (dragging)
+            {
+                var width = $(window).width();
+                var parentWidth = e.pageX;
+                var percent = 100 * parentWidth / width;
+                console.log(JSON.stringify(width));
+                console.log(JSON.stringify(percent));
+                console.log(JSON.stringify(e.pageX));
+                $('#sidebar').css("width", percent + "%");
+                $('.planning-detail').css("left", e.pageX + 32);
+                $('.planning-detail').css("width", (100 - percent) + '%');
+                $('#ghostbar').remove();
+                $(document).unbind('mousemove');
+                dragging = false;
+            }
+        });
+    });
+
+};
 function totalWeightCal() {
     $('.totalWeightRow td').each(function(e) {
         var $th = $(this);

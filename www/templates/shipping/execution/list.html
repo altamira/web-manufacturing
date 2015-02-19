@@ -22,8 +22,8 @@
             </div>
             <div class="col col-50 col-offset-50">
                 <div class="button-bar bar-calm" style="float: right">
-                    <a class="button topBtnRadius fa-list-alt month" ng-click="gridView()" id="listShowBtn"></a>
-                    <a class="button fa-th" ng-click="listView()" id="gridShowBtn"></a>
+                    <a class="button topBtnRadius fa-list-alt month" ng-click="listView()" id="listShowBtn"></a>
+                    <a class="button fa-th" ng-click="gridView()" id="gridShowBtn"></a>
                 </div>
             </div>
         </div>
@@ -94,7 +94,7 @@
             </div>
             <div class="planning-detail width-70" id="grid-view" style="display: none;">
                 <div class="row monthTitle view-title"> {{activeShipping.number}} - {{activeShipping.customer}}  </div>
-                <div  class="shipping_data" style="height: 740px;">
+                <div  class="shipping_data">
                     <div class="row" ng-repeat='data in finalList'>
                         <div id="item_repeat" class="width-100">
                             <div class="row" style="margin-top:-15px;">
