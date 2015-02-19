@@ -35,9 +35,10 @@
             <div class="col col-33 tableTitle">Planejamento de Entrega</div>
             <div class="col col-67 tableTitle align-right">Hoje : {{today}}</div>
         </div>
+        <input type="hidden" id="totalDataLen" value="{{finalArr.length}}">
         <div class="row main-row nested" >
             <div id="sidebar" class="width-30">
-                <div class="row scroll-div dataRow nested">
+                <div class="row scroll-div dataRow nested" datarow-load>
                     <table class="dataTable" ng-if='dataBOM'>
                         <tr>
                             <th class="monthTitle dataTable-title" colspan="5">Pedidos</th>
@@ -70,7 +71,7 @@
             </div>
             <div id="list-view" class="planning-detail width-70" style="display: none;">
                 <div class="row scroll-div mainRow nested">
-                    <table border="1" class="mainTable" sortable-func ng-if='dataBOM'>
+                    <table border="1" class="mainTable" sortable-func ng-if='dataBOM != "" && viewGrid == false'>
                         <tr>
                             <th class="monthTitle" colspan="{{month.days.length}}" ng-repeat="month in monthDays">{{month.name}}</th>
                         </tr>

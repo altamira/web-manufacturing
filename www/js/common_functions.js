@@ -21,7 +21,7 @@ altamiraApp.factory('CommonFun', ['$http', 'Restangular', function($http, Restan
 //                return $http.get(Restangular.configuration.baseUrl + '/common/color');
             },
             getFullTimestamp: function(date) {
-                return moment(date, 'DD/MM/YYYY').valueOf();
+                return moment.utc(date, 'DD/MM/YYYY').valueOf();
             },
             getFullDate: function(timestamp) {
                 return moment(timestamp).format('DD/MM/YYYY');
