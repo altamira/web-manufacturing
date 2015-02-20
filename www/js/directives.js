@@ -555,7 +555,7 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
     }]);
 var tempMaterialId = '';
 var tempItemId = '';
-altamiraApp.directive('selectBom', function(services) {
+altamiraApp.directive('selectDelivery', function(services) {
     return function(scope, elm, attr) {
         elm.bind('click', function() {
             elm.toggleClass('fa-check-square-o');
