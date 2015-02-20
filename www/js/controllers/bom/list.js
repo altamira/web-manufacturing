@@ -62,7 +62,14 @@ altamiraAppControllers.controller('BomListCtrl',
             $scope.resetBOM();
             $scope.loadBOM = function() {
                 $scope.loading = true;
-                Restangular.one('manufacturing').one('bom').get({search: sessionStorage.getItem('searchBOM'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
+                if (sessionStorage.getItem('searchBOM') == null || sessionStorage.getItem('searchBOM') == "")
+                {
+                    var request = Restangular.one('manufacturing').one('bom').get({checked: 'false', start: $scope.startPage, max: $scope.maxRecord});
+                } else
+                {
+                    var request = Restangular.one('manufacturing').one('bom').get({search: sessionStorage.getItem('searchBOM'), start: $scope.startPage, max: $scope.maxRecord});
+                }
+                request.then(function(response) {
                     if (response.data == '') {
                         $scope.loading = false;
                         if ((parseInt($scope.startPage) != 0))
