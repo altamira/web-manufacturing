@@ -399,158 +399,44 @@ altamiraApp.directive('datarowLoad', function() {
 });
 altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
         return function(scope, el, attrs) {
-//            var loadGrid = function() {
-//
-//                $(document).ready(function() {
-//                    $(".dragDiv").draggable({
-//                        revert: 'invalid'
-//                    });
-//                    $(".makeDroppable").droppable({
-//                        accept: function(item) {
-//                            return $(this).closest("tr").is(item.closest("tr")) && $(this).find("*").length == 0;
-//                        },
-//                        drop: function(event, ui) {
-//                            scope.resetViewCompDelArr();
-//                            var tempCompDelivery = ui.draggable.data('comdel').split(',');
-//                            for (var z = 0; z < tempCompDelivery.length; z++)
-//                            {
-//                                var tempSeprate = tempCompDelivery[z].split('-');
-//                                scope.viewComponentidArr.push(parseInt(tempSeprate[0]));
-//                                scope.viewDeliveryidArr.push(parseInt(tempSeprate[1]));
-//                            }
-//                            scope.getData($(this).data('day'), $(this).attr('id'), ui.draggable.data('itemid'));
-//
-//                            var $this = $(this);
-//                            $this.append(ui.draggable.css({
-//                                top: 0,
-//                                left: '0px !important'
-//                            }));
-//                            ui.draggable.position({
-//                                my: "center",
-//                                at: "center",
-//                                of: $this,
-//                                using: function(pos) {
-//                                    $(this).animate(pos, 500, "linear", function() {
-//                                        $(this).css('top', '0px');
-//                                        $(this).css('left', '0px');
-//                                    });
-//                                }
-//                            });
-//                        }
-//                    });
-//
-//                    $(".shipping_data").mCustomScrollbar({
-//                        axis: "y",
-//                        theme: "inset-3",
-//                        scrollButtons: {enable: true},
-////                    scrollbarPosition: "outside"
-//                    });
-//                    $(".mainRow").mCustomScrollbar({
-//                        axis: "x",
-//                        theme: "inset-3",
-//                        scrollButtons: {enable: true},
-//                        scrollbarPosition: "outside",
-//                        callbacks: {
-//                            whileScrolling: function() {
-////                            $(".dataRow").mCustomScrollbar("scrollTo",[this.mcs.topPct,0]);
-//                            }
-//                        },
-//                    });
-//                    $('.dataTable tr').hover(function() {
-//                        var hoverClass = $(this).attr('id');
-//                        $(this).css('background-color', '#95bcf2');
-//                        $('.' + hoverClass).css('background-color', '#95bcf2');
-//                    });
-//                    $('.dataTable tr').mouseleave(function() {
-//                        var hoverClass = $(this).attr('id');
-//                        $(this).css('background-color', '#ffffff');
-//                        $('.' + hoverClass).css('background-color', '#ffffff');
-//                    });
-//                    $('.mainTable tr').hover(function() {
-//                        var hoverClass = $(this).attr('class');
-//                        $('#' + hoverClass).css('background-color', '#95bcf2 !important');
-//                    });
-//                    $('.mainTable tr').mouseleave(function() {
-//                        var hoverClass = $(this).attr('class');
-//                        $('#' + hoverClass).css('background-color', '#ffffff');
-//                    });
-//                    $('.dragDiv').on('dblclick', function(e) {
-//                        scope.resetViewCompDelArr();
-//                        var tempCompDelivery = $(this).data('comdel').split(',');
-//                        for (var z = 0; z < tempCompDelivery.length; z++)
-//                        {
-//                            var tempSeprate = tempCompDelivery[z].split('-');
-//                            scope.viewComponentidArr.push(parseInt(tempSeprate[0]));
-//                            scope.viewDeliveryidArr.push(parseInt(tempSeprate[1]));
-//                        }
-//                        scope.changeDeliveryDate($(this).parent().attr('id'));
-//                    });
-//                    $('.undragDiv').on('dblclick', function(e) {
-//                        scope.remainingQtnArr = [];
-//                        scope.resetViewCompDelArr();
-//                        var tempCompDelivery = $(this).data('comdel').split(',');
-//                        for (var z = 0; z < tempCompDelivery.length; z++)
-//                        {
-//                            var tempSeprate = tempCompDelivery[z].split('-');
-//                            scope.viewComponentidArr.push(parseInt(tempSeprate[0]));
-//                            scope.viewDeliveryidArr.push(parseInt(tempSeprate[1]));
-//                        }
-//                        scope.changeDeliveryDate($(this).parent().attr('id'));
-//                    });
-//
-//                    var allCells = $(".mainTable td");
-//
-//                    allCells.on("mouseover", function() {
-//                        var el = $(this),
-//                                pos = el.index();
-//                        el.parent().find("th, td").addClass("hover");
-//                        allCells.filter(":nth-child(" + (pos + 1) + ")").addClass("hover");
-//                    })
-//                            .on("mouseout", function() {
-//                        allCells.removeClass("hover");
-//                    });
-//                    var dragging = false;
-//                    $('#dragbar').mousedown(function(e) {
-//                        e.preventDefault();
-//
-//                        dragging = true;
-//                        var main = $('.planning-detail');
-//                        var ghostbar = $('<div>',
-//                                {id: 'ghostbar',
-//                                    css: {
-//                                        height: main.outerHeight(),
-//                                        top: main.offset().top,
-//                                        left: main.offset().left
-//                                    }
-//                                }).appendTo('body');
-//
-//                        $(document).mousemove(function(e) {
-//                            ghostbar.css("left", e.pageX + 2);
-//                        });
-//                    });
-//
-//                    $(document).mouseup(function(e) {
-//                        if (dragging)
-//                        {
-//                            var width = $(window).width();
-//                            var parentWidth = e.pageX;
-//                            var percent = 100 * parentWidth / width;
-//                            console.log(JSON.stringify(width));
-//                            console.log(JSON.stringify(percent));
-//                            console.log(JSON.stringify(e.pageX));
-//                            $('#sidebar').css("width", percent + "%");
-//                            $('.planning-detail').css("left", e.pageX + 32);
-//                            $('.planning-detail').css("width", (100 - percent) + '%');
-//                            $('#ghostbar').remove();
-//                            $(document).unbind('mousemove');
-//                            dragging = false;
-//                        }
-//                    });
-//                });
-//            };
-//            setTimeout(function() {
-//                loadGrid();
-//            }, 100);
+            var loadGrid = function() {
+
+                $(document).ready(function() {
+
+                    $('.dragDiv').on('dblclick', function(e) {
+                        alert(1);
+                        scope.changeDeliveryDate($(this).parent().attr('id'));
+                    });
+                    $('.undragDiv').on('dblclick', function(e) {
+                        scope.remainingQtnArr = [];
+                        scope.resetViewCompDelArr();
+                        var tempCompDelivery = $(this).data('comdel').split(',');
+                        for (var z = 0; z < tempCompDelivery.length; z++)
+                        {
+                            var tempSeprate = tempCompDelivery[z].split('-');
+                            scope.viewComponentidArr.push(parseInt(tempSeprate[0]));
+                            scope.viewDeliveryidArr.push(parseInt(tempSeprate[1]));
+                        }
+                        scope.changeDeliveryDate($(this).parent().attr('id'));
+                    });
+
+                    var allCells = $(".mainTable td");
+
+                    allCells.on("mouseover", function() {
+                        var el = $(this),
+                                pos = el.index();
+                        el.parent().find("th, td").addClass("hover");
+                        allCells.filter(":nth-child(" + (pos + 1) + ")").addClass("hover");
+                    })
+                            .on("mouseout", function() {
+                        allCells.removeClass("hover");
+                    });
+
+                });
+            };
+            setTimeout(function() {
+                loadGrid();
+            }, 100);
         }
     }]);
 var tempMaterialId = '';
@@ -592,9 +478,9 @@ altamiraApp.directive('selectDelivery', function(services) {
                 scope.itemPartIdArr.splice(scope.itemPartIdArr.indexOf(parseInt(attr.datapart)), 1);
                 scope.itemPartDeliveryArr.splice(scope.itemPartDeliveryArr.indexOf(parseInt(attr.datadelivery)), 1);
             }
-//            console.log(JSON.stringify(scope.itemId));
-//            console.log(JSON.stringify(scope.itemPartIdArr));
-//            console.log(JSON.stringify(scope.itemPartDeliveryArr));
+            console.log(JSON.stringify(scope.itemId));
+            console.log(JSON.stringify(scope.itemPartIdArr));
+            console.log(JSON.stringify(scope.itemPartDeliveryArr));
         });
 
     }
@@ -631,37 +517,47 @@ function totalWeightCal() {
                 tempTotalWeight += Math.ceil(parseFloat($(this).children().data('weight')));
             }
         });
-        if (tempTotalWeight != 0 && (tempTotalWeight / 1000 < 40))
+        if (tempTotalWeight != 0)
         {
             $th.addClass('totalWeightShow');
             $th.addClass('green');
-            if (tempTotalWeight >= 1000)
-            {
-                var ton = Math.floor(tempTotalWeight / 1000);
-                $th.html(ton + ' T');
-            } else
-            {
-                $th.html(Math.ceil(tempTotalWeight));
-            }
-        } else if (tempTotalWeight != 0 && (tempTotalWeight / 1000 > 40))
-        {
-            $th.addClass('totalWeightShow');
-            $th.addClass('red');
-            if (tempTotalWeight >= 1000)
-            {
-                var ton = Math.floor(tempTotalWeight / 1000);
-                $th.html(ton + ' T');
-            }
-            else
-            {
-                $th.html(Math.ceil(tempTotalWeight));
-            }
-        }
-        else
+            $th.html(Math.ceil(tempTotalWeight));
+        } else
         {
             $th.removeClass('totalWeightShow');
             $th.html('');
         }
+//        if (tempTotalWeight != 0 && (tempTotalWeight / 1000 < 40))
+//        {
+//            $th.addClass('totalWeightShow');
+//            $th.addClass('green');
+//            if (tempTotalWeight >= 1000)
+//            {
+//                var ton = Math.floor(tempTotalWeight / 1000);
+//                $th.html(ton + ' T');
+//            } else
+//            {
+//                $th.html(Math.ceil(tempTotalWeight));
+//            }
+//        } else if (tempTotalWeight != 0 && (tempTotalWeight / 1000 > 40))
+//        {
+//            $th.addClass('totalWeightShow');
+//            $th.addClass('red');
+//            if (tempTotalWeight >= 1000)
+//            {
+//                var ton = Math.floor(tempTotalWeight / 1000);
+//                $th.html(ton + ' T');
+//            }
+//            else
+//            {
+//                $th.html(Math.ceil(tempTotalWeight));
+//            }
+//        }
+//        else
+//        {
+//            $th.removeClass('totalWeightShow');
+//            $th.html('');
+//        }
     });
 }
 function isNumber(o) {
@@ -672,23 +568,23 @@ function totalRow() {
     return $('.dataTable tr').length;
 }
 function makeDummyRowLeft() {
-    var totalrow = 21; // total 23
-    var usedrow = $('#totalDataLen').val();
+    var totalrow = 23; // total 23
+    var usedrow = $('#orderListLength').val();
     var dataTableRowLen = $('.dataTable tr').length;
-    if (dataTableRowLen < 21)
+    if (dataTableRowLen < totalrow)
     {
         for (usedrow; usedrow < totalrow; usedrow++)
         {
-            $('.dataTable tr:last').before('<tr><td></td><td></td><td></td><td></td><td></td></tr>');
+            $('.dataTable tr:last').after('<tr><td></td><td></td><td></td><td></td><td></td></tr>');
         }
     }
 
 }
 function makeDummyRowRight() {
-    var totalrow = 20;
-    var usedrow = $('#totalDataLen').val();
+    var totalrow = 21;
+    var usedrow = $('#orderListLength').val();
     var mainTableRowLen = $('.mainTable tr').length;
-    if (mainTableRowLen < 21)
+    if (mainTableRowLen < totalrow)
     {
         var mainTableTR = '<tr style="height: 30px;">';
         $('.mainTable tr:nth-last-child(2) td').each(function() {
@@ -706,5 +602,15 @@ function makeDummyRowRight() {
             $('.mainTable tr:last').before(mainTableTR);
         }
     }
+    var allCells = $(".mainTable td");
+    allCells.on("mouseover", function() {
+        var el = $(this),
+                pos = el.index();
+        el.parent().find("th, td").addClass("hover");
+        allCells.filter(":nth-child(" + (pos + 1) + ")").addClass("hover");
+    })
+            .on("mouseout", function() {
+        allCells.removeClass("hover");
+    });
 
 }

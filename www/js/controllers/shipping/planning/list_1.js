@@ -482,14 +482,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                                 $('#' + hoverClass).css('background-color', '#ffffff');
                             });
                             $('.dragDiv').on('dblclick', function(e) {
-                                $scope.resetViewCompDelArr();
-                                var tempCompDelivery = $(this).data('comdel').split(',');
-                                for (var z = 0; z < tempCompDelivery.length; z++)
-                                {
-                                    var tempSeprate = tempCompDelivery[z].split('-');
-                                    $scope.viewComponentidArr.push(parseInt(tempSeprate[0]));
-                                    $scope.viewDeliveryidArr.push(parseInt(tempSeprate[1]));
-                                }
+                                $scope.viewDeliveryDate = $(this).data('day');
                                 $scope.changeDeliveryDate($(this).parent().attr('id'));
                             });
                             $('.undragDiv').on('dblclick', function(e) {

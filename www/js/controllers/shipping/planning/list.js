@@ -4,7 +4,6 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
             $scope.today = pt.format('dddd, LL');
             moment.locale('pt-br');
             var month = moment.months();
-            console.log(JSON.stringify(month));
             moment.locale('en');
             $scope.showdate = true;
             $scope.showdate_1 = true;
@@ -38,6 +37,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 Restangular.one('shipping/planning').get().then(function(response) {
                     $scope.loading = false;
                     $scope.orderList = response.data;
+                    $scope.orderListLength = response.data.length;
                     $scope.getOrderData($scope.orderList[0].id);
                     setTimeout(function() {
                         $scope.decorateTable();
@@ -89,11 +89,44 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 });
             };
             $scope.decorateTable = function() {
+                var dragging = false;
+                $('#dragbar').mousedown(function(e) {
+                    e.preventDefault();
+
+                    dragging = true;
+                    var main = $('.planning-detail');
+                    var ghostbar = $('<div>',
+                            {id: 'ghostbar',
+                                css: {
+                                    height: main.outerHeight(),
+                                    top: main.offset().top,
+                                    left: main.offset().left
+                                }
+                            }).appendTo('body');
+
+                    $(document).mousemove(function(e) {
+                        ghostbar.css("left", e.pageX + 2);
+                    });
+                });
+
+                $(document).mouseup(function(e) {
+                    if (dragging)
+                    {
+                        var width = $(window).width();
+                        var parentWidth = e.pageX;
+                        var percent = 100 * parentWidth / width;
+                        $('#sidebar').css("width", percent + "%");
+                        $('.planning-detail').css("left", e.pageX + 32);
+                        $('.planning-detail').css("width", (100 - percent) + '%');
+                        $('#ghostbar').remove();
+                        $(document).unbind('mousemove');
+                        dragging = false;
+                    }
+                });
                 $(".shipping_data").mCustomScrollbar({
                     axis: "y",
                     theme: "inset-3",
                     scrollButtons: {enable: true},
-//                    scrollbarPosition: "outside"
                 });
                 $(".mainRow").mCustomScrollbar({
                     axis: "x",
@@ -124,6 +157,15 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     var hoverClass = $(this).attr('class');
                     $('#' + hoverClass).css('background-color', '#ffffff');
                 });
+                $('.dragDiv').on('dblclick', function(e) {
+                    $scope.viewDeliveryDate = CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat($(this).parent().data('day'), 'DD_M_YYYY'));
+                    $scope.changeDeliveryDate($(this).parent().attr('id'));
+                });
+                setTimeout(function() {
+                    makeDummyRowLeft();
+                    makeDummyRowRight();
+                    totalWeightCal();
+                }, 100);
             }
             $scope.openBOM = function(bomId) {
                 $location.path('/bom/edit/' + bomId);
@@ -375,7 +417,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                                                     $scope.orderData = {};
                                                 } else
                                                 {
-                                                    location.reload();
+                                                    $scope.loadGrid();
                                                     $scope.orderData = {};
                                                 }
                                             });
@@ -575,20 +617,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 var startYear = parseInt(moment($scope.tempUnixTS[$scope.tempUnixTS.length - 1]).format('YYYY'));
                 var endMonth = parseInt(moment($scope.tempUnixTS[0]).format('M'));
                 var endYear = parseInt(moment($scope.tempUnixTS[0]).format('YYYY'));
-                console.log(JSON.stringify(startMonth));
-                console.log(JSON.stringify(startYear));
-                console.log(JSON.stringify(endMonth));
-                console.log(JSON.stringify(endYear));
                 $scope.maxYear = endYear;
-//                for (var i = 0; i <= 11; i++)
-//                {
-//                    var temp = startMonth;
-//                    var arrTemp = {};
-//                    arrTemp.name = month[temp] + ',' + startYear;
-//                    arrTemp.days = range(1, daysInMonth(temp + 1, startYear));
-//                    createDaysArray(arrTemp.days, temp + 1, startYear);
-//                    $scope.monthDays.push(arrTemp);
-//                }
                 $scope.subCalander = function(stMonth, year) {
                     for (var i = stMonth; i <= 12; i++)
                     {
@@ -602,24 +631,20 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                                 createDaysArray(arrTemp.days, i, year);
                                 $scope.monthDays.push(arrTemp);
                             }
-
                         } else
                         {
                             var arrTemp = {};
                             arrTemp.name = month[i - 1] + ',' + year;
                             arrTemp.days = range(1, daysInMonth(i, year));
-                            console.log(JSON.stringify(i+'=>'+arrTemp.name+'=>'+arrTemp.days));
                             createDaysArray(arrTemp.days, i, year);
                             $scope.monthDays.push(arrTemp);
                         }
-
                         if (i == 12)
                         {
                             if (year < endYear)
                             {
                                 $scope.subCalander(1, year + 1);
                             }
-
                         }
                     }
                 }
@@ -648,6 +673,9 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
             }
             $scope.loadGrid = function() {
                 $scope.loading = true;
+                $scope.itemId = [];
+                $scope.itemPartIdArr = [];
+                $scope.itemPartDeliveryArr = [];
                 Restangular.one('shipping/planning/remaining').get({max: 999}).then(function(response) {
                     $scope.loading = false;
                     $scope.orderGridData = response.data;
@@ -691,9 +719,43 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         $scope.finalArr.push(tempFinal);
                     }
                     $scope.makeCalender();
-
+                    setTimeout(function() {
+                        $scope.decorateTable();
+                    }, 100);
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');
                 });
-            }
+            };
+            $scope.changeDeliveryDate = function(bomId) {
+                $scope.getBomData(bomId);
+                $scope.changeDateModalShow();
+            };
+            $scope.getBomData = function(bomId) {
+                Restangular.one('shipping/planning', bomId).get().then(function(response) {
+                    $scope.orderData = response.data;
+                }, function(response) {
+                    services.showAlert('Falhou', 'Please try again');
+                });
+            };
+            $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/view.html', {
+                scope: $scope,
+                animation: 'fade-in'
+            }).then(function(modal) {
+                $scope.changeDate = modal;
+            });
+            $scope.changeDateModalShow = function() {
+                $scope.changeDate.show();
+            };
+            $scope.changeDateModalHide = function() {
+                $scope.changeDate.hide();
+            };
+            $scope.checkForViewDelivery = function(deliveryDate) {
+                if ($scope.viewDeliveryDate == CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat(deliveryDate)))
+                {
+                    return true;
+                } else
+                {
+                    return false;
+                }
+            };
         });

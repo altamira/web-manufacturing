@@ -2324,9 +2324,9 @@
 .mainTable tr td {
     text-align: left;
 }
-/*    .mainTable tr:hover {
-        background-color: #95bcf2;
-    }*/
+.mainTable tr:hover {
+    background-color: #95bcf2;
+}
 .monthTitle {
     background-color: #00ABA9 !important;
     height: 30px !important;

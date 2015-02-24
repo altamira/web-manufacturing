@@ -5,7 +5,7 @@
             <span class="btn-separator"></span>
             <button type="button" class="button fa-link-header" ng-click="joinDate()"></button>
             <button type="button" class="button fa-unlink-header" ng-click="divideDate()"></button>
-            <!--            <span ng-if="bomData.checked != ''">
+            <!--            <span ng-if="orderData.checked != ''">
                             <button type="button" class="button fa-check-square-o-header" ng-click='makeUnchecked()'></button>
                         </span>
                         <button class="button fa-pencil-header" ng-click="edit()" ></button>
@@ -22,13 +22,13 @@
                     <div class="list list-row col-75">
                         <span class="input-label text-bold">Pedido</span>
                         <label class="item item-input plain-text">
-                            {{bomData.number}}
+                            {{orderData.number}}
                         </label>
                     </div>
                     <div class="list list-row">
                         <span class="input-label text-bold">Cliente</span>
                         <label class="item item-input" >
-                            {{bomData.customer}}
+                            {{orderData.customer}}
                         </label>
                     </div>
 
@@ -39,7 +39,7 @@
                     <div class="list list-row">
                         <span class="input-label text-bold">Representante</span>
                         <label class="item item-input" >
-                            {{bomData.representative}}
+                            {{orderData.representative}}
                         </label>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                     <div class="list list-row">
                         <span class="input-label text-bold">Acabamento</span>
                         <label class="item item-input" >
-                            {{bomData.finish}}
+                            {{orderData.finish}}
                         </label>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
                     <div class="list list-row">
                         <span class="input-label text-bold">Orcamento</span>
                         <label class="item item-input" >
-                            {{bomData.quotation}}
+                            {{orderData.quotation}}
                         </label>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                     <div class="list list-row">
                         <span class="input-label text-bold">Projeto</span>
                         <label class="item item-input" >
-                            {{bomData.project}}
+                            {{orderData.project}}
                         </label>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                     <div class="list list-row">
                         <span class="input-label text-bold">Data Pedido</span>
                         <label class="item item-input" >
-                            {{bomData.created | getDate}}
+                            {{orderData.created | getDate}}
                         </label>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                     <div class="list list-row">
                         <span class="input-label text-bold">Data Entrega </span>
                         <label class="item item-input" >
-                            {{bomData.delivery | getDate}}
+                            {{orderData.delivery | getDate}}
                         </label>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                     </div>
                 </div>
             </div>
-            <div id="item_repeat" ng-repeat='data in bomData.items'>
+            <div id="item_repeat" ng-repeat='data in orderData.item'>
                 <div class="row" style="margin-top:-15px;">
                     <div class="col">
                         <div class="list"> <a class="process-item-list item-icon-right " style="padding-left:0px;">ITEM {{data.item}}  </a> </div>
@@ -120,16 +120,17 @@
                             <tr ng-repeat='dataPart in data.component'>
                                 <td colspan="7">
                                     <table style="width: 100%">
-                                        <tr ng-repeat='component in dataPart.delivery' ng-if="checkForViewDelivery(component.id) > -1">
+                                        <tr ng-repeat='component in dataPart.delivery' ng-if="checkForViewDelivery(component.delivery) == true">
+                                        <!--<tr ng-repeat='component in dataPart.delivery'>-->
                                             <td class="edit-info" style="text-align: center;width: 10%;">{{ component.delivery | getDate }}</td>
                                             <td class="edit-info" style="text-align: center;width: 11%;">{{component.quantity.value}} {{component.quantity.unit.symbol}}</td>
-                                            <!--<td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id,component.id)'  style="cursor: pointer;width: 50%;">{{dataPart.material.description}} - {{data.id}} - {{dataPart.id}} - {{dataPart.material.id}} - {{component.id}}</td>-->
-                                            <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id,component.id)'  style="cursor: pointer;width: 50%;">{{dataPart.material.description}}</td>
+                                            <!--<td class="edit-text" ng-click='updatePart(orderData.id,data.id,dataPart.id,component.id)'  style="cursor: pointer;width: 50%;">{{dataPart.material.description}} - {{data.id}} - {{dataPart.id}} - {{dataPart.material.id}} - {{component.id}}</td>-->
+                                            <td class="edit-text" ng-click='updatePart(orderData.id,data.id,dataPart.id,component.id)'  style="cursor: pointer;width: 50%;">{{dataPart.material.description}}</td>
                                             <td class="edit-text" style="width: 9%;">{{dataPart.color.code}}</td>
                                             <td class="edit-info" style="text-align: right;width: 8%;">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
                                             <td class="edit-info" style="text-align: right;width: 9%;">{{dataPart.weight.value * component.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
                                             <td class="edit-text" style="width: 3%;">
-                                                <i class="icon plus-icon fa-square-o" select-bom dataitem="{{data.id}}" datapart="{{dataPart.id}}" datamaterial="{{dataPart.material.id}}" datadelivery="{{component.id}}"></i>
+                                                <i class="icon plus-icon fa-square-o" select-delivery dataitem="{{data.id}}" datapart="{{dataPart.id}}" datamaterial="{{dataPart.material.id}}" datadelivery="{{component.id}}"></i>
                                             </td>
                                         </tr>
                                     </table>
