@@ -182,6 +182,10 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
             $scope.changeDateModalHide = function() {
                 $scope.changeDate.hide();
             };
+            $scope.goToCalender = function() {
+                $scope.loading = false;
+                $scope.changeDate.hide();
+            };
             $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/divide.html', {
                 scope: $scope,
                 animation: 'fade-in'
@@ -534,15 +538,21 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         $scope.chgDeliveryData.id = response.data.id;
                         $scope.chgDeliveryData.version = response.data.version;
                         $scope.chgDeliveryData.type = response.data.type;
-                        $scope.chgDeliveryData.delivery = moment($scope.partData.delivery, 'DD/MM/YYYY').format('YYYY-DD-MM');
-//                        $scope.chgDeliveryData.delivery = CommonFun.getFullTimestamp($scope.partData.delivery);
+                        $scope.chgDeliveryData.delivery = moment($scope.partData.delivery, 'DD/MM/YYYY').format('YYYY-MM-DD');
                         $scope.chgDeliveryData.quantity = response.data.quantity;
                         $scope.chgDeliveryData.delivered = response.data.delivered;
                         $scope.chgDeliveryData.remaining = response.data.remaining;
                         Restangular.all('shipping').one('planning', $scope.BOMId).one('item', $scope.ITEMId).one('component', $scope.PARTId).one('delivery', $scope.DELIVERYId).customPUT($scope.chgDeliveryData).then(function(response) {
                             $scope.loading = false;
+                            $scope.changePartModalHide();
                             services.showAlert('Success', 'Delivery date changed to ' + $scope.partData.delivery).then(function(res) {
-                                $scope.loadGrid();
+                                if ($scope.viewtype == 'grid')
+                                {
+                                    $scope.loadGrid();
+                                } else
+                                {
+                                    $scope.getOrderData($scope.BOMId);
+                                }
                             });
                         }, function(response) {
                             $scope.loading = false;
@@ -561,7 +571,6 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 {
                     $scope.changeDate.show();
                 }
-
             };
 
             $scope.getObjects = function(obj, key, val) {
@@ -649,8 +658,6 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     }
                 }
                 $scope.subCalander(startMonth, startYear);
-//                console.log(JSON.stringify($scope.days));
-//                console.log(JSON.stringify($scope.monthDays));
             };
 
             function createDaysArray(daysArray, m, y)
@@ -727,7 +734,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 });
             };
             $scope.changeDeliveryDate = function(bomId) {
-                $scope.getBomData(bomId);
+                $scope.getOrderData(bomId);
                 $scope.changeDateModalShow();
             };
             $scope.getBomData = function(bomId) {

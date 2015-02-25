@@ -13,13 +13,13 @@
                     <div class="list list-row col-75">
                         <span class="input-label text-bold">Pedido</span>
                         <label class="item item-input plain-text">
-                            {{bomData.number}}
+                            {{orderData.number}}
                         </label>
                     </div>
                     <div class="list list-row">
                         <span class="input-label text-bold">Cliente</span>
                         <label class="item item-input" >
-                            {{bomData.customer}}
+                            {{orderData.customer}}
                         </label>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                     <div class="list list-row">
                         <span class="input-label text-bold">Representante</span>
                         <label class="item item-input" >
-                            {{bomData.representative}}
+                            {{orderData.representative}}
                         </label>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                     <div class="list list-row">
                         <span class="input-label text-bold">Acabamento</span>
                         <label class="item item-input" >
-                            {{bomData.finish}}
+                            {{orderData.finish}}
                         </label>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                     <div class="list list-row">
                         <span class="input-label text-bold">Orcamento</span>
                         <label class="item item-input" >
-                            {{bomData.quotation}}
+                            {{orderData.quotation}}
                         </label>
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                     <div class="list list-row">
                         <span class="input-label text-bold">Projeto</span>
                         <label class="item item-input" >
-                            {{bomData.project}}
+                            {{orderData.project}}
                         </label>
                     </div>
                 </div>
@@ -63,8 +63,7 @@
                     <div class="list list-row">
                         <span class="input-label text-bold">Data Pedido</span>
                         <label class="item item-input" >
-                            <!--{{bomData.created | getDate}}-->
-                            {{bomData.created}}
+                            {{orderData.created | getDate}}
                         </label>
                     </div>
                 </div>
@@ -72,8 +71,7 @@
                     <div class="list list-row">
                         <span class="input-label text-bold">Data Entrega </span>
                         <label class="item item-input" >
-                            {{bomData.delivery}}
-                            <!--{{bomData.delivery | getDate}}-->
+                            {{orderData.delivery | getDate}}
                         </label>
                     </div>
                 </div>
@@ -112,7 +110,7 @@
                                     <td class="edit-item-title align-center width-7"><i class="fa-tachometer"></i> <span>Peso</span></td>
                                     <td class="edit-item-title align-center width-3">&nbsp;</td>
                                 </tr>
-                                <tr ng-repeat='component in data.delivery' id="{{component.delivery.id}}" data-itemId="{{data.id}}">
+                                <tr ng-repeat='component in data.delivery' id="{{component.delivery.id}}" data-itemId="{{data.id}}" ng-if="checkForViewDelivery(component.delivery.delivery) == true">
                                     <td class="edit-info align-center width-9">{{ component.delivery.delivery | getDate }}</td>
                                     <td class="edit-info align-right width-8">{{component.delivery.quantity.value}} {{component.delivery.quantity.unit.symbol}}</td>
                                     <td class="edit-info align-right width-8">{{component.delivery.delivered.value}} {{component.delivery.quantity.unit.symbol}}</td>
@@ -120,7 +118,7 @@
                                         <input type="number" id="remaining_popup_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value > 0">
                                         <input type="number" id="remaining_popup_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value < 1" readonly>
                                     </td>
-                                    <td class="edit-text width-40" ng-click='updatePart(bomData.id,data.id,component.componentId)'  style="cursor: pointer;">{{component.description}}</td>
+                                    <td class="edit-text width-40" ng-click='updatePart(orderData.id,data.id,component.componentId)'  style="cursor: pointer;">{{component.description}}</td>
                                     <td class="edit-text align-center width-9">{{component.color}}</td>
                                     <td class="edit-info align-right width-7">{{component.weight | setDecimal:2}} {{component.weightType}}</td>
                                     <td class="edit-info align-right width-7">{{component.weight * component.delivery.quantity.value | setDecimal:3}} {{component.weightType}}</td>
@@ -134,48 +132,6 @@
                     </div>
                 </div>
             </div>
-            <!--            <div id="item_repeat" ng-repeat='data in bomData.items'>
-                            <div class="row" style="margin-top:-15px;">
-                                <div class="col">
-                                    <div class="list"> <a class="process-item-list item-icon-right " style="padding-left:0px;">ITEM {{data.item}}  </a> </div>
-                                </div>
-                            </div>
-                            <div class="edit-item">
-                                <div class="col row">
-                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                        <tr>
-                                            <td colspan="8" style="padding-left:30px; padding-bottom:10px; font-size:16px;">{{data.description}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="edit-item-title" style="text-align: center;width: 10%;"><i class="fa-calender"></i> <span>Entrega</span></td>
-                                            <td class="edit-item-title" style="text-align: center;width: 9%;"><i class="fa-list-ol"></i> <span>Quantidade</span></td>
-                                            <td class="edit-item-title" style="text-align: center;width: 9%;"><i class="fa-list-ol"></i> <span>Entregue</span></td>
-                                            <td class="edit-item-title" style="text-align: center;width: 9%;"><i class="fa-list-ol"></i> <span>Saldo</span></td>
-                                            <td class="edit-item-title" style="width: 37%"> Descricao</td>
-                                            <td class="edit-item-title" style="text-align: center;width: 10%;"><i class="fa-pencil"></i> <span>Cor</span></td>
-                                            <td class="edit-item-title" style="text-align: center;width: 8%;"><i class="fa-tachometer"></i> <span>Peso</span></td>
-                                            <td class="edit-item-title" style="text-align: center;width: 8%;"><i class="fa-tachometer"></i> <span>Peso</span></td>
-                                        </tr>
-                                        <tr ng-repeat='dataPart in data.component'>
-                                            <td colspan="8">
-                                                <table style="width: 100%">
-                                                    <tr ng-repeat='component in dataPart.delivery' ng-if="checkForViewDelivery(component.id) > -1">
-                                                        <td class="edit-info" style="text-align: center;width: 10%;">{{ component.delivery | getDate }}</td>
-                                                        <td class="edit-info" style="text-align: center;width: 9%;">{{component.quantity.value}} {{component.quantity.unit.symbol}}</td>
-                                                        <td class="edit-info" style="text-align: center;width: 9%;">{{component.delivered.value}} {{component.quantity.unit.symbol}}</td>
-                                                        <td class="edit-info" style="text-align: center;width: 9%;"><input type="number" id="remaining_{{component.id}}" value="{{component.remaining.value}}" class="saldo" style="margin-bottom: 5px;"></td>
-                                                        <td class="edit-text" ng-click='updatePart(bomData.id,data.id,dataPart.id)'  style="cursor: pointer;width: 37%;">{{dataPart.material.description}}</td>
-                                                        <td class="edit-text" style="width: 10%;">{{dataPart.color.code}}</td>
-                                                        <td class="edit-info" style="text-align: right;width: 8%;">{{dataPart.weight.value | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>
-                                                        <td class="edit-info" style="text-align: right;width: 8%;">{{dataPart.weight.value * component.quantity.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>-->
         </div>
     </ion-content>
 </div>
