@@ -415,7 +415,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                                         {
                                             $scope.loading = false;
                                             services.showAlert('success', 'Successfully joined delivery dates').then(function(response) {
-                                                if ($scope.viewGrid == true)
+                                                if ($scope.viewtype == 'form')
                                                 {
                                                     $scope.getOrderData($scope.orderData.id);
                                                     $scope.orderData = {};
@@ -766,3 +766,8 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 }
             };
         });
+function unique_arr(array) {
+    return array.filter(function(el, index, arr) {
+        return index == arr.indexOf(el);
+    });
+}
