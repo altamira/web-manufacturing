@@ -35,7 +35,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
             }
             $scope.loadOrderList = function() {
                 $scope.loading = true;
-                Restangular.one('shipping/execution').get({max:999}).then(function(response) {
+                Restangular.one('shipping/execution').get({max: 999}).then(function(response) {
                     $scope.loading = false;
                     $scope.orderList = response.data;
                     $scope.orderListLength = response.data.length;
@@ -191,12 +191,21 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                     axis: "x",
                     theme: "inset-3",
                     scrollButtons: {enable: true},
+                    scrollbarPosition: "outside"
+                });
+                $(".dataRow").mCustomScrollbar({
+                    axis: "yx",
+                    theme: "inset-3",
+                    scrollButtons: {enable: true},
                     scrollbarPosition: "outside",
-                    callbacks: {
-                        whileScrolling: function() {
-//                            $(".dataRow").mCustomScrollbar("scrollTo",[this.mcs.topPct,0]);
-                        }
-                    },
+                    autoHideScrollbar: false
+                });
+                $(".dataRow  .mCSB_scrollTools_vertical").css('left', '-10px');
+                $(".dataRowGrid").mCustomScrollbar({
+                    axis: "x",
+                    theme: "inset-3",
+                    scrollButtons: {enable: true},
+                    scrollbarPosition: "outside"
                 });
                 $('.dataTable tr').hover(function() {
                     var hoverClass = $(this).attr('id');

@@ -34,7 +34,28 @@
         <input type="hidden" id="orderListLength" value="{{orderListLength}}">
         <div class="row main-row nested" >
             <div id="sidebar" class="width-30">
-                <div class="row scroll-div dataRow nested" datarow-load>
+                <div class="row scroll-div dataRow nested" ng-if="viewtype == 'form'" style="height: 752px;">
+                    <table class="dataTable" ng-if='orderList'>
+                        <tr>
+                            <th class="monthTitle dataTable-title" colspan="5">Pedidos</th>
+                        </tr>
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th style="min-width: 75px">Pedido</th>
+                            <th style="min-width: 140px">Cliente</th>
+                            <th style="min-width: 100px">Data Pedido</th>
+                            <th style="min-width: 100px">Data Entrega</th>
+                        </tr>
+                        <tr ng-repeat="order in orderList" id="{{order.id}}" ng-click="getOrderData({{order.id}})" style="cursor: pointer">
+                            <td class="align-center fa-md-arrow-right-planning" ng-click="openOrder({{order.id}})"></td>
+                            <td id="{{order.id}}">{{order.id}}</td>
+                            <td>{{order.customer}}</td>
+                            <td>{{order.created | getDate}}</td>
+                            <td>{{order.delivery| getDate}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="row scroll-div dataRow nested" ng-if="viewtype == 'grid'">
                     <table class="dataTable" ng-if='orderList'>
                         <tr>
                             <th class="monthTitle dataTable-title" colspan="5">Pedidos</th>

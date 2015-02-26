@@ -383,12 +383,12 @@ altamiraApp.directive('loadHtml', function() {
 });
 altamiraApp.directive('datarowLoad', function() {
     return function(scope, el, attrs) {
-        $(".dataRow").mCustomScrollbar({
-            axis: "x",
-            theme: "inset-3",
-            scrollButtons: {enable: true},
-            scrollbarPosition: "outside"
-        });
+//        $(".dataRow").mCustomScrollbar({
+//            axis: "x",
+//            theme: "inset-3",
+//            scrollButtons: {enable: true},
+//            scrollbarPosition: "outside"
+//        });
     }
 });
 altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {

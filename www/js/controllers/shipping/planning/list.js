@@ -34,7 +34,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
             }
             $scope.loadOrderList = function() {
                 $scope.loading = true;
-                Restangular.one('shipping/planning').get({max:999}).then(function(response) {
+                Restangular.one('shipping/planning').get({max: 999}).then(function(response) {
                     $scope.loading = false;
                     $scope.orderList = response.data;
                     $scope.orderListLength = response.data.length;
@@ -83,6 +83,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         }
                         $scope.finalList.push($scope.tempList);
                     }
+                    $scope.decorateTable();
                 }, function() {
                     $scope.loading = false;
                     services.showAlert('Falhou', 'Please try again');
@@ -132,13 +133,23 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     axis: "x",
                     theme: "inset-3",
                     scrollButtons: {enable: true},
-                    scrollbarPosition: "outside",
-                    callbacks: {
-                        whileScrolling: function() {
-//                            $(".dataRow").mCustomScrollbar("scrollTo",[this.mcs.topPct,0]);
-                        }
-                    },
+                    scrollbarPosition: "outside"
                 });
+                $(".dataRow").mCustomScrollbar({
+                    axis: "yx",
+                    theme: "inset-3",
+                    scrollButtons: {enable: true},
+                    scrollbarPosition: "outside",
+                    autoHideScrollbar: false
+                });
+                $(".dataRow  .mCSB_scrollTools_vertical").css('left', '-10px');
+                $(".dataRowGrid").mCustomScrollbar({
+                    axis: "x",
+                    theme: "inset-3",
+                    scrollButtons: {enable: true},
+                    scrollbarPosition: "outside"
+                });
+
                 $('.dataTable tr').hover(function() {
                     var hoverClass = $(this).attr('id');
                     $(this).css('background-color', '#95bcf2');
@@ -162,6 +173,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     $scope.changeDeliveryDate($(this).parent().attr('id'));
                 });
                 setTimeout(function() {
+
                     makeDummyRowLeft();
                     makeDummyRowRight();
                     totalWeightCal();
