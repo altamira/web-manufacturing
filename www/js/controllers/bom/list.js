@@ -195,7 +195,7 @@ altamiraAppControllers.controller('BomListCtrl',
                         {text: '<b>Importar</b>',
                             type: 'button-positive',
                             onTap: function(res) {
-                                $scope.showLoading();
+                                $scope.loading = true;
                                 //get data from api
                                 IntegrationRestangular.one('manufacturing/bom?' + $scope.orderData.ordernumber).get().then(function(response) {
                                     Restangular.all('manufacturing/bom').post(response.data).then(function(res) {
@@ -210,6 +210,7 @@ altamiraAppControllers.controller('BomListCtrl',
                                         services.showAlert('Falhou', 'Please try again');
                                     });
                                 }, function(response) {
+                                    $scope.loading = false;
                                     services.showAlert('Falhou', 'Please try again');
                                 });
                                 $scope.hideLoading();
