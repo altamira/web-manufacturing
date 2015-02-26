@@ -34,7 +34,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
             }
             $scope.loadOrderList = function() {
                 $scope.loading = true;
-                Restangular.one('shipping/planning').get().then(function(response) {
+                Restangular.one('shipping/planning').get({max:999}).then(function(response) {
                     $scope.loading = false;
                     $scope.orderList = response.data;
                     $scope.orderListLength = response.data.length;
