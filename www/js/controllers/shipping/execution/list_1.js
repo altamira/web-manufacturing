@@ -484,7 +484,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                     $scope.partData.version = data.version;
                     $scope.partData.materialId = data.material.id;
                     $scope.partData.code = data.material.code;
-                    $scope.partData.description = data.material.description;
+                    $scope.partData.description = data.description;
                     $scope.partData.delivery = data.delivery.delivery;
                     $scope.getColorName(data.color.id);
 
@@ -611,7 +611,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                                 $scope.tempListComponent = {};
                                 $scope.tempListComponent.componentId = data.item[j].component[k].id;
                                 $scope.tempListComponent.materialId = data.item[j].component[k].material.id;
-                                $scope.tempListComponent.description = data.item[j].component[k].material.description;
+                                $scope.tempListComponent.description = data.item[j].component[k].description;
                                 $scope.tempListComponent.color = data.item[j].component[k].color.code;
                                 $scope.tempListComponent.weight = data.item[j].component[k].weight.value;
                                 $scope.tempListComponent.weightType = data.item[j].component[k].weight.unit.symbol;

@@ -676,7 +676,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     $scope.partData.version = data.version;
                     $scope.partData.materialId = data.material.id;
                     $scope.partData.code = data.material.code;
-                    $scope.partData.description = data.material.description;
+                    $scope.partData.description = data.description;
                     $scope.partData.delivery = data.delivery.delivery;
                     $scope.getColorName(data.color.id);
                     $scope.partData.quantity = data.quantity.value;
@@ -808,7 +808,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     var partDelivery;
                     part = $scope.getObjects(tempVar[0].component, 'id', $scope.itemPartIdArr[0]);
                     $scope.divideData.chnDateCode = part[0].material.code;
-                    $scope.divideData.chnDateDesc = part[0].material.description;
+                    $scope.divideData.chnDateDesc = part[0].description;
                     partDelivery = $scope.getObjects(part[0].delivery, 'id', $scope.itemPartDeliveryArr[0]);
                     $scope.partDelivery = partDelivery[0];
                     $scope.divideData.chnDateTotalQuantity = partDelivery[0].quantity.value;
@@ -975,7 +975,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         }
                     }
                     $scope.joinData.chnDateCode = $scope.joinData.chnDateParts[0].material.code;
-                    $scope.joinData.chnDateDesc = $scope.joinData.chnDateParts[0].material.description;
+                    $scope.joinData.chnDateDesc = $scope.joinData.chnDateParts[0].description;
                     $scope.joinData.chnDateTotalQuantity = chnDateTotalQuantity;
                     $scope.joinData.chnDateUnit = chnDateUnit;
                     $scope.joinData.pesoTotal = pesoTotal;
@@ -1091,7 +1091,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                                     $scope.tempListComponent = {};
                                     $scope.tempListComponent.componentId = data.item[j].component[k].id;
                                     $scope.tempListComponent.materialId = data.item[j].component[k].material.id;
-                                    $scope.tempListComponent.description = data.item[j].component[k].material.description;
+                                    $scope.tempListComponent.description = data.item[j].component[k].description;
                                     $scope.tempListComponent.color = data.item[j].component[k].color.code;
                                     $scope.tempListComponent.weight = data.item[j].component[k].weight.value;
                                     $scope.tempListComponent.weightType = data.item[j].component[k].weight.unit.symbol;
