@@ -128,13 +128,24 @@ altamiraAppControllers.controller('BomViewCtrl',
                 $scope.totalReport = [];
                 $('.bom-report').each(function() {
                     $(this).addClass('fa-check-square-o');
-                    $scope.totalReport.push($(this).attr('reportname'));
+                    $scope.pushReportName($(this).attr('reportname'));
                 });
             }
             $scope.UnSelectAllReport = function() {
                 $scope.totalReport = [];
                 $('.bom-report').each(function() {
                     $(this).removeClass('fa-check-square-o');
+                });
+            }
+            $scope.pushReportName = function(reportName) {
+                if ($.inArray(reportName, $scope.totalReport) < 0)
+                {
+                    $scope.totalReport.push(reportName);
+                }
+            }
+            $scope.popReportName = function(reportName) {
+                $scope.totalReport = $.grep($scope.totalReport, function(value) {
+                    return value != reportName;
                 });
             }
             $scope.updatePart = function(itemId, partId) {

@@ -145,18 +145,12 @@ altamiraApp.directive('reportToggle', function() {
         elm.bind('click', function() {
             if (elm.hasClass('fa-check-square-o') == false)
             {
-                if ($.inArray(attrs.reportname, scope.totalReport) < 0)
-                {
-                    scope.totalReport.push(attrs.reportname);
-                }
+                scope.pushReportName(attrs.reportname);
             } else
             {
-                scope.totalReport = $.grep(scope.totalReport, function(value) {
-                    return value != attrs.reportname;
-                });
+                scope.popReportName(attrs.reportname);
             }
             elm.toggleClass('fa-check-square-o');
-            console.log(JSON.stringify(scope.totalReport));
         });
     }
 });
@@ -406,7 +400,7 @@ altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
                     $('.dragDiv').on('dblclick', function(e) {
                         scope.changeDeliveryDate($(this).parent().attr('id'));
                     });
-                    
+
 
                     var allCells = $(".mainTable td");
 
