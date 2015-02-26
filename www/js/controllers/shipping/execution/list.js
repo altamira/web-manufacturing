@@ -84,6 +84,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         }
                         $scope.finalList.push($scope.tempList);
                     }
+                    $scope.decorateTable();
                 }, function() {
                     $scope.loading = false;
                     services.showAlert('Falhou', 'Please try again');
@@ -725,8 +726,6 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                     }
                 }
                 $scope.subCalander(startMonth, startYear);
-//                console.log(JSON.stringify($scope.days));
-//                console.log(JSON.stringify($scope.monthDays));
             };
 
             function createDaysArray(daysArray, m, y)

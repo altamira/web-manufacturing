@@ -145,10 +145,11 @@
                                     {{delivery.remaining.value | setDecimal:1}}
                                     <!--                                    {{showWeight(del.deliveryweight)}}-->
                                 </div>
+                                <div style="width: 50px;height: 30px;" ng-if="order.components == ''">&nbsp;</div>
                             </td>
-                            <td ng-repeat="day in days track by $index" id="{{order.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="order.components == ''" style="width: 50px;height: 30px;">
+<!--                            <td ng-repeat="day in days track by $index" id="{{order.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="order.components == ''" style="width: 50px;height: 30px;">
                                 &nbsp;
-                            </td>
+                            </td>-->
                         </tr>
                         <tr class="totalWeightRow">
                             <td ng-repeat="day in days track by $index" data-date='{{day}}'>
