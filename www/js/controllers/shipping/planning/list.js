@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('ShippingPlanningCtrl',
-        function($scope, $location, $route, Restangular, services, $ionicModal, CommonFun) {
+        function($scope, $location, $route, Restangular, services, $ionicModal, CommonFun, $ionicSideMenuDelegate) {
             var pt = moment().locale('pt-br');
             $scope.today = pt.format('dddd, LL');
             moment.locale('pt-br');
@@ -698,6 +698,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 Restangular.one('shipping/planning/remaining').get({max: 999}).then(function(response) {
                     $scope.loading = false;
                     $scope.orderGridData = response.data;
+                    console.log(JSON.stringify($scope.orderGridData));
                     var main = [];
                     for (var i = 0; i < $scope.orderGridData.length; i++)
                     {
@@ -737,6 +738,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         }
                         $scope.finalArr.push(tempFinal);
                     }
+//                    console.log(JSON.stringify($scope.finalArr));
                     $scope.makeCalender();
                     setTimeout(function() {
                         $scope.decorateTable();
@@ -776,6 +778,9 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 {
                     return false;
                 }
+            };
+            $scope.toggleLeft = function() {
+                $ionicSideMenuDelegate.toggleLeft();
             };
         });
 function unique_arr(array) {

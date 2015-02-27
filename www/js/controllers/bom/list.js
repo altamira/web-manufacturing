@@ -113,6 +113,7 @@ altamiraAppControllers.controller('BomListCtrl',
                         $scope.range();
                     }
                 }, function(response) {
+                    $scope.loading = false;
                     services.showAlert('Falhou', 'Please try again');
                 });
             };
