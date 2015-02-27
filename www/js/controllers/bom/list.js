@@ -15,15 +15,15 @@ altamiraAppControllers.controller('BomListCtrl',
                         Restangular.one('manufacturing/bom', itemId).all('checked').customPUT().then(function(response) {
                             $scope.loading = false;
                             services.showAlert('Success', 'A Lista de Material do Pedido ' + itemNumber + ' foi marcada como conferida.').then(function(res) {
-                                if (res) {
-                                    $route.reload();
-                                }
                             });
-
                         }, function(response) {
                             $scope.loading = false;
                             services.showAlert('Falhou', 'Please try again');
                         });
+                    }
+                    else
+                    {
+                        $('.' + itemId).toggleClass('fa-check-square-o');
                     }
                 });
             };
@@ -34,15 +34,14 @@ altamiraAppControllers.controller('BomListCtrl',
                         Restangular.one('manufacturing/bom', itemId).all('unchecked').customPUT().then(function(response) {
                             $scope.loading = false;
                             services.showAlert('Success', 'A Lista de Material do Pedido ' + itemNumber + ' foi marcada como conferida.').then(function(res) {
-                                if (res) {
-                                    $route.reload();
-                                }
                             });
-
                         }, function(response) {
                             $scope.loading = false;
                             services.showAlert('Falhou', 'Please try again');
                         });
+                    } else
+                    {
+                        $('.' + itemId).toggleClass('fa-check-square-o');
                     }
                 });
             };

@@ -467,6 +467,22 @@ altamiraApp.directive('selectDelivery', function(services) {
 
     }
 });
+altamiraApp.directive('checkLogic', function(services) {
+    return function(scope, elm, attr) {
+        elm.bind('click', function() {
+            elm.toggleClass('fa-check-square-o');
+            if (elm.hasClass('fa-check-square-o'))
+            {
+                scope.makeChecked(attr.dataitemid, attr.dataitemnumber);
+            }
+            else
+            {
+                scope.makeUnchecked(attr.dataitemid, attr.dataitemnumber);
+            }
+        });
+
+    }
+});
 altamiraApp.directive('changeRemainingQuantity', function(services) {
     return function(scope, elm, attr) {
         elm.bind('click', function() {
