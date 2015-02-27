@@ -84,6 +84,9 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         }
                         $scope.finalList.push($scope.tempList);
                     }
+                    $scope.finalList.sort(function(a, b) {
+                        return a.item - b.item;
+                    });
                     $scope.decorateTable();
                 }, function() {
                     $scope.loading = false;

@@ -100,12 +100,14 @@
                                                     <div class="list"> <a class="process-item-list item-icon-right " style="padding-left:0px;">ITEM {{data.item}}  </a> </div>
                                                 </div>
                                             </div>
-                                            <div class="edit-item">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div style="font-size: 16px;">{{data.description}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="edit-item" ng-if="data.delivery != ''">
                                                 <div class="col row">
                                                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                                        <tr>
-                                                            <td colspan="9" class="data-description">{{data.description}}</td>
-                                                        </tr>
                                                         <tr>
                                                             <td class="edit-item-title align-center width-9"><i class="fa-calender"></i> <span>Entrega</span></td>
                                                             <td class="edit-item-title align-center width-9"><i class="fa-list-ol"></i> <span>Quantidade</span></td>
