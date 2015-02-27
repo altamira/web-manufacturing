@@ -121,13 +121,13 @@
                                                         </tr>
                                                         <tr ng-repeat='component in data.delivery' id="{{component.delivery.id}}" data-itemId="{{data.id}}">
                                                             <td class="edit-info align-center width-9">{{ component.delivery.delivery | getDate }}</td>
-                                                            <td class="edit-info align-right width-9">{{component.delivery.quantity.value}} {{component.delivery.quantity.unit.symbol}}</td>
-                                                            <td class="edit-info align-right width-9">{{component.delivery.delivered.value}} {{component.delivery.quantity.unit.symbol}}</td>
-                                                            <td class="edit-info align-right width-9">{{component.delivery.remaining.value}} {{component.delivery.quantity.unit.symbol}}</td>
+                                                            <td class="edit-info align-right width-9">{{component.delivery.quantity.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
+                                                            <td class="edit-info align-right width-9">{{component.delivery.delivered.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
+                                                            <td class="edit-info align-right width-9">{{component.delivery.remaining.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
                                                             <td class="edit-text width-42" ng-click='updatePart(orderData.id,data.id,component.componentId,component.delivery.id)'  style="cursor: pointer;">{{component.description}}</td>
                                                             <td class="edit-text align-center width-10">{{component.color}}</td>
                                                             <!--<td class="edit-info align-right width-7">{{component.weight | setDecimal:2}} {{component.weightType}}</td>-->
-                                                            <td class="edit-info align-right width-9">{{component.weight * component.delivery.quantity.value | setDecimal:3}} {{component.weightType}}</td>
+                                                            <td class="edit-info align-right width-9">{{component.weight * component.delivery.quantity.value | setDecimal:3}}<span style="margin-left: 5px;">{{component.weightType}}</span></td>
                                                             <td class="edit-text align-center width-3">
                                                                 <i class="icon plus-icon fa-square-o" select-delivery dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}"></i>
                                                             </td>
