@@ -180,6 +180,34 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     makeDummyRowLeft();
                     makeDummyRowRight();
                     totalWeightCal();
+                    $(".dragDiv").draggable({
+                        revert: 'invalid'
+                    });
+                    $(".makeDroppable").droppable({
+                        accept: function(item) {
+                            return $(this).closest("tr").is(item.closest("tr")) && $(this).find("*").length == 0;
+                        },
+                        drop: function(event, ui) {
+                            $scope.changeDelDateByDrag($(this).parent().attr('class'), ui.draggable.attr('id'), $(this).data('day'));
+
+                            var $this = $(this);
+                            $this.append(ui.draggable.css({
+                                top: 0,
+                                left: '0px !important'
+                            }));
+                            ui.draggable.position({
+                                my: "center",
+                                at: "center",
+                                of: $this,
+                                using: function(pos) {
+                                    $(this).animate(pos, 500, "linear", function() {
+                                        $(this).css('top', '0px');
+                                        $(this).css('left', '0px');
+                                    });
+                                }
+                            });
+                        }
+                    });
                 }, 100);
             }
             $scope.openBOM = function(bomId) {
@@ -785,6 +813,21 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
             $scope.toggleLeft = function() {
                 $ionicSideMenuDelegate.toggleLeft();
             };
+            $scope.changeDelDateByDrag = function(orderId, oldDate, newDate) {
+                $scope.loading = true;
+                $scope.postdata = [];
+                $scope.postdata = [CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat(oldDate, 'D_M_YYYY')), CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat(newDate, 'D_M_YYYY'))];
+                console.log(JSON.stringify($scope.postdata));
+                Restangular.all('shipping').one('planning', orderId).all('delivery').customPUT($scope.postdata).then(function(response) {
+                    $scope.loading = false;
+                    services.showAlert('Success', 'Successfully delivery date changed to ' + CommonFun.setDefaultDateFormat(newDate, 'D_M_YYYY')).then(function(res) {
+                        totalWeightCal();
+                    });
+                }, function(response) {
+                    $scope.loading = false;
+                    services.showAlert('Falhou', 'Error in PUT request');
+                });
+            }
         });
 function unique_arr(array) {
     return array.filter(function(el, index, arr) {

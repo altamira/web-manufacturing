@@ -19,16 +19,14 @@ altamiraAppControllers.controller('BomListCtrl',
                             $scope.bomArray = [];
                             for (var i = 0; i < $scope.tempBomArr.length; i++)
                             {
-                                if (parseInt($scope.tempBomArr[i].id) == parseInt(itemId))
-                                {
-                                    $scope.bomArray.push({"id": $scope.tempBomArr[i].id, "type": $scope.tempBomArr[i].type, "number": $scope.tempBomArr[i].number, "customer": $scope.tempBomArr[i].customer, "created": $scope.tempBomArr[i].created, "delivery": $scope.tempBomArr[i].delivery, "checked": true, "$$hashKey": $scope.tempBomArr[i].$$hashKey});
-                                }
-                                else
+                                if (parseInt($scope.tempBomArr[i].id) != parseInt(itemId))
                                 {
                                     $scope.bomArray.push($scope.tempBomArr[i]);
                                 }
                             }
                             services.showAlert('Success', 'A Lista de Material do Pedido ' + itemNumber + ' foi marcada como conferida.').then(function(res) {
+                                $('[dataitemid="'+itemId+'"]').parent().remove();
+                                $scope.pageBOM();
                             });
                         }, function(response) {
                             $scope.loading = false;

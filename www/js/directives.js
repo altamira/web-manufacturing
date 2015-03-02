@@ -393,32 +393,42 @@ altamiraApp.directive('datarowLoad', function() {
 });
 altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
         return function(scope, el, attrs) {
-            var loadGrid = function() {
-
-                $(document).ready(function() {
-
-                    $('.dragDiv').on('dblclick', function(e) {
-                        scope.changeDeliveryDate($(this).parent().attr('id'));
-                    });
-
-
-                    var allCells = $(".mainTable td");
-
-                    allCells.on("mouseover", function() {
-                        var el = $(this),
-                                pos = el.index();
-                        el.parent().find("th, td").addClass("hover");
-                        allCells.filter(":nth-child(" + (pos + 1) + ")").addClass("hover");
-                    })
-                            .on("mouseout", function() {
-                        allCells.removeClass("hover");
-                    });
-
-                });
-            };
-            setTimeout(function() {
-                loadGrid();
-            }, 100);
+//            var loadGrid = function() {
+//
+//                $(document).ready(function() {
+//                    $(".dragDiv").draggable({
+//                        revert: 'invalid'
+//                    });
+//                    $(".makeDroppable").droppable({
+//                        accept: function(item) {
+//                            return $(this).closest("tr").is(item.closest("tr")) && $(this).find("*").length == 0;
+//                        },
+//                        drop: function(event, ui) {
+//                            scope.changeDelDateByDrag($(this).parent().attr('class'), ui.draggable.attr('id'), $(this).data('day'));
+//
+//                            var $this = $(this);
+//                            $this.append(ui.draggable.css({
+//                                top: 0,
+//                                left: '0px !important'
+//                            }));
+//                            ui.draggable.position({
+//                                my: "center",
+//                                at: "center",
+//                                of: $this,
+//                                using: function(pos) {
+//                                    $(this).animate(pos, 500, "linear", function() {
+//                                        $(this).css('top', '0px');
+//                                        $(this).css('left', '0px');
+//                                    });
+//                                }
+//                            });
+//                        }
+//                    });
+//                });
+//            };
+//            setTimeout(function() {
+//                loadGrid();
+//            }, 100);
         }
     }]);
 var tempMaterialId = '';
