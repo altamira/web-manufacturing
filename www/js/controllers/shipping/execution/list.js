@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('ShippingExecutionCtrl',
-        function($scope, $location, $route, Restangular, services, $ionicModal, CommonFun) {
+        function($scope, $location, $route, Restangular, services, $ionicModal, CommonFun, $ionicSideMenuDelegate) {
             var pt = moment().locale('pt-br');
             $scope.today = pt.format('dddd, LL');
             moment.locale('pt-br');
@@ -84,6 +84,9 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         }
                         $scope.finalList.push($scope.tempList);
                     }
+                    $scope.finalList.sort(function(a, b) {
+                        return a.item - b.item;
+                    });
                     $scope.decorateTable();
                 }, function() {
                     $scope.loading = false;
@@ -832,5 +835,8 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                 {
                     return false;
                 }
+            };
+            $scope.toggleLeft = function() {
+                $ionicSideMenuDelegate.toggleLeft();
             };
         });

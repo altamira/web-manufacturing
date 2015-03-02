@@ -14,16 +14,28 @@ altamiraAppControllers.controller('BomListCtrl',
                         $scope.loading = true;
                         Restangular.one('manufacturing/bom', itemId).all('checked').customPUT().then(function(response) {
                             $scope.loading = false;
-                            services.showAlert('Success', 'A Lista de Material do Pedido ' + itemNumber + ' foi marcada como conferida.').then(function(res) {
-                                if (res) {
-                                    $route.reload();
+                            $scope.tempBomArr = [];
+                            $scope.tempBomArr = $scope.bomArray;
+                            $scope.bomArray = [];
+                            for (var i = 0; i < $scope.tempBomArr.length; i++)
+                            {
+                                if (parseInt($scope.tempBomArr[i].id) != parseInt(itemId))
+                                {
+                                    $scope.bomArray.push($scope.tempBomArr[i]);
                                 }
+                            }
+                            services.showAlert('Success', 'A Lista de Material do Pedido ' + itemNumber + ' foi marcada como conferida.').then(function(res) {
+                                $('[dataitemid="'+itemId+'"]').parent().remove();
+                                $scope.pageBOM();
                             });
-
                         }, function(response) {
                             $scope.loading = false;
                             services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                         });
+                    }
+                    else
+                    {
+                        $('.' + itemId).toggleClass('fa-check-square-o');
                     }
                 });
             };
@@ -33,16 +45,29 @@ altamiraAppControllers.controller('BomListCtrl',
                         $scope.loading = true;
                         Restangular.one('manufacturing/bom', itemId).all('unchecked').customPUT().then(function(response) {
                             $scope.loading = false;
-                            services.showAlert('Success', 'A Lista de Material do Pedido ' + itemNumber + ' foi marcada como conferida.').then(function(res) {
-                                if (res) {
-                                    $route.reload();
+                            $scope.tempBomArr = [];
+                            $scope.tempBomArr = $scope.bomArray;
+                            $scope.bomArray = [];
+                            for (var i = 0; i < $scope.tempBomArr.length; i++)
+                            {
+                                if (parseInt($scope.tempBomArr[i].id) == parseInt(itemId))
+                                {
+                                    $scope.bomArray.push({"id": $scope.tempBomArr[i].id, "type": $scope.tempBomArr[i].type, "number": $scope.tempBomArr[i].number, "customer": $scope.tempBomArr[i].customer, "created": $scope.tempBomArr[i].created, "delivery": $scope.tempBomArr[i].delivery, "checked": false, "$$hashKey": $scope.tempBomArr[i].$$hashKey});
                                 }
+                                else
+                                {
+                                    $scope.bomArray.push($scope.tempBomArr[i]);
+                                }
+                            }
+                            services.showAlert('Success', 'A Lista de Material do Pedido ' + itemNumber + ' foi marcada como conferida.').then(function(res) {
                             });
-
                         }, function(response) {
                             $scope.loading = false;
                             services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                         });
+                    } else
+                    {
+                        $('.' + itemId).toggleClass('fa-check-square-o');
                     }
                 });
             };
@@ -113,6 +138,7 @@ altamiraAppControllers.controller('BomListCtrl',
                         $scope.range();
                     }
                 }, function(response) {
+                    $scope.loading = false;
                     services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                 });
             };
