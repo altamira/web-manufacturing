@@ -173,7 +173,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 });
                 $('.dragDiv').on('dblclick', function(e) {
                     $scope.viewDeliveryDate = CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat($(this).parent().data('day'), 'DD_M_YYYY'));
-                    $scope.changeDeliveryDate($(this).parent().attr('id'));
+                    $scope.changeDeliveryDate($(this).parent().parent().attr('class'));
                 });
                 setTimeout(function() {
 
@@ -729,7 +729,6 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 Restangular.one('shipping/planning/remaining').get({max: 999}).then(function(response) {
                     $scope.loading = false;
                     $scope.orderGridData = response.data;
-                    console.log(JSON.stringify($scope.orderGridData));
                     var main = [];
                     for (var i = 0; i < $scope.orderGridData.length; i++)
                     {
