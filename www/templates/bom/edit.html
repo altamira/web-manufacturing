@@ -1,1 +1,197 @@
-<div class="loding_div" ng-show="loading">    <div id="loadingProgressG">        <div id="loadingProgressG_1" class="loadingProgressG">        </div>    </div></div><ion-pane>    <form name="bomForm" novalidate ng-submit="submitBomForm(bomForm.$valid)" class="edit-content">        <ion-header-bar class="bar-calm">            <div class="buttons header-margin">                <button type="button" class="button fa-arrow-left" ng-click="goBack()"></button>                <span class="btn-separator"></span>                <button class="button fa-check" ng-click="submitted=true" ></button>                <button type="button" class="button fa-remove-header" ng-click="removeBom()"></button>                <a ng-click="reportBOM()" target="_blank">                    <button type="button" class="button fa-print-header"></button>                </a>            </div>        </ion-header-bar>        <ion-content>            <input type="text" ng-model='bomData.version' name="version" ng-hide='true'>            <div class="row">                <div class="col">                    <div class="list list-row col-75">                        <span class="input-label text-bold">Pedido</span>                        <label class="item item-input" >                            <input type="text" name="number" number-mask ng-model="bomData.number" required>                            <i class="icon ion-ios7-search fa-md-search"></i>                        </label>                        <label class="extra-error" ng-show="submitted && bomForm.number.$error.required">Pedido field is required.</label>                    </div>                    <div class="list list-row">                        <span class="input-label text-bold">Cliente</span>                        <label class="item item-input" >                            <input type="text" name="customer" ng-model="bomData.customer" required>                            <i class="icon ion-ios7-search fa-md-search"></i>                        </label>                        <label class="extra-error" ng-show="submitted && bomForm.customer.$error.required">Cliente field is required.</label>                    </div>                </div>            </div>            <div class="row">                <div class="col col-50">                    <div class="list list-row">                        <span class="input-label text-bold">Representante</span>                        <label class="item item-input" >                            <input type="text" name="representative" ng-model="bomData.representative" required>                            <i class="icon ion-ios7-search fa-md-search"></i>                        </label>                        <label class="extra-error" ng-show="submitted && bomForm.representative.$error.required">Representante field is required.</label>                    </div>                </div>                <div class="col col-50">                    <div class="list list-row">                        <span class="input-label text-bold">Acabamento</span>                        <label class="item item-input" >                            <input type="text" name="finish" ng-model="bomData.finish" required>                            <i class="icon ion-ios7-search fa-md-search"></i>                        </label>                        <label class="extra-error" ng-show="submitted && bomForm.finish.$error.required">Acabamento field is required.</label>                    </div>                </div>            </div>            <div class="row">                <div class="col col-25">                    <div class="list list-row">                        <span class="input-label text-bold">Orcamento</span>                        <label class="item item-input" >                            <input type="text" name="quotation" ng-model="bomData.quotation" required>                            <i class="icon ion-ios7-search fa-md-search"></i>                        </label>                        <label class="extra-error" ng-show="submitted && bomForm.quotation.$error.required">Orcamento field is required.</label>                    </div>                </div>                <div class="col col-25">                    <div class="list list-row">                        <span class="input-label text-bold">Projeto</span>                        <label class="item item-input" >                            <input type="text" name="project" ng-model="bomData.project" required>                        </label>                        <label class="extra-error" ng-show="submitted && bomForm.project.$error.required">Projeto field is required.</label>                    </div>                </div>                <div class="col col-25">                    <div class="list list-row">                        <span class="input-label text-bold">Data Pedido</span>                        <label class="item item-input" >                            <input type="text" name="created" from-date ng-model='bomData.created' required id="fromDate">                            <i class="icon ion-ios7-search fa-calender"></i>                        </label>                        <label class="extra-error" ng-show="submitted && bomForm.created.$error.required">Data Pedido field is required.</label>                    </div>                </div>                <div class="col col-25">                    <div class="list list-row">                        <span class="input-label text-bold">Data Entrega </span>                        <label class="item item-input" ng-if="bomData.delivery" >                            <input type="text" name="delivery" to-date datadate="{{bomData.delivery}}" ng-model='bomData.delivery' required id="toDate">                            <i class="icon ion-ios7-search fa-calender"></i>                        </label>                        <label class="extra-error" ng-show="submitted && bomForm.delivery.$error.required">Data Entrega field is required.</label>                    </div>                </div>            </div>            <div class="row">                <div class="col">                    <div class="list"> <a class="process-item-list item-icon-left item-icon-right"> <i class="icon left-icon fa-list"></i> Itens <i class="icon plus-icon fa-plus-bom-edit" ng-click='createItem()' style="width: 7px;"></i> </a> </div>                </div>            </div>            <div id="item_repeat" class="desktop-view" ng-repeat='data in bomData.items'>                <div class="row" style="margin-top:-15px;">                    <div class="col">                        <div class="list">                            <i class="icon plus-icon fa-remove-list remove-list" ng-click='removeItem(data.id)'></i>                            <a class="process-item-list item-icon-right " style="padding-left:0px;" ng-click='updateItem(data.id)'>ITEM {{data.item}}  </a>                        </div>                    </div>                </div>                <div class="edit-item">                    <div class="col row">                        <table width="100%" border="0" cellspacing="0" cellpadding="0">                            <tr>                                <td colspan="5" style="padding-left:30px; padding-bottom:10px; font-size:16px;">{{data.description}}</td>                            </tr>                            <tr>                                <td class="edit-item-title width-10"><i class="fa-list-ol"></i> <span>Quantidade</span></td>                                <td class="edit-item-title width-53">  Descricao</td>                                <td class="edit-item-title width-15"><i class="fa-pencil"></i> <span>Cor</span></td>                                <td class="edit-item-title width-10"><i class="fa-tachometer"></i> <span>Peso</span></td>                                <!--<td class="edit-item-title width-10"><i class="fa-tachometer"></i> <span>Peso</span></td>-->                                <td width="3%" class="edit-item-title width-2">&nbsp;</td>                            </tr>                            <tr ng-repeat='dataPart in data.component'>                                <td class="edit-info" style="text-align: center">{{dataPart.quantity.value}} {{dataPart.quantity.unit.symbol}}</td>                                <td class="edit-text mouse-pointer" ng-click='updatePart(data.id,dataPart.id)'>{{dataPart.description}}</td>                                <td class="edit-text">{{dataPart.color.code}}</td>                                <!--<td class="edit-info" style="text-align: right">{{ ((dataPart.quantity.value > 0 && dataPart.weight.value > 0) ? (dataPart.weight.value / dataPart.quantity.value) : 0 ) | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>-->                                <td class="edit-info" style="text-align: right">{{ dataPart.weight.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>                                <!--<td class="edit-info" style="text-align: right">{{ (dataPart.weight.value*dataPart.quantity.value) | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>-->                                <td class="edit-text" style="text-align: right"><i class="icon plus-icon fa-remove-list" ng-click="removePart(data.id,dataPart.id)"></i></td>                            </tr>                        </table>                    </div>                </div>            </div>            <div id="item_repeat" class="mobile-view" ng-repeat='data in bomData.items'>                <div class="row" style="margin-top:-15px;">                    <div class="col">                        <div class="list"> <a class="process-item-list item-icon-right " style="padding-left:0px;" ng-click='updateItem(data.id)'>ITEM {{data.item}}</a><i class="icon plus-icon fa-plus-cross-circle-list-1"  ng-click='removeItem(data.id)'></i> </div>                    </div>                </div>                <div class="col" ng-repeat='dataPart in data.component'>                    <div class="components-col">                        <i class="icon plus-icon fa-plus-cross-circle-list-2" ng-click="removePart(data.id,dataPart.id)"></i>                        <div class="components-title ">                            <h4 class="mouse-pointer" ng-click='updatePart(data.id,dataPart.id)'>{{dataPart.description}}</h4>                            <table width="100%" cellspacing="0" cellpadding="0" border="0">                                <tbody>                                    <tr>                                        <td colspan="4"><span>{{dataPart.material.code}}</span></td>                                    </tr>                                </tbody>                            </table>                        </div>                        <table width="100%" cellspacing="0" cellpadding="0" border="0">                            <tbody>                                <tr>                                    <td width="25%"><i class="fa fa-arrows-h"></i></td>                                    <td width="25%" valign="top">{{dataPart.length.value}} {{dataPart.length.unit.symbol}}</td>                                    <td width="25%" valign="top"><i class="fa fa-pencil"></i></td>                                    <td valign="top" align="right">{{dataPart.color.code}}</td>                                </tr>                                <tr>                                    <td><i class="fa fa-arrows-v"></i></td>                                    <td valign="top">{{dataPart.height.value}} {{dataPart.height.unit.symbol}}</td>                                    <td width="25%" valign="top"><i class="fa fa-list-ol"></i></td>                                    <td valign="top" align="right">{{dataPart.quantity.value}} {{dataPart.quantity.unit.symbol}}</td>                                </tr>                                <tr>                                    <td><i class="fa fa-expand"></i></td>                                    <td valign="top">{{dataPart.width.value}} {{dataPart.width.unit.symbol}}</td>                                    <td valign="top"><i class="fa fa-tachometer"></i></td>                                    <td valign="top" align="right">{{ dataPart.weight.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td><!--                                    <td valign="top"><i class="fa fa-tachometer"></i></td>                                    <td valign="top" align="right">{{(dataPart.weight.value*dataPart.quantity.value) | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>-->                                </tr>                            </tbody>                        </table>                    </div>                </div>            </div>        </ion-content>    </form></ion-pane>
+<div class="loding_div" ng-show="loading">
+    <div id="loadingProgressG">
+        <div id="loadingProgressG_1" class="loadingProgressG">
+        </div>
+    </div>
+</div>
+<ion-pane>
+    <form name="bomForm" novalidate ng-submit="submitBomForm(bomForm.$valid)" class="edit-content">
+        <ion-header-bar class="bar-calm">
+            <div class="buttons header-margin">
+                <button type="button" class="button fa-arrow-left" ng-click="goBack()"></button>
+                <span class="btn-separator"></span>
+                <button class="button fa-check" ng-click="submitted=true" ></button>
+                <button type="button" class="button fa-remove-header" ng-click="removeBom()"></button>
+                <a ng-click="reportBOM()" target="_blank">
+                    <button type="button" class="button fa-print-header"></button>
+                </a>
+            </div>
+        </ion-header-bar>
+        <ion-content>
+            <input type="text" ng-model='bomData.version' name="version" ng-hide='true'>
+            <div class="row">
+                <div class="col">
+                    <div class="list list-row col-75">
+                        <span class="input-label text-bold">Pedido</span>
+                        <label class="item item-input" >
+                            <input type="text" name="number" number-mask ng-model="bomData.number" required>
+                            <i class="icon ion-ios7-search fa-md-search"></i>
+                        </label>
+                        <label class="extra-error" ng-show="submitted && bomForm.number.$error.required">Pedido field is required.</label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Cliente</span>
+                        <label class="item item-input" >
+                            <input type="text" name="customer" ng-model="bomData.customer" required>
+                            <i class="icon ion-ios7-search fa-md-search"></i>
+                        </label>
+                        <label class="extra-error" ng-show="submitted && bomForm.customer.$error.required">Cliente field is required.</label>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-50">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Representante</span>
+                        <label class="item item-input" >
+                            <input type="text" name="representative" ng-model="bomData.representative" required>
+                            <i class="icon ion-ios7-search fa-md-search"></i>
+                        </label>
+                        <label class="extra-error" ng-show="submitted && bomForm.representative.$error.required">Representante field is required.</label>
+                    </div>
+                </div>
+                <div class="col col-50">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Acabamento</span>
+                        <label class="item item-input" >
+                            <input type="text" name="finish" ng-model="bomData.finish" required>
+                            <i class="icon ion-ios7-search fa-md-search"></i>
+                        </label>
+                        <label class="extra-error" ng-show="submitted && bomForm.finish.$error.required">Acabamento field is required.</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-25">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Orcamento</span>
+                        <label class="item item-input" >
+                            <input type="text" name="quotation" ng-model="bomData.quotation" required>
+                            <i class="icon ion-ios7-search fa-md-search"></i>
+                        </label>
+                        <label class="extra-error" ng-show="submitted && bomForm.quotation.$error.required">Orcamento field is required.</label>
+                    </div>
+                </div>
+                <div class="col col-25">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Projeto</span>
+                        <label class="item item-input" >
+                            <input type="text" name="project" ng-model="bomData.project" required>
+                        </label>
+                        <label class="extra-error" ng-show="submitted && bomForm.project.$error.required">Projeto field is required.</label>
+                    </div>
+                </div>
+                <div class="col col-25">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Data Pedido</span>
+                        <label class="item item-input" >
+                            <input type="text" name="created" from-date ng-model='bomData.created' required id="fromDate">
+                            <i class="icon ion-ios7-search fa-calender"></i>
+                        </label>
+                        <label class="extra-error" ng-show="submitted && bomForm.created.$error.required">Data Pedido field is required.</label>
+                    </div>
+                </div>
+                <div class="col col-25">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Data Entrega </span>
+                        <label class="item item-input" ng-if="bomData.delivery" >
+                            <input type="text" name="delivery" to-date datadate="{{bomData.delivery}}" ng-model='bomData.delivery' required id="toDate">
+                            <i class="icon ion-ios7-search fa-calender"></i>
+                        </label>
+                        <label class="extra-error" ng-show="submitted && bomForm.delivery.$error.required">Data Entrega field is required.</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="list"> <a class="process-item-list item-icon-left item-icon-right"> <i class="icon left-icon fa-list"></i> Itens <i class="icon plus-icon fa-plus-bom-edit" ng-click='createItem()' style="width: 7px;"></i> </a> </div>
+                </div>
+            </div>
+            <div id="item_repeat" class="desktop-view" ng-repeat='data in bomData.items'>
+                <div class="row" style="margin-top:-15px;">
+                    <div class="col">
+                        <div class="list">
+                            <!--<i class="icon plus-icon fa-remove-list remove-list" ng-click='removeItem(data.id)'></i>-->
+                            <a class="process-item-list item-icon-right " style="padding-left:0px;" ng-click='updateItem(data.id)'>ITEM {{data.item}}  </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="edit-item">
+                    <div class="col row">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td colspan="5" style="padding-left:30px; padding-bottom:10px; font-size:16px;">{{data.description}}</td>
+                            </tr>
+                            <tr>
+                                <td class="edit-item-title width-10"><i class="fa-list-ol"></i> <span>Quantidade</span></td>
+                                <td class="edit-item-title width-53">  Descricao</td>
+                                <td class="edit-item-title width-15"><i class="fa-pencil"></i> <span>Cor</span></td>
+                                <td class="edit-item-title width-10"><i class="fa-tachometer"></i> <span>Peso</span></td>
+                                <!--<td class="edit-item-title width-10"><i class="fa-tachometer"></i> <span>Peso</span></td>-->
+                                <!--<td width="3%" class="edit-item-title width-2">&nbsp;</td>-->
+                            </tr>
+                            <tr ng-repeat='dataPart in data.component'>
+                                <td class="edit-info" style="text-align: center">{{dataPart.quantity.value}} {{dataPart.quantity.unit.symbol}}</td>
+                                <td class="edit-text mouse-pointer" ng-click='updatePart(data.id,dataPart.id)'>{{dataPart.description}}</td>
+                                <td class="edit-text">{{dataPart.color.code}}</td>
+                                <!--<td class="edit-info" style="text-align: right">{{ ((dataPart.quantity.value > 0 && dataPart.weight.value > 0) ? (dataPart.weight.value / dataPart.quantity.value) : 0 ) | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>-->
+                                <td class="edit-info" style="text-align: right">{{ dataPart.weight.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
+                                <!--<td class="edit-info" style="text-align: right">{{ (dataPart.weight.value*dataPart.quantity.value) | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>-->
+                                <!--<td class="edit-text" style="text-align: right"><i class="icon plus-icon fa-remove-list" ng-click="removePart(data.id,dataPart.id)"></i></td>-->
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="item_repeat" class="mobile-view" ng-repeat='data in bomData.items'>
+                <div class="row" style="margin-top:-15px;">
+                    <div class="col">
+                        <div class="list"> <a class="process-item-list item-icon-right " style="padding-left:0px;" ng-click='updateItem(data.id)'>ITEM {{data.item}}</a>
+                            <!--<i class="icon plus-icon fa-plus-cross-circle-list-1"  ng-click='removeItem(data.id)'></i>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="col" ng-repeat='dataPart in data.component'>
+                    <div class="components-col">
+                        <!--<i class="icon plus-icon fa-plus-cross-circle-list-2" ng-click="removePart(data.id,dataPart.id)"></i>-->
+                        <div class="components-title ">
+                            <h4 class="mouse-pointer" ng-click='updatePart(data.id,dataPart.id)'>{{dataPart.description}}</h4>
+                            <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="4"><span>{{dataPart.material.code}}</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                                <tr>
+                                    <td width="25%"><i class="fa fa-arrows-h"></i></td>
+                                    <td width="25%" valign="top">{{dataPart.length.value}} {{dataPart.length.unit.symbol}}</td>
+                                    <td width="25%" valign="top"><i class="fa fa-pencil"></i></td>
+                                    <td valign="top" align="right">{{dataPart.color.code}}</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-arrows-v"></i></td>
+                                    <td valign="top">{{dataPart.height.value}} {{dataPart.height.unit.symbol}}</td>
+                                    <td width="25%" valign="top"><i class="fa fa-list-ol"></i></td>
+                                    <td valign="top" align="right">{{dataPart.quantity.value}} {{dataPart.quantity.unit.symbol}}</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-expand"></i></td>
+                                    <td valign="top">{{dataPart.width.value}} {{dataPart.width.unit.symbol}}</td>
+                                    <td valign="top"><i class="fa fa-tachometer"></i></td>
+                                    <td valign="top" align="right">{{ dataPart.weight.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
+<!--                                    <td valign="top"><i class="fa fa-tachometer"></i></td>
+                                    <td valign="top" align="right">{{(dataPart.weight.value*dataPart.quantity.value) | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>-->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </ion-content>
+    </form>
+</ion-pane>

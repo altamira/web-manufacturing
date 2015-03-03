@@ -13,11 +13,7 @@
                         <div class="buttons header-margin">
                             <button class="button fa-bars" menu-toggle="left"></button>
                             <span class="btn-separator"></span>
-                            <button class="button fa-check" ng-click="submitted=true" ></button>
-                            <button type="button" class="button fa-remove-header"></button>
-                            <button type="button" class="button fa-print-header"></button>
-                            <button type="button" class="button fa-link-header" ng-click="joinDate()" ng-if="viewtype == 'form'"></button>
-                            <button type="button" class="button fa-unlink-header" ng-click="divideDate()" ng-if="viewtype == 'form'"></button>
+                            <button class="button fa-check" ng-click="changeRemainingQun()"></button>
                         </div>
                     </ion-header-bar>
                 </div>
@@ -115,7 +111,7 @@
                                                             <td class="edit-item-title align-center width-9"><i class="fa-list-ol"></i> <span>Restante</span></td>
                                                             <td class="edit-item-title width-42"> Descricao</td>
                                                             <td class="edit-item-title align-center width-10"><i class="fa-pencil"></i> <span>Cor</span></td>
-                                                            <!--                                            <td class="edit-item-title align-center width-7"><i class="fa-tachometer"></i> <span>Peso</span></td>-->
+                                                            <!--<td class="edit-item-title align-center width-7"><i class="fa-tachometer"></i> <span>Peso</span></td>-->
                                                             <td class="edit-item-title align-center width-9"><i class="fa-tachometer"></i> <span>Peso</span></td>
                                                             <td class="edit-item-title align-center width-3">&nbsp;</td>
                                                         </tr>
@@ -123,13 +119,17 @@
                                                             <td class="edit-info align-center width-9">{{ component.delivery.delivery | getDate }}</td>
                                                             <td class="edit-info align-right width-9">{{component.delivery.quantity.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
                                                             <td class="edit-info align-right width-9">{{component.delivery.delivered.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
-                                                            <td class="edit-info align-right width-9">{{component.delivery.remaining.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
+                                                            <td class="edit-info align-right width-9">
+                                                                <input type="number" id="remaining_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value > 0">
+                                                                <input type="number" id="remaining_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value < 1" readonly>
+                                                            </td>
                                                             <td class="edit-text width-42" ng-click='updatePart(orderData.id,data.id,component.componentId,component.delivery.id)'  style="cursor: pointer;">{{component.description}}</td>
                                                             <td class="edit-text align-center width-10">{{component.color}}</td>
-                                                            <!--<td class="edit-info align-right width-7">{{component.weight | setDecimal:2}} {{component.weightType}}</td>-->
+                                                            <!--                                            <td class="edit-info align-right width-7">{{component.weight | setDecimal:2}} {{component.weightType}}</td>-->
                                                             <td class="edit-info align-right width-9">{{component.weight * component.delivery.quantity.value | setDecimal:3}}<span style="margin-left: 5px;">{{component.weightType}}</span></td>
                                                             <td class="edit-text align-center width-3">
-                                                                <i class="icon plus-icon fa-square-o" select-delivery dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}"></i>
+                                                                <i class="icon plus-icon fa-square-o" change-remaining-quantity dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}" ng-if="component.delivery.remaining.value > 0"></i>
+                                                                <i class="icon plus-icon fa-square-o" dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}" ng-if="component.delivery.remaining.value < 1" style="cursor: not-allowed"></i>
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -150,13 +150,16 @@
                                             <th ng-repeat="day in days track by $index" ng-if='viewWeekly == true'>{{getWeekDayShort(day)}}</th>
                                         </tr>
                                         <tr ng-repeat="order in finalArr" class="{{order.id}}" ng-if="checkYear(order.delivery) <= maxYear">
-                                            <td ng-repeat="day in days track by $index" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'">
-                                                <div class="dragDiv" ng-repeat="delivery in order.components" id="{{day}}" ng-class="getCellColor(delivery.delivery,delivery.remaining.value)" ng-if="(checkDay(delivery.delivery) == getDay(day)) && (checkMonth(delivery.delivery) == getMonth(day)) && (checkYear(delivery.delivery) == getYear(day))" data-weight='{{delivery.remaining.value}}'>
+                                            <td ng-repeat="day in days track by $index" id="{{order.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'">
+                                                <div class="undragDiv" ng-repeat="delivery in order.components" id="{{day}}" ng-class="getCellColor(delivery.delivery,delivery.remaining.value)" ng-if="(checkDay(delivery.delivery) == getDay(day)) && (checkMonth(delivery.delivery) == getMonth(day)) && (checkYear(delivery.delivery) == getYear(day))" data-weight='{{delivery.remaining.value}}'>
                                                     {{delivery.remaining.value | setDecimal:1}}
                                                     <!--                                    {{showWeight(del.deliveryweight)}}-->
                                                 </div>
                                                 <div style="width: 50px;height: 30px;" ng-if="order.components == ''">&nbsp;</div>
                                             </td>
+                                            <!--                            <td ng-repeat="day in days track by $index" id="{{order.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="order.components == ''" style="width: 50px;height: 30px;">
+                                                                            &nbsp;
+                                                                        </td>-->
                                         </tr>
                                         <tr class="totalWeightRow">
                                             <td ng-repeat="day in days track by $index" data-date='{{day}}'>
@@ -172,7 +175,117 @@
             </ion-nav-view>
         </ion-side-menu-content>
         <ion-side-menu side="left" class="sidemenu-bg">
-            <ion-content  class="left-menu" leftside-menu>
+            <ion-content  class="left-menu">
+                <div class="row">
+                    <div class="col" style="color: white;text-align: center">
+                        <a href="http://localhost/altamira_main/www/#/blacktheme/home" style="text-decoration: none;color: #ffffff">
+                            <span class="logo-side-menu"></span>
+                            <span style="font-size: 30px; float:left; padding-top:16px; padding-left:10px; font-family: Open Sans">Altamira</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="row" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 15px;">
+                    <div class="col" style="text-align: center;color: #ffffff;">
+                        <div class="row">
+                            <div class="col">
+                                <span class="icon-side-cog"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <span style="font-size: 30px;">ProduÃ§Ã£o</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row list-box" style="margin-bottom:10px;">
+                    <div class="col icon-list-box">
+                        <a href="#/manufacturing/bom" style="text-decoration: none;color: #000000">
+                            <div class="row">
+                                <div class="col" style="padding-top:15px;">
+                                    <span class="icon-side-list"></span>
+                                </div>
+                            </div>
+                            <div class="row produce-name" >
+                                <div class="col">
+                                    <span>Lista de Material</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col icon-list-box">
+                        <a href="#/manufacturing/process/0" style="text-decoration: none;color: #000000">
+                            <div class="row">
+                                <div class="col" style="padding-top:15px;">
+                                    <span class="icon-side-github-6"></span>
+                                </div>
+                            </div>
+                            <div class="row produce-name" >
+                                <div class="col">
+                                    <span>Processo</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="row list-box" style="margin-bottom:5px; padding-right:0px;">
+                    <div class="col icon-box2">
+
+                        <span class="icon-side-flag-2"></span>
+                    </div>
+                    <div class="col  icon-box2">
+                        <span class="icon-side-attachment"></span>
+                    </div>
+                    <div class="col  icon-box2">
+                        <span class="icon-side-newspaper"></span>
+                    </div>
+                    <div class="col  icon-box2">
+                        <span class="icon-side-link"></span>
+                    </div>
+                </div>
+                <div class="row" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 10px; padding-top:4px; padding-bottom:4px;">
+                    <div class="col">
+                        <i style="margin-top:6px;" class="icon-side-play-2 fg-white"></i>                        <span class="icon-title">O.S.</span>
+
+                    </div>
+                </div>
+                <div class="row" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 10px; padding-top:8px; padding-bottom:8px;">
+                    <div class="col">
+                        <i class="icon-side-checkbox fg-white"></i>
+                        <span class="icon-title">Apontamento</span>
+
+                    </div>
+                </div>
+                <div class="row" style="background-color: #a4c400;margin: auto;width: 95%;margin-bottom: 10px;">
+                    <div class="col" style="text-align: center;color: #ffffff;">
+                        <div class="row">
+                            <div class="col">
+                                <span class="icon-side-tag"></span>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <span style="font-size: 30px;">Vendas</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="background-color: #00aff0;margin: auto;width: 95%;margin-bottom: 7px;">
+                    <div class="col" style="text-align: center;color: #ffffff;">
+                        <div class="row">
+                            <div class="col">
+                                <span class="icon-side-cart"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <span style="font-size: 30px;">Compras</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="scroll-bar scroll-bar-v"><div class="scroll-bar-indicator scroll-bar-fade-out"></div></div>
             </ion-content>
         </ion-side-menu>
     </ion-side-menus>

@@ -1,0 +1,169 @@
+<div class="loding_div" ng-show="loading">
+    <div id="loadingProgressG">
+        <div id="loadingProgressG_1" class="loadingProgressG">
+        </div>
+    </div>
+</div>
+<ion-pane>
+    <ion-header-bar class="bar-calm">
+        <div class="buttons header-margin">
+            <button type="button" class="button fa-arrow-left" ng-click="goBack()"></button>
+            <span class="btn-separator"></span>
+            <button type="button" class="button fa-check" ng-click="changeRemainingQun()"></button>
+            <button type="button" class="button fa-remove-header"></button>
+            <button type="button" class="button fa-print-header" ng-click="printReport()"></button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <div class="view-content">
+            <div class="row">
+                <div class="col col-10">
+                    <span class="input-label text-bold">Romaneio</span>
+                    <label class="item plain-text" style="font-size: 18px;padding-left: 0px;line-height: 0;">
+                        {{packingId}}
+                    </label>
+                </div>
+                <div class="col col-10 col-offset-80">
+                    <span class="input-label text-bold">Data Romaneio</span>
+                    <label class="item plain-text"  style="font-size: 18px;padding-left: 0px;line-height: 0;" ng-if="packingDelivery">
+                        {{packingDelivery | getDate}}
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="list">
+                        <a class="process-item-list item-icon-left item-icon-right">
+                            <i class="icon left-icon fa-list"></i>
+                            Pedido
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="list list-row col-75">
+                        <span class="input-label text-bold">Pedido</span>
+                        <label class="item item-input plain-text">
+                            {{orderData.number}}
+                        </label>
+                    </div>
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Cliente</span>
+                        <label class="item item-input" >
+                            {{orderData.customer}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-50">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Representante</span>
+                        <label class="item item-input" >
+                            {{orderData.representative}}
+                        </label>
+                    </div>
+                </div>
+                <div class="col col-50">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Acabamento</span>
+                        <label class="item item-input" >
+                            {{orderData.finish}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-25">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Orcamento</span>
+                        <label class="item item-input" >
+                            {{orderData.quotation}}
+                        </label>
+                    </div>
+                </div>
+                <div class="col col-25">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Projeto</span>
+                        <label class="item item-input" >
+                            {{orderData.project}}
+                        </label>
+                    </div>
+                </div>
+                <div class="col col-25">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Data Pedido</span>
+                        <label class="item item-input" >
+                            {{orderData.created | getDate}}
+                        </label>
+                    </div>
+                </div>
+                <div class="col col-25">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Data Entrega </span>
+                        <label class="item item-input" >
+                            {{orderData.delivery | getDate}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="list">
+                        <a class="process-item-list item-icon-left item-icon-right">
+                            <i class="icon left-icon fa-list"></i>
+                            Itens
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-repeat='data in finalList'>
+                <div id="item_repeat" class="width-100">
+                    <div class="row" style="margin-top:-15px;">
+                        <div class="col">
+                            <div class="list"> <a class="process-item-list item-icon-right " style="padding-left:0px;">ITEM {{data.item}}  </a> </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div style="font-size: 16px;">{{data.description}}</div>
+                        </div>
+                    </div>
+                    <div class="edit-item" ng-if="data.delivery != ''">
+                        <div class="col row">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td class="edit-item-title align-center width-9"><i class="fa-calender"></i> <span>Entrega</span></td>
+                                    <td class="edit-item-title align-center width-9"><i class="fa-list-ol"></i> <span>Quantidade</span></td>
+                                    <td class="edit-item-title align-center width-9"><i class="fa-list-ol"></i> <span>Entregue</span></td>
+                                    <td class="edit-item-title align-center width-9"><i class="fa-list-ol"></i> <span>Saldo</span></td>
+                                    <td class="edit-item-title align-center width-42"> Descricao</td>
+                                    <td class="edit-item-title align-center width-10"><i class="fa-pencil"></i> <span>Cor</span></td>
+                                    <td class="edit-item-title align-center width-9"><i class="fa-tachometer"></i> <span>Peso</span></td>
+                                    <td class="edit-item-title align-center width-3">&nbsp;</td>
+                                </tr>
+                                <tr ng-repeat='component in data.delivery' id="{{component.delivery.id}}" data-itemId="{{data.id}}">
+                                    <td class="edit-info align-center width-9">{{ component.delivery.delivery | getDate }}</td>
+                                    <td class="edit-info align-right width-9">{{component.delivery.quantity.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
+                                    <td class="edit-info align-right width-9">{{component.delivery.delivered.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
+                                    <td class="edit-info align-right width-9">
+                                        <input type="number" id="remaining_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value > 0">
+                                        <input type="number" id="remaining_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value < 1" readonly>
+                                    </td>
+                                    <td class="edit-text width-42" ng-click='updatePart(orderData.id,data.id,component.componentId)'  style="cursor: pointer;">{{component.description}}</td>
+                                    <td class="edit-text align-center width-10">{{component.color}}</td>
+                                    <td class="edit-info align-right width-9">{{component.weight * component.delivery.quantity.value | setDecimal:3}}<span style="margin-left: 5px;">{{component.weightType}}</span></td>
+                                    <td class="edit-text align-center width-3">
+                                        <i class="icon plus-icon fa-square-o" change-remaining-quantity dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}" ng-if="component.delivery.remaining.value > 0"></i>
+                                        <i class="icon plus-icon fa-square-o" dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}" ng-if="component.delivery.remaining.value < 1" style="cursor: not-allowed"></i>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-pane>

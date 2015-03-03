@@ -1,0 +1,124 @@
+<div class="modal">
+    <form name="joinComponentForm" novalidate ng-submit="submitJoinComponent(joinComponentForm.$valid)">
+        <ion-header-bar class="bar-calm">
+            <div class="buttons header-margin">
+                <button type="button" class="button fa-arrow-left" ng-click="joinDateModalHide()"></button>
+                <span class="btn-separator"></span>
+                <h4 class="mf-page-titles">&nbsp;{{joinData.chnDateCode}}&nbsp;</h4>
+                <span class="btn-separator"></span>
+                <button class="button fa-check" ng-click="submitted=true" ></button>
+            </div>
+        </ion-header-bar>
+        <ion-content>
+            <div class="view-content">
+                <div class="row">
+                    <div class="col">
+                        <div class="list list-row">
+                            <span class="input-label text-bold">Codigo</span>
+                            <label class="item item-input plain-text">
+                                {{joinData.chnDateCode}}
+                            </label>
+                        </div>
+                        <div class="list list-row">
+                            <span class="input-label text-bold">Descricao</span>
+                            <label class="item item-input" >
+                                {{joinData.chnDateDesc}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="list list-row">
+                        <span class="input-label text-bold">Data Entrega</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="delivery" ng-model="joinData.delivery" required ng-click="showdate=false">
+                            <i class="icon ion-ios7-search fa-calender" style="margin-right: 10px;"></i>
+                        </label>
+                        <label class="extra-error" ng-show="submitted && joinComponentForm.delivery.$error.required">Data Entrega field is required.</label>
+                    </div>
+                    <div join-date-change ng-hide="showdate"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="list">
+                        <a class="process-item-list item-icon-left item-icon-right">
+                            <i class="icon left-icon fa-list"></i>
+                            Itens
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top:-15px;">
+                <div class="col">
+                    <div class="list">
+                        <a class="process-item-list" style="padding-left:0px;">
+                            ITEM {{joinData.chnDateItem.item}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="components">
+                <div class="row">
+                    <div class="col" ng-repeat="components in joinData.chnDateParts | orderBy:'id'">
+                        <div class="components-col" ng-repeat="delivery in components.deliveryArr">
+                            <div class="components-title ">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td width="25%"><i class="fa fa-calender"></i></td>
+                                        <td width="25%">{{ delivery.delivery | getDate }}</td>
+                                        <td align="right">
+                                            <i ng-click="removePart(components.id)" class="icon plus-icon fa-plus-cross-circle-1" style=" right: 7px;top: 13px;"></i>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td width="25%"><i class="fa fa-arrows-h"></i></td>
+                                    <td width="25%" valign="top">{{components.length.value}} {{components.length.unit.symbol}}</td>
+                                    <td width="25%" valign="top"><i class="fa fa-list-ol"></i></td>
+                                    <td align="right" valign="top">{{delivery.quantity.value}} {{delivery.quantity.unit.symbol}}</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-arrows-v"></i></td>
+                                    <td valign="top">{{components.height.value}} {{components.height.unit.symbol}}</td>
+                                    <td valign="top"><i class="fa fa-tachometer"></i></td>
+                                    <td align="right" valign="top">{{components.weight.value | setDecimal:3}} {{components.weight.unit.symbol}}</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-expand"></i></td>
+                                    <td valign="top">{{components.width.value}} {{components.width.unit.symbol}}</td>
+                                    <td valign="top"><i class="fa fa-tachometer"></i></td>
+                                    <td align="right" valign="top">{{components.weight.value * delivery.quantity.value | setDecimal:3}} {{components.weight.unit.symbol}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="list list-row">
+                        <span class="input-label text-bold"><i class="fa fa-list-ol"></i> Quantidade Total</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="chnDateTotalQuantity" ng-model="joinData.chnDateTotalQuantity" readonly="readonly">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="list list-row">
+                        <span class="input-label text-bold"><i class="fa fa-tachometer"></i> Peso Total</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="pesoTotal" ng-model="joinData.pesoTotal" readonly="readonly">
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </ion-content>
+    </form>
+</div>
