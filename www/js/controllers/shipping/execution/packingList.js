@@ -39,7 +39,7 @@ altamiraAppControllers.controller('ShippingExecutionPackingCtrl',
                                 $scope.tempListComponent = {};
                                 $scope.tempListComponent.componentId = $scope.orderData.item[j].component[k].id;
                                 $scope.tempListComponent.materialId = $scope.orderData.item[j].component[k].material.id;
-                                $scope.tempListComponent.description = $scope.orderData.item[j].component[k].material.description;
+                                $scope.tempListComponent.description = $scope.orderData.item[j].component[k].description;
                                 $scope.tempListComponent.color = $scope.orderData.item[j].component[k].color.code;
                                 $scope.tempListComponent.weight = $scope.orderData.item[j].component[k].weight.value;
                                 $scope.tempListComponent.weightType = $scope.orderData.item[j].component[k].weight.unit.symbol;
@@ -64,49 +64,53 @@ altamiraAppControllers.controller('ShippingExecutionPackingCtrl',
             }
             $scope.remainingQtnArr = [];
             $scope.changeRemainingQun = function() {
-                var i = 0;
-                $scope.updateRemainingQtn = function() {
-                    Restangular.all('shipping').one('execution', $scope.executionId).one('item', $("[datadelivery='" + $scope.remainingQtnArr[i] + "']").attr('dataitem')).one('component', $("[datadelivery='" + $scope.remainingQtnArr[i] + "']").attr('datapart')).get().then(function(response) {
-                        $scope.postData = {};
-                        $scope.postData.id = 0;
-                        $scope.postData.version = 0;
-                        $scope.postData.type = 'br.com.altamira.data.model.shipping.execution.Delivered';
-                        $scope.postData.component = {};
-                        $scope.postData.component.id = $("[datadelivery='" + $scope.remainingQtnArr[i] + "']").attr('datapart');
-                        $scope.postData.quantity = {};
-                        $scope.postData.quantity.value = $('#remaining_' + $scope.remainingQtnArr[i]).val();
-                        $scope.postData.quantity.unit = response.data.quantity.unit;
-                        $scope.postData.delivery = moment().valueOf();
-                        console.log(JSON.stringify($scope.postData));
-                        Restangular.all('shipping').one('execution', $scope.executionId).one('packinglist', $scope.packingId).all('delivered').post($scope.postData).then(function(response) {
-                            i++
-                            if (i < $scope.remainingQtnArr.length) {
-                                $scope.updateRemainingQtn();
-                            } else
-                            {
-                                $scope.loading = false;
-                                services.showAlert('Success', 'Successfully remaining value changed').then(function(res) {
-                                    $scope.remainingQtnArr = [];
-                                    $scope.getOrderData($scope.executionId);
+                services.showConfirmBox('Confirmation', 'Seguro de crear la lista de contenido?').then(function(res) {
+                    if (res)
+                    {
+                        var i = 0;
+                        $scope.updateRemainingQtn = function() {
+                            Restangular.all('shipping').one('execution', $scope.executionId).one('item', $("[datadelivery='" + $scope.remainingQtnArr[i] + "']").attr('dataitem')).one('component', $("[datadelivery='" + $scope.remainingQtnArr[i] + "']").attr('datapart')).get().then(function(response) {
+                                $scope.postData = {};
+                                $scope.postData.id = 0;
+                                $scope.postData.version = 0;
+                                $scope.postData.type = 'br.com.altamira.data.model.shipping.execution.Delivered';
+                                $scope.postData.component = {};
+                                $scope.postData.component.id = $("[datadelivery='" + $scope.remainingQtnArr[i] + "']").attr('datapart');
+                                $scope.postData.quantity = {};
+                                $scope.postData.quantity.value = $('#remaining_' + $scope.remainingQtnArr[i]).val();
+                                $scope.postData.quantity.unit = response.data.quantity.unit;
+                                $scope.postData.delivery = moment().valueOf();
+                                console.log(JSON.stringify($scope.postData));
+                                Restangular.all('shipping').one('execution', $scope.executionId).one('packinglist', $scope.packingId).all('delivered').post($scope.postData).then(function(response) {
+                                    i++
+                                    if (i < $scope.remainingQtnArr.length) {
+                                        $scope.updateRemainingQtn();
+                                    } else
+                                    {
+                                        $scope.loading = false;
+                                        services.showAlert('Success', 'Successfully remaining value changed').then(function(res) {
+                                            $scope.remainingQtnArr = [];
+                                            $scope.getOrderData($scope.executionId);
+                                        });
+                                    }
+                                }, function(response) {
+                                    $scope.loading = false;
+                                    services.showAlert('Falhou', 'Error in update details of delivery');
                                 });
-                            }
-                        }, function(response) {
-                            $scope.loading = false;
-                            services.showAlert('Falhou', 'Error in update details of delivery');
-                        });
-                    }, function(response) {
-                        $scope.loading = false;
-                        services.showAlert('Falhou', 'Error in getting details of delivery');
-                    });
-                }
-                if ($scope.remainingQtnArr.length > 0)
-                {
-                    $scope.loading = true;
-                    $scope.updateRemainingQtn();
-                } else
-                {
-                    services.showAlert('Falhou', 'Please select atleast one delivery');
-                }
-
+                            }, function(response) {
+                                $scope.loading = false;
+                                services.showAlert('Falhou', 'Error in getting details of delivery');
+                            });
+                        }
+                        if ($scope.remainingQtnArr.length > 0)
+                        {
+                            $scope.loading = true;
+                            $scope.updateRemainingQtn();
+                        } else
+                        {
+                            services.showAlert('Falhou', 'Please select atleast one delivery');
+                        }
+                    }
+                });
             }
         });
