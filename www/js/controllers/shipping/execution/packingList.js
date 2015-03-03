@@ -10,7 +10,7 @@ altamiraAppControllers.controller('ShippingExecutionPackingCtrl',
                     $scope.getOrderData($scope.executionId);
                 }, function(response) {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Please try again');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                 });
             }
             $scope.getPackingDetail();
@@ -56,7 +56,7 @@ altamiraAppControllers.controller('ShippingExecutionPackingCtrl',
                     });
                 }, function() {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Please try again');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                 });
             };
             $scope.goBack = function() {
@@ -64,7 +64,7 @@ altamiraAppControllers.controller('ShippingExecutionPackingCtrl',
             }
             $scope.remainingQtnArr = [];
             $scope.changeRemainingQun = function() {
-                services.showConfirmBox('Confirmation', 'Seguro de crear la lista de contenido?').then(function(res) {
+                services.showConfirmBox('Confirmação', 'Confirma criar este Romaneio com os items selecionados ?').then(function(res) {
                     if (res)
                     {
                         var i = 0;
@@ -88,18 +88,18 @@ altamiraAppControllers.controller('ShippingExecutionPackingCtrl',
                                     } else
                                     {
                                         $scope.loading = false;
-                                        services.showAlert('Success', 'Successfully remaining value changed').then(function(res) {
+                                        services.showAlert('Success', 'Romaneio criado.').then(function(res) {
                                             $scope.remainingQtnArr = [];
                                             $scope.getOrderData($scope.executionId);
                                         });
                                     }
                                 }, function(response) {
                                     $scope.loading = false;
-                                    services.showAlert('Falhou', 'Error in update details of delivery');
+                                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                                 });
                             }, function(response) {
                                 $scope.loading = false;
-                                services.showAlert('Falhou', 'Error in getting details of delivery');
+                                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                             });
                         }
                         if ($scope.remainingQtnArr.length > 0)
@@ -108,7 +108,7 @@ altamiraAppControllers.controller('ShippingExecutionPackingCtrl',
                             $scope.updateRemainingQtn();
                         } else
                         {
-                            services.showAlert('Falhou', 'Please select atleast one delivery');
+                            services.showAlert('Falhou', 'Selecione pelo menos 1 item.');
                         }
                     }
                 });

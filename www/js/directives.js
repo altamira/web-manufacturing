@@ -123,7 +123,7 @@ altamiraApp.directive('confirmationNeeded', function() {
         priority: 1,
         terminal: true,
         link: function(scope, element, attr) {
-            var msg = attr.confirmationNeeded || "Are you sure?";
+            var msg = attr.confirmationNeeded || "Tem certeza ?";
             var clickAction = attr.ngClick;
             element.bind('click', function() {
                 if (window.confirm(msg)) {
@@ -456,12 +456,12 @@ altamiraApp.directive('selectDelivery', function(services) {
                         scope.itemPartDeliveryArr.push(parseInt(attr.datadelivery));
                     } else {
                         elm.toggleClass('fa-check-square-o');
-                        services.showAlert('Error', 'Not a same Material');
+                        services.showAlert('Error', 'Selecione o mesmo tipo de material.');
                     }
 
                 } else {
                     elm.toggleClass('fa-check-square-o');
-                    services.showAlert('Error', 'Not a same Item');
+                    services.showAlert('Error', 'Selecione o mesmo item.');
                 }
             }
             else
@@ -531,7 +531,7 @@ altamiraApp.directive('leftsideMenu', function(services) {
                         </div>\n\
                         <div class="row">\n\
                             <div class="col">\n\
-                                <span style="font-size: 30px;">ProduÃ§Ã£o</span>\n\
+                                <span style="font-size: 30px;">Produção</span>\n\
                             </div>\n\
                         </div>\n\
                     </div>\n\
