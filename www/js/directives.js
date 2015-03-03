@@ -512,6 +512,118 @@ altamiraApp.directive('changeRemainingQuantity', function(services) {
 
     }
 });
+altamiraApp.directive('leftsideMenu', function(services) {
+    return function(scope, elm, attr) {
+        elm.html('<div class="row">\n\
+                    <div class="col" style="color: white;text-align: center">\n\
+                        <a href="http://localhost/altamira_main/www/#/blacktheme/home" style="text-decoration: none;color: #ffffff">\n\
+                            <span class="logo-side-menu"></span>\n\
+                            <span style="font-size: 30px; float:left; padding-top:16px; padding-left:10px; font-family: Open Sans">Altamira</span>\n\
+                        </a>\n\
+                    </div>\n\
+                </div>\n\
+                <div class="row" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 15px;">\n\
+                    <div class="col" style="text-align: center;color: #ffffff;">\n\
+                        <div class="row">\n\
+                            <div class="col">\n\
+                                <span class="icon-side-cog"></span>\n\
+                            </div>\n\
+                        </div>\n\
+                        <div class="row">\n\
+                            <div class="col">\n\
+                                <span style="font-size: 30px;">ProduÃ§Ã£o</span>\n\
+                            </div>\n\
+                        </div>\n\
+                    </div>\n\
+                </div>\n\
+                <div class="row list-box" style="margin-bottom:10px;">\n\
+                    <div class="col icon-list-box">\n\
+                        <a href="#/manufacturing/bom" style="text-decoration: none;color: #000000">\n\
+                            <div class="row">\n\
+                                <div class="col" style="padding-top:15px;">\n\
+                                    <span class="icon-side-list"></span>\n\
+                                </div>\n\
+                            </div>\n\
+                            <div class="row produce-name" >\n\
+                                <div class="col">\n\
+                                    <span>Lista de Material</span>\n\
+                                </div>\n\
+                            </div>\n\
+                        </a>\n\
+                    </div>\n\
+                    <div class="col icon-list-box">\n\
+                        <a href="#/manufacturing/process/0" style="text-decoration: none;color: #000000">\n\
+                            <div class="row">\n\
+                                <div class="col" style="padding-top:15px;">\n\
+                                    <span class="icon-side-github-6"></span>\n\
+                                </div>\n\
+                            </div>\n\
+                            <div class="row produce-name" >\n\
+                                <div class="col">\n\
+                                    <span>Processo</span>\n\
+                                </div>\n\
+                            </div>\n\
+                        </a>\n\
+                    </div>\n\
+                </div>\n\
+                <div class="row list-box" style="margin-bottom:5px; padding-right:0px;">\n\
+                    <div class="col icon-box2">\n\
+                        <a href="#/material/list" style="text-decoration:none"><span class="icon-side-flag-2"></span></a>\n\
+                    </div>\n\
+                    <div class="col  icon-box2">\n\
+                        <a href="#/shipping/planning" style="text-decoration:none"><span class="icon-side-attachment"></span></a>\n\
+                    </div>\n\
+                    <div class="col  icon-box2">\n\
+                        <a href="#/shipping/execution" style="text-decoration:none"><span class="icon-side-newspaper"></span></a>\n\
+                    </div>\n\
+                    <div class="col  icon-box2">\n\
+                        <span class="icon-side-link"></span>\n\
+                    </div>\n\
+                </div>\n\
+                <div class="row" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 10px; padding-top:4px; padding-bottom:4px;">\n\
+                    <div class="col">\n\
+                        <i style="margin-top:6px;" class="icon-side-play-2 fg-white"></i>\n\
+                                <span class="icon-title">O.S.</span>\n\
+                    </div>\n\
+                </div>\n\
+                <div class="row" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 10px; padding-top:8px; padding-bottom:8px;">\n\
+                    <div class="col">\n\
+                        <i class="icon-side-checkbox fg-white"></i>\n\
+                        <span class="icon-title">Apontamento</span>\n\
+                    </div>\n\
+                </div>\n\
+                <div class="row" style="background-color: #a4c400;margin: auto;width: 95%;margin-bottom: 10px;">\n\
+                    <div class="col" style="text-align: center;color: #ffffff;">\n\
+                        <div class="row">\n\
+                            <div class="col">\n\
+                                <span class="icon-side-tag"></span>\n\
+                            </div>\n\
+                        </div>\n\
+                        <div class="row">\n\
+                            <div class="col">\n\
+                                <span style="font-size: 30px;">Vendas</span>\n\
+                            </div>\n\
+                        </div>\n\
+                    </div>\n\
+                </div>\n\
+                <div class="row" style="background-color: #00aff0;margin: auto;width: 95%;margin-bottom: 7px;">\n\
+                    <div class="col" style="text-align: center;color: #ffffff;">\n\
+                        <div class="row">\n\
+                            <div class="col">\n\
+                                <span class="icon-side-cart"></span>\n\
+                            </div>\n\
+                        </div>\n\
+                        <div class="row">\n\
+                            <div class="col">\n\
+                                <span style="font-size: 30px;">Compras</span>\n\
+                            </div>\n\
+                        </div>\n\
+                    </div>\n\
+                </div>\n\
+                <div class="scroll-bar scroll-bar-v"><div class="scroll-bar-indicator scroll-bar-fade-out"></div></div>');
+
+    }
+});
 
 function totalWeightCal() {
     $('.totalWeightRow td').each(function(e) {

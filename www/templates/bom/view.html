@@ -125,7 +125,7 @@
                             </tr>
                             <tr ng-repeat='dataPart in data.component'>
                                 <td class="edit-info" style="text-align: center">{{dataPart.quantity.value}} {{dataPart.quantity.unit.symbol}}</td>
-                                <td class="edit-text">{{dataPart.material.description}}</td>
+                                <td class="edit-text">{{dataPart.description}}</td>
                                 <td class="edit-text">{{dataPart.color.code}}</td>
                                 <td class="edit-info" style="text-align: right">{{ dataPart.weight.value | setDecimal:3}} {{dataPart.weight.unit.symbol}}</td>
                                 <!--<td class="edit-info" style="text-align: right">{{ (dataPart.weight.value*dataPart.quantity.value) | setDecimal:2}} {{dataPart.weight.unit.symbol}}</td>-->
@@ -145,7 +145,7 @@
                 <div class="col" ng-repeat='dataPart in data.component'>
                     <div class="components-col">
                         <div class="components-title ">
-                            <h4>{{dataPart.material.description}}
+                            <h4>{{dataPart.description}}
                                 <div class="edit-text" ng-if="bomData.checked != ''"><i class="icon plus-icon fa-check-square-o" style="float: right;left: 42px;position: relative;top: -31px;" ></i></div>
                                 <div class="edit-text" ng-if="bomData.checked == ''"><i class="icon plus-icon fa-square-o" style="float: right;left: 42px;position: relative;top: -31px;" toggle-class></i></div>
                             </h4>
