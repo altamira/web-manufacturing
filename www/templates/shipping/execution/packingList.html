@@ -148,8 +148,8 @@
                                     <td class="edit-info align-right width-9">{{component.delivery.quantity.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
                                     <td class="edit-info align-right width-9">{{component.delivery.delivered.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
                                     <td class="edit-info align-right width-9">
-                                        <input type="number" id="remaining_popup_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value > 0">
-                                        <input type="number" id="remaining_popup_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value < 1" readonly>
+                                        <input type="number" id="remaining_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value > 0">
+                                        <input type="number" id="remaining_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value < 1" readonly>
                                     </td>
                                     <td class="edit-text width-42" ng-click='updatePart(orderData.id,data.id,component.componentId)'  style="cursor: pointer;">{{component.description}}</td>
                                     <td class="edit-text align-center width-10">{{component.color}}</td>
