@@ -1,0 +1,292 @@
+<div class="loding_div" ng-show="loading">
+    <div id="loadingProgressG">
+        <div id="loadingProgressG_1" class="loadingProgressG">
+        </div>
+    </div>
+</div>
+<ion-nav-view class="view-container">
+    <ion-side-menus>
+        <ion-side-menu-content class="menu-content pane">
+            <ion-nav-bar class="bar-positive nav-bar-container">
+                <div class="nav-bar-block" nav-bar="active">
+                    <ion-header-bar class="bar-calm">
+                        <div class="buttons header-margin">
+                            <button class="button fa-bars" menu-toggle="left"></button>
+                            <span class="btn-separator"></span>
+                            <button class="button fa-check" ng-click="changeRemainingQun()"></button>
+                        </div>
+                    </ion-header-bar>
+                </div>
+            </ion-nav-bar>
+            <ion-nav-view name="menuContent" class="view-container">
+                <ion-view class="pane" nav-view="active">
+                    <ion-content class="padding scroll-content ionic-scroll  has-header">
+                        <div class="row bar-calm-top">
+                            <div class="col col-50" style="display: none">
+                                <div class="button-bar bar-calm">
+                                    <a class="button topBtnRadius month" ng-click='monthlyView()' id="monthlyShowBtn">Mensal</a>
+                                    <a class="button" ng-click='weeklyView()' id="weeklyShowBtn">Semanal</a>
+                                </div>
+                            </div>
+                            <div class="col col-50 col-offset-50">
+                                <div class="button-bar bar-calm" style="float: right">
+                                    <a class="button topBtnRadius fa-list-alt" ng-click="formView()" id="formShowBtn"></a>
+                                    <a class="button fa-th month" ng-click="gridView()" id="gridShowBtn"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row planning-col">
+                            <div class="col col-33 tableTitle">Planejamento de Entrega</div>
+                            <div class="col col-67 tableTitle align-right">Hoje : {{today}}</div>
+                        </div>
+                        <input type="hidden" id="orderListLength" value="{{orderListLength}}">
+                        <div class="row main-row nested" >
+                            <div id="sidebar" class="width-30">
+                                <div class="row scroll-div dataRow nested" ng-if="viewtype == 'form'" style="height: 752px;">
+                                    <table class="dataTable" ng-if='orderList'>
+                                        <tr>
+                                            <th class="monthTitle dataTable-title" colspan="5">Pedidos</th>
+                                        </tr>
+                                        <tr>
+                                            <th>&nbsp;</th>
+                                            <th style="min-width: 75px">Pedido</th>
+                                            <th style="min-width: 140px">Cliente</th>
+                                            <th style="min-width: 100px">Data Pedido</th>
+                                            <th style="min-width: 100px">Data Entrega</th>
+                                        </tr>
+                                        <tr ng-repeat="order in orderList" id="{{order.id}}" ng-click="getOrderData({{order.id}})" style="cursor: pointer">
+                                            <td class="align-center fa-md-arrow-right-planning" ng-click="openOrder({{order.id}})"></td>
+                                            <td id="{{order.id}}">{{order.number}}</td>
+                                            <td>{{order.customer}}</td>
+                                            <td>{{order.created | getDate}}</td>
+                                            <td>{{order.delivery| getDate}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="row scroll-div dataRow nested" ng-if="viewtype == 'grid'">
+                                    <table class="dataTable" ng-if='orderList'>
+                                        <tr>
+                                            <th class="monthTitle dataTable-title" colspan="5">Pedidos</th>
+                                        </tr>
+                                        <tr>
+                                            <th>&nbsp;</th>
+                                            <th style="min-width: 75px">Pedido</th>
+                                            <th style="min-width: 140px">Cliente</th>
+                                            <th style="min-width: 100px">Data Pedido</th>
+                                            <th style="min-width: 100px">Data Entrega</th>
+                                        </tr>
+                                        <tr ng-repeat="order in orderList" id="{{order.id}}" ng-click="getOrderData({{order.id}})" style="cursor: pointer">
+                                            <td class="align-center fa-md-arrow-right-planning" ng-click="openOrder({{order.id}})"></td>
+                                            <td id="{{order.id}}">{{order.number}}</td>
+                                            <td>{{order.customer}}</td>
+                                            <td>{{order.created | getDate}}</td>
+                                            <td>{{order.delivery| getDate}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div id="dragbar"></div>
+                            </div>
+                            <div id="form_view" class="planning-detail width-70">
+                                <div class="row monthTitle view-title"> {{orderData.number}} - {{orderData.customer}}  </div>
+                                <div  class="shipping_data">
+                                    <div class="row" ng-repeat='data in finalList'>
+                                        <div id="item_repeat" class="width-100">
+                                            <div class="row" style="margin-top:-15px;">
+                                                <div class="col">
+                                                    <div class="list"> <a class="process-item-list item-icon-right " style="padding-left:0px;">ITEM {{data.item}}  </a> </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div style="font-size: 16px;">{{data.description}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="edit-item" ng-if="data.delivery != ''">
+                                                <div class="col row">
+                                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                        <tr>
+                                                            <td class="edit-item-title align-center width-9"><i class="fa-calender"></i> <span>Entrega</span></td>
+                                                            <td class="edit-item-title align-center width-9"><i class="fa-list-ol"></i> <span>Quantidade</span></td>
+                                                            <td class="edit-item-title align-center width-9"><i class="fa-list-ol"></i> <span>Entregue</span></td>
+                                                            <td class="edit-item-title align-center width-9"><i class="fa-list-ol"></i> <span>Restante</span></td>
+                                                            <td class="edit-item-title width-42"> Descricao</td>
+                                                            <td class="edit-item-title align-center width-10"><i class="fa-pencil"></i> <span>Cor</span></td>
+                                                            <!--<td class="edit-item-title align-center width-7"><i class="fa-tachometer"></i> <span>Peso</span></td>-->
+                                                            <td class="edit-item-title align-center width-9"><i class="fa-tachometer"></i> <span>Peso</span></td>
+                                                            <td class="edit-item-title align-center width-3">&nbsp;</td>
+                                                        </tr>
+                                                        <tr ng-repeat='component in data.delivery' id="{{component.delivery.id}}" data-itemId="{{data.id}}">
+                                                            <td class="edit-info align-center width-9">{{ component.delivery.delivery | getDate }}</td>
+                                                            <td class="edit-info align-right width-9">{{component.delivery.quantity.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
+                                                            <td class="edit-info align-right width-9">{{component.delivery.delivered.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
+                                                            <td class="edit-info align-right width-9">
+                                                                <input type="number" id="remaining_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value > 0">
+                                                                <input type="number" id="remaining_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value < 1" readonly>
+                                                            </td>
+                                                            <td class="edit-text width-42" ng-click='updatePart(orderData.id,data.id,component.componentId,component.delivery.id)'  style="cursor: pointer;">{{component.description}}</td>
+                                                            <td class="edit-text align-center width-10">{{component.color}}</td>
+                                                            <!--                                            <td class="edit-info align-right width-7">{{component.weight | setDecimal:2}} {{component.weightType}}</td>-->
+                                                            <td class="edit-info align-right width-9">{{component.weight * component.delivery.quantity.value | setDecimal:3}}<span style="margin-left: 5px;">{{component.weightType}}</span></td>
+                                                            <td class="edit-text align-center width-3">
+                                                                <i class="icon plus-icon fa-square-o" change-remaining-quantity dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}" ng-if="component.delivery.remaining.value > 0"></i>
+                                                                <i class="icon plus-icon fa-square-o" dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}" ng-if="component.delivery.remaining.value < 1" style="cursor: not-allowed"></i>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="grid_view" class="planning-detail width-70" style="display: none;">
+                                <div class="row scroll-div mainRow nested">
+                                    <table border="1" class="mainTable" sortable-func ng-if='orderData != "" && viewtype == "grid"'>
+                                        <tr>
+                                            <th class="monthTitle" colspan="{{month.days.length}}" ng-repeat="month in monthDays">{{month.name}}</th>
+                                        </tr>
+                                        <tr>
+                                            <th ng-repeat="day in days track by $index" ng-if='viewWeekly == false'>{{getDay(day)}}</th>
+                                            <th ng-repeat="day in days track by $index" ng-if='viewWeekly == true'>{{getWeekDayShort(day)}}</th>
+                                        </tr>
+                                        <tr ng-repeat="order in finalArr" class="{{order.id}}" ng-if="checkYear(order.delivery) <= maxYear">
+                                            <td ng-repeat="day in days track by $index" id="{{order.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'">
+                                                <div class="undragDiv" ng-repeat="delivery in order.components" id="{{day}}" ng-class="getCellColor(delivery.delivery,delivery.remaining.value)" ng-if="(checkDay(delivery.delivery) == getDay(day)) && (checkMonth(delivery.delivery) == getMonth(day)) && (checkYear(delivery.delivery) == getYear(day))" data-weight='{{delivery.remaining.value}}'>
+                                                    {{delivery.remaining.value | setDecimal:1}}
+                                                    <!--                                    {{showWeight(del.deliveryweight)}}-->
+                                                </div>
+                                                <div style="width: 50px;height: 30px;" ng-if="order.components == ''">&nbsp;</div>
+                                            </td>
+                                            <!--                            <td ng-repeat="day in days track by $index" id="{{order.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="order.components == ''" style="width: 50px;height: 30px;">
+                                                                            &nbsp;
+                                                                        </td>-->
+                                        </tr>
+                                        <tr class="totalWeightRow">
+                                            <td ng-repeat="day in days track by $index" data-date='{{day}}'>
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </ion-content>
+                </ion-view>
+            </ion-nav-view>
+        </ion-side-menu-content>
+        <ion-side-menu side="left" class="sidemenu-bg">
+            <ion-content  class="left-menu">
+                <div class="row">
+                    <div class="col" style="color: white;text-align: center">
+                        <a href="http://localhost/altamira_main/www/#/blacktheme/home" style="text-decoration: none;color: #ffffff">
+                            <span class="logo-side-menu"></span>
+                            <span style="font-size: 30px; float:left; padding-top:16px; padding-left:10px; font-family: Open Sans">Altamira</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="row" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 15px;">
+                    <div class="col" style="text-align: center;color: #ffffff;">
+                        <div class="row">
+                            <div class="col">
+                                <span class="icon-side-cog"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <span style="font-size: 30px;">ProduÃ§Ã£o</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row list-box" style="margin-bottom:10px;">
+                    <div class="col icon-list-box">
+                        <a href="#/manufacturing/bom" style="text-decoration: none;color: #000000">
+                            <div class="row">
+                                <div class="col" style="padding-top:15px;">
+                                    <span class="icon-side-list"></span>
+                                </div>
+                            </div>
+                            <div class="row produce-name" >
+                                <div class="col">
+                                    <span>Lista de Material</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col icon-list-box">
+                        <a href="#/manufacturing/process/0" style="text-decoration: none;color: #000000">
+                            <div class="row">
+                                <div class="col" style="padding-top:15px;">
+                                    <span class="icon-side-github-6"></span>
+                                </div>
+                            </div>
+                            <div class="row produce-name" >
+                                <div class="col">
+                                    <span>Processo</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="row list-box" style="margin-bottom:5px; padding-right:0px;">
+                    <div class="col icon-box2">
+
+                        <span class="icon-side-flag-2"></span>
+                    </div>
+                    <div class="col  icon-box2">
+                        <span class="icon-side-attachment"></span>
+                    </div>
+                    <div class="col  icon-box2">
+                        <span class="icon-side-newspaper"></span>
+                    </div>
+                    <div class="col  icon-box2">
+                        <span class="icon-side-link"></span>
+                    </div>
+                </div>
+                <div class="row" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 10px; padding-top:4px; padding-bottom:4px;">
+                    <div class="col">
+                        <i style="margin-top:6px;" class="icon-side-play-2 fg-white"></i>                        <span class="icon-title">O.S.</span>
+
+                    </div>
+                </div>
+                <div class="row" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 10px; padding-top:8px; padding-bottom:8px;">
+                    <div class="col">
+                        <i class="icon-side-checkbox fg-white"></i>
+                        <span class="icon-title">Apontamento</span>
+
+                    </div>
+                </div>
+                <div class="row" style="background-color: #a4c400;margin: auto;width: 95%;margin-bottom: 10px;">
+                    <div class="col" style="text-align: center;color: #ffffff;">
+                        <div class="row">
+                            <div class="col">
+                                <span class="icon-side-tag"></span>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <span style="font-size: 30px;">Vendas</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="background-color: #00aff0;margin: auto;width: 95%;margin-bottom: 7px;">
+                    <div class="col" style="text-align: center;color: #ffffff;">
+                        <div class="row">
+                            <div class="col">
+                                <span class="icon-side-cart"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <span style="font-size: 30px;">Compras</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="scroll-bar scroll-bar-v"><div class="scroll-bar-indicator scroll-bar-fade-out"></div></div>
+            </ion-content>
+        </ion-side-menu>
+    </ion-side-menus>
+</ion-nav-view>
