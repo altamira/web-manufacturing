@@ -44,7 +44,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         $scope.decorateTable();
                     }, 100);
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
             $scope.loadOrderList();
@@ -90,7 +90,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                     $scope.decorateTable();
                 }, function() {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
             $scope.changeRemainingQun = function() {
@@ -373,7 +373,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                                 }
                             }, function() {
                                 $scope.loading = false;
-                                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.').then(function() {
+                                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.').then(function() {
                                     if ($scope.viewGrid != true)
                                     {
                                         $scope.divideDateModal.show();
@@ -382,7 +382,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                             });
                         }, function() {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.').then(function() {
+                            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.').then(function() {
                                 if ($scope.viewGrid != true)
                                 {
                                     $scope.divideDateModal.show();
@@ -391,7 +391,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         });
                     }, function() {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.').then(function() {
+                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.').then(function() {
                             if ($scope.viewGrid != true)
                             {
                                 $scope.divideDateModal.show();
@@ -505,7 +505,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                                     }
                                 }, function() {
                                     $scope.loading = false;
-                                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.').then(function(response) {
+                                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.').then(function(response) {
                                         $scope.joinDateModal.show();
                                     });
                                 });
@@ -515,7 +515,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         $scope.outerRemovePart();
                     }, function() {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.').then(function(response) {
+                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.').then(function(response) {
                             $scope.joinDateModal.show();
                         });
                     });
@@ -566,10 +566,10 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                             $scope.changePartModal.show();
                         };
                     }, function(response1) {
-                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
                 $scope.getUnitSymbol = function(unitId, unitType) {
                     Restangular.one('measurement/unit', unitId).get().then(function(response) {
@@ -590,7 +590,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                             $scope.partData.weightTypeId = id;
                         }
                     }, function(response) {
-                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
                 };
                 $scope.getColorName = function(colorId) {
@@ -601,7 +601,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         $scope.partData.color.id = response.data.id;
                         $scope.partData.color.name = response.data.name;
                     }, function(response) {
-                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
                 };
             };
@@ -801,7 +801,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         $scope.decorateTable();
                     }, 100);
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
             $scope.changeDeliveryDate = function(bomId) {
@@ -812,7 +812,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                 Restangular.one('shipping/execution', bomId).get().then(function(response) {
                     $scope.orderData = response.data;
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
             $ionicModal.fromTemplateUrl('templates/shipping/execution/popup/view.html', {

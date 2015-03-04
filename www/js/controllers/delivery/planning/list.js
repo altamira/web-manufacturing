@@ -114,7 +114,7 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                 $scope.makeCalender($scope.checkMonth(tempUnixTS), $scope.checkYear(tempUnixTS));
 
             }, function(response) {
-                services.showAlert('Falhou', 'Please try again');
+                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
             });
             $scope.getData = function(newDate, bom) {
                 services.showAlert('Success', 'BOM ' + bom + ' delivery date changed to ' + moment(newDate, "D_M_YYYY").format('D/M/YYYY')).then(function(res) {
@@ -161,7 +161,7 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                         $scope.changeDateModalShow();
                     }
                 }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
             $ionicModal.fromTemplateUrl('templates/delivery/planning/popup/part.html', {
@@ -185,22 +185,22 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
 //                Restangular.one('common/color').get({max: 0}).then(function(response) {
 //                    $scope.partData.colorBox = response.data;
 //                }, function(response) {
-//                    services.showAlert('Falhou', 'Please try again');
+//                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
 //                });
 //                Restangular.one('measurement/unit').get({magnitude: 'dimencional'}).then(function(response) {
 //                    $scope.partData.unitLengthBox = response.data;
 //                }, function(response) {
-//                    services.showAlert('Falhou', 'Please try again');
+//                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
 //                });
 //                Restangular.one('measurement/unit').get({magnitude: 'peso'}).then(function(response) {
 //                    $scope.partData.unitWeightBox = response.data;
 //                }, function(response) {
-//                    services.showAlert('Falhou', 'Please try again');
+//                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
 //                });
                 Restangular.one('measurement/unit').get({magnitude: 'unidade'}).then(function(response) {
                     $scope.partData.unitQuantityBox = response.data;
                 }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
                 Restangular.one('manufacturing/bom', bomId).one('item', itemId).one('part', partId).get().then(function(response) {
 //                    $ionicModal.fromTemplateUrl('templates/delivery/planning/popup/part.html', {
@@ -235,7 +235,7 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                     $scope.getUnitSymbol(data.weight.unit.id, 'weight');
 
                 }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
                 $scope.getUnitSymbol = function(unitId, unitType) {
                     Restangular.one('measurement/unit', unitId).get().then(function(response) {
@@ -251,14 +251,14 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                             $scope.partData.weightType = symbol;
                         }
                     }, function(response) {
-                        services.showAlert('Falhou', 'Please try again');
+                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
                 };
                 $scope.getColorName = function(colorId) {
                     Restangular.one('common/color', colorId).get().then(function(response) {
                         $scope.partData.color = response.data.name;
                     }, function(response) {
-                        services.showAlert('Falhou', 'Please try again');
+                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
                 };
             };

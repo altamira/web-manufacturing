@@ -30,7 +30,7 @@ altamiraApp.service('services', function($ionicPopup, $window, $state, $statePar
 //        Restangular.one('common/color').get({max: 0}).then(function(response) {
 //            return response.data;
 //        }, function(response) {
-//            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+//            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
 //        });
 //    }
 //
@@ -47,7 +47,7 @@ altamiraApp.factory('Unit', function(Restangular, services) {
         Restangular.one('common/color').get({max: 0}).then(function(response) {
             return response.data;
         }, function(response) {
-            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
         });
     }
 
