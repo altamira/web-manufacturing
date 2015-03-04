@@ -577,7 +577,7 @@ altamiraApp.directive('leftsideMenu', function(services) {
                         <a href="#/shipping/execution" style="text-decoration:none"><span class="icon-side-newspaper"></span></a>\n\
                     </div>\n\
                     <div class="col  icon-box2">\n\
-                        <a href="#/manufacture/execution" style="text-decoration:none"><span class="icon-side-link"></span></a>\n\
+                        <span class="icon-side-link"></span>\n\
                     </div>\n\
                 </div>\n\
                 <div class="row" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 10px; padding-top:4px; padding-bottom:4px;">\n\
@@ -586,12 +586,12 @@ altamiraApp.directive('leftsideMenu', function(services) {
                                 <span class="icon-title">O.S.</span>\n\
                     </div>\n\
                 </div>\n\
-                <div class="row" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 10px; padding-top:8px; padding-bottom:8px;">\n\
+                <a href="#/manufacture/execution" style="text-decoration:none"><div class="row" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 10px; padding-top:8px; padding-bottom:8px;">\n\
                     <div class="col">\n\
                         <i class="icon-side-checkbox fg-white"></i>\n\
                         <span class="icon-title">Apontamento</span>\n\
                     </div>\n\
-                </div>\n\
+                </div></a>\n\
                 <div class="row" style="background-color: #a4c400;margin: auto;width: 95%;margin-bottom: 10px;">\n\
                     <div class="col" style="text-align: center;color: #ffffff;">\n\
                         <div class="row">\n\
