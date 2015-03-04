@@ -18,7 +18,7 @@ altamiraAppControllers.controller('BomItemCreateCtrl',
                         }
                     }, function() {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Please try again');
+                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                     });
                 }
             };
@@ -70,7 +70,7 @@ altamiraAppControllers.controller('BomItemUpdateCtrl',
                         counter++;
                     }
                 }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             };
             $scope.loadItem();
@@ -90,11 +90,11 @@ altamiraAppControllers.controller('BomItemUpdateCtrl',
                             $location.path('bom/edit/' + $scope.bomId);
                         }, function(response) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Please try again');
+                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                         });
                     }, function(response1) {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Please try again');
+                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                     });
                 }
 
@@ -113,7 +113,7 @@ altamiraAppControllers.controller('BomItemUpdateCtrl',
                             });
                         }, function() {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Please try again');
+                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                         });
                     }
                 });
@@ -140,7 +140,7 @@ altamiraAppControllers.controller('BomItemUpdateCtrl',
                             });
                         }, function() {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Please try again');
+                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                         });
                     }
                 });

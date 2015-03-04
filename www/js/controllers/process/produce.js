@@ -19,7 +19,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
                     }
                 }
             }, function(response) {
-                services.showAlert('Falhou', 'Please try again');
+                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
             });
             if ($scope.produceId != '' && $scope.produceId != undefined)
             {
@@ -33,7 +33,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
                     $scope.produceData.quantity = response.data.quantity.value;
                     $scope.produceData.unit = response.data.quantity.unit.id;
                 }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             }
             else
@@ -92,7 +92,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
                                         }
                                     }, function() {
                                         $scope.loading = false;
-                                        services.showAlert('Falhou', 'Please try again');
+                                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                                     });
                                 }
 
@@ -105,11 +105,11 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
                                         });
                                     }, function(response) {
                                         $scope.loading = false;
-                                        services.showAlert('Falhou', 'Please try again');
+                                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                                     });
                                 }
                             }, function(response) {
-                                services.showAlert('Falhou', 'Please try again');
+                                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                             });
                         }
                         else
@@ -120,7 +120,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
                         }
                     }, function(response) {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Please try again');
+                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                     });
                 }
             };
@@ -156,7 +156,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
                             });
                         }, function(response1) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Please try again');
+                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                         });
                     }
                 });
@@ -214,12 +214,12 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
                 Restangular.one('measurement/unit').get({magnitude: 'dimencional'}).then(function(response) {
                     $scope.unitLengthBox = response.data;
                 }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
                 Restangular.one('measurement/unit').get({magnitude: 'peso'}).then(function(response) {
                     $scope.unitWeightBox = response.data;
                 }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             });
 
@@ -313,7 +313,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
                         $scope.rangeImportMaterial();
                     }
                 }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             };
 

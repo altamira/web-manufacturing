@@ -30,7 +30,7 @@ altamiraAppControllers.controller('BomViewCtrl',
                     $scope.bomData.items = data.item;
                 }
             }, function(response) {
-                services.showAlert('Falhou', 'Please try again');
+                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
             });
             $scope.makeChecked = function() {
                 services.showConfirmBox('Confirmation', 'A Lista de Material foi conferida ?').then(function(res) {
@@ -47,7 +47,7 @@ altamiraAppControllers.controller('BomViewCtrl',
 
                         }, function(response) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Please try again');
+                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                         });
                     }
                 });
@@ -66,7 +66,7 @@ altamiraAppControllers.controller('BomViewCtrl',
 
                         }, function(response) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Please try again');
+                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                         });
                     }
                 });
@@ -93,7 +93,7 @@ altamiraAppControllers.controller('BomViewCtrl',
                             });
                         }, function() {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Please try again');
+                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                         });
                     }
                 });

@@ -63,7 +63,7 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                         $scope.range();
                     }
                 }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             };
             $scope.loadProcess();

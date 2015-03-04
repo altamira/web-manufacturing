@@ -73,7 +73,7 @@ altamiraAppControllers.controller('CommonCtrl',
                         $scope.range();
                     }
                 }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             };
             $scope.loadMaterial();
@@ -303,7 +303,7 @@ altamiraAppControllers.controller('CommonCtrl',
                         }
                     }, function() {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Please try again');
+                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                     });
                 }
             };

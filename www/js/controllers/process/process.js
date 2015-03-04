@@ -19,7 +19,7 @@ altamiraAppControllers.controller('ManufacturingProcessCreateCtrl',
                         }
                     }, function() {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Please try again');
+                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                     });
                 }
             };
@@ -106,7 +106,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl',
                     }
                 }, function(response) {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Please try again');
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             };
             $scope.loadProcess();
@@ -125,11 +125,11 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl',
                             $location.path('/manufacturing/process/0');
                         }, function(response) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Please try again');
+                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                         });
                     }, function(response1) {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Please try again');
+                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                     });
                 }
             };
@@ -169,7 +169,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl',
                             });
                         }, function(response1) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Please try again');
+                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                         });
                     }
                 });
@@ -187,7 +187,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl',
                             });
                         }, function(response1) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Please try again');
+                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                         });
                     }
                 });

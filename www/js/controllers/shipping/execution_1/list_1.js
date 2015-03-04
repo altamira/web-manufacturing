@@ -398,7 +398,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                     }
                     $scope.makeCalender();
                 }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             };
             $scope.loadGrid();
@@ -408,22 +408,22 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
             Restangular.one('common/color').get({max: 0}).then(function(response) {
                 $scope.colorBox = response.data;
             }, function(response) {
-                services.showAlert('Falhou', 'Please try again');
+                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
             });
             Restangular.one('measurement/unit').get({magnitude: 'dimencional'}).then(function(response) {
                 $scope.unitLengthBox = response.data;
             }, function(response) {
-                services.showAlert('Falhou', 'Please try again');
+                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
             });
             Restangular.one('measurement/unit').get({magnitude: 'peso'}).then(function(response) {
                 $scope.unitWeightBox = response.data;
             }, function(response) {
-                services.showAlert('Falhou', 'Please try again');
+                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
             });
             Restangular.one('measurement/unit').get({magnitude: 'unidade'}).then(function(response) {
                 $scope.unitQuantityBox = response.data;
             }, function(response) {
-                services.showAlert('Falhou', 'Please try again');
+                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
             });
             $ionicModal.fromTemplateUrl('templates/shipping/execution/popup/view.html', {
                 scope: $scope,
@@ -459,7 +459,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         $scope.bomData.items = data.item;
                     }
                 }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             };
             $scope.changeDeliveryDate = function(bomId) {
@@ -520,12 +520,12 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         };
                     }, function(response1) {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Please try again');
+                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                     });
 
                 }, function(response) {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Please try again');
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
                 $scope.getUnitSymbol = function(unitId, unitType) {
                     Restangular.one('measurement/unit', unitId).get().then(function(response) {
@@ -546,7 +546,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                             $scope.partData.weightTypeId = id;
                         }
                     }, function(response) {
-                        services.showAlert('Falhou', 'Please try again');
+                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                     });
                 };
                 $scope.getColorName = function(colorId) {
@@ -557,7 +557,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         $scope.partData.color.id = response.data.id;
                         $scope.partData.color.name = response.data.name;
                     }, function(response) {
-                        services.showAlert('Falhou', 'Please try again');
+                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                     });
                 };
             };
@@ -639,7 +639,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                     $scope.loading = false;
                 }, function() {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Please try again');
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             }
             $scope.getShippingDetail = function(shippingId) {

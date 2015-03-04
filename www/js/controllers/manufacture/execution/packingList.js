@@ -44,7 +44,7 @@ altamiraAppControllers.controller('ManufactureExecutionPackingCtrl',
                     });
                 }, function() {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Please try again');
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             };
             $scope.getOrderData($scope.executionId);

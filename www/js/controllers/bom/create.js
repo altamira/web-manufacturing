@@ -27,7 +27,7 @@ altamiraAppControllers.controller('BomCreateCtrl',
                         }
                     }, function(response1) {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Please try again');
+                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                     });
                 }
             };
