@@ -1,0 +1,52 @@
+<div class="loding_div" ng-show="loading">
+    <div id="loadingProgressG">
+        <div id="loadingProgressG_1" class="loadingProgressG">
+        </div>
+    </div>
+</div>
+<ion-pane>
+    <ion-header-bar class="bar-calm">
+        <div class="buttons header-margin">
+            <button type="button" class="button fa-arrow-left" ng-click="goBack()"></button>
+            <span class="btn-separator"></span>
+            <h4 class="mf-page-titles">&nbsp;{{operationType}}&nbsp;</h4>
+            <span class="btn-separator"></span>
+            <button class="button fa-plus" ng-click="createPackingListPage()"></button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <div class="row">
+            <div class="col">
+                <div class="list">
+
+                    <div class="item item-input-search">
+                        <label class="input-search-wrapper">
+                            <i class="icon fa-small-search"></i>
+                            <input type="text" class="input-box" placeholder="search" ng-model="searchText">
+                        </label>
+                    </div>
+                    <i class="icon fa-search search-icon" ng-click="searchPackingList(searchText)"></i>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="list list-inset listing-col" ng-repeat="packing in packingData | filter: searchText">
+                    <a class="item-list item-icon-right" ng-click="newPackingList({{packing.id}})">
+                        <span class="text-center-middle">
+                            {{packing.delivery | getDate}} {{packing.number}} {{packing.customer}}</span>
+                        <i class="icon fa-arrow-right arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="pagination">
+                <a ng-repeat="n in pageStack" ng-click="goPage(n)">
+                    <span class="page" ng-class="{'active':n == startPage + 1}">{{n}}</span>
+                </a>
+                <a class="page fa-arrow-right next-arrow" ng-show='nextButton' ng-click="nextPage(pageStack.length)" ng-if="pageStack.length > 0"></a>
+            </div>
+        </div>
+    </ion-content>
+</ion-pane>

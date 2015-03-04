@@ -577,7 +577,7 @@ altamiraApp.directive('leftsideMenu', function(services) {
                         <a href="#/shipping/execution" style="text-decoration:none"><span class="icon-side-newspaper"></span></a>\n\
                     </div>\n\
                     <div class="col  icon-box2">\n\
-                        <span class="icon-side-link"></span>\n\
+                        <a href="#/manufacture/execution" style="text-decoration:none"><span class="icon-side-link"></span></a>\n\
                     </div>\n\
                 </div>\n\
                 <div class="row" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 10px; padding-top:4px; padding-bottom:4px;">\n\

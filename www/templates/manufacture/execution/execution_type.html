@@ -1,0 +1,38 @@
+<ion-nav-view class="view-container">
+    <ion-side-menus>
+        <ion-side-menu-content class="menu-content pane">
+            <ion-nav-bar class="bar-positive nav-bar-container">
+                <div class="nav-bar-block" nav-bar="active">
+                    <ion-header-bar class="bar-calm">
+                        <div class="buttons header-margin">
+                            <button class="button fa-bars" menu-toggle="left"></button>
+                            <span class="btn-separator"></span>
+                            <h4 class="mf-page-titles">&nbsp;Escolha Setor de Produção</h4>
+                        </div>
+                    </ion-header-bar>
+                </div>
+            </ion-nav-bar>
+            <ion-nav-view name="menuContent" class="view-container">
+                <ion-view class="pane" nav-view="active">
+                    <ion-content class="padding scroll-content ionic-scroll  has-header">
+                        <div class="row">
+                            <div class="col">
+                                <div class="list list-inset listing-col"  ng-repeat="operationType in operationTypeData">
+                                    <a class="item-list item-icon-left item-icon-right" ng-click="selectOperationType('{{operationType.id}}')">
+                                        <i class="icon {{operationType.description}} material-type-list-icon"></i>
+                                        <div class="material-type-list">{{operationType.description}}</div>
+                                        <i class="icon fa-arrow-right arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </ion-content>
+                </ion-view>
+            </ion-nav-view>
+        </ion-side-menu-content>
+        <ion-side-menu side="left" class="sidemenu-bg">
+            <ion-content  class="left-menu" leftside-menu>
+            </ion-content>
+        </ion-side-menu>
+    </ion-side-menus>
+</ion-nav-view>

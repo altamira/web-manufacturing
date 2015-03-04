@@ -1,12 +1,23 @@
-altamiraAppControllers.controller('ShippingExecutionCtrl',
+altamiraAppControllers.controller('ShippingExecutionPackingCreateCtrl',
         function($scope, $location, $route, Restangular, services, $ionicModal, CommonFun, $ionicSideMenuDelegate, $routeParams) {
 
-            if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && sessionStorage.getItem('token') == '')
-            {
-                sessionStorage.setItem('token', $routeParams.token);
-                $window.location.reload();
+            $scope.openOrderList = function() {
+                $ionicModal.fromTemplateUrl('templates/shipping/execution/popup/order_list.html', {
+                    scope: $scope,
+                    animation: 'fade-in'
+                }).then(function(modal) {
+                    $scope.OrderList = modal;
+                    $scope.resetPackingList();
+                    $scope.loadPackingList();
+                });
+                $scope.OrderListModalShow = function() {
+                    $scope.OrderList.show();
+                };
+                $scope.OrderListModalHide = function() {
+                    $scope.OrderList.hide();
+                };
+
             }
-            $scope.operationType = sessionStorage.getItem('operationDesc');
             $scope.resetPackingList = function() {
                 $scope.startPage = 0;
                 $scope.maxRecord = 10;
@@ -17,10 +28,11 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
             $scope.searchText = sessionStorage.getItem('searchPackingList');
             $scope.tempSearch = '';
             $scope.isDataSearch = '';
-            $scope.resetPackingList();
+
             $scope.loadPackingList = function() {
                 $scope.loading = true;
                 Restangular.one('shipping/execution').get({search: sessionStorage.getItem('searchPackingList'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
+                    $scope.OrderListModalShow();
                     if (response.data == '') {
                         $scope.loading = false;
                         if ((parseInt($scope.startPage) != 0))
@@ -67,7 +79,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                     services.showAlert('Falhou', 'Please try again');
                 });
             };
-            $scope.loadPackingList();
+
             $scope.pagePackingListes = function() {
                 $scope.packingData = [];
                 $scope.start = $scope.startPage * $scope.maxRecord;
@@ -129,22 +141,40 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                     $scope.loadPackingList();
                 }
             }
+            $scope.getDetailByOrder = function(orderId) {
+                $scope.OrderListModalHide();
+                $scope.loading = true;
+                Restangular.one('shipping/execution', orderId).get().then(function(response) {
+                    $scope.loading = false;
+                    $scope.orderData = response.data;
+                }, function(response) {
+                })
+            }
             $scope.newPackingList = function(executionId, deliveryDate) {
                 $scope.loading = true;
                 $scope.postData = {};
                 $scope.postData.id = 0;
                 $scope.postData.delivery = deliveryDate;
-                Restangular.one('shipping/execution',executionId).all('packinglist').post($scope.postData).then(function(response) {
-                    $location.path('/shipping/execution/'+executionId+'/packinglist/'+response.data.id);
+                Restangular.one('shipping/execution', executionId).all('packinglist').post($scope.postData).then(function(response) {
+                    $location.path('/shipping/execution/' + executionId + '/packinglist/' + response.data.id);
                 }, function(response) {
                     services.showAlert('Falhou', 'Please try again');
                 });
             }
-            $scope.toggleLeft = function() {
-                $ionicSideMenuDelegate.toggleLeft();
+            $scope.getObjects = function(obj, key, val) {
+                var objects = [];
+                for (var i in obj) {
+                    if (!obj.hasOwnProperty(i))
+                        continue;
+                    if (typeof obj[i] == 'object') {
+                        objects = objects.concat($scope.getObjects(obj[i], key, val));
+                    } else if (i == key && obj[key] == val) {
+                        objects.push(obj);
+                    }
+                }
+                return objects;
             };
-            $scope.createPackingListPage = function() {
-                console.log(JSON.stringify('NIsarg'));
-                $location.path('/shipping/execution/packinglist/create');
+            $scope.goBack = function() {
+                $location.path('/shipping/execution');
             }
         });

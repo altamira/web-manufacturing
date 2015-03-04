@@ -1,4 +1,4 @@
-altamiraAppControllers.controller('ShippingExecutionCtrl',
+altamiraAppControllers.controller('ManufactureExecutionListCtrl',
         function($scope, $location, $route, Restangular, services, $ionicModal, CommonFun, $ionicSideMenuDelegate, $routeParams) {
 
             if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && sessionStorage.getItem('token') == '')
@@ -129,16 +129,8 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                     $scope.loadPackingList();
                 }
             }
-            $scope.newPackingList = function(executionId, deliveryDate) {
-                $scope.loading = true;
-                $scope.postData = {};
-                $scope.postData.id = 0;
-                $scope.postData.delivery = deliveryDate;
-                Restangular.one('shipping/execution',executionId).all('packinglist').post($scope.postData).then(function(response) {
-                    $location.path('/shipping/execution/'+executionId+'/packinglist/'+response.data.id);
-                }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
-                });
+            $scope.newPackingList = function(executionId) {
+                $location.path('/manufacture/execution/' + executionId);
             }
             $scope.toggleLeft = function() {
                 $ionicSideMenuDelegate.toggleLeft();
@@ -146,5 +138,8 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
             $scope.createPackingListPage = function() {
                 console.log(JSON.stringify('NIsarg'));
                 $location.path('/shipping/execution/packinglist/create');
+            }
+            $scope.goBack = function() {
+                $location.path('/manufacture/execution');
             }
         });
