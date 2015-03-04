@@ -29,7 +29,7 @@ altamiraAppControllers.controller('BomEditCtrl',
                     $scope.bomData.items = data.item;
                 }
             }, function(response) {
-                services.showAlert('Falhou', 'Please try again');
+                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
             });
             $scope.submitBomForm = function(isValid) {
                 if (isValid) {
@@ -52,11 +52,11 @@ altamiraAppControllers.controller('BomEditCtrl',
                             $location.path('/manufacturing/bom');
                         }, function(response) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Please try again');
+                            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                         });
                     }, function(response1) {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Please try again');
+                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                     });
                 }
             };
@@ -70,37 +70,37 @@ altamiraAppControllers.controller('BomEditCtrl',
                 window.open(sessionStorage.getItem('reportBaseUrl') + '/report/manufacturing/bom/' + $scope.bomId + '/checklist', '_blank');
             };
             $scope.removeBom = function() {
-                services.showConfirmBox('Confirmation', 'Are you sure to remove this BOM?').then(function(res) {
+                services.showConfirmBox('Confirmation', 'Confirma a exclusão desta Lista de Material ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
                         Restangular.one('manufacturing/bom', $scope.bomId).remove().then(function() {
                             $scope.loading = false;
-                            services.showAlert(' A BOM - ' + $scope.bomId + ' removed successfully.').then(function(res) {
+                            services.showAlert(' A Lista de Material - ' + $scope.bomId + ' foi excluida.').then(function(res) {
                                 if (res) {
                                     $location.path('/manufacturing/bom');
                                 }
                             });
                         }, function() {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Please try again');
+                            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                         });
                     }
                 });
             };
             $scope.removeItem = function(itemId) {
-                services.showConfirmBox('Confirmation', 'Are you sure to remove this Item?').then(function(res) {
+                services.showConfirmBox('Confirmation', 'Confirma a exclusão este item ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
                         Restangular.one('manufacturing/bom', $scope.bomId).one('item', itemId).remove().then(function() {
                             $scope.loading = false;
-                            services.showAlert('An Item - ' + itemId + ' removed successfully.').then(function(res) {
+                            services.showAlert('O Item - ' + itemId + ' foi excluido.').then(function(res) {
                                 if (res) {
                                     $route.reload();
                                 }
                             });
                         }, function() {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Please try again');
+                            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                         });
                     }
                 });
@@ -121,7 +121,7 @@ altamiraAppControllers.controller('BomEditCtrl',
                             });
                         }, function() {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Please try again');
+                            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                         });
                     }
                 });
@@ -148,7 +148,7 @@ altamiraAppControllers.controller('BomEditCtrl',
                     $scope.reportTypeModalClose();
                     window.open(sessionStorage.getItem('reportBaseUrl') + '/report/manufacturing/bom/' + $scope.bomId + '?report=' + $scope.totalReport.join('&report='), '_blank');
                 } else {
-                    services.showAlert('Falhou', 'Please select report type');
+                    services.showAlert('Falhou', 'Escolha Tipo Relatório');
                 }
             }
             $scope.selectAllReport = function() {

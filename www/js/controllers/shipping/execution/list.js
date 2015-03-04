@@ -31,7 +31,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         } else
                         {
                             $scope.pageStack = [];
-                            services.showAlert('Notice', 'PackingList list is empty').then(function(res) {
+                            services.showAlert('Aviso', 'A lista de Romaneios esta vazia.').then(function(res) {
                             });
                         }
                     } else
@@ -64,7 +64,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         $scope.range();
                     }
                 }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
+                    services.showAlert('Falhou', 'Tente novamente.');
                 });
             };
             $scope.loadPackingList();
@@ -137,7 +137,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                 Restangular.one('shipping/execution',executionId).all('packinglist').post($scope.postData).then(function(response) {
                     $location.path('/shipping/execution/'+executionId+'/packinglist/'+response.data.id);
                 }, function(response) {
-                    services.showAlert('Falhou', 'Please try again');
+                    services.showAlert('Falhou', 'Tente novamente.');
                 });
             }
             $scope.toggleLeft = function() {

@@ -30,7 +30,7 @@ altamiraAppControllers.controller('BomListCtrl',
                             });
                         }, function(response) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Please try again');
+                            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                         });
                     }
                     else
@@ -63,7 +63,7 @@ altamiraAppControllers.controller('BomListCtrl',
                             });
                         }, function(response) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Please try again');
+                            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                         });
                     } else
                     {
@@ -105,7 +105,7 @@ altamiraAppControllers.controller('BomListCtrl',
                         } else
                         {
                             $scope.pageStack = [];
-                            services.showAlert('Notice', 'BOM list is empty').then(function(res) {
+                            services.showAlert('Notice', 'Não ha nenhum Pedido de Venda aguardando a conferência da Lista de Material.').then(function(res) {
                             });
                         }
                     } else
@@ -139,7 +139,7 @@ altamiraAppControllers.controller('BomListCtrl',
                     }
                 }, function(response) {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Please try again');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                 });
             };
             $scope.loadBOM();
@@ -233,11 +233,11 @@ altamiraAppControllers.controller('BomListCtrl',
                                         }
                                     }, function() {
                                         $scope.loading = false;
-                                        services.showAlert('Falhou', 'Please try again');
+                                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                                     });
                                 }, function(response) {
                                     $scope.loading = false;
-                                    services.showAlert('Falhou', 'Please try again');
+                                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                                 });
                                 $scope.hideLoading();
                             }
