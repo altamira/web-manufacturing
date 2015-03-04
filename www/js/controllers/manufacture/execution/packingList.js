@@ -10,6 +10,7 @@ altamiraAppControllers.controller('ManufactureExecutionPackingCtrl',
                 Restangular.one('shipping/execution', orderId).get().then(function(response) {
                     $scope.loading = false;
                     $scope.orderData = response.data;
+                    console.log(JSON.stringify($scope.orderData));
                     $scope.finalList = [];
                     for (var j = 0; j < $scope.orderData.item.length; j++)
                     {
@@ -33,6 +34,7 @@ altamiraAppControllers.controller('ManufactureExecutionPackingCtrl',
                                 $scope.tempListComponent.weightType = $scope.orderData.item[j].component[k].weight.unit.symbol;
                                 $scope.tempListComponent.quantity = $scope.orderData.item[j].component[k].quantity.value;
                                 $scope.tempListComponent.delivery = $scope.orderData.item[j].component[k].delivery[l];
+                                $scope.tempListComponent.remainingQuantity = $scope.orderData.item[j].component[k].remaining.value;
                                 $scope.tempList.delivery.push($scope.tempListComponent);
                             }
                         }
@@ -49,7 +51,7 @@ altamiraAppControllers.controller('ManufactureExecutionPackingCtrl',
             };
             $scope.getOrderData($scope.executionId);
             $scope.goBack = function() {
-                $location.path('/shipping/execution');
+                $location.path('/manufacture/execution/list');
             }
             $scope.remainingQtnArr = [];
             $scope.changeRemainingQun = function() {

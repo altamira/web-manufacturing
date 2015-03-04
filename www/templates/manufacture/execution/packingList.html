@@ -139,7 +139,8 @@
                                     </td>
                                     <td class="edit-text width-42" ng-click='updatePart(orderData.id,data.id,component.componentId)'  style="cursor: pointer;">{{component.description}}</td>
                                     <td class="edit-text align-center width-10">{{component.color}}</td>
-                                    <td class="edit-info align-right width-9">{{component.weight * component.delivery.quantity.value | setDecimal:3}}<span style="margin-left: 5px;">{{component.weightType}}</span></td>
+                                    <td class="edit-info align-right width-9" ng-if='component.weight > 0'>{{(component.weight / component.quantity) * component.remainingQuantity | setDecimal:3}}<span style="margin-left: 5px;">{{component.weightType}}</span></td>
+                                    <td class="edit-info align-right width-9" ng-if='component.weight == 0'>0</td>
                                     <td class="edit-text align-center width-3">
                                         <i class="icon plus-icon fa-square-o" change-remaining-quantity dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}" ng-if="component.delivery.remaining.value > 0"></i>
                                         <i class="icon plus-icon fa-square-o" dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}" ng-if="component.delivery.remaining.value < 1" style="cursor: not-allowed"></i>
