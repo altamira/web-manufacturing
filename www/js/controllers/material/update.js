@@ -7,7 +7,6 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
             Restangular.all('common').one('material', $scope.materialId).get().then(function(response) {
                 $scope.loading = false;
                 $scope.materialTypeText = response.data.type.substring(response.data.type.lastIndexOf('.') + 1, response.data.type.length);
-                console.log(JSON.stringify(response.data));
                 Restangular.one('measurement/unit').get({magnitude: 'dimencional'}).then(function(response) {
                     $scope.unitLengthBox = response.data;
                 }, function(response) {
@@ -95,7 +94,6 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                     $scope.postData.component = [];
                     switch ($scope.materialTypeText) {
                         case 'Product':
-                            console.log(JSON.stringify($scope.material));
                             $scope.postData.type = "br.com.altamira.data.model.sales.Product";
                             $scope.postData.width = {};
                             $scope.postData.width.expression = $scope.material.width;
@@ -192,8 +190,6 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
 
                             break;
                     }
-                    console.log(JSON.stringify($scope.postData));
-//                    Restangular.all('common').all('material').customPUT($scope.postData).then(function(response) {
                     $scope.materialBaseUrl.customPUT($scope.postData).then(function(response) {
                         $scope.loading = false;
                         services.showAlert('Success', 'Processo foi gravado com sucesso !').then(function(res) {

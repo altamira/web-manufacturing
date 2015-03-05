@@ -85,26 +85,6 @@ altamiraAppControllers.controller('MaterialListCtrl',
                 }
             };
             $scope.searchMaterial = function(text) {
-//                $scope.searchText = text;
-//                if ($scope.isDataSearch == '')
-//                {
-//                    $scope.resetMaterial();
-//                }
-//                if ($scope.searchText == '' && $scope.isDataSearch != '')
-//                {
-//                    $scope.resetMaterial();
-//                    $scope.isDataSearch = '';
-//                }
-//                if ($scope.searchText != '' && ($scope.tempSearch == $scope.searchText))
-//                {
-//                    $scope.tempSearch = $scope.searchText;
-//                }
-//                else
-//                {
-//                    $scope.resetMaterial();
-//                    $scope.isDataSearch = '';
-//                    $scope.tempSearch = $scope.searchText;
-//                }
                 if (text != '')
                 {
                     $scope.resetMaterial();
@@ -182,7 +162,6 @@ altamiraAppControllers.controller('MaterialListCtrl',
 
             $scope.materialTypeModalClose = function() {
                 $scope.materialType.hide();
-//                $scope.materialListModalShow();
             };
 
             $scope.selectMaterialType = function(type) {

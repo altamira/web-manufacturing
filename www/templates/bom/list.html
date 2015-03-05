@@ -42,25 +42,9 @@
                                 <div class="col">
                                     <div class="item-list1 item-icon-right" ng-repeat="item in bom | filter: searchText">
                                         <p class="text-center-middle1" ng-click="view(item.id)">{{item.number}} {{item.customer}}</p>
-<!--                                        <i ng-if="item.checked != ''" class="icon fa-square-o fa-check-square-o" toggle-class ng-click='makeUnchecked(item.id,item.number)'></i>
                                         <i ng-if="item.checked == ''" class="icon fa-square-o" toggle-class ng-click='makeChecked(item.id,item.number)'></i>-->
                                         <i ng-if="item.checked != ''" class="{{item.id}} icon fa-square-o fa-check-square-o" check-logic dataitemid='{{item.id}}' dataitemnumber='{{item.numer}}'></i>
                                         <i ng-if="item.checked == ''" class="{{item.id}} icon fa-square-o" check-logic dataitemid='{{item.id}}' dataitemnumber='{{item.numer}}'></i>
-
-                                        <!--                                        <i class="icon">
-                                                                                    <label>
-                                                                                        <div class="checkbox checkbox-input-hidden disable-pointer-events">
-                                                                                            <div ng-if="item.checked != ''">
-                                                                                                <input type="checkbox" ng-click='makeUnchecked(item.id,item.number)'>
-                                                                                                <i class="fa-check-square-o"></i>
-                                                                                            </div>
-                                                                                            <div ng-if="item.checked == ''" >
-                                                                                                <input type="checkbox" ng-click='makeChecked(item.id,item.number)'>
-                                                                                                <i class="fa-square-o"></i>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </label>
-                                                                                </i>-->
                                     </div>
                                 </div>
                             </div>

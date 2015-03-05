@@ -144,7 +144,6 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                 $ionicSideMenuDelegate.toggleLeft();
             };
             $scope.createPackingListPage = function() {
-                console.log(JSON.stringify('NIsarg'));
                 $location.path('/shipping/execution/packinglist/create');
             }
         });

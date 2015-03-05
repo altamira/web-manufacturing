@@ -268,7 +268,6 @@ altamiraApp.directive('toDate', function() {
 altamiraApp.directive('toNewDate', function() {
     return {
         link: function(scope, el, attr) {
-            console.log(JSON.stringify(attr.defaultdate));
             $(el).datepicker({
                 dateFormat: 'dd/mm/yy',
                 inline: true,
@@ -373,62 +372,14 @@ altamiraApp.directive('componentDate', function() {
 });
 altamiraApp.directive('getQuantity', function() {
     return function(scope, el, attrs) {
-        console.log(JSON.stringify(parseInt(scope.divideData.chnDateTotalQuantity) - parseInt(scope.divideData.quantity1)));
-    }
-});
-altamiraApp.directive('loadHtml', function() {
-    return function(scope, el, attrs) {
-        $(el).load('templates/menu.html');
     }
 });
 altamiraApp.directive('datarowLoad', function() {
     return function(scope, el, attrs) {
-//        $(".dataRow").mCustomScrollbar({
-//            axis: "x",
-//            theme: "inset-3",
-//            scrollButtons: {enable: true},
-//            scrollbarPosition: "outside"
-//        });
     }
 });
 altamiraApp.directive('sortableFunc', ['$timeout', function(grid) {
         return function(scope, el, attrs) {
-//            var loadGrid = function() {
-//
-//                $(document).ready(function() {
-//                    $(".dragDiv").draggable({
-//                        revert: 'invalid'
-//                    });
-//                    $(".makeDroppable").droppable({
-//                        accept: function(item) {
-//                            return $(this).closest("tr").is(item.closest("tr")) && $(this).find("*").length == 0;
-//                        },
-//                        drop: function(event, ui) {
-//                            scope.changeDelDateByDrag($(this).parent().attr('class'), ui.draggable.attr('id'), $(this).data('day'));
-//
-//                            var $this = $(this);
-//                            $this.append(ui.draggable.css({
-//                                top: 0,
-//                                left: '0px !important'
-//                            }));
-//                            ui.draggable.position({
-//                                my: "center",
-//                                at: "center",
-//                                of: $this,
-//                                using: function(pos) {
-//                                    $(this).animate(pos, 500, "linear", function() {
-//                                        $(this).css('top', '0px');
-//                                        $(this).css('left', '0px');
-//                                    });
-//                                }
-//                            });
-//                        }
-//                    });
-//                });
-//            };
-//            setTimeout(function() {
-//                loadGrid();
-//            }, 100);
         }
     }]);
 var tempMaterialId = '';
@@ -470,9 +421,6 @@ altamiraApp.directive('selectDelivery', function(services) {
                 scope.itemPartIdArr.splice(scope.itemPartIdArr.indexOf(parseInt(attr.datapart)), 1);
                 scope.itemPartDeliveryArr.splice(scope.itemPartDeliveryArr.indexOf(parseInt(attr.datadelivery)), 1);
             }
-            console.log(JSON.stringify(scope.itemId));
-            console.log(JSON.stringify(scope.itemPartIdArr));
-            console.log(JSON.stringify(scope.itemPartDeliveryArr));
         });
 
     }
@@ -505,11 +453,7 @@ altamiraApp.directive('changeRemainingQuantity', function(services) {
             {
                 scope.remainingQtnArr.splice(scope.remainingQtnArr.indexOf(parseInt(attr.datadelivery)), 1);
             }
-//            console.log(JSON.stringify($("[datadelivery='"+attr.datadelivery+"']").attr('dataitem')));
-//            console.log(JSON.stringify(scope.remainingQtnArr));
-//            scope.changeRemainingQun($('#remaining_' + attr.datadelivery).val(), attr.dataitem, attr.datapart, attr.datadelivery);
         });
-
     }
 });
 altamiraApp.directive('leftsideMenu', function(services) {

@@ -24,21 +24,6 @@ altamiraApp.service('services', function($ionicPopup, $window, $state, $statePar
         },
     };
 });
-
-//altamiraApp.service('Unit', function(Restangular, services) {
-//    this.color = function() {
-//        Restangular.one('common/color').get({max: 0}).then(function(response) {
-//            return response.data;
-//        }, function(response) {
-//            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
-//        });
-//    }
-//
-//    this.method2 = function() {
-//        return 'nisarg2';
-//    }
-//});
-
 altamiraApp.factory('Unit', function(Restangular, services) {
 
     var factory = {};

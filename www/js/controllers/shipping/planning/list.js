@@ -768,7 +768,6 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         }
                         $scope.finalArr.push(tempFinal);
                     }
-//                    console.log(JSON.stringify($scope.finalArr));
                     $scope.makeCalender();
                     setTimeout(function() {
                         $scope.decorateTable();

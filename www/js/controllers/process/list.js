@@ -63,6 +63,7 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                         $scope.range();
                     }
                 }, function(response) {
+                    $scope.loading = false;
                     services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             };
@@ -85,27 +86,6 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
             };
 
             $scope.searchProcess = function(text) {
-//                $scope.searchText = text;
-//                if ($scope.isDataSearch == '')
-//                {
-//                    $scope.resetProcess();
-//                }
-//                if ($scope.searchText == '' && $scope.isDataSearch != '')
-//                {
-//                    $scope.resetProcess();
-//                    $scope.isDataSearch = '';
-//                }
-//                if ($scope.searchText != '' && ($scope.tempSearch == $scope.searchText))
-//                {
-//                    $scope.tempSearch = $scope.searchText;
-//                }
-//                else
-//                {
-//                    $scope.resetProcess();
-//                    $scope.isDataSearch = '';
-//                    $scope.tempSearch = $scope.searchText;
-//                }
-//                $scope.loadProcess();
                 if (text != '')
                 {
                     $scope.resetProcess();

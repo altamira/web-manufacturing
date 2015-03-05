@@ -27,7 +27,6 @@ altamiraAppControllers.controller('ManufacturingProcessCreateOperationCtrl',
                     $scope.postdata.use = [];
                     $scope.postdata.consume = [];
                     $scope.postdata.produce = [];
-                    console.log(JSON.stringify($scope.postdata));
                     Restangular.one('manufacturing/process', $scope.processId).all('operation').post($scope.postdata).then(function(response) {
                         $scope.loading = false;
                         if (response.status == 201) {
@@ -78,7 +77,6 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                         {
                             Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).one('sketch', response.data.sketch.id).get().then(function(response1) {
                                 $scope.loading = false;
-                                console.log(JSON.stringify(response1.data.image));
                                 $scope.operationData.sketchVersion = response1.data.version;
                                 $scope.operationData.sketchId = response1.data.id;
                                 $scope.operationData.sketch = response1.data.image;
@@ -122,10 +120,8 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
 
                     Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).get().then(function(response1) {
                         $scope.postdata.version = response1.data.version;
-                        console.log(JSON.stringify($scope.postdata));
                         Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).customPUT($scope.postdata).then(function(response) {
                             $scope.loading = false;
-//                            services.goToProcessUpdateForm($scope.processId);
                         }, function(response) {
                             $scope.loading = false;
                             services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');

@@ -10,7 +10,6 @@ altamiraAppControllers.controller('ManufactureExecutionPackingCtrl',
                 Restangular.one('shipping/execution', orderId).get().then(function(response) {
                     $scope.loading = false;
                     $scope.orderData = response.data;
-                    console.log(JSON.stringify($scope.orderData));
                     $scope.finalList = [];
                     for (var j = 0; j < $scope.orderData.item.length; j++)
                     {
