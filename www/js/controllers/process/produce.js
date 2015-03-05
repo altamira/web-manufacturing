@@ -69,7 +69,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
                             $scope.postdata.material.component = [];
 
                             $scope.postdata.quantity = {};
-                            $scope.postdata.quantity.value = $scope.produceData.quantity;
+                            $scope.postdata.quantity.expression = $scope.produceData.quantity;
                             $scope.postdata.quantity.unit = {};
                             Restangular.one('measurement/unit', $scope.produceData.unit).get().then(function(response) {
                                 $scope.postdata.quantity.unit.id = response.data.id;

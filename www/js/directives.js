@@ -591,37 +591,6 @@ function totalWeightCal() {
             $th.removeClass('totalWeightShow');
             $th.html('');
         }
-//        if (tempTotalWeight != 0 && (tempTotalWeight / 1000 < 40))
-//        {
-//            $th.addClass('totalWeightShow');
-//            $th.addClass('green');
-//            if (tempTotalWeight >= 1000)
-//            {
-//                var ton = Math.floor(tempTotalWeight / 1000);
-//                $th.html(ton + ' T');
-//            } else
-//            {
-//                $th.html(Math.ceil(tempTotalWeight));
-//            }
-//        } else if (tempTotalWeight != 0 && (tempTotalWeight / 1000 > 40))
-//        {
-//            $th.addClass('totalWeightShow');
-//            $th.addClass('red');
-//            if (tempTotalWeight >= 1000)
-//            {
-//                var ton = Math.floor(tempTotalWeight / 1000);
-//                $th.html(ton + ' T');
-//            }
-//            else
-//            {
-//                $th.html(Math.ceil(tempTotalWeight));
-//            }
-//        }
-//        else
-//        {
-//            $th.removeClass('totalWeightShow');
-//            $th.html('');
-//        }
     });
 }
 function isNumber(o) {
@@ -637,7 +606,7 @@ function makeDummyRowLeft() {
     var dataTableRowLen = $('.dataTable tr').length;
     if (dataTableRowLen < totalrow)
     {
-        for (usedrow; usedrow < totalrow; usedrow++)
+        for (usedrow; usedrow <= totalrow; usedrow++)
         {
             $('.dataTable tr:last').after('<tr><td></td><td></td><td></td><td></td><td></td></tr>');
         }
@@ -645,10 +614,10 @@ function makeDummyRowLeft() {
 
 }
 function makeDummyRowRight() {
-    var totalrow = 21;
+    var totalrow = 23;
     var usedrow = $('#orderListLength').val();
     var mainTableRowLen = $('.mainTable tr').length;
-    if (mainTableRowLen < totalrow)
+    if (usedrow < mainTableRowLen)
     {
         var mainTableTR = '<tr style="height: 30px;">';
         $('.mainTable tr:nth-last-child(2) td').each(function() {
@@ -661,7 +630,7 @@ function makeDummyRowRight() {
             }
         });
         mainTableTR += '</tr>';
-        for (usedrow; usedrow <= totalrow; usedrow++)
+        for (usedrow; usedrow < totalrow; usedrow++)
         {
             $('.mainTable tr:last').before(mainTableTR);
         }

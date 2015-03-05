@@ -184,32 +184,32 @@ altamiraAppControllers.controller('CommonCtrl',
                             materialBaseUrl = Restangular.all('sales').all('product');
                             $scope.postData.type = "br.com.altamira.data.model.sales.Product";
                             $scope.postData.width = {};
-                            $scope.postData.width.value = 0;
-                            $scope.postData.width.value = $scope.material.width;
+                            $scope.postData.width.expression = 0;
+                            $scope.postData.width.expression = $scope.material.width;
                             $scope.postData.width.unit = {};
                             $scope.postData.width.unit.id = $scope.material.widthType;
 
                             $scope.postData.height = {};
-                            $scope.postData.height.value = 0;
-                            $scope.postData.height.value = $scope.material.height;
+                            $scope.postData.height.expression = 0;
+                            $scope.postData.height.expression = $scope.material.height;
                             $scope.postData.height.unit = {};
                             $scope.postData.height.unit.id = $scope.material.heightType;
 
                             $scope.postData.length = {};
-                            $scope.postData.length.value = 0;
-                            $scope.postData.length.value = $scope.material.length;
+                            $scope.postData.length.expression = 0;
+                            $scope.postData.length.expression = $scope.material.length;
                             $scope.postData.length.unit = {};
                             $scope.postData.length.unit.id = $scope.material.lengthType;
 
                             $scope.postData.weight = {};
-                            $scope.postData.weight.value = 0;
-                            $scope.postData.weight.value = $scope.material.weight;
+                            $scope.postData.weight.expression = 0;
+                            $scope.postData.weight.expression = $scope.material.weight;
                             $scope.postData.weight.unit = {};
                             $scope.postData.weight.unit.id = $scope.material.weightType;
 
                             $scope.postData.depth = {};
-                            $scope.postData.depth.value = 0;
-                            $scope.postData.depth.value = $scope.material.depth;
+                            $scope.postData.depth.expression = 0;
+                            $scope.postData.depth.expression = $scope.material.depth;
                             $scope.postData.depth.unit = {};
                             $scope.postData.depth.unit.id = $scope.material.depthType;
                             break;
@@ -217,32 +217,32 @@ altamiraAppControllers.controller('CommonCtrl',
                             materialBaseUrl = Restangular.all('sales').all('component');
                             $scope.postData.type = "br.com.altamira.data.model.sales.Component";
                             $scope.postData.width = {};
-                            $scope.postData.width.value = 0;
-                            $scope.postData.width.value = $scope.material.width;
+                            $scope.postData.width.expression = 0;
+                            $scope.postData.width.expression = $scope.material.width;
                             $scope.postData.width.unit = {};
                             $scope.postData.width.unit.id = $scope.material.widthType;
 
                             $scope.postData.height = {};
-                            $scope.postData.height.value = 0;
-                            $scope.postData.height.value = $scope.material.height;
+                            $scope.postData.height.expression = 0;
+                            $scope.postData.height.expression = $scope.material.height;
                             $scope.postData.height.unit = {};
                             $scope.postData.height.unit.id = $scope.material.heightType;
 
                             $scope.postData.length = {};
-                            $scope.postData.length.value = 0;
-                            $scope.postData.length.value = $scope.material.length;
+                            $scope.postData.length.expression = 0;
+                            $scope.postData.length.expression = $scope.material.length;
                             $scope.postData.length.unit = {};
                             $scope.postData.length.unit.id = $scope.material.lengthType;
 
                             $scope.postData.weight = {};
-                            $scope.postData.weight.value = 0;
-                            $scope.postData.weight.value = $scope.material.weight;
+                            $scope.postData.weight.expression = 0;
+                            $scope.postData.weight.expression = $scope.material.weight;
                             $scope.postData.weight.unit = {};
                             $scope.postData.weight.unit.id = $scope.material.weightType;
 
                             $scope.postData.depth = {};
-                            $scope.postData.depth.value = 0;
-                            $scope.postData.depth.value = $scope.material.depth;
+                            $scope.postData.depth.expression = 0;
+                            $scope.postData.depth.expression = $scope.material.depth;
                             $scope.postData.depth.unit = {};
                             $scope.postData.depth.unit.id = $scope.material.depthType;
                             break;
@@ -253,20 +253,20 @@ altamiraAppControllers.controller('CommonCtrl',
                             $scope.postData.treatment = $scope.material.treatment;
 
                             $scope.postData.thickness = {};
-                            $scope.postData.thickness.value = 0;
-                            $scope.postData.thickness.value = $scope.material.thickness;
+                            $scope.postData.thickness.expression = 0;
+                            $scope.postData.thickness.expression = $scope.material.thickness;
                             $scope.postData.thickness.unit = {};
                             $scope.postData.thickness.unit.id = $scope.material.widthType;
 
                             $scope.postData.width = {};
-                            $scope.postData.width.value = 0;
-                            $scope.postData.width.value = $scope.material.width;
+                            $scope.postData.width.expression = 0;
+                            $scope.postData.width.expression = $scope.material.width;
                             $scope.postData.width.unit = {};
                             $scope.postData.width.unit.id = $scope.material.widthType;
 
                             $scope.postData.length = {};
-                            $scope.postData.length.value = 0;
-                            $scope.postData.length.value = $scope.material.length;
+                            $scope.postData.length.expression = 0;
+                            $scope.postData.length.expression = $scope.material.length;
                             $scope.postData.length.unit = {};
                             $scope.postData.length.unit.id = $scope.material.lengthType;
                             break;

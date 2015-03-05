@@ -285,7 +285,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
 
             $scope.backToCreatePage = function() {
                 $scope.materialImportList.hide();
-                $scope.materialImportList.hide();
+                $scope.materialType.hide();
             };
 
             $scope.pageImportMaterial = function() {
