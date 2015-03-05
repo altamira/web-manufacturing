@@ -10,7 +10,6 @@
             <div class="buttons header-margin">
                 <button type="button" class="button fa-arrow-left" ng-click="goBack()"></button>
                 <span class="btn-separator"></span>
-                <!--<h4 class="mf-page-titles">&nbsp;<span ng-bind="operationData.sequence"></span> - <span ng-bind="operationData.name"></span>&nbsp;</h4>-->
                 <h4 class="mf-page-titles">&nbsp;{{operationData.sequence}} - {{operationData.name}}&nbsp;</h4>
                 <span class="btn-separator"></span>
                 <button class="button fa-check" ng-click="submitted=true" ></button>
@@ -24,7 +23,6 @@
                     <div class="list list-row">
                         <span class="input-label text-bold">Sequencia</span>
                         <label class="item item-input input-box-extra">
-                            <!--<input type="text" name="sequence" number-mask="" ng-model="operationData.sequence" required/>-->
                             <input type="number" name="sequence" number-mask ng-model="operationData.sequence" required/>
                         </label>
                         <label class="extra-error" ng-show="submitted && operationForm.sequence.$error.required">Sequence field is required.</label>

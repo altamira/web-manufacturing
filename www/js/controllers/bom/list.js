@@ -25,7 +25,7 @@ altamiraAppControllers.controller('BomListCtrl',
                                 }
                             }
                             services.showAlert('Success', 'A Lista de Material do Pedido ' + itemNumber + ' foi marcada como conferida.').then(function(res) {
-                                $('[dataitemid="'+itemId+'"]').parent().remove();
+                                $('[dataitemid="' + itemId + '"]').parent().remove();
                                 $scope.pageBOM();
                             });
                         }, function(response) {
@@ -266,22 +266,5 @@ altamiraAppControllers.controller('BomListCtrl',
             $scope.newBOM = function() {
                 $location.path('/bom/create');
             };
-            // first load
-//            $scope.search.run();
             $scope.checkBtn = 0;
-            // add page to the cache
-//            $scope.$watch('search.last',
-//                    function() {
-//                        if ($scope.search.last != undefined) {
-//                            if ($scope.search.last.length === 0) {
-//                                alert('Nenhum registro encontrado');
-//                                $scope.search.forward = false;
-//                            } else {
-//                                $scope.search.pages.push($scope.search.last);
-//                                $scope.search.page = $scope.search.pages.length - 1;
-//                            }
-//                        }
-//                    }
-//            );
-
         });

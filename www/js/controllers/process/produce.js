@@ -69,8 +69,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
                             $scope.postdata.material.component = [];
 
                             $scope.postdata.quantity = {};
-//                            $scope.postdata.quantity.value = parseFloat($scope.produceData.quantity);
-                            $scope.postdata.quantity.value = $scope.produceData.quantity;
+                            $scope.postdata.quantity.expression = $scope.produceData.quantity;
                             $scope.postdata.quantity.unit = {};
                             Restangular.one('measurement/unit', $scope.produceData.unit).get().then(function(response) {
                                 $scope.postdata.quantity.unit.id = response.data.id;
@@ -82,7 +81,6 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
 
                                 if (method == 'POST')
                                 {
-                                    console.log(JSON.stringify($scope.postdata));
                                     Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).all('produce').post($scope.postdata).then(function(response) {
                                         $scope.loading = false;
                                         if (response.status == 201) {
@@ -129,7 +127,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
                 Restangular.one('common/material').get({code: $scope.produceData.code}).then(function(response) {
                     if (response.data != '')
                     {
-                        $location.path('/material/update/'+response.data.id);
+                        $location.path('/material/update/' + response.data.id);
                     }
                     else
                     {

@@ -47,7 +47,7 @@
 
 @media (max-width: 1167px){
     .logo-des { color:#fff; font-size:51px; font-weight:300; line-height:52px; padding:12px 0 35px; float:left; text-align:left; display:block; font-family: 'Open Sans',sans-serif;}
-    .desktop-view { display:none;}
+    /*.desktop-view { display:none;}*/
     .col-20-des {flex:inherit;}
     .logo-des img { top:5px; position:relative;}
     .login-container .desktop-view { display: none;    }
@@ -68,7 +68,7 @@
 
 @media (max-width: 1023px){
     .item-input-search {width: 93%;}
-    .mobile-view { display: block}
+    /*.mobile-view { display: block}*/
     .edit-content .fa-plus-cross-circle-1:before {float: none; left: auto; right: 18px; top: 0;}
     .right-align{right: -7px !important;}
     .croqui-img {width: 100%;}

@@ -126,10 +126,8 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
                                 $scope.postData.weight.unit.id = $scope.partData.weightType;
                                 if ($scope.action == 'create')
                                 {
-                                    console.log(JSON.stringify($scope.postData));
                                     Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).all('component').post($scope.postData).then(function(response) {
                                         $scope.loading = false;
-//                                        $location.path('/bom/component/update/' + $scope.bomId + '/' + $scope.itemId + '/' + response.data.id);
                                         $location.path('/bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
                                     }, function() {
                                         $scope.loading = false;
@@ -140,7 +138,6 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
                                 {
                                     Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('component', $scope.partId).get().then(function(response1) {
                                         $scope.postData.version = response1.data.version;
-                                        console.log(JSON.stringify($scope.postData));
                                         Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('component', $scope.partId).customPUT($scope.postData).then(function(response) {
                                             $scope.loading = false;
                                             $location.path('/bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
@@ -512,7 +509,6 @@ altamiraAppControllers.controller('BomPartUpdateCtrl',
                         $scope.partData.weight = 0.000001;
                     }
                     $scope.partData.weightType = data.weight.unit.id;
-                    console.log(JSON.stringify(data));
                 }, function(response) {
                     services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
@@ -521,7 +517,6 @@ altamiraAppControllers.controller('BomPartUpdateCtrl',
             $scope.submitPartForm = function(isValid) {
                 if (isValid) {
                     $scope.loading = true;
-
                     Restangular.one('common/material').get({code: $scope.partData.code}).then(function(response) {
 
                         if (response.data != '')
