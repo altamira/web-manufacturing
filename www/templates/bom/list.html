@@ -42,7 +42,7 @@
                                 <div class="col">
                                     <div class="item-list1 item-icon-right" ng-repeat="item in bom | filter: searchText">
                                         <p class="text-center-middle1" ng-click="view(item.id)">{{item.number}} {{item.customer}}</p>
-                                        <i ng-if="item.checked == ''" class="icon fa-square-o" toggle-class ng-click='makeChecked(item.id,item.number)'></i>-->
+                                        <i ng-if="item.checked == ''" class="icon fa-square-o" toggle-class ng-click='makeChecked(item.id,item.number)'></i>
                                         <i ng-if="item.checked != ''" class="{{item.id}} icon fa-square-o fa-check-square-o" check-logic dataitemid='{{item.id}}' dataitemnumber='{{item.numer}}'></i>
                                         <i ng-if="item.checked == ''" class="{{item.id}} icon fa-square-o" check-logic dataitemid='{{item.id}}' dataitemnumber='{{item.numer}}'></i>
                                     </div>

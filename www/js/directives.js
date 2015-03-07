@@ -460,7 +460,7 @@ altamiraApp.directive('leftsideMenu', function(services) {
     return function(scope, elm, attr) {
         elm.html('<div class="row">\n\
                     <div class="col" style="color: white;text-align: center">\n\
-                        <a href="http://localhost/altamira_main/www/#/blacktheme/home" style="text-decoration: none;color: #ffffff">\n\
+                        <a href="http://sistema.altamira.com.br/#/blacktheme/home" style="text-decoration: none;color: #ffffff">\n\
                             <span class="logo-side-menu"></span>\n\
                             <span style="font-size: 30px; float:left; padding-top:16px; padding-left:10px; font-family: Open Sans">Altamira</span>\n\
                         </a>\n\
