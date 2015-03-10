@@ -54,6 +54,7 @@ altamiraAppControllers.controller('ShippingExecutionPackingCtrl',
                     $scope.finalList.sort(function(a, b) {
                         return a.item - b.item;
                     });
+                    console.log(JSON.stringify($scope.finalList));
                 }, function() {
                     $scope.loading = false;
                     services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');

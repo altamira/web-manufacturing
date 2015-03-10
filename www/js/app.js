@@ -153,6 +153,7 @@ altamiraApp.config(['$routeProvider',
 altamiraApp.config(function(RestangularProvider) {
     RestangularProvider.setBaseUrl('http://data.altamira.com.br/data-rest-0.8.0-SNAPSHOT');
     sessionStorage.setItem('reportBaseUrl', 'http://data.altamira.com.br/manufacturing-report-0.8.0-SNAPSHOT');
+    sessionStorage.setItem('MainRestangular', 'http://localhost/altamira_main/www/#/blacktheme/home');
     RestangularProvider.setFullResponse(true);
     RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json; charset=iso-8859-1'});
     RestangularProvider.setRestangularFields({
@@ -181,5 +182,4 @@ altamiraApp.factory('IntegrationRestangular', function(Restangular) {
         RestangularProvider.setDefaultHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
     });
 });
-
 var altamiraAppControllers = angular.module('altamiraAppControllers', []);

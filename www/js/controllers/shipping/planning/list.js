@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('ShippingPlanningCtrl',
-        function($scope, $location, $route, Restangular, services, $ionicModal, CommonFun, $ionicSideMenuDelegate, $http) {
+        function($scope, $location, $route, Restangular, services, $ionicModal, CommonFun, $ionicSideMenuDelegate) {
             var pt = moment().locale('pt-br');
             $scope.today = pt.format('dddd, LL');
             moment.locale('pt-br');

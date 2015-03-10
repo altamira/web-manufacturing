@@ -283,6 +283,7 @@ altamiraAppControllers.controller('CommonCtrl',
                             materialBaseUrl = Restangular.all('manufacture').all('tooling');
                             break;
                     }
+                    console.log(JSON.stringify($scope.postData));
                     materialBaseUrl.post($scope.postData).then(function(response) {
                         $scope.loading = false;
                         if (response.status == 201) {
