@@ -55,7 +55,7 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                         $scope.material.areaType = response.data.area.unit.id;
                         break;
                     case 'Material':
-                        $scope.materialBaseUrl = Restangular.all('purchase').one('material', $scope.materialId);
+                        $scope.materialBaseUrl = Restangular.all('purchase').one('steel', $scope.materialId);
                         $scope.material.lamination = response.data.lamination;
                         $scope.material.treatment = response.data.treatment;
                         $scope.material.thickness = response.data.thickness.expression;
@@ -64,6 +64,8 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                         $scope.material.widthType = response.data.width.unit.id;
                         $scope.material.length = response.data.length.expression;
                         $scope.material.lengthType = response.data.length.unit.id;
+                        $scope.material.weight = response.data.weight.expression;
+                        $scope.material.weightType = response.data.weight.unit.id;
                         break;
                     case 'Inputs':
                         $scope.materialBaseUrl = Restangular.all('purchase').one('inputs', $scope.materialId);
@@ -110,6 +112,12 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                             $scope.postData.length.unit = {};
                             $scope.postData.length.unit.id = $scope.material.lengthType;
 
+                            $scope.postData.area = {};
+                            $scope.postData.area.expression = 0;
+                            $scope.postData.area.expression = $scope.material.area;
+                            $scope.postData.area.unit = {};
+                            $scope.postData.area.unit.id = $scope.material.areaType;
+
                             $scope.postData.weight = {};
                             $scope.postData.weight.expression = $scope.material.weight;
                             $scope.postData.weight.unit = {};
@@ -141,6 +149,12 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                             $scope.postData.length.expression = $scope.material.length;
                             $scope.postData.length.unit = {};
                             $scope.postData.length.unit.id = $scope.material.lengthType;
+
+                            $scope.postData.area = {};
+                            $scope.postData.area.expression = 0;
+                            $scope.postData.area.expression = $scope.material.area;
+                            $scope.postData.area.unit = {};
+                            $scope.postData.area.unit.id = $scope.material.areaType;
 
                             $scope.postData.weight = {};
                             $scope.postData.weight.expression = $scope.material.weight;
@@ -176,6 +190,12 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                             $scope.postData.length.expression = $scope.material.length;
                             $scope.postData.length.unit = {};
                             $scope.postData.length.unit.id = $scope.material.lengthType;
+
+                            $scope.postData.weight = {};
+                            $scope.postData.weight.expression = 0;
+                            $scope.postData.weight.expression = $scope.material.weight;
+                            $scope.postData.weight.unit = {};
+                            $scope.postData.weight.unit.id = $scope.material.weightType;
                             break;
                         case 'Inputs':
 

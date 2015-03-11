@@ -172,6 +172,7 @@ altamiraAppControllers.controller('CommonCtrl',
 
             $scope.submitCreateMaterial = function(isValid) {
                 if (isValid) {
+                    $scope.loading = true;
                     var materialBaseUrl = '';
                     $scope.postData = {};
                     $scope.postData.id = 0;
@@ -200,6 +201,12 @@ altamiraAppControllers.controller('CommonCtrl',
                             $scope.postData.length.expression = $scope.material.length;
                             $scope.postData.length.unit = {};
                             $scope.postData.length.unit.id = $scope.material.lengthType;
+
+                            $scope.postData.area = {};
+                            $scope.postData.area.expression = 0;
+                            $scope.postData.area.expression = $scope.material.area;
+                            $scope.postData.area.unit = {};
+                            $scope.postData.area.unit.id = $scope.material.areaType;
 
                             $scope.postData.weight = {};
                             $scope.postData.weight.expression = 0;
@@ -234,6 +241,12 @@ altamiraAppControllers.controller('CommonCtrl',
                             $scope.postData.length.unit = {};
                             $scope.postData.length.unit.id = $scope.material.lengthType;
 
+                            $scope.postData.area = {};
+                            $scope.postData.area.expression = 0;
+                            $scope.postData.area.expression = $scope.material.area;
+                            $scope.postData.area.unit = {};
+                            $scope.postData.area.unit.id = $scope.material.areaType;
+
                             $scope.postData.weight = {};
                             $scope.postData.weight.expression = 0;
                             $scope.postData.weight.expression = $scope.material.weight;
@@ -247,7 +260,7 @@ altamiraAppControllers.controller('CommonCtrl',
                             $scope.postData.depth.unit.id = $scope.material.depthType;
                             break;
                         case 'material':
-                            materialBaseUrl = Restangular.all('purchase').all('material');
+                            materialBaseUrl = Restangular.all('purchase').all('steel');
                             $scope.postData.type = "br.com.altamira.data.model.sales.Material";
                             $scope.postData.lamination = $scope.material.lamination;
                             $scope.postData.treatment = $scope.material.treatment;
@@ -269,6 +282,12 @@ altamiraAppControllers.controller('CommonCtrl',
                             $scope.postData.length.expression = $scope.material.length;
                             $scope.postData.length.unit = {};
                             $scope.postData.length.unit.id = $scope.material.lengthType;
+
+                            $scope.postData.weight = {};
+                            $scope.postData.weight.expression = 0;
+                            $scope.postData.weight.expression = $scope.material.weight;
+                            $scope.postData.weight.unit = {};
+                            $scope.postData.weight.unit.id = $scope.material.weightType;
                             break;
                         case 'inputs':
                             materialBaseUrl = Restangular.all('purchase').all('inputs');

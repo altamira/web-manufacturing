@@ -137,7 +137,7 @@
                             <label style="background-color: #eeeeee;border: 1px solid #ddd;border-radius: 5px;height: 35px;" class="item item-input">
                                 <input type="text" ng-model="material.area" name="area" required>
                             </label>
-                            <label class="extra-error" ng-show="submitted && materialUpdateForm.area.$error.required">Area field is required.</label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.area.$error.required">Area field is required.</label>
                         </div>
                     </div>
                     <div class="col">
@@ -281,6 +281,30 @@
                             <label style="border-radius: 5px;" class="item item-select">
                                 <div style="top:-2px" class="select-box-hide"></div>
                                 <select name="lengthType" ng-model="material.lengthType" class="select-box" ng-options='v.id as v.symbol for v in unitLengthBox'>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div style="padding-bottom:0" class="col">
+                        <span class="input-label text-bold">Peso</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="list">
+                            <label style="background-color: #eeeeee;border: 1px solid #ddd;border-radius: 5px;height: 35px;" class="item item-input">
+                                <input type="text"  ng-model="material.weight" name="weight" required>
+                            </label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.weight.$error.required">Peso field is required.</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="list">
+                            <label style="border-radius: 5px;" class="item item-select">
+                                <div style="top:-2px" class="select-box-hide"></div>
+                                <select name="weightType" ng-model="material.weightType" class="select-box" ng-options='v.id as v.symbol for v in unitWeightBox'>
                                 </select>
                             </label>
                         </div>

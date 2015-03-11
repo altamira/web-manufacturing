@@ -683,8 +683,8 @@ altamiraApp.directive('leftsideMenu', function(services) {
 });
 
 function leftMenuClick(showMenu){
-    $(".left-menu-items").hide();
-    $("#"+showMenu).show(500);
+    $(".left-menu-items").hide('slow');
+    $("#"+showMenu).show('slow');
 }
 
 function totalWeightCal() {
