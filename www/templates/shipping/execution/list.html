@@ -23,36 +23,92 @@
             <ion-nav-view name="menuContent" class="view-container">
                 <ion-view class="pane" nav-view="active">
                     <ion-content class="padding scroll-content ionic-scroll  has-header">
+                        <div class="row bar-calm-top">
+                            <div class="col col-50" style="display: none">
+                                <div class="button-bar bar-calm">
+                                    <a class="button topBtnRadius month" ng-click='monthlyView()' id="monthlyShowBtn">Mensal</a>
+                                    <a class="button" ng-click='weeklyView()' id="weeklyShowBtn">Semanal</a>
+                                </div>
+                            </div>
+                            <div class="col col-50 col-offset-50">
+                                <div class="button-bar bar-calm" style="float: right">
+                                    <a class="button topBtnRadius fa-list-alt" ng-click="formView()" id="formShowBtn"></a>
+                                    <a class="button fa-th month" ng-click="gridView()" id="gridShowBtn"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row planning-col">
+                            <div class="col col-33 tableTitle">Planejamento de Entrega</div>
+                            <div class="col col-67 tableTitle align-right">Hoje : {{today}}</div>
+                        </div>
                         <div class="row">
-                            <div class="col">
-                                <div class="list">
-                                    <div class="item item-input-search">
-                                        <label class="input-search-wrapper">
-                                            <i class="icon fa-small-search"></i>
-                                            <input type="text" class="input-box" placeholder="search" ng-model="searchText">
-                                        </label>
+                            <div id="form_view" class="planning-detail width-100">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="list">
+                                            <div class="item item-input-search">
+                                                <label class="input-search-wrapper">
+                                                    <i class="icon fa-small-search"></i>
+                                                    <input type="text" class="input-box" placeholder="search" ng-model="searchText">
+                                                </label>
+                                            </div>
+                                            <i class="icon fa-search search-icon" ng-click="searchPackingList(searchText)"></i>
+                                        </div>
                                     </div>
-                                    <i class="icon fa-search search-icon" ng-click="searchPackingList(searchText)"></i>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="list list-inset listing-col" ng-repeat="packing in packingData | filter: searchText">
+                                            <a class="item-list item-icon-right" ng-click="newPackingList({{packing.id}}, {{packing.delivery}})">
+                                                <span class="text-center-middle">
+                                                    {{packing.delivery | getDate}} {{packing.number}} {{packing.customer}}</span>
+                                                <i class="icon fa-arrow-right arrow-right"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="pagination">
+                                        <a ng-repeat="n in pageStack" ng-click="goPage(n)">
+                                            <span class="page" ng-class="{'active':n == startPage + 1}">{{n}}</span>
+                                        </a>
+                                        <a class="page fa-arrow-right next-arrow" ng-show='nextButton' ng-click="nextPage(pageStack.length)" ng-if="pageStack.length > 0"></a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="list list-inset listing-col" ng-repeat="packing in packingData | filter: searchText">
-                                    <a class="item-list item-icon-right" ng-click="newPackingList({{packing.id}}, {{packing.delivery}})">
-                                        <span class="text-center-middle">
-                                            {{packing.delivery | getDate}} {{packing.number}} {{packing.customer}}</span>
-                                        <i class="icon fa-arrow-right arrow-right"></i>
-                                    </a>
+                            <div id="grid_view" class="planning-detail width-100" style="display: none;">
+                                <div class="row scroll-div mainRow nested">
+                                    <table border="1" class="gridTable" sortable-func ng-if='orderData != "" && viewtype == "grid"'>
+                                        <tr>
+                                            <th class="monthTitle" colspan="{{month.days.length}}" ng-repeat="month in monthDays">{{month.name}}</th>
+                                        </tr>
+                                        <tr>
+                                            <th ng-repeat="day in days track by $index" ng-if='viewWeekly == false'>{{getDay(day)}}</th>
+                                            <th ng-repeat="day in days track by $index" ng-if='viewWeekly == true'>{{getWeekDayShort(day)}}</th>
+                                        </tr>
+                                        <tr>
+                                            <td ng-repeat="day in days track by $index" data-day='{{day}}' class='{{day}} maintable-td' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'">
+                                                <div class="cutomer-name" ng-repeat="order in finalArr" ng-if="(checkDay(order.delivery) == getDay(day)) && (checkMonth(order.delivery) == getMonth(day)) && (checkYear(order.delivery) == getYear(day))" ng-click="newPackingList({{order.id}}, {{order.delivery}})">
+                                                    <!--<p class="wrap-text">{{order.customer}}</p>-->
+                                                    {{order.customer}}
+                                                </div>
+                                            </td>
+                                        </tr>
+<!--                                        <tr ng-repeat="order in finalArr" class="{{order.id}}" ng-if="checkYear(order.delivery) <= maxYear">
+                                            <td ng-repeat="day in days track by $index" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'">
+                                                <div class="dragDiv" ng-repeat="delivery in order.components" id="{{day}}" ng-class="getCellColor(delivery.delivery,delivery.remaining.value)" ng-if="(checkDay(delivery.delivery) == getDay(day)) && (checkMonth(delivery.delivery) == getMonth(day)) && (checkYear(delivery.delivery) == getYear(day))" data-weight='{{delivery.remaining.value}}'>
+                                                    {{delivery.remaining.value | setDecimal:1}}
+                                                </div>
+                                                <div style="width: 50px;height: 30px;" ng-if="order.components == ''">&nbsp;</div>
+                                            </td>
+                                        </tr>-->
+                                        <tr class="totalWeightRow">
+                                            <td ng-repeat="day in days track by $index" data-date='{{day}}'>
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="pagination">
-                                <a ng-repeat="n in pageStack" ng-click="goPage(n)">
-                                    <span class="page" ng-class="{'active':n == startPage + 1}">{{n}}</span>
-                                </a>
-                                <a class="page fa-arrow-right next-arrow" ng-show='nextButton' ng-click="nextPage(pageStack.length)" ng-if="pageStack.length > 0"></a>
                             </div>
                         </div>
                     </ion-content>
