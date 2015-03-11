@@ -456,17 +456,25 @@ altamiraApp.directive('changeRemainingQuantity', function(services) {
         });
     }
 });
+altamiraApp.directive('showVendas', function(services) {
+    alert(3);
+    return function(scope, elm, attr) {
+        elm.bind('click', function() {
+            alert(1);
+        });
+    }
+});
 altamiraApp.directive('leftsideMenu', function(services) {
     return function(scope, elm, attr) {
         elm.html('<div class="row">\n\
                     <div class="col" style="color: white;text-align: center">\n\
-                        <a href="http://sistema.altamira.com.br/#/blacktheme/home" style="text-decoration: none;color: #ffffff">\n\
+                        <a href="'+sessionStorage.getItem('MainRestangular')+'" style="text-decoration: none;color: #ffffff">\n\
                             <span class="logo-side-menu"></span>\n\
                             <span style="font-size: 30px; float:left; padding-top:16px; padding-left:10px; font-family: Open Sans">Altamira</span>\n\
                         </a>\n\
                     </div>\n\
                 </div>\n\
-                <div class="row" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 15px;">\n\
+                <div class="row producao" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 10px;" onclick="leftMenuClick(\'producao\');">\n\
                     <div class="col" style="text-align: center;color: #ffffff;">\n\
                         <div class="row">\n\
                             <div class="col">\n\
@@ -480,8 +488,8 @@ altamiraApp.directive('leftsideMenu', function(services) {
                         </div>\n\
                     </div>\n\
                 </div>\n\
-                <div class="row list-box" style="margin-bottom:10px;">\n\
-                    <div class="col icon-list-box">\n\
+                <div id="producao" class="left-menu-items"><div class="row list-box" style="margin-bottom:10px;">\n\
+                    <div class="col icon-list-box" style="background-color: #00ABA9;">\n\
                         <a href="#/manufacturing/bom" style="text-decoration: none;color: #000000">\n\
                             <div class="row">\n\
                                 <div class="col" style="padding-top:15px;">\n\
@@ -495,7 +503,7 @@ altamiraApp.directive('leftsideMenu', function(services) {
                             </div>\n\
                         </a>\n\
                     </div>\n\
-                    <div class="col icon-list-box">\n\
+                    <div class="col icon-list-box" style="background-color: #00ABA9;">\n\
                         <a href="#/manufacturing/process/0" style="text-decoration: none;color: #000000">\n\
                             <div class="row">\n\
                                 <div class="col" style="padding-top:15px;">\n\
@@ -511,17 +519,17 @@ altamiraApp.directive('leftsideMenu', function(services) {
                     </div>\n\
                 </div>\n\
                 <div class="row list-box" style="margin-bottom:5px; padding-right:0px;">\n\
-                    <div class="col icon-box2">\n\
-                        <a href="#/material/list" style="text-decoration:none"><span class="icon-side-flag-2"></span></a>\n\
+                    <div class="col icon-box2" style="background-color: #00ABA9;">\n\
+                        <a href="#/material/list" style="text-decoration:none" title="Cadastro de Material"><span class="fa-cubes"></span></a>\n\
                     </div>\n\
-                    <div class="col  icon-box2">\n\
-                        <a href="#/shipping/planning" style="text-decoration:none"><span class="icon-side-attachment"></span></a>\n\
+                    <div class="col  icon-box2" style="background-color: #00ABA9;">\n\
+                        <a href="#/shipping/planning" style="text-decoration:none" title="Planejamento de Entrega"><span class="fa-calendar"></span></a>\n\
                     </div>\n\
-                    <div class="col  icon-box2">\n\
-                        <a href="#/shipping/execution" style="text-decoration:none"><span class="icon-side-newspaper"></span></a>\n\
+                    <div class="col  icon-box2" style="background-color: #00ABA9;">\n\
+                        <a href="#/shipping/execution" style="text-decoration:none" title="Expedicao"><span class="fa-truck"></span></a>\n\
                     </div>\n\
-                    <div class="col  icon-box2">\n\
-                        <span class="icon-side-link"></span>\n\
+                    <div class="col  icon-box2" style="background-color: #00ABA9;">\n\
+                        <a href="#" style="text-decoration:none" title="Estatistics"><span class="fa-bar-chart"></span></a>\n\
                     </div>\n\
                 </div>\n\
                 <div class="row" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 10px; padding-top:4px; padding-bottom:4px;">\n\
@@ -535,8 +543,8 @@ altamiraApp.directive('leftsideMenu', function(services) {
                         <i class="icon-side-checkbox fg-white"></i>\n\
                         <span class="icon-title">Apontamento</span>\n\
                     </div>\n\
-                </div></a>\n\
-                <div class="row" style="background-color: #a4c400;margin: auto;width: 95%;margin-bottom: 10px;">\n\
+                </div></a></div>\n\
+                <div class="row vendas" style="background-color: #a4c400;margin: auto;width: 95%;margin-bottom: 10px;" onclick="leftMenuClick(\'vendas\');">\n\
                     <div class="col" style="text-align: center;color: #ffffff;">\n\
                         <div class="row">\n\
                             <div class="col">\n\
@@ -550,7 +558,63 @@ altamiraApp.directive('leftsideMenu', function(services) {
                         </div>\n\
                     </div>\n\
                 </div>\n\
-                <div class="row" style="background-color: #00aff0;margin: auto;width: 95%;margin-bottom: 7px;">\n\
+                <div id="vendas" class="left-menu-items" style="display:none;"><div class="row list-box" style="margin-bottom:10px;">\n\
+                    <div class="col icon-list-box" style="background-color: #a4c400;">\n\
+                        <a href="#/manufacturing/bom" style="text-decoration: none;color: #000000">\n\
+                            <div class="row">\n\
+                                <div class="col" style="padding-top:15px;">\n\
+                                    <span class="icon-side-list"></span>\n\
+                                </div>\n\
+                            </div>\n\
+                            <div class="row produce-name" >\n\
+                                <div class="col">\n\
+                                    <span>Lista de Material</span>\n\
+                                </div>\n\
+                            </div>\n\
+                        </a>\n\
+                    </div>\n\
+                    <div class="col icon-list-box" style="background-color: #a4c400;">\n\
+                        <a href="#/manufacturing/process/0" style="text-decoration: none;color: #000000">\n\
+                            <div class="row">\n\
+                                <div class="col" style="padding-top:15px;">\n\
+                                    <span class="icon-side-github-6"></span>\n\
+                                </div>\n\
+                            </div>\n\
+                            <div class="row produce-name" >\n\
+                                <div class="col">\n\
+                                    <span>Processo</span>\n\
+                                </div>\n\
+                            </div>\n\
+                        </a>\n\
+                    </div>\n\
+                </div>\n\
+                <div class="row list-box" style="margin-bottom:5px; padding-right:0px;">\n\
+                    <div class="col icon-box2" style="background-color: #a4c400;">\n\
+                        <a href="#/material/list" style="text-decoration:none" title="Cadastro de Material"><span class="fa-cubes"></span></a>\n\
+                    </div>\n\
+                    <div class="col  icon-box2" style="background-color: #a4c400;">\n\
+                        <a href="#/shipping/planning" style="text-decoration:none" title="Planejamento de Entrega"><span class="fa-calendar"></span></a>\n\
+                    </div>\n\
+                    <div class="col  icon-box2" style="background-color: #a4c400;">\n\
+                        <a href="#/shipping/execution" style="text-decoration:none" title="Expedicao"><span class="fa-truck"></span></a>\n\
+                    </div>\n\
+                    <div class="col  icon-box2" style="background-color: #a4c400;">\n\
+                        <a href="#" style="text-decoration:none" title="Estatistics"><span class="fa-bar-chart"></span></a>\n\
+                    </div>\n\
+                </div>\n\
+                <div class="row" style="background-color: #a4c400;margin: auto;width: 95%;margin-bottom: 10px; padding-top:4px; padding-bottom:4px;">\n\
+                    <div class="col">\n\
+                        <i style="margin-top:6px;" class="icon-side-file-pdf fg-white"></i>\n\
+                                <span class="icon-title">Orçamento</span>\n\
+                    </div>\n\
+                </div>\n\
+                <a href="#/manufacture/execution" style="text-decoration:none"><div class="row" style="background-color: #a4c400;margin: auto;width: 95%;margin-bottom: 10px; padding-top:8px; padding-bottom:8px;">\n\
+                    <div class="col">\n\
+                        <i class="icon-side-phone fg-white"></i>\n\
+                        <span class="icon-title">Recados</span>\n\
+                    </div>\n\
+                </div></a></div>\n\
+                <div class="row" style="background-color: #00aff0;margin: auto;width: 95%;margin-bottom: 7px;" onclick="leftMenuClick(\'compras\');">\n\
                     <div class="col" style="text-align: center;color: #ffffff;">\n\
                         <div class="row">\n\
                             <div class="col">\n\
@@ -564,10 +628,64 @@ altamiraApp.directive('leftsideMenu', function(services) {
                         </div>\n\
                     </div>\n\
                 </div>\n\
-                <div class="scroll-bar scroll-bar-v"><div class="scroll-bar-indicator scroll-bar-fade-out"></div></div>');
-
+                <div id="compras" class="left-menu-items" style="display:none;"><div class="row list-box" style="margin-bottom:10px;">\n\
+                    <div class="col icon-list-box" style="background-color: #00AFF0;">\n\
+                        <a href="#" style="text-decoration: none;color: #000000">\n\
+                            <div class="row">\n\
+                                <div class="col" style="padding-top:15px;">\n\
+                                    <span class="icon-side-list"></span>\n\
+                                </div>\n\
+                            </div>\n\
+                            <div class="row produce-name" >\n\
+                                <div class="col">\n\
+                                    <span>Lista de Material</span>\n\
+                                </div>\n\
+                            </div>\n\
+                        </a>\n\
+                    </div>\n\
+                    <div class="col icon-list-box" style="background-color: #00AFF0;">\n\
+                        <a href="#" style="text-decoration: none;color: #000000">\n\
+                            <div class="row">\n\
+                                <div class="col" style="padding-top:15px;">\n\
+                                    <span class="icon-side-spin"></span>\n\
+                                </div>\n\
+                            </div>\n\
+                            <div class="row produce-name" >\n\
+                                <div class="col">\n\
+                                    <span>Processo</span>\n\
+                                </div>\n\
+                            </div>\n\
+                        </a>\n\
+                    </div>\n\
+                </div>\n\
+                <div class="row list-box" style="margin-bottom:5px; padding-right:0px;">\n\
+                    <div class="icon-box2" style="background-color: #00AFF0;max-width:21.6% !important;padding-top:12px !important">\n\
+                        <a href="#" style="text-decoration:none" title=""><span class="icon-side-camera"></span></a>\n\
+                    </div>\n\
+                    <div class="icon-box2" style="background-color: #00AFF0;max-width:21.6% !important;padding-top:12px !important">\n\
+                        <a href="#" style="text-decoration:none" title=""><span class="icon-side-share-2"></span></a>\n\
+                    </div>\n\
+                </div>\n\
+                <div class="row" style="background-color: #00AFF0;margin: auto;width: 95%;margin-bottom: 10px; padding-top:4px; padding-bottom:4px;">\n\
+                    <div class="col">\n\
+                        <i style="margin-top:6px;" class="icon-side-share-3 fg-white"></i>\n\
+                                <span class="icon-title">Cotação</span>\n\
+                    </div>\n\
+                </div>\n\
+                <a href="#" style="text-decoration:none"><div class="row" style="background-color: #00AFF0;margin: auto;width: 95%;margin-bottom: 10px; padding-top:8px; padding-bottom:8px;">\n\
+                    <div class="col">\n\
+                        <i class="icon-side-thumbs-down fg-white"></i>\n\
+                        <span class="icon-title">Devolução</span>\n\
+                    </div>\n\
+                </div></a></div>\n\
+                </div>');
     }
 });
+
+function leftMenuClick(showMenu){
+    $(".left-menu-items").hide('slow');
+    $("#"+showMenu).show('slow');
+}
 
 function totalWeightCal() {
     $('.totalWeightRow td').each(function(e) {

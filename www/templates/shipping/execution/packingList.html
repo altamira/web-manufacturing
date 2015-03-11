@@ -17,15 +17,19 @@
     <ion-content>
         <div class="view-content">
             <div class="row">
-                <div class="col col-10">
-                    <span class="input-label text-bold">Romaneio</span>
+                <div class="col col-50">
+                    <label class="item plain-text"  style="font-size: 18px;font-weight: bold;padding-left: 0px;line-height: 0;" ng-if="packingDelivery">
+                        Romaneio
+                    </label>
                     <label class="item plain-text" style="font-size: 18px;padding-left: 0px;line-height: 0;">
                         {{packingId}}
                     </label>
                 </div>
-                <div class="col col-10 col-offset-80">
-                    <span class="input-label text-bold">Data Romaneio</span>
-                    <label class="item plain-text"  style="font-size: 18px;padding-left: 0px;line-height: 0;" ng-if="packingDelivery">
+                <div class="col col-50">
+                    <label class="item plain-text"  style="font-size: 18px;font-weight: bold;padding-left: 0px;line-height: 0;text-align: right" ng-if="packingDelivery">
+                        Data Romaneio
+                    </label>
+                    <label class="item plain-text"  style="font-size: 18px;padding-left: 0px;line-height: 0;text-align: right" ng-if="packingDelivery">
                         {{packingDelivery | getDate}}
                     </label>
                 </div>
@@ -118,7 +122,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row" ng-repeat='data in finalList'>
+            <div class="row desktop-view" ng-repeat='data in finalList'>
                 <div id="item_repeat" class="width-100">
                     <div class="row" style="margin-top:-15px;">
                         <div class="col">
@@ -161,6 +165,50 @@
                                 </tr>
                             </table>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div id="item_repeat" class="mobile-view" ng-repeat='data in finalList'>
+                <div class="row" style="margin-top:-15px;">
+                    <div class="col">
+                        <div class="list"> <a class="process-item-list item-icon-right " style="padding-left:0px;">ITEM {{data.item}}</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" ng-repeat='component in data.delivery'>
+                    <div class="components-col">
+                        <div class="components-title ">
+                            <h4 class="mouse-pointer" ng-click='updatePart(data.id,component.id)'>{{component.description}}</h4>
+                            <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="4"><span>{{component.material.code}}</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                                <tr>
+                                    <td width="25%"><i class="fa fa-arrows-h"></i></td>
+                                    <td width="25%" valign="top">{{component.length.value}} {{component.length.unit.symbol}}</td>
+                                    <td width="25%" valign="top"><i class="fa fa-pencil"></i></td>
+                                    <td valign="top" align="right">{{component.color.code}}</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-arrows-v"></i></td>
+                                    <td valign="top">{{component.height.value}} {{component.height.unit.symbol}}</td>
+                                    <td width="25%" valign="top"><i class="fa fa-list-ol"></i></td>
+                                    <td valign="top" align="right">{{component.quantity.value}} {{component.quantity.unit.symbol}}</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-expand"></i></td>
+                                    <td valign="top">{{component.width.value}} {{component.width.unit.symbol}}</td>
+                                    <td valign="top"><i class="fa fa-tachometer"></i></td>
+                                    <td valign="top" align="right">{{ component.weight.value | setDecimal:3}} {{component.weight.unit.symbol}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

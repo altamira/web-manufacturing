@@ -6,8 +6,8 @@
 </div>
 <ion-nav-view class="view-container">
     <ion-side-menus>
-        <ion-side-menu-content class="menu-content pane">
-            <ion-nav-bar class="bar-positive nav-bar-container">
+        <ion-side-menu-content>
+            <ion-nav-bar class="bar-positive">
                 <div class="nav-bar-block" nav-bar="active">
                     <ion-header-bar class="bar-calm">
                         <div class="buttons header-margin">
@@ -42,7 +42,6 @@
                                 <div class="col">
                                     <div class="item-list1 item-icon-right" ng-repeat="item in bom | filter: searchText">
                                         <p class="text-center-middle1" ng-click="view(item.id)">{{item.number}} {{item.customer}}</p>
-                                        <i ng-if="item.checked == ''" class="icon fa-square-o" toggle-class ng-click='makeChecked(item.id,item.number)'></i>
                                         <i ng-if="item.checked != ''" class="{{item.id}} icon fa-square-o fa-check-square-o" check-logic dataitemid='{{item.id}}' dataitemnumber='{{item.numer}}'></i>
                                         <i ng-if="item.checked == ''" class="{{item.id}} icon fa-square-o" check-logic dataitemid='{{item.id}}' dataitemnumber='{{item.numer}}'></i>
                                     </div>
@@ -62,9 +61,13 @@
             </ion-nav-view>
         </ion-side-menu-content>
         <ion-side-menu side="left" class="sidemenu-bg">
-            <ion-content  class="left-menu" leftside-menu>
-
-            </ion-content>
+                <ion-content class="has-header scroll-content ionic-scroll">
+                    <div class="scroll" leftside-menu style="padding: 0px !important">
+                    </div>
+                    <div class="scroll-bar scroll-bar-v">
+                        <div class="scroll-bar-indicator scroll-bar-fade-out"></div>
+                    </div>
+                </ion-content>
         </ion-side-menu>
     </ion-side-menus>
 </ion-nav-view>

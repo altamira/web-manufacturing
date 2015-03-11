@@ -2202,14 +2202,21 @@
 
 
 
-.icon-list-box { background:#00aba9 ; float:left; width:50%; margin-left: 2px; margin-right: 7px; text-align:center;  height:110px; }
+.icon-list-box { float:left; width:50%; margin-left: 2px; margin-right: 7px; text-align:center;  height:110px; }
 .icon-list-box:last-child { margin-right:2px;}
 .icon-list-box .row{ padding:0px;}
 .list-box { }
 .list-box .col { padding:0px;}
 .produce-name { text-align:center; font-size:14px; text-align:center; width:100%; min-height:30px; line-height:30px; background:#fff; position:relative; top:23px;}
 
-.icon-box2 { background:#00aba9 ; float:left; width:50%; margin-left: 2px; margin-right: 7px; text-align:center; height:58px; padding-top:10px !important; }
+.icon-box2 {
+    float: left;
+    width: 50%;
+    margin-left: 2px;
+    margin-right: 7px;
+    text-align: center;
+    height: 58px;
+    padding-top: 20px !important; }
 .icon-title { font-size:22px; color:#fff; padding-left:5px;  position:relative; top:-4px;}
 .material-type-list {
     padding-left: 40px;
@@ -2332,8 +2339,8 @@
 }
 .mainTable tr th, .mainTable tr td {
     border: 1px solid black;
-    min-height: 30px;
-    min-width: 50px;
+    height: 30px;
+    min-width: 150px;
 }
 .mainTable tr th {
     background-color: #cccccc;
@@ -2343,6 +2350,43 @@
 }
 .mainTable tr:hover {
     background-color: #95bcf2;
+}
+.gridTable tr th, .gridTable tr td {
+    border: 1px solid black;
+    height: 30px;
+    min-width: 150px;
+}
+.gridTable tr th {
+    background-color: #cccccc;
+}
+.gridTable tr td {
+    text-align: left;
+}
+.maintable-td{
+    height: 500px !important;
+}
+.cutomer-name{
+    background-color: #93c47d;
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 5px 5px 0;
+    padding: 5px;
+/*    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 80%;
+    display: inline-block*/
+}
+.wrap-text{
+    color: #000000;
+    position:relative;
+    width:40%;
+    margin:0 5px 0 5px;
+    padding:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    display:inline-block;
+    cursor: pointer
 }
 .monthTitle {
     background-color: #00ABA9 !important;
@@ -2601,4 +2645,28 @@
 }
 .data-description{
     padding-left:30px; padding-bottom:10px; font-size:16px;
+}
+.fa-cubes:before {
+    font-family: "fontawesome";
+    content:"\f1b3";
+    font-size:35px;
+    color:#fff;
+}
+.fa-calendar:before {
+    font-family: "fontawesome";
+    content:"\f073";
+    font-size:35px;
+    color:#fff;
+}
+.fa-truck:before {
+    font-family: "fontawesome";
+    content:"\f0d1";
+    font-size:35px;
+    color:#fff;
+}
+.fa-bar-chart:before {
+    font-family: "fontawesome";
+    content:"\f080";
+    font-size:35px;
+    color:#fff;
 }

@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('ShippingPlanningCtrl',
-        function($scope, $location, $route, Restangular, services, $ionicModal, CommonFun, $ionicSideMenuDelegate, $http) {
+        function($scope, $location, $route, Restangular, services, $ionicModal, CommonFun, $ionicSideMenuDelegate) {
             var pt = moment().locale('pt-br');
             $scope.today = pt.format('dddd, LL');
             moment.locale('pt-br');
@@ -817,9 +817,18 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 $scope.postdata = [CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat(oldDate, 'D_M_YYYY')), CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat(newDate, 'D_M_YYYY'))];
                 Restangular.all('shipping').one('planning', orderId).all('delivery').customPUT($scope.postdata).then(function(response) {
                     $scope.loading = false;
-                    services.showAlert('Success', 'Successfully delivery date changed to ' + CommonFun.setDefaultDateFormat(newDate, 'D_M_YYYY')).then(function(res) {
-                        totalWeightCal();
-                    });
+                    if (response.data.count > 0)
+                    {
+                        services.showAlert('Success', 'Successfully delivery date changed to ' + CommonFun.setDefaultDateFormat(newDate, 'D_M_YYYY')).then(function(res) {
+                            totalWeightCal();
+                        });
+                    } else
+                    {
+                        services.showAlert('Success', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.').then(function(res) {
+                            $scope.loadGrid();
+                        });
+                    }
+
                 }, function(response) {
                     $scope.loading = false;
                     services.showAlert('Falhou', 'Error in PUT request');
