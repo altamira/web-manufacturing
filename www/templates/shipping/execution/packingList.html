@@ -149,7 +149,7 @@
                                 </tr>
                                 <tr ng-repeat='component in data.delivery' id="{{component.delivery.id}}" data-itemId="{{data.id}}">
                                     <td class="edit-info align-center width-9">{{ component.delivery.delivery | getDate }}</td>
-                                    <td class="edit-info align-right width-9">{{component.delivery.quantity.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
+                                    <td class="edit-info align-right width-9">{{component.delivery.quantity.value}}<span style="margin-left: 5px;">{{component.quantityType}}</span></td>
                                     <td class="edit-info align-right width-9">{{component.delivery.delivered.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
                                     <td class="edit-info align-right width-9">
                                         <input type="number" id="remaining_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value > 0">
@@ -177,35 +177,39 @@
                 </div>
                 <div class="col" ng-repeat='component in data.delivery'>
                     <div class="components-col">
-                        <div class="components-title ">
-                            <h4 class="mouse-pointer" ng-click='updatePart(data.id,component.id)'>{{component.description}}</h4>
-                            <table width="100%" cellspacing="0" cellpadding="0" border="0">
-                                <tbody>
-                                    <tr>
-                                        <td colspan="4"><span>{{component.material.code}}</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+
                         <table width="100%" cellspacing="0" cellpadding="0" border="0">
                             <tbody>
-                                <tr>
-                                    <td width="25%"><i class="fa fa-arrows-h"></i></td>
-                                    <td width="25%" valign="top">{{component.length.value}} {{component.length.unit.symbol}}</td>
-                                    <td width="25%" valign="top"><i class="fa fa-pencil"></i></td>
-                                    <td valign="top" align="right">{{component.color.code}}</td>
+                                <tr class="components-title">
+                                    <td colspan="3" width="75%">
+                                        <h4 class="mouse-pointer" ng-click='updatePart(data.id,component.id)'>{{component.description}}</h4>
+                                    </td>
+                                    <td class="align-right">
+                                        <i class="icon plus-icon fa-square-o" change-remaining-quantity dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}" ng-if="component.delivery.remaining.value > 0"></i>
+                                        <i class="icon plus-icon fa-square-o" dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}" ng-if="component.delivery.remaining.value < 1" style="cursor: not-allowed"></i>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td><i class="fa fa-arrows-v"></i></td>
-                                    <td valign="top">{{component.height.value}} {{component.height.unit.symbol}}</td>
+                                    <td width="25%" style="padding-bottom: 15px"><i class="fa fa-pencil"></i></td>
+                                    <td width="25%" style="padding-bottom: 15px;padding-right: 10px;" valign="top" align="right">{{component.color}}</td>
+                                    <td width="25%" style="padding-bottom: 15px" valign="top"><i class="fa fa-list-ol"></i></td>
+                                    <td valign="top" style="padding-bottom: 15px" align="right">{{component.quantity}} {{component.quantityType}}</td>
+                                </tr>
+                                <tr>
+                                    <td width="25%"><i class="fa fa-calender"></i></td>
+                                    <td width="25%" valign="top" align="right" style="padding-right: 10px;">{{ component.delivery.delivery | getDate }}</td>
                                     <td width="25%" valign="top"><i class="fa fa-list-ol"></i></td>
-                                    <td valign="top" align="right">{{component.quantity.value}} {{component.quantity.unit.symbol}}</td>
+                                    <td valign="top" align="right">{{component.delivery.delivered.value}} {{component.delivery.delivered.unit.symbol}}</td>
                                 </tr>
                                 <tr>
-                                    <td><i class="fa fa-expand"></i></td>
-                                    <td valign="top">{{component.width.value}} {{component.width.unit.symbol}}</td>
-                                    <td valign="top"><i class="fa fa-tachometer"></i></td>
-                                    <td valign="top" align="right">{{ component.weight.value | setDecimal:3}} {{component.weight.unit.symbol}}</td>
+                                    <td><i class="fa fa-tachometer"></i></td>
+                                    <td valign="top" align="right" style="padding-right: 10px;">{{component.weight * component.delivery.quantity.value | setDecimal:3}}<span style="margin-left: 5px;">{{component.weightType}}</span></td>
+                                    <td valign="top"><i class="fa fa-list-ol"></i></td>
+                                    <td valign="top" align="right">
+                                        <!--{{component.delivery.remaining.value}} {{component.delivery.remaining.unit.symbol}}-->
+                                        <input type="number" id="remaining_mobile_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value > 0">
+                                        <input type="number" id="remaining_mobile_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value < 1" readonly>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

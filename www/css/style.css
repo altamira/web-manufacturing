@@ -2339,7 +2339,7 @@
 }
 .mainTable tr th, .mainTable tr td {
     border: 1px solid black;
-    height: 30px;
+    height: 15px;
     min-width: 150px;
 }
 .mainTable tr th {
@@ -2371,10 +2371,11 @@
     font-weight: bold;
     margin: 5px 5px 0;
     padding: 5px;
-/*    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 80%;
-    display: inline-block*/
+    cursor: pointer;
+    /*    text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 80%;
+        display: inline-block*/
 }
 .wrap-text{
     color: #000000;
@@ -2635,7 +2636,7 @@
     width: 100%;
 }
 .totalWeightRow td {
-    height: 30px;
+    height: 30px !important;
 }
 .view-title {
     background-color: #00aba9;height: 30px;margin-bottom: 15px;margin-top: 5px;width: 100%
@@ -2670,3 +2671,7 @@
     font-size:35px;
     color:#fff;
 }
+.top-switch-btn { line-height: 32px !important; min-height: 32px; font-size: 20px;}
+/*.fa-th::before { font-size: 20px;}*/
+.top-switch-btn .fa-list-alt::before { font-size: 20px;}
+.top-switch-bar .button-bar > .button::before, .button-bar > .button .icon::before { line-height: 32px;}

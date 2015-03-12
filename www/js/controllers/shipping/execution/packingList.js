@@ -44,6 +44,7 @@ altamiraAppControllers.controller('ShippingExecutionPackingCtrl',
                                 $scope.tempListComponent.weight = $scope.orderData.item[j].component[k].weight.value;
                                 $scope.tempListComponent.weightType = $scope.orderData.item[j].component[k].weight.unit.symbol;
                                 $scope.tempListComponent.quantity = $scope.orderData.item[j].component[k].quantity.value;
+                                $scope.tempListComponent.quantityType = $scope.orderData.item[j].component[k].quantity.unit.symbol;
                                 $scope.tempListComponent.delivery = $scope.orderData.item[j].component[k].delivery[l];
                                 $scope.tempList.delivery.push($scope.tempListComponent);
                             }
@@ -54,7 +55,6 @@ altamiraAppControllers.controller('ShippingExecutionPackingCtrl',
                     $scope.finalList.sort(function(a, b) {
                         return a.item - b.item;
                     });
-                    console.log(JSON.stringify($scope.finalList));
                 }, function() {
                     $scope.loading = false;
                     services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
@@ -78,7 +78,15 @@ altamiraAppControllers.controller('ShippingExecutionPackingCtrl',
                                 $scope.postData.component = {};
                                 $scope.postData.component.id = $("[datadelivery='" + $scope.remainingQtnArr[i] + "']").attr('datapart');
                                 $scope.postData.quantity = {};
-                                $scope.postData.quantity.value = $('#remaining_' + $scope.remainingQtnArr[i]).val();
+                                if ($(window).width() > 1023)
+                                {
+                                    $scope.postData.quantity.value = $('#remaining_' + $scope.remainingQtnArr[i]).val();
+                                }
+                                else
+                                {
+                                    $scope.postData.quantity.value = $('#remaining_mobile_' + $scope.remainingQtnArr[i]).val();
+                                }
+
                                 $scope.postData.quantity.unit = response.data.quantity.unit;
                                 $scope.postData.delivery = moment().valueOf();
                                 Restangular.all('shipping').one('execution', $scope.executionId).one('packinglist', $scope.packingId).all('delivered').post($scope.postData).then(function(response) {
@@ -114,6 +122,6 @@ altamiraAppControllers.controller('ShippingExecutionPackingCtrl',
                 });
             }
             $scope.printReport = function() {
-                window.open(sessionStorage.getItem('reportBaseUrl')+"/report/shipping/execution/packinglist/"+$scope.packingId,'_blank');
+                window.open(sessionStorage.getItem('reportBaseUrl') + "/report/shipping/execution/packinglist/" + $scope.packingId, '_blank');
             }
         });

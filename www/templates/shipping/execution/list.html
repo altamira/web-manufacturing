@@ -30,16 +30,15 @@
                                     <a class="button" ng-click='weeklyView()' id="weeklyShowBtn">Semanal</a>
                                 </div>
                             </div>
-                            <div class="col col-50 col-offset-50">
+                            <div class="col col-50 col-offset-50 top-switch-bar">
                                 <div class="button-bar bar-calm" style="float: right">
-                                    <a class="button topBtnRadius fa-list-alt" ng-click="formView()" id="formShowBtn"></a>
-                                    <a class="button fa-th month" ng-click="gridView()" id="gridShowBtn"></a>
+                                    <a class="button top-switch-btn topBtnRadius fa-list-alt" ng-click="formView()" id="formShowBtn"></a>
+                                    <a class="button top-switch-btn fa-th month" ng-click="gridView()" id="gridShowBtn"></a>
                                 </div>
                             </div>
                         </div>
                         <div class="row planning-col">
-                            <div class="col col-33 tableTitle">Planejamento de Entrega</div>
-                            <div class="col col-67 tableTitle align-right">Hoje : {{today}}</div>
+                            <div class="col tableTitle align-right">Hoje : {{today}}</div>
                         </div>
                         <div class="row">
                             <div id="form_view" class="planning-detail width-100">
@@ -94,14 +93,6 @@
                                                 </div>
                                             </td>
                                         </tr>
-<!--                                        <tr ng-repeat="order in finalArr" class="{{order.id}}" ng-if="checkYear(order.delivery) <= maxYear">
-                                            <td ng-repeat="day in days track by $index" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'">
-                                                <div class="dragDiv" ng-repeat="delivery in order.components" id="{{day}}" ng-class="getCellColor(delivery.delivery,delivery.remaining.value)" ng-if="(checkDay(delivery.delivery) == getDay(day)) && (checkMonth(delivery.delivery) == getMonth(day)) && (checkYear(delivery.delivery) == getYear(day))" data-weight='{{delivery.remaining.value}}'>
-                                                    {{delivery.remaining.value | setDecimal:1}}
-                                                </div>
-                                                <div style="width: 50px;height: 30px;" ng-if="order.components == ''">&nbsp;</div>
-                                            </td>
-                                        </tr>-->
                                         <tr class="totalWeightRow">
                                             <td ng-repeat="day in days track by $index" data-date='{{day}}'>
                                                 &nbsp;
@@ -116,7 +107,7 @@
             </ion-nav-view>
         </ion-side-menu-content>
         <ion-side-menu side="left" class="sidemenu-bg">
-            <ion-content class="has-header scroll-content ionic-scroll">
+            <ion-content class="scroll-content ionic-scroll">
                 <div class="scroll" leftside-menu style="padding: 0px !important">
                 </div>
                 <div class="scroll-bar scroll-bar-v">

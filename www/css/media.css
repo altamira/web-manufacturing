@@ -107,7 +107,7 @@
     }
 }
 @media (max-width: 480px){
-    .scroll {padding: 0 15px; }
+    /*.scroll {padding: 0 15px; }*/
     .item-input-search {
         width: 87%;
     }
@@ -147,6 +147,7 @@
         width: 88% !important;
     }
     .bar-calm-top .button-bar { width:100%;}
+    
 }
 
 @media (max-width: 320px){
