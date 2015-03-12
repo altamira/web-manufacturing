@@ -225,6 +225,12 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                     scrollButtons: {enable: true},
                     scrollbarPosition: "outside"
                 });
+                $(".mainRow").mCustomScrollbar("scrollTo",$('.'+moment().format('D_M_YYYY')));
+                setTimeout(function() {
+                    var w = ($( window ).width()/2)-100;
+                    $(".mainRow").mCustomScrollbar("scrollTo",'+='+w)
+                }, 1000);
+//                $(".mainRow").mCustomScrollbar("scrollTo",'-=100');
             }
             $scope.makeCalender = function() {
                 $scope.days = [];

@@ -94,14 +94,6 @@
                                                 </div>
                                             </td>
                                         </tr>
-<!--                                        <tr ng-repeat="order in finalArr" class="{{order.id}}" ng-if="checkYear(order.delivery) <= maxYear">
-                                            <td ng-repeat="day in days track by $index" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'">
-                                                <div class="dragDiv" ng-repeat="delivery in order.components" id="{{day}}" ng-class="getCellColor(delivery.delivery,delivery.remaining.value)" ng-if="(checkDay(delivery.delivery) == getDay(day)) && (checkMonth(delivery.delivery) == getMonth(day)) && (checkYear(delivery.delivery) == getYear(day))" data-weight='{{delivery.remaining.value}}'>
-                                                    {{delivery.remaining.value | setDecimal:1}}
-                                                </div>
-                                                <div style="width: 50px;height: 30px;" ng-if="order.components == ''">&nbsp;</div>
-                                            </td>
-                                        </tr>-->
                                         <tr class="totalWeightRow">
                                             <td ng-repeat="day in days track by $index" data-date='{{day}}'>
                                                 &nbsp;

@@ -424,6 +424,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
                         $scope.rangeImportMaterial();
                     }
                 }, function(response) {
+                    console.log(JSON.stringify(response));
                     services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             }

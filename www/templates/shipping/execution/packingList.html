@@ -190,22 +190,22 @@
                         <table width="100%" cellspacing="0" cellpadding="0" border="0">
                             <tbody>
                                 <tr>
-                                    <td width="25%"><i class="fa fa-arrows-h"></i></td>
-                                    <td width="25%" valign="top">{{component.length.value}} {{component.length.unit.symbol}}</td>
-                                    <td width="25%" valign="top"><i class="fa fa-pencil"></i></td>
-                                    <td valign="top" align="right">{{component.color.code}}</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="fa fa-arrows-v"></i></td>
-                                    <td valign="top">{{component.height.value}} {{component.height.unit.symbol}}</td>
+                                    <td width="25%"><i class="fa fa-pencil"></i></td>
+                                    <td width="25%" valign="top">{{component.color}}</td>
                                     <td width="25%" valign="top"><i class="fa fa-list-ol"></i></td>
-                                    <td valign="top" align="right">{{component.quantity.value}} {{component.quantity.unit.symbol}}</td>
+                                    <td valign="top" align="right">{{component.quantity}}</td>
                                 </tr>
                                 <tr>
-                                    <td><i class="fa fa-expand"></i></td>
-                                    <td valign="top">{{component.width.value}} {{component.width.unit.symbol}}</td>
-                                    <td valign="top"><i class="fa fa-tachometer"></i></td>
-                                    <td valign="top" align="right">{{ component.weight.value | setDecimal:3}} {{component.weight.unit.symbol}}</td>
+                                    <td width="25%"><i class="fa fa-calender"></i></td>
+                                    <td width="25%" valign="top">{{ component.delivery.delivery | getDate }}</td>
+                                    <td width="25%" valign="top"><i class="fa fa-list-ol"></i></td>
+                                    <td valign="top" align="right">{{component.delivery.delivered.value}} {{component.delivery.delivered.unit.symbol}}</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-tachometer"></i></td>
+                                    <td valign="top">{{component.weight * component.delivery.quantity.value | setDecimal:3}}<span style="margin-left: 5px;">{{component.weightType}}</span></td>
+                                    <td valign="top"><i class="fa fa-list-ol"></i></td>
+                                    <td valign="top" align="right">{{component.delivery.remaining.value}} {{component.delivery.remaining.unit.symbol}}</td>
                                 </tr>
                             </tbody>
                         </table>

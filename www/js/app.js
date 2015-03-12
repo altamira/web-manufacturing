@@ -179,7 +179,8 @@ altamiraApp.config(function(RestangularProvider) {
 altamiraApp.factory('IntegrationRestangular', function(Restangular) {
     return Restangular.withConfig(function(RestangularProvider) {
         RestangularProvider.setBaseUrl('http://ec2-54-207-103-15.sa-east-1.compute.amazonaws.com');
-        RestangularProvider.setDefaultHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
+        RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json; charset=iso-8859-1'});
+        RestangularProvider.setFullResponse(true);
     });
 });
 var altamiraAppControllers = angular.module('altamiraAppControllers', []);
