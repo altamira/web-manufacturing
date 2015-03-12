@@ -30,16 +30,15 @@
                                     <a class="button" ng-click='weeklyView()' id="weeklyShowBtn">Semanal</a>
                                 </div>
                             </div>
-                            <div class="col col-50 col-offset-50">
+                            <div class="col col-50 col-offset-50 top-switch-bar">
                                 <div class="button-bar bar-calm" style="float: right">
-                                    <a class="button topBtnRadius fa-list-alt" ng-click="formView()" id="formShowBtn"></a>
-                                    <a class="button fa-th month" ng-click="gridView()" id="gridShowBtn"></a>
+                                    <a class="button top-switch-btn topBtnRadius fa-list-alt" ng-click="formView()" id="formShowBtn"></a>
+                                    <a class="button top-switch-btn fa-th month" ng-click="gridView()" id="gridShowBtn"></a>
                                 </div>
                             </div>
                         </div>
                         <div class="row planning-col">
-                            <div class="col col-33 tableTitle">Planejamento de Entrega</div>
-                            <div class="col col-67 tableTitle align-right">Hoje : {{today}}</div>
+                            <div class="col col-offset-33 col-67 tableTitle align-right">Hoje : {{today}}</div>
                         </div>
                         <div class="row">
                             <div id="form_view" class="planning-detail width-100">
