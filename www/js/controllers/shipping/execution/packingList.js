@@ -44,6 +44,7 @@ altamiraAppControllers.controller('ShippingExecutionPackingCtrl',
                                 $scope.tempListComponent.weight = $scope.orderData.item[j].component[k].weight.value;
                                 $scope.tempListComponent.weightType = $scope.orderData.item[j].component[k].weight.unit.symbol;
                                 $scope.tempListComponent.quantity = $scope.orderData.item[j].component[k].quantity.value;
+                                $scope.tempListComponent.quantityType = $scope.orderData.item[j].component[k].quantity.unit.symbol;
                                 $scope.tempListComponent.delivery = $scope.orderData.item[j].component[k].delivery[l];
                                 $scope.tempList.delivery.push($scope.tempListComponent);
                             }

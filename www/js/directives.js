@@ -456,14 +456,6 @@ altamiraApp.directive('changeRemainingQuantity', function(services) {
         });
     }
 });
-altamiraApp.directive('showVendas', function(services) {
-    alert(3);
-    return function(scope, elm, attr) {
-        elm.bind('click', function() {
-            alert(1);
-        });
-    }
-});
 altamiraApp.directive('leftsideMenu', function(services) {
     return function(scope, elm, attr) {
         elm.html('<div class="row">\n\

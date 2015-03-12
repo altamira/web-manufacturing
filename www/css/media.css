@@ -147,10 +147,7 @@
         width: 88% !important;
     }
     .bar-calm-top .button-bar { width:100%;}
-    .top-switch-btn { line-height: 32px !important ; min-height: 32px; font-size: 20px ; }
-    .fa-th::before { font-size: 20px;}
-    .top-switch-btn .fa-list-alt::before { font-size: 20px;}
-    .top-switch-bar .button-bar > .button::before, .button-bar > .button .icon::before { line-height: 32px;}
+    
 }
 
 @media (max-width: 320px){
