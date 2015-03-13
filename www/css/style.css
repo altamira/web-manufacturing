@@ -2404,12 +2404,10 @@
     background-color: #93c47d;
     color: #fff;
     cursor: move;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bold;
-    height: 29px;
-    margin: auto;
+    margin: 5px;
     position: relative;
-    text-align: center;
     vertical-align: middle;
     width: auto;
 }
@@ -2675,3 +2673,16 @@
 /*.fa-th::before { font-size: 20px;}*/
 .top-switch-btn .fa-list-alt::before { font-size: 20px;}
 .top-switch-bar .button-bar > .button::before, .button-bar > .button .icon::before { line-height: 32px;}
+.fa-component-switch:before {
+    font-family: "fontawesome";
+    content: "\f0ca";
+    font-size: 24px;
+}
+.list-date{
+    border-bottom: 1px solid #ddd;
+    font-size: 20px;
+    font-weight: bold;
+    height: 30px;
+    margin-top: 8px;
+    text-align: right;
+}

@@ -1,28 +1,26 @@
 altamiraAppControllers.controller('ShippingPlanningCtrl',
-        function($scope, $location, $route, Restangular, services, $ionicModal, CommonFun, $ionicSideMenuDelegate) {
+        function($scope, $location, $route, Restangular, services, $ionicModal, CommonFun, $ionicSideMenuDelegate, $routeParams) {
+            if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && sessionStorage.getItem('token') == '')
+            {
+                sessionStorage.setItem('token', $routeParams.token);
+                $window.location.reload();
+            }
             var pt = moment().locale('pt-br');
             $scope.today = pt.format('dddd, LL');
             moment.locale('pt-br');
             var month = moment.months();
             moment.locale('en');
-            $scope.showdate = true;
-            $scope.showdate_1 = true;
-            $scope.showdate_2 = true;
             $scope.tempUnixTS = [];
             $scope.viewWeekly = false;
             $scope.currentYear = moment().format('YYYY');
             $scope.validYears = [parseInt($scope.currentYear) - 1, parseInt($scope.currentYear), parseInt($scope.currentYear) + 1];
-            $scope.viewtype = 'form';
-            $scope.divideData = {};
-            $scope.joinData = {};
             $scope.formView = function() {
                 $scope.viewtype = 'form';
                 $('#form_view').show();
                 $('#formShowBtn').removeClass('month');
                 $('#grid_view').hide();
                 $('#gridShowBtn').addClass('month');
-                $scope.getOrderData(parseInt($('.dataTable tr:nth-child(3) td:nth-child(2)').attr('id')));
-
+                $scope.loadOrderList();
             }
             $scope.gridView = function() {
                 $scope.viewtype = 'grid';
@@ -32,66 +30,272 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 $('#gridShowBtn').removeClass('month');
                 $scope.loadGrid();
             }
+            $scope.getObjects = function(obj, key, val) {
+                var objects = [];
+                for (var i in obj) {
+                    if (!obj.hasOwnProperty(i))
+                        continue;
+                    if (typeof obj[i] == 'object') {
+                        objects = objects.concat($scope.getObjects(obj[i], key, val));
+                    } else if (i == key && obj[key] == val) {
+                        objects.push(obj);
+                    }
+                }
+                return objects;
+            };
+            $scope.resetOrderList = function() {
+                $scope.startPage = 0;
+                $scope.maxRecord = 10;
+                $scope.orderData = '';
+                $scope.orderDataArray = [];
+                $scope.nextButton = true;
+            };
+            $scope.searchText = sessionStorage.getItem('searchOrderList');
+            $scope.tempSearch = '';
+            $scope.isDataSearch = '';
+            $scope.resetOrderList();
             $scope.loadOrderList = function() {
                 $scope.loading = true;
-                Restangular.one('shipping/planning').get({max: 999}).then(function(response) {
-                    $scope.loading = false;
-                    $scope.orderList = response.data;
-                    $scope.orderListLength = response.data.length;
-                    $scope.getOrderData($scope.orderList[0].id);
-                    setTimeout(function() {
-                        $scope.decorateTable();
-                    }, 100);
+                Restangular.one('shipping/planning').get({search: sessionStorage.getItem('searchOrderList'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
+                    if (response.data == '') {
+                        $scope.loading = false;
+                        if ((parseInt($scope.startPage) != 0))
+                        {
+                            $scope.nextButton = false;
+                            $scope.startPage = (parseInt($scope.startPage) - 1);
+                            $scope.loadOrderList();
+                        } else
+                        {
+                            $scope.pageStack = [];
+                            services.showAlert('Aviso', 'A lista de Romaneios esta vazia.').then(function(res) {
+                            });
+                        }
+                    } else
+                    {
+                        if ($scope.orderData.length <= 0 && $scope.isDataSearch == '')
+                        {
+                            $scope.orderResponse = response.data;
+                            $scope.tarray = [];
+                            for (var i = 0; i < $scope.orderResponse.length; i++)
+                            {
+                                if ($scope.tarray.indexOf(parseInt($scope.orderResponse[i].delivery)) < 0)
+                                {
+                                    $scope.tarray.push(parseInt($scope.orderResponse[i].delivery));
+                                }
+
+                            }
+                            $scope.orderData = [];
+                            $scope.orderDataArray = [];
+                            for (var i = 0; i < $scope.tarray.length; i++)
+                            {
+                                $scope.tempArray = {};
+                                $scope.tempArray.delivery = $scope.tarray[i];
+                                $scope.tempArray.planningData = $scope.getObjects($scope.orderResponse, 'delivery', $scope.tarray[i]);
+                                $scope.orderDataArray.push($scope.tempArray);
+                            }
+                            $scope.orderData = $scope.orderDataArray;
+                            if ($scope.searchText != '')
+                            {
+                                $scope.isDataSearch = 'yes';
+                            }
+                            else
+                            {
+                                $scope.isDataSearch = '';
+                            }
+                        }
+                        else
+                        {
+                            if ($scope.nextButton != false)
+                            {
+                                $scope.orderResponse = response.data;
+                                $scope.tarray = [];
+                                for (var i = 0; i < $scope.orderResponse.length; i++)
+                                {
+                                    if ($scope.tarray.indexOf(parseInt($scope.orderResponse[i].delivery)) < 0)
+                                    {
+                                        $scope.tarray.push(parseInt($scope.orderResponse[i].delivery));
+                                    }
+
+                                }
+                                for (var i = 0; i < $scope.tarray.length; i++)
+                                {
+                                    $scope.tempArray = {};
+                                    $scope.tempArray.delivery = $scope.tarray[i];
+                                    $scope.tempArray.planningData = $scope.getObjects($scope.orderResponse, 'delivery', $scope.tarray[i]);
+                                    $scope.orderDataArray.push($scope.tempArray);
+                                }
+                                $scope.pageOrderListes();
+                            }
+                        }
+
+                        $scope.loading = false;
+                        $scope.range();
+                    }
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente.');
                 });
             };
             $scope.loadOrderList();
-            $scope.getOrderData = function(orderId) {
-                $scope.loading = true;
-                $scope.itemId = [];
-                $scope.itemPartIdArr = [];
-                $scope.itemPartDeliveryArr = [];
-                Restangular.one('shipping/planning', orderId).get().then(function(response) {
-                    $scope.loading = false;
-                    $scope.orderData = response.data;
-                    $scope.finalList = [];
-                    for (var j = 0; j < $scope.orderData.item.length; j++)
+            $scope.pageOrderListes = function() {
+                $scope.orderData = [];
+                $scope.start = $scope.startPage * $scope.maxRecord;
+                $scope.end = ($scope.startPage * $scope.maxRecord) + $scope.maxRecord;
+                for (var i = $scope.start; i < $scope.end; i++)
+                {
+                    if ($scope.orderDataArray[i])
                     {
-                        $scope.tempList = {};
-                        $scope.tempList.id = $scope.orderData.item[j].id;
-                        $scope.tempList.version = $scope.orderData.item[j].version;
-                        $scope.tempList.type = $scope.orderData.item[j].type;
-                        $scope.tempList.item = $scope.orderData.item[j].item;
-                        $scope.tempList.description = $scope.orderData.item[j].description;
-                        $scope.tempList.delivery = [];
-                        for (var k = 0; k < $scope.orderData.item[j].component.length; k++)
+                        $scope.orderData.push($scope.orderDataArray[i]);
+                    }
+                }
+                if ($scope.orderData.length != $scope.maxRecord)
+                {
+                    $scope.nextButton = false;
+                }
+            };
+
+            $scope.searchOrderList = function(text) {
+                if (text != '')
+                {
+                    $scope.resetOrderList();
+                    sessionStorage.setItem('searchOrderList', text);
+                } else
+                {
+                    sessionStorage.setItem('searchOrderList', '');
+                    $scope.resetOrderList();
+                }
+                $scope.loadOrderList();
+            };
+            $scope.range = function() {
+                $scope.pageStack = [];
+                var start = parseInt($scope.startPage) + 1;
+                for (var i = 1; i <= start; i++) {
+                    $scope.pageStack.push(i);
+                }
+            };
+            $scope.nextPage = function(len) {
+                var nextPage = parseInt(len);
+                $scope.startPage = nextPage;
+                $scope.loadOrderList();
+
+            }
+            $scope.prevPage = function(nextPage) {
+                $scope.startPage = nextPage;
+                $scope.loadOrderList();
+            }
+            $scope.goPage = function(pageNumber) {
+                var nextPage = parseInt(pageNumber) - 1;
+                $scope.startPage = nextPage;
+                if ($scope.orderDataArray.length > 0)
+                {
+                    if ($scope.searchText == '' || ($scope.searchText != '' && $scope.isDataSearch != ''))
+                    {
+                        $scope.pageOrderListes();
+                    }
+                }
+                else
+                {
+                    $scope.loadOrderList();
+                }
+            }
+            $scope.getCellColor = function(st, weight) {
+                if (st < moment().valueOf() || (parseInt(weight) / 1000 > 20))
+                {
+                    return 'red';
+                } else
+                {
+                    return 'green';
+                }
+            }
+            $scope.checkDay = function(st) {
+                return moment(st).format('D');
+            }
+            $scope.checkMonth = function(st) {
+                return moment(st).format('M');
+            }
+            $scope.checkYear = function(st) {
+                return moment(st).format('YYYY');
+            }
+            $scope.getWeekDay = function(date) {
+                return moment(date, "D_M_YYYY").format('dddd');
+            }
+            $scope.getWeekDayShort = function(date) {
+                return moment(date, "D_M_YYYY").locale('pt-br').format('ddd');
+            }
+            $scope.getDay = function(date) {
+                return parseInt(moment(date, "D_M_YYYY").format('D'));
+            }
+            $scope.getMonth = function(date) {
+                return parseInt(moment(date, "D_M_YYYY").format('M'));
+            }
+            $scope.getMonthName = function(date) {
+                moment.locale('pt-br');
+                var month = moment(date, "D_M_YYYY").format('MMMM')
+                moment.locale('en');
+                return month
+
+            }
+            $scope.getYear = function(date) {
+                return moment(date, "D_M_YYYY").format('YYYY')
+            }
+            $scope.makeCalender = function() {
+                $scope.days = [];
+                $scope.monthDays = [];
+                var startMonth = parseInt(moment($scope.tempUnixTS[$scope.tempUnixTS.length - 1]).format('M'));
+                var startYear = parseInt(moment($scope.tempUnixTS[$scope.tempUnixTS.length - 1]).format('YYYY'));
+                var endMonth = parseInt(moment($scope.tempUnixTS[0]).format('M'));
+                var endYear = parseInt(moment($scope.tempUnixTS[0]).format('YYYY'));
+                $scope.maxYear = endYear;
+                $scope.subCalander = function(stMonth, year) {
+                    for (var i = stMonth; i <= 12; i++)
+                    {
+                        if (year == endYear)
                         {
-                            for (var l = 0; l < $scope.orderData.item[j].component[k].delivery.length; l++)
+                            if (i <= endMonth)
                             {
-                                $scope.tempListComponent = {};
-                                $scope.tempListComponent.componentId = $scope.orderData.item[j].component[k].id;
-                                $scope.tempListComponent.materialId = $scope.orderData.item[j].component[k].material.id;
-                                $scope.tempListComponent.description = $scope.orderData.item[j].component[k].description;
-                                $scope.tempListComponent.color = $scope.orderData.item[j].component[k].color.code;
-                                $scope.tempListComponent.weight = $scope.orderData.item[j].component[k].weight.value;
-                                $scope.tempListComponent.weightType = $scope.orderData.item[j].component[k].weight.unit.symbol;
-                                $scope.tempListComponent.quantity = $scope.orderData.item[j].component[k].quantity.value;
-                                $scope.tempListComponent.delivery = $scope.orderData.item[j].component[k].delivery[l];
-                                $scope.tempList.delivery.push($scope.tempListComponent);
+                                var arrTemp = {};
+                                arrTemp.name = month[i - 1] + ',' + year;
+                                arrTemp.days = range(1, daysInMonth(i, year));
+                                createDaysArray(arrTemp.days, i, year);
+                                $scope.monthDays.push(arrTemp);
+                            }
+                        } else
+                        {
+                            var arrTemp = {};
+                            arrTemp.name = month[i - 1] + ',' + year;
+                            arrTemp.days = range(1, daysInMonth(i, year));
+                            createDaysArray(arrTemp.days, i, year);
+                            $scope.monthDays.push(arrTemp);
+                        }
+                        if (i == 12)
+                        {
+                            if (year < endYear)
+                            {
+                                $scope.subCalander(1, year + 1);
                             }
                         }
-                        $scope.finalList.push($scope.tempList);
                     }
-                    $scope.finalList.sort(function(a, b) {
-                        return a.item - b.item;
-                    });
-                    $scope.decorateTable();
-                }, function() {
-                    $scope.loading = false;
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
-                });
+                }
+                $scope.subCalander(startMonth, startYear);
             };
+
+            function createDaysArray(daysArray, m, y)
+            {
+                for (var j = 0; j < daysArray.length; j++) {
+                    $scope.days.push(daysArray[j] + '_' + m + '_' + y);
+                }
+            }
+            function daysInMonth(month, year) {
+                return moment(month + "-" + year, "M-YYYY").daysInMonth();
+            }
+            function range(a, b, step) {
+                var A = [];
+                A[0] = a;
+                step = step || 1;
+                while (a + step <= b) {
+                    A[A.length] = a += step;
+                }
+                return A;
+            }
             $scope.decorateTable = function() {
                 var dragging = false;
                 $('#dragbar').mousedown(function(e) {
@@ -172,14 +376,11 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     $('#' + hoverClass).css('background-color', '#ffffff');
                 });
                 $('.dragDiv').on('dblclick', function(e) {
-                    $scope.viewDeliveryDate = CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat($(this).parent().data('day'), 'DD_M_YYYY'));
-                    $scope.changeDeliveryDate($(this).parent().parent().attr('class'));
+                    $location.path('shipping/planning/'+$(this).data('orderid'));
+                    $scope.$apply();
                 });
                 setTimeout(function() {
 
-                    makeDummyRowLeft();
-                    makeDummyRowRight();
-                    totalWeightCal();
                     $(".dragDiv").draggable({
                         revert: 'invalid'
                     });
@@ -188,7 +389,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                             return $(this).closest("tr").is(item.closest("tr")) && $(this).find("*").length == 0;
                         },
                         drop: function(event, ui) {
-                            $scope.changeDelDateByDrag($(this).parent().attr('class'), ui.draggable.attr('id'), $(this).data('day'));
+                            $scope.changeDelDateByDrag(ui.draggable.data('orderid'), ui.draggable.data('olddate'), $(this).data('day'));
 
                             var $this = $(this);
                             $this.append(ui.draggable.css({
@@ -209,458 +410,6 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         }
                     });
                 }, 100);
-            }
-            $scope.openBOM = function(bomId) {
-                $location.path('/bom/edit/' + bomId);
-            }
-            $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/view.html', {
-                scope: $scope,
-                animation: 'fade-in'
-            }).then(function(modal) {
-                $scope.changeDate = modal;
-            });
-            $scope.changeDateModalShow = function() {
-                $scope.changeDate.show();
-            };
-            $scope.changeDateModalHide = function() {
-                $scope.changeDate.hide();
-            };
-            $scope.goToCalender = function() {
-                $scope.loading = false;
-                $scope.changeDate.hide();
-            };
-            $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/divide.html', {
-                scope: $scope,
-                animation: 'fade-in'
-            }).then(function(modal) {
-                $scope.divideDateModal = modal;
-            });
-            $scope.divideDateModalShow = function() {
-                $scope.changeDateModalHide();
-                $scope.divideDateModal.show();
-            }
-            $scope.divideDateModalHide = function() {
-                $scope.divideDateModal.hide();
-                $scope.changeDateModalShow();
-            }
-            $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/join.html', {
-                scope: $scope,
-                animation: 'fade-in'
-            }).then(function(modal) {
-                $scope.joinDateModal = modal;
-            });
-            $scope.joinDateModalShow = function() {
-                $scope.changeDateModalHide();
-                $scope.joinDateModal.show();
-            }
-            $scope.joinDateModalHide = function() {
-                $scope.joinDateModal.hide();
-                $scope.changeDateModalShow();
-            }
-            $scope.divideDate = function() {
-                $scope.divideData.delivery1 = '';
-                $scope.divideData.delivery2 = '';
-                $scope.divideData.quantity1 = '';
-                $scope.divideData.quantity2 = '';
-                if ($scope.itemPartIdArr.length == 1)
-                {
-                    var tempVar = $scope.getObjects($scope.orderData.item, 'id', $scope.itemId);
-                    var part;
-                    var partDelivery;
-                    part = $scope.getObjects(tempVar[0].component, 'id', $scope.itemPartIdArr[0]);
-                    $scope.divideData.chnDateCode = part[0].material.code;
-                    $scope.divideData.chnDateDesc = part[0].description;
-                    partDelivery = $scope.getObjects(part[0].delivery, 'id', $scope.itemPartDeliveryArr[0]);
-                    $scope.partDelivery = partDelivery[0];
-                    $scope.divideData.chnDateTotalQuantity = partDelivery[0].quantity.value;
-                    $scope.divideData.pesoTotal = partDelivery[0].quantity.value * part[0].weight.value;
-                    $scope.divideData.chnDateItem = {};
-                    $scope.divideData.chnDateItem.id = tempVar[0].id;
-                    $scope.divideData.chnDateItem.version = tempVar[0].version;
-                    $scope.divideData.chnDateItem.item = tempVar[0].item;
-                    $scope.divideData.chnDateItem.description = tempVar[0].description;
-                    $scope.divideData.chnDateParts = part;
-                    $scope.divideDateModalShow();
-                }
-                else {
-                    if ($scope.itemPartIdArr.length < 1)
-                    {
-                        services.showAlert('Falhou', 'Please select components to divide delivery date');
-                    }
-                    if ($scope.itemPartIdArr.length > 1)
-                    {
-                        services.showAlert('Falhou', 'Please select only one component to divide delivery date');
-                    }
-
-                }
-            };
-            $scope.submitDivideComponent = function(isValid) {
-                if (isValid) {
-                    $scope.divideDateModal.hide();
-                    $scope.loading = true;
-                    $scope.postdata1 = {};
-                    $scope.postdata1.id = 0;
-                    $scope.postdata1.delivery = CommonFun.getFullTimestamp($scope.divideData.delivery1);
-                    $scope.postdata1.quantity = {};
-                    $scope.postdata1.quantity.value = $scope.divideData.quantity1;
-                    $scope.postdata1.quantity.unit = {};
-                    $scope.postdata1.quantity.unit.id = $scope.divideData.chnDateParts[0].quantity.unit.id;
-                    $scope.postdata1.quantity.unit.name = $scope.divideData.chnDateParts[0].quantity.unit.name;
-                    $scope.postdata1.quantity.unit.symbol = $scope.divideData.chnDateParts[0].quantity.unit.symbol;
-                    Restangular.one('shipping/planning', $scope.orderData.id)
-                            .one('item', $scope.itemId)
-                            .one('component', $scope.itemPartIdArr[0])
-                            .all('delivery').post($scope.postdata1).then(function(response) {
-                        $scope.postdata2 = {};
-                        $scope.postdata2.id = 0;
-                        $scope.postdata2.delivery = CommonFun.getFullTimestamp($scope.divideData.delivery2);
-                        $scope.postdata2.quantity = {};
-                        $scope.postdata2.quantity.value = $scope.divideData.quantity2;
-                        $scope.postdata2.quantity.unit = {};
-                        $scope.postdata2.quantity.unit.id = $scope.divideData.chnDateParts[0].quantity.unit.id;
-                        $scope.postdata2.quantity.unit.name = $scope.divideData.chnDateParts[0].quantity.unit.name;
-                        $scope.postdata2.quantity.unit.symbol = $scope.divideData.chnDateParts[0].quantity.unit.symbol;
-                        Restangular.one('shipping/planning', $scope.orderData.id)
-                                .one('item', $scope.itemId)
-                                .one('component', $scope.itemPartIdArr[0])
-                                .all('delivery').post($scope.postdata2).then(function(response) {
-                            Restangular.one('shipping/planning', $scope.orderData.id)
-                                    .one('item', $scope.itemId)
-                                    .one('component', $scope.itemPartIdArr[0])
-                                    .one('delivery', $scope.itemPartDeliveryArr[0]).remove().then(function(response) {
-                                $scope.loading = false;
-                                if ($scope.viewtype == 'form')
-                                {
-                                    $scope.getOrderData($scope.orderData.id);
-                                    $scope.orderData = {};
-                                } else
-                                {
-                                    $scope.loadGrid();
-                                    $scope.orderData = {};
-                                }
-                            }, function() {
-                                $scope.loading = false;
-                                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.').then(function() {
-                                    if ($scope.viewGrid != true)
-                                    {
-                                        $scope.divideDateModal.show();
-                                    }
-                                });
-                            });
-                        }, function() {
-                            $scope.loading = false;
-                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.').then(function() {
-                                if ($scope.viewGrid != true)
-                                {
-                                    $scope.divideDateModal.show();
-                                }
-                            });
-                        });
-                    }, function() {
-                        $scope.loading = false;
-                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.').then(function() {
-                            if ($scope.viewGrid != true)
-                            {
-                                $scope.divideDateModal.show();
-                            }
-                        });
-                    });
-                }
-            }
-            $scope.desideQun2 = function() {
-                $scope.divideData.quantity2 = parseInt($scope.divideData.chnDateTotalQuantity) - parseInt($scope.divideData.quantity1);
-            }
-            $scope.joinDate = function() {
-                $scope.itemId = unique_arr($scope.itemId);
-                $scope.itemPartIdArr = unique_arr($scope.itemPartIdArr);
-                $scope.itemPartDeliveryArr = unique_arr($scope.itemPartDeliveryArr);
-                if ($scope.itemPartDeliveryArr.length > 1)
-                {
-                    var tempVar = $scope.getObjects($scope.orderData.item, 'id', $scope.itemId);
-                    $scope.joinData.chnDateParts = [];
-                    var part;
-                    var delivery;
-                    var chnDateTotalQuantity = 0;
-                    var pesoTotal = 0;
-                    var chnDateUnit = '';
-                    for (var i = 0; i < $scope.itemPartIdArr.length; i++)
-                    {
-                        part = $scope.getObjects(tempVar[0].component, 'id', $scope.itemPartIdArr[i]);
-                        $scope.joinData.chnDateParts.push(part[0]);
-                        $scope.joinData.chnDateParts[i].deliveryArr = [];
-                        for (var j = 0; j < $scope.itemPartDeliveryArr.length; j++)
-                        {
-                            delivery = $scope.getObjects(part[0].delivery, 'id', $scope.itemPartDeliveryArr[j]);
-                            if (delivery != '')
-                            {
-                                $scope.joinData.chnDateParts[i].deliveryArr.push(delivery[0]);
-                                chnDateTotalQuantity = chnDateTotalQuantity + parseInt(delivery[0].quantity.value);
-                                pesoTotal = pesoTotal + (parseInt(delivery[0].quantity.value) * parseInt(part[0].weight.value));
-                            }
-                            chnDateUnit = part[0].weight.unit;
-                        }
-                    }
-                    $scope.joinData.chnDateCode = $scope.joinData.chnDateParts[0].material.code;
-                    $scope.joinData.chnDateDesc = $scope.joinData.chnDateParts[0].description;
-                    $scope.joinData.chnDateTotalQuantity = chnDateTotalQuantity;
-                    $scope.joinData.chnDateUnit = chnDateUnit;
-                    $scope.joinData.pesoTotal = pesoTotal;
-                    $scope.joinData.chnDateItem = {};
-                    $scope.joinData.chnDateItem.id = tempVar[0].id;
-                    $scope.joinData.chnDateItem.version = tempVar[0].version;
-                    $scope.joinData.chnDateItem.item = tempVar[0].item;
-                    $scope.joinData.chnDateItem.description = tempVar[0].description;
-                    $scope.joinDateModalShow();
-                }
-                else {
-                    services.showAlert('Falhou', 'Please select atleast 2 components to join delivery date');
-                }
-            }
-            $scope.submitJoinComponent = function(isValid) {
-                if (isValid) {
-                    $scope.joinDateModal.hide();
-                    $scope.loading = true;
-                    $scope.postdata = {};
-                    $scope.postdata.id = 0;
-                    $scope.postdata.delivery = CommonFun.getFullTimestamp($scope.joinData.delivery);
-                    $scope.postdata.quantity = {};
-                    $scope.postdata.quantity.value = $scope.joinData.chnDateTotalQuantity;
-                    $scope.postdata.quantity.unit = {};
-                    $scope.postdata.quantity.unit.id = $scope.joinData.chnDateUnit.id;
-                    $scope.postdata.quantity.unit.name = $scope.joinData.chnDateUnit.name;
-                    $scope.postdata.quantity.unit.symbol = $scope.joinData.chnDateUnit.symbol;
-                    Restangular.one('shipping/planning', $scope.orderData.id)
-                            .one('item', $scope.joinData.chnDateItem.id)
-                            .one('component', $scope.joinData.chnDateParts[0].id)
-                            .all('delivery').post($scope.postdata).then(function(response) {
-                        $scope.loading = false;
-                        var i = 0;
-
-                        $scope.outerRemovePart = function() {
-                            var j = 0;
-                            $scope.innerRemovePart = function() {
-                                Restangular.one('shipping/planning', $scope.orderData.id)
-                                        .one('item', $scope.joinData.chnDateItem.id)
-                                        .one('component', $scope.joinData.chnDateParts[i].id)
-                                        .one('delivery', $scope.joinData.chnDateParts[i].delivery[j].id).remove().then(function(response) {
-                                    j++;
-                                    if (j < $scope.joinData.chnDateParts[i].deliveryArr.length)
-                                    {
-                                        $scope.innerRemovePart();
-                                    }
-                                    else
-                                    {
-                                        i++;
-                                        if (i < $scope.joinData.chnDateParts.length)
-                                        {
-                                            $scope.outerRemovePart();
-                                        } else
-                                        {
-                                            $scope.loading = false;
-                                            services.showAlert('success', 'Successfully joined delivery dates').then(function(response) {
-                                                if ($scope.viewtype == 'form')
-                                                {
-                                                    $scope.getOrderData($scope.orderData.id);
-                                                    $scope.orderData = {};
-                                                } else
-                                                {
-                                                    $scope.loadGrid();
-                                                    $scope.orderData = {};
-                                                }
-                                            });
-                                        }
-                                    }
-                                }, function() {
-                                    $scope.loading = false;
-                                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.').then(function(response) {
-                                        $scope.joinDateModal.show();
-                                    });
-                                });
-                            }
-                            $scope.innerRemovePart();
-                        }
-                        $scope.outerRemovePart();
-                    }, function() {
-                        $scope.loading = false;
-                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.').then(function(response) {
-                            $scope.joinDateModal.show();
-                        });
-                    });
-                }
-            }
-
-            $scope.updatePart = function(bomId, itemId, partId, deliveryid) {
-                $scope.changeDateModalHide();
-                $scope.loading = true;
-                $scope.BOMId = bomId;
-                $scope.ITEMId = itemId;
-                $scope.PARTId = partId;
-                $scope.DELIVERYId = deliveryid;
-                $scope.partData = {};
-                Restangular.one('shipping/planning', bomId).one('item', itemId).one('component', partId).get().then(function(response) {
-
-                    var data = response.data;
-                    $scope.partData.version = data.version;
-                    $scope.partData.materialId = data.material.id;
-                    $scope.partData.code = data.material.code;
-                    $scope.partData.description = data.description;
-                    $scope.partData.delivery = data.delivery.delivery;
-                    $scope.getColorName(data.color.id);
-                    $scope.partData.quantity = data.quantity.value;
-                    $scope.partData.quantityType = data.quantity.unit.symbol;
-                    $scope.partData.width = data.width.value;
-                    $scope.getUnitSymbol(data.width.unit.id, 'width');
-                    $scope.partData.height = data.height.value;
-                    $scope.getUnitSymbol(data.height.unit.id, 'height');
-                    $scope.partData.length = data.length.value;
-                    $scope.getUnitSymbol(data.length.unit.id, 'length');
-                    $scope.partData.weight = data.weight.value;
-                    $scope.getUnitSymbol(data.weight.unit.id, 'weight');
-                    Restangular.one('shipping/planning', bomId).one('item', itemId).one('component', partId).one('delivery', deliveryid).get().then(function(response1) {
-                        $scope.partData.delivery = CommonFun.getFullDate(response1.data.delivery);
-                        $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/part.html', {
-                            scope: $scope,
-                            animation: 'fade-in'
-                        }).then(function(modal) {
-                            $scope.changePartModal = modal;
-                            $scope.loading = false;
-                            $scope.changePartModal.show();
-                        });
-                        $scope.changePartModalHide = function() {
-                            $scope.changePartModal.hide();
-                        };
-                        $scope.changePartModalShow = function() {
-                            $scope.changePartModal.show();
-                        };
-                    }, function(response1) {
-                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
-                    });
-                }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
-                });
-                $scope.getUnitSymbol = function(unitId, unitType) {
-                    Restangular.one('measurement/unit', unitId).get().then(function(response) {
-                        var symbol = response.data.symbol;
-                        var id = response.data.id;
-                        if (unitType == "width")
-                        {
-                            $scope.partData.widthType = symbol;
-                            $scope.partData.widthTypeId = id;
-                        } else if (unitType == "height") {
-                            $scope.partData.heightType = symbol;
-                            $scope.partData.heightTypeId = id;
-                        } else if (unitType == "length") {
-                            $scope.partData.lengthType = symbol;
-                            $scope.partData.lengthTypeId = id;
-                        } else if (unitType == "weight") {
-                            $scope.partData.weightType = symbol;
-                            $scope.partData.weightTypeId = id;
-                        }
-                    }, function(response) {
-                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
-                    });
-                };
-                $scope.getColorName = function(colorId) {
-                    Restangular.one('common/color', colorId).get().then(function(response) {
-                        $scope.partData.color = {};
-                        $scope.partData.color.version = response.data.version;
-                        $scope.partData.color.code = response.data.code;
-                        $scope.partData.color.id = response.data.id;
-                        $scope.partData.color.name = response.data.name;
-                    }, function(response) {
-                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
-                    });
-                };
-            };
-
-            $scope.submitPartForm = function(isValid) {
-                if (isValid) {
-                    $scope.loading = true;
-                    Restangular.all('shipping').one('planning', $scope.BOMId).one('item', $scope.ITEMId).one('component', $scope.PARTId).one('delivery', $scope.DELIVERYId).get().then(function(response) {
-                        $scope.chgDeliveryData = {};
-                        $scope.chgDeliveryData.id = response.data.id;
-                        $scope.chgDeliveryData.version = response.data.version;
-                        $scope.chgDeliveryData.type = response.data.type;
-                        $scope.chgDeliveryData.delivery = moment($scope.partData.delivery, 'DD/MM/YYYY').format('YYYY-MM-DD');
-                        $scope.chgDeliveryData.quantity = response.data.quantity;
-                        $scope.chgDeliveryData.delivered = response.data.delivered;
-                        $scope.chgDeliveryData.remaining = response.data.remaining;
-                        Restangular.all('shipping').one('planning', $scope.BOMId).one('item', $scope.ITEMId).one('component', $scope.PARTId).one('delivery', $scope.DELIVERYId).customPUT($scope.chgDeliveryData).then(function(response) {
-                            $scope.loading = false;
-                            $scope.changePartModalHide();
-                            services.showAlert('Success', 'Delivery date changed to ' + $scope.partData.delivery).then(function(res) {
-                                if ($scope.viewtype == 'grid')
-                                {
-                                    $scope.loadGrid();
-                                } else
-                                {
-                                    $scope.getOrderData($scope.BOMId);
-                                }
-                            });
-                        }, function(response) {
-                            $scope.loading = false;
-                            services.showAlert('Falhou', 'Error in PUT request');
-                        });
-                    }, function(response) {
-                        $scope.loading = false;
-                        services.showAlert('Falhou', 'Error in GET request');
-                    });
-                }
-            }
-
-            $scope.goBackParent = function() {
-                $scope.changePartModal.hide();
-                if ($scope.viewGrid != true)
-                {
-                    $scope.changeDate.show();
-                }
-            };
-
-            $scope.getObjects = function(obj, key, val) {
-                var objects = [];
-                for (var i in obj) {
-                    if (!obj.hasOwnProperty(i))
-                        continue;
-                    if (typeof obj[i] == 'object') {
-                        objects = objects.concat($scope.getObjects(obj[i], key, val));
-                    } else if (i == key && obj[key] == val) {
-                        objects.push(obj);
-                    }
-                }
-                return objects;
-            };
-            $scope.getCellColor = function(st, weight) {
-                if (st < moment().valueOf() || (parseInt(weight) / 1000 > 20))
-                {
-                    return 'red';
-                } else
-                {
-                    return 'green';
-                }
-            }
-            $scope.checkDay = function(st) {
-                return moment(st).format('D');
-            }
-            $scope.checkMonth = function(st) {
-                return moment(st).format('M');
-            }
-            $scope.checkYear = function(st) {
-                return moment(st).format('YYYY');
-            }
-            $scope.getWeekDay = function(date) {
-                return moment(date, "D_M_YYYY").format('dddd');
-            }
-            $scope.getWeekDayShort = function(date) {
-                return moment(date, "D_M_YYYY").locale('pt-br').format('ddd');
-            }
-            $scope.getDay = function(date) {
-                return parseInt(moment(date, "D_M_YYYY").format('D'));
-            }
-            $scope.getMonth = function(date) {
-                return parseInt(moment(date, "D_M_YYYY").format('M'));
-            }
-            $scope.getYear = function(date) {
-                return moment(date, "D_M_YYYY").format('YYYY')
             }
             $scope.makeCalender = function() {
                 $scope.days = [];
@@ -702,72 +451,23 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 }
                 $scope.subCalander(startMonth, startYear);
             };
-
-            function createDaysArray(daysArray, m, y)
-            {
-                for (var j = 0; j < daysArray.length; j++) {
-                    $scope.days.push(daysArray[j] + '_' + m + '_' + y);
-                }
-            }
-            function daysInMonth(month, year) {
-                return moment(month + "-" + year, "M-YYYY").daysInMonth();
-            }
-            function range(a, b, step) {
-                var A = [];
-                A[0] = a;
-                step = step || 1;
-                while (a + step <= b) {
-                    A[A.length] = a += step;
-                }
-                return A;
-            }
             $scope.loadGrid = function() {
                 $scope.loading = true;
                 $scope.itemId = [];
                 $scope.itemPartIdArr = [];
                 $scope.itemPartDeliveryArr = [];
-                Restangular.one('shipping/planning/remaining').get({max: 999}).then(function(response) {
+                $scope.finalArr = '';
+                Restangular.one('shipping/execution').get({max: 999}).then(function(response) {
                     $scope.loading = false;
-                    $scope.orderGridData = response.data;
+                    $scope.finalArr = response.data;
                     var main = [];
-                    for (var i = 0; i < $scope.orderGridData.length; i++)
+                    for (var i = 0; i < $scope.finalArr.length; i++)
                     {
-                        if ($.inArray(parseInt($scope.checkYear(CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat($scope.orderGridData[i].delivery, 'YYYY-MM-DD')))), $scope.validYears) !== -1)
-                        {
-                            $scope.tempUnixTS.push(CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat($scope.orderGridData[i].delivery, 'YYYY-MM-DD')));
-                        }
-                        if ($scope.getObjects(main, 'id', $scope.orderGridData[i].id) == '')
-                        {
-                            tempCom = {};
-                            tempCom.id = $scope.orderGridData[i].id;
-                            var tempComponetArr = [];
-                            tempComponetArr = $scope.getObjects($scope.orderGridData, 'id', $scope.orderGridData[i].id);
-                            tempCom.component = [];
-                            for (var j = 0; j < tempComponetArr.length; j++)
-                            {
-                                tempCom.component[j] = {};
-                                tempCom.component[j].delivery = CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat(tempComponetArr[j].delivery, 'YYYY-MM-DD'));
-                                tempCom.component[j].remaining = tempComponetArr[j].remaining;
-                            }
-                            main.push(tempCom);
-                        }
+                        $scope.tempUnixTS.push($scope.finalArr[i].delivery);
                     }
                     $scope.tempUnixTS.sort(function(a, b) {
                         return b - a
                     });
-                    $scope.finalArr = [];
-                    for (var n = 0; n < $scope.orderList.length; n++)
-                    {
-                        var tempFinal = {};
-                        tempFinal.id = $scope.orderList[n].id;
-                        tempFinal.components = [];
-                        var tempFetchData = $scope.getObjects(main, 'id', $scope.orderList[n].id);
-                        if (tempFetchData != '')
-                        {
-                            tempFinal.components = tempFetchData[0].component;
-                        }
-                        $scope.finalArr.push(tempFinal);
-                    }
                     $scope.makeCalender();
                     setTimeout(function() {
                         $scope.decorateTable();
@@ -776,47 +476,14 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             };
-            $scope.changeDeliveryDate = function(bomId) {
-                $scope.getOrderData(bomId);
-                $scope.changeDateModalShow();
-            };
-            $scope.getBomData = function(bomId) {
-                Restangular.one('shipping/planning', bomId).get().then(function(response) {
-                    $scope.orderData = response.data;
-                }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
-                });
-            };
-            $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/view.html', {
-                scope: $scope,
-                animation: 'fade-in'
-            }).then(function(modal) {
-                $scope.changeDate = modal;
-            });
-            $scope.changeDateModalShow = function() {
-                $scope.changeDate.show();
-            };
-            $scope.changeDateModalHide = function() {
-                $scope.changeDate.hide();
-            };
-            $scope.checkForViewDelivery = function(deliveryDate) {
-                if ($scope.viewDeliveryDate == CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat(deliveryDate)))
-                {
-                    return true;
-                } else
-                {
-                    return false;
-                }
-            };
-            $scope.toggleLeft = function() {
-                $ionicSideMenuDelegate.toggleLeft();
-            };
             $scope.changeDelDateByDrag = function(orderId, oldDate, newDate) {
                 $scope.loading = true;
                 $scope.postdata = [];
-                $scope.postdata = [CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat(oldDate, 'D_M_YYYY')), CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat(newDate, 'D_M_YYYY'))];
+                $scope.postdata = [oldDate, CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat(newDate, 'D_M_YYYY'))];
+                console.log(JSON.stringify($scope.postdata));
                 Restangular.all('shipping').one('planning', orderId).all('delivery').customPUT($scope.postdata).then(function(response) {
                     $scope.loading = false;
+                    console.log(JSON.stringify(response.data));
                     if (response.data.count > 0)
                     {
                         services.showAlert('Success', 'Successfully delivery date changed to ' + CommonFun.setDefaultDateFormat(newDate, 'D_M_YYYY')).then(function(res) {
@@ -824,7 +491,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         });
                     } else
                     {
-                        services.showAlert('Success', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.').then(function(res) {
+                        services.showAlert('Error', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.').then(function(res) {
                             $scope.loadGrid();
                         });
                     }
@@ -833,6 +500,9 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     $scope.loading = false;
                     services.showAlert('Falhou', 'Error in PUT request');
                 });
+            };
+            $scope.goEdit = function (planningId) {
+                $location.path('shipping/planning/'+planningId);
             }
         });
 function unique_arr(array) {

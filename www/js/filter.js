@@ -16,3 +16,9 @@ altamiraAppControllers.filter('getDate',
                 return moment(input).format('DD/MM/YYYY');
             };
         });
+altamiraAppControllers.filter('getFullTimeStamp',
+        function() {
+            return function(date) {
+                return moment.utc(date, 'YYYY-MM-DD').valueOf();
+            };
+        });

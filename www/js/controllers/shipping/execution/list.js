@@ -289,8 +289,6 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         return b - a
                     });
                     $scope.makeCalender();
-                    console.log(JSON.stringify($scope.days));
-                    console.log(JSON.stringify($scope.monthDays));
                     setTimeout(function() {
                         $scope.decorateTable();
                     }, 100);
