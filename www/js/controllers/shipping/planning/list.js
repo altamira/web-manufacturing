@@ -457,7 +457,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 $scope.itemPartIdArr = [];
                 $scope.itemPartDeliveryArr = [];
                 $scope.finalArr = '';
-                Restangular.one('shipping/execution').get({max: 999}).then(function(response) {
+                Restangular.one('shipping/planning').get({max: 999}).then(function(response) {
                     $scope.loading = false;
                     $scope.finalArr = response.data;
                     var main = [];

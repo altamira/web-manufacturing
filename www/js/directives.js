@@ -307,6 +307,26 @@ altamiraApp.directive('joinDateChange', function() {
         }
     };
 });
+altamiraApp.directive('historyDate', function() {
+    return {
+        link: function(scope, el, attr) {
+            $(el).datepicker({
+                dateFormat: 'dd/mm/yy',
+                inline: true,
+                beforeShowDay: function(date) {
+                    var day = date.getDay();
+                    return [day == 1 || day == 2 || day == 3 || day == 4 || day == 5, ''];
+                },
+                onSelect: function(dateText) {
+                    scope.$apply(function() {
+                        scope.historyData.date = dateText
+                        scope.showdate = true;
+                    });
+                }
+            });
+        }
+    };
+});
 altamiraApp.directive('divideDateChange1', function() {
     return {
         link: function(scope, el, attr) {

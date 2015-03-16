@@ -1,0 +1,32 @@
+<div class="modal">
+    <ion-header-bar class="bar-calm">
+        <div class="buttons header-margin">
+            <button type="button" class="button fa-arrow-left" ng-click="statusListModalHide()"></button>
+            <span class="btn-separator"></span>
+            <h4 class="mf-page-titles">&nbsp;Status</h4>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <div class="row">
+            <div class="col">
+                <div class="list">
+                    <ul>
+                        <li ng-repeat="status in statusData">
+                            <div ng-click="selectStatusType(status)" class="mouse-pointer">
+                                <div class="text-wrap1" ng-if="status.code == 1" style="font-size: 20px;">
+                                    {{status.description}}
+                                </div>
+                                <div class="text-wrap2" ng-if="status.code == 3" style="font-size: 20px;">
+                                    {{status.description}}
+                                </div>
+                                <div class="text-wrap3" ng-if="status.code == 2" style="font-size: 20px;">
+                                    {{status.description}}
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</div>

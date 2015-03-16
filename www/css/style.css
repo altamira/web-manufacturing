@@ -1449,6 +1449,12 @@
     font-size: 30px;
     color: #666666;
 }
+.fa-list-history:before {
+    font-family: "fontawesome";
+    content: "\f0ca";
+    font-size: 30px;
+    color: #666666;
+}
 .fa-arrow-right:before {
     font-family: "fontawesome";
     content: "\f105";
@@ -2685,4 +2691,41 @@
     height: 30px;
     margin-top: 8px;
     text-align: right;
+}
+
+
+
+.view-content .row {display: flex;}
+.view-content .item {border-radius: 5px; color: #000000; font-size: 18px; font-weight: bold; height: 25px;}
+.view-content .col-50 { padding: 5px 10px;}
+.view-block { padding: 0 0px;}
+.view-block .row {display: flex;}
+.view-block .col-25, .col-75, .col-50{ padding: 0px 10px;}
+.input-item { height: 45px !important; border: 1px solid #ddd !important; position: absolute; width:65% !important; text-overflow: ellipsis; white-space: nowrap;}
+.input-item img { margin-left: 10px;}
+.view-block .fa-md-search::before { border: 1px solid #ddd; top: -6px !important; padding: 6px; position: relative;}
+.text-wrap1 { color: #000000; display: inline-block; margin: 0 0px; overflow: hidden; padding: 0; position: relative; text-overflow: ellipsis; white-space: nowrap;
+    width: 99.6%; border-bottom: 1px solid #ddd; padding-bottom: 15px; background: url(../img/like.jpg) no-repeat right 0px; float: right; padding-right: 30px;}
+.text-wrap2 { color: #000000; display: inline-block; margin: 0 0px; overflow: hidden; padding: 0; position: relative; text-overflow: ellipsis; white-space: nowrap;
+    width: 99.6%;  padding-bottom: 15px;border-bottom: 1px solid #ddd; padding-top: 3px; background: url(../img/unlike.jpg) no-repeat right 1px; float: right; padding-right: 30px;}
+.input-item span { width:75%; overflow: hidden; padding: 0; position: relative; text-overflow: ellipsis; white-space: nowrap;}
+
+.text-wrap3 { color: #000000; display: inline-block; margin: 0 0px; overflow: hidden; padding: 0; position: relative; text-overflow: ellipsis; white-space: nowrap;
+    width: 99.6%; border-bottom: 1px solid #ddd; background: url(../img/question.jpg) no-repeat right 4px; float: right; padding-right: 30px;  padding-bottom: 15px; padding-top: 7px; }
+.fa-book:before {
+    font-family: "fontawesome";
+    content: "\f02d";
+    font-size: 22px;
+    color: #666666;
+    margin-right: 10px;
+}
+.history_date{
+    color: #666666;
+    font-size: 18px;
+    font-weight: 500;
+}
+.history_desc{
+    color: #666666;
+    font-size: 18px;
+    font-weight: 500;
 }

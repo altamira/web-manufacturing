@@ -6,6 +6,8 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
             $scope.showdate = true;
             $scope.showdate_1 = true;
             $scope.showdate_2 = true;
+            $scope.PersonalData = {};
+            $scope.historyData = {};
             $scope.getOrderData = function(orderId) {
                 $scope.loading = true;
                 $scope.itemId = [];
@@ -15,6 +17,14 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                     $scope.loading = false;
                     $scope.orderData = response.data;
                     $scope.finalList = [];
+                    $scope.PersonalData.id = $scope.orderData.id;
+                    $scope.PersonalData.version = $scope.orderData.version;
+                    $scope.PersonalData.type = $scope.orderData.type;
+                    $scope.PersonalData.invoice = $scope.orderData.invoice;
+                    $scope.PersonalData.transport = $scope.orderData.transport;
+                    $scope.PersonalData.name = $scope.orderData.name;
+                    $scope.PersonalData.phone = $scope.orderData.phone;
+                    $scope.PersonalData.email = $scope.orderData.email;
                     for (var j = 0; j < $scope.orderData.item.length; j++)
                     {
                         $scope.tempList = {};
@@ -304,4 +314,88 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                 }
             };
             $scope.getOrderData($scope.planningId);
+            $scope.submitPersonalDataForm = function(isValid) {
+                if (isValid) {
+                    $scope.loading = true;
+                    Restangular.one('shipping/planning/transport', $scope.PersonalData.id).customPUT($scope.PersonalData).then(function(response) {
+                        $scope.loading = false;
+                        services.showAlert('Success', 'dados pessoais atualizados succefully').then(function(res) {
+                            $scope.getOrderData($scope.planningId);
+                        });
+                    }, function(response1) {
+                        $scope.loading = false;
+                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    });
+                }
+            };
+            $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/history.html', {
+                scope: $scope,
+                animation: 'fade-in'
+            }).then(function(modal) {
+                $scope.historyModal = modal;
+            });
+            $scope.historyModalShow = function() {
+                $scope.historyModal.show();
+            }
+            $scope.historyModalHide = function() {
+                $scope.historyModal.hide();
+            }
+            $scope.openHistoryModal = function() {
+                $scope.historyModalShow();
+            }
+            $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/status_list.html', {
+                scope: $scope,
+                animation: 'fade-in'
+            }).then(function(modal) {
+                $scope.statusListModal = modal;
+            });
+            $scope.statusListModalShow = function() {
+                $scope.historyModalHide();
+                $scope.statusListModal.show();
+            }
+            $scope.statusListModalHide = function() {
+                $scope.statusListModal.hide();
+                $scope.historyModalShow();
+            }
+            $scope.openStatusListModal = function() {
+                $scope.statusListModalShow();
+                Restangular.one('shipping/planning/status').get().then(function(response) {
+                    $scope.loading = false;
+                    $scope.statusData = response.data;
+                }, function() {
+                    $scope.loading = false;
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                });
+            };
+
+            $scope.selectStatusType = function(status) {
+                $scope.historyData.statusId = status.id;
+                $scope.historyData.statusType = status.type;
+                $scope.historyData.statusDescription = status.description;
+                $scope.historyData.statusCode = status.code;
+                $scope.statusListModalHide();
+            }
+            $scope.submitHistoryForm = function(isValid) {
+                if (isValid) {
+                    $scope.loading = true;
+                    $scope.postData = {};
+                    $scope.postData.id = 0;
+                    $scope.postData.type = "br.com.altamira.data.model.shipping.planning.History",
+                    $scope.postData.status = {};
+                    $scope.postData.status.id = $scope.historyData.statusId;
+                    $scope.postData.status.type = $scope.historyData.statusType;
+                    $scope.postData.status.description = $scope.historyData.statusDescription;
+                    $scope.postData.status.code = $scope.historyData.statusCode;
+                    $scope.postData.date = CommonFun.getFullTimestamp($scope.historyData.date);
+                    $scope.postData.comment = $scope.historyData.comment;
+                    Restangular.one('shipping/planning',$scope.planningId).all('history').post($scope.postData).then(function(response) {
+                        $scope.loading = false;
+                        $scope.historyModalHide();
+                        $scope.getOrderData($scope.planningId);
+                    }, function() {
+                        $scope.loading = false;
+                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    });
+                }
+            }
         });

@@ -5,7 +5,7 @@
     </div>
 </div>
 <ion-pane>
-    <form name="bomForm" novalidate ng-submit="submitBomForm(bomForm.$valid)" class="edit-content">
+    <form name="PersonalDataForm" novalidate ng-submit="submitPersonalDataForm(PersonalDataForm.$valid)">
         <ion-header-bar class="bar-calm">
             <div class="buttons header-margin">
                 <button type="button" class="button fa-arrow-left" ng-click="goBack()"></button>
@@ -22,7 +22,7 @@
         <ion-content>
             <div class="view-content">
                 <div class="row">
-                    <div class="col-50">
+                    <div class="col-80">
                         <div class="list list-row">
                             <span class="input-label text-bold">Pedido</span>
                             <label class="item item-input plain-text">
@@ -30,11 +30,14 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-50">
+                    <div class="col-20">
                         <div class="list list-row">
                             <span class="input-label text-bold">Status</span>
-                            <label class="item item-input plain-text">
-                                Aguardando Coleta
+                            <label class="item item-input plain-text input-item">
+                                <span>{{orderData.status.description}}</span>
+                                <img src="img/like.jpg" ng-if="orderData.status.code == 1">
+                                <img src="img/question.jpg" ng-if="orderData.status.code == 2">
+                                <img src="img/unlike.jpg" ng-if="orderData.status.code == 3">
                             </label>
                         </div>
                     </div>
@@ -103,34 +106,71 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-20">
-                    <div class="list list-row">
-                        <span class="input-label text-bold">Nota Fiscal</span>
-                        <label class="item item-input input-box-extra">
-                            <input type="text" name="code" ng-model="consumeData.code" value="354564321321">
-                        </label>
-                        <i class="icon ion-ios7-search fa-md-arrow-right extra-search"></i>
-                        <i class="icon ion-ios7-search fa-md-search extra-search"></i>
+
+            <div class="view-block">
+                <div class="row">
+                    <div class="col-25">
+                        <div class="list">
+                            <span class="input-label text-bold">Nota Fiscal</span>
+                            <label class="item item-input input-box-extra">
+                                <input type="text" name="invoice" ng-model="PersonalData.invoice" required>
+                            </label>
+                            <i class="icon ion-ios7-search fa-md-arrow-right extra-search"></i>
+                            <i class="icon ion-ios7-search fa-md-search extra-search"></i>
+                            <label class="extra-error" ng-show="submitted && PersonalDataForm.invoice.$error.required">Nota Fiscal field is required.</label>
+                        </div>
                     </div>
-                </div>
-                <div class="col-75">
-                    <div class="list list-row">
-                        <span class="input-label text-bold">Transportadora</span>
-                        <label class="item item-input input-box-extra">
-                            <input type="text" name="code" ng-model="consumeData.code" value="NISARG PATEL">
-                        </label>
-                        <i class="icon ion-ios7-search fa-md-arrow-right extra-search"></i>
-                        <i class="icon ion-ios7-search fa-md-search extra-search"></i>
+                    <div class="col-75">
+                        <div class="list">
+                            <span class="input-label text-bold">Transportadora</span>
+                            <label class="item item-input input-box-extra">
+                                <input type="text" name="transport" ng-model="PersonalData.transport" required>
+                            </label>
+                            <i class="icon ion-ios7-search fa-md-arrow-right extra-search"></i>
+                            <i class="icon ion-ios7-search fa-md-search extra-search"></i>
+                            <label class="extra-error" ng-show="submitted && PersonalDataForm.transport.$error.required">Transportadora field is required.</label>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="view-block">
+                <div class="row">
+                    <div class="col-25">
+                        <div class="list">
+                            <span class="input-label text-bold">Nome do contato</span>
+                            <label class="item item-input input-box-extra">
+                                <input type="text" name="name" ng-model="PersonalData.name" required>
+                            </label>
+                            <label class="extra-error" ng-show="submitted && PersonalDataForm.name.$error.required">Nome do contato field is required.</label>
+                        </div>
+                    </div>
+                    <div class="col-25">
+                        <div class="list">
+                            <span class="input-label text-bold">Telefone</span>
+                            <label class="item item-input input-box-extra">
+                                <input type="text" name="phone" ng-model="PersonalData.phone" required>
+                            </label>
+                            <label class="extra-error" ng-show="submitted && PersonalDataForm.phone.$error.required">Telefone field is required.</label>
+                        </div>
+                    </div>
+                    <div class="col-50">
+                        <div class="list">
+                            <span class="input-label text-bold">Email</span>
+                            <label class="item item-input input-box-extra">
+                                <input type="text" name="email" ng-model="PersonalData.email" required>
+                            </label>
+                            <label class="extra-error" ng-show="submitted && PersonalDataForm.email.$error.required">Email field is required.</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col">
                     <div class="list">
                         <a class="process-item-list item-icon-left item-icon-right">
-                            <i class="icon left-icon fa-list"></i> Histórico
-                            <i style="width: 7px;" ng-click="createItem()" class="icon plus-icon fa-plus-bom-edit"></i>
+                            <i class="icon left-icon fa-list-history"></i> Histórico
+                            <i style="width: 7px;" ng-click="openHistoryModal()" class="icon plus-icon fa-plus-bom-edit"></i>
                         </a>
                     </div>
                 </div>
@@ -139,11 +179,21 @@
                 <div class="col">
                     <div class="list">
                         <ul>
-                            <li>
-                                <div ng-click="goUpdateOperationType(data.type,data.id,operation.id)" class="mouse-pointer">&nbsp;<div class="text-wrap ng-binding">ALPRFQ30-KG20000F100 - AÇO LAM PLANO FINA QUENTE PRETO ROLO 30KG/MM2 2,00MM ESP FITA 100MM</div></div>
-                            </li>
-                            <li>
-                                <div ng-click="goUpdateOperationType(data.type,data.id,operation.id)" class="mouse-pointer">&nbsp;<div class="text-wrap ng-binding">PPLDCJ0000000000000-10 - DISTANCIADOR PPL - BLANK C/ CANTOS E FURAÇÃO</div></div>
+                            <li ng-repeat="history in orderData.history">
+                                <div class="mouse-pointer">
+                                    <div class="text-wrap1" ng-if="history.status.code == 1">
+                                        <span class="history_date">{{history.date | getDate}}</span>
+                                        <span class="history_desc">{{history.comment}}</span>
+                                    </div>
+                                    <div class="text-wrap2" ng-if="history.status.code == 3">
+                                        <span class="history_date">{{history.date | getDate}}</span>
+                                        <span>{{history.comment}}</span>
+                                    </div>
+                                    <div class="text-wrap3" ng-if="history.status.code == 2">
+                                        <span class="history_date">{{history.date | getDate}}</span>
+                                        <span>{{history.comment}}</span>
+                                    </div>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -153,7 +203,7 @@
                 <div class="col">
                     <div class="list">
                         <a class="process-item-list item-icon-left item-icon-right">
-                            <i class="icon left-icon fa-list"></i>
+                            <i class="icon left-icon fa-list-history"></i>
                             Itens
                         </a>
                     </div>
