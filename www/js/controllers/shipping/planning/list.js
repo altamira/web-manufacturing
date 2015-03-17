@@ -468,6 +468,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     $scope.tempUnixTS.sort(function(a, b) {
                         return b - a
                     });
+                    console.log(JSON.stringify($scope.finalArr));
                     $scope.makeCalender();
                     setTimeout(function() {
                         $scope.decorateTable();

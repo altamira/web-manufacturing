@@ -29,7 +29,7 @@
                                 </div>
                             </div>
                             <div class="col col-50 col-offset-50 top-switch-bar">
-                                <div class="button-bar bar-calm" style="float: right">
+                                <div class="button-bar bar-calm" style="float: right;width: 140px;">
                                     <a class="button top-switch-btn topBtnRadius fa-component-switch" ng-click="formView()" id="formShowBtn"></a>
                                     <a class="button top-switch-btn fa-th month" ng-click="gridView()" id="gridShowBtn"></a>
                                 </div>
@@ -86,10 +86,17 @@
                                         </tr>
                                         <tr>
                                             <td ng-repeat="day in days track by $index" data-day='{{day}}' class='maintable-td'  ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'">
-                                                <div class="cutomer-name dragDiv" ng-repeat="order in finalArr" data-orderid="{{order.id}}" data-olddate="{{order.delivery}}" ng-if="(checkDay(order.delivery) == getDay(day)) && (checkMonth(order.delivery) == getMonth(day)) && (checkYear(order.delivery) == getYear(day))">
-                                                    <!--<p class="wrap-text">{{order.customer}}</p>-->
-                                                    <p>{{order.number}}</p>
-                                                    <p class="grid-name">{{order.customer}}</p>
+                                                <div class="cutomer-name dragDiv green" ng-repeat="order in finalArr" data-orderid="{{order.id}}" data-olddate="{{order.delivery}}" ng-if="(order.status.code == 1) && (checkDay(order.delivery) == getDay(day)) && (checkMonth(order.delivery) == getMonth(day)) && (checkYear(order.delivery) == getYear(day))">
+                                                    <p style="color: #000">{{order.number}}</p>
+                                                    <p class="grid-name" style="color: #000">{{order.customer}}</p>
+                                                </div>
+                                                <div class="cutomer-name dragDiv yellow" ng-repeat="order in finalArr" data-orderid="{{order.id}}" data-olddate="{{order.delivery}}" ng-if="(order.status.code == 2) && (checkDay(order.delivery) == getDay(day)) && (checkMonth(order.delivery) == getMonth(day)) && (checkYear(order.delivery) == getYear(day))">
+                                                    <p style="color: #000">{{order.number}}</p>
+                                                    <p class="grid-name" style="color: #000">{{order.customer}}</p>
+                                                </div>
+                                                <div class="cutomer-name dragDiv red" ng-repeat="order in finalArr" data-orderid="{{order.id}}" data-olddate="{{order.delivery}}" ng-if="(order.status.code == 3) && (checkDay(order.delivery) == getDay(day)) && (checkMonth(order.delivery) == getMonth(day)) && (checkYear(order.delivery) == getYear(day))">
+                                                    <p style="color: #000">{{order.number}}</p>
+                                                    <p class="grid-name" style="color: #000">{{order.customer}}</p>
                                                 </div>
                                             </td>
                                         </tr>

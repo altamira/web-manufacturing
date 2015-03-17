@@ -10,24 +10,6 @@
             </div>
         </ion-header-bar>
         <ion-content>
-            <div class="view-content">
-                <div class="row">
-                    <div class="col" style="border-bottom: 1px solid #cccccc">
-                        <div class="list list-row">
-                            <span class="input-label text-bold">Pedido</span>
-                            <label class="item item-input plain-text">
-                                {{orderData.number}}
-                            </label>
-                        </div>
-                        <div class="list list-row">
-                            <span class="input-label text-bold">Cliente</span>
-                            <label class="item item-input" >
-                                {{orderData.customer}}
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="row">
                 <div class="col-50">
                     <div class="list list-row">
@@ -57,6 +39,28 @@
                         <span class="input-label text-bold"><i class="fa fa-book"></i> Historico</span>
                         <textarea name="comment" ng-model="historyData.comment" class="textarea-extra" required></textarea>
                         <label class="extra-error" ng-show="submitted && historyForm.comment.$error.required">Historico field is required.</label>
+                    </div>
+                </div>
+            </div>
+            <div class="view-content">
+                <div class="row">
+                    <div class="col" style="border-bottom: 1px solid #cccccc">
+                        <div class="list list-row">
+                            <span class="input-label text-bold">Pedido</span>
+                            <label class="item item-input plain-text">
+                                {{orderData.number}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col" style="border-bottom: 1px solid #cccccc">
+                        <div class="list list-row">
+                            <span class="input-label text-bold">Cliente</span>
+                            <label class="item item-input" >
+                                {{orderData.customer}}
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
