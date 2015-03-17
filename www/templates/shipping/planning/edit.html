@@ -21,27 +21,54 @@
         </ion-header-bar>
         <ion-content>
             <div class="view-content">
-                <div class="row">
-                    <div class="col-50">
-                        <div class="list list-row">
-                            <span class="input-label text-bold">Pedido</span>
-                            <label class="item item-input plain-text">
-                                {{orderData.number}}
-                            </label>
+                <div class="desktop-view">
+                    <div class="row">
+                        <div class="col-75">
+                            <div class="list list-row">
+                                <span class="input-label text-bold">Pedido</span>
+                                <label class="item item-input plain-text">
+                                    {{orderData.number}}
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-50">
-                        <div class="list list-row">
-                            <span class="input-label text-bold">Status</span>
-                            <label class="item item-input plain-text input-item">
-                                <span>{{orderData.status.description}}</span>
-                                <img src="img/like.jpg" ng-if="orderData.status.code == 1">
-                                <img src="img/question.jpg" ng-if="orderData.status.code == 2">
-                                <img src="img/unlike.jpg" ng-if="orderData.status.code == 3">
-                            </label>
+                        <div class="col-25">
+                            <div class="list list-row">
+                                <span class="input-label text-bold">Status</span>
+                                <label class="item item-input plain-text input-item">
+                                    <span>{{orderData.status.description}}</span>
+                                    <img src="img/like.jpg" ng-if="orderData.status.code == 1">
+                                    <img src="img/question.jpg" ng-if="orderData.status.code == 2">
+                                    <img src="img/unlike.jpg" ng-if="orderData.status.code == 3">
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="mobile-view">
+                    <div class="row">
+                        <div class="col-50">
+                            <div class="list list-row">
+                                <span class="input-label text-bold">Pedido</span>
+                                <label class="item item-input plain-text">
+                                    {{orderData.number}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-50">
+                            <div class="list list-row">
+                                <span class="input-label text-bold">Status</span>
+                                <label class="item item-input plain-text input-item">
+                                    <span>{{orderData.status.description}}</span>
+                                    <img src="img/like.jpg" ng-if="orderData.status.code == 1">
+                                    <img src="img/question.jpg" ng-if="orderData.status.code == 2">
+                                    <img src="img/unlike.jpg" ng-if="orderData.status.code == 3">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="row">
                     <div class="col">
                         <div class="list list-row">
