@@ -22,7 +22,7 @@
         <ion-content>
             <div class="view-content">
                 <div class="row">
-                    <div class="col-80">
+                    <div class="col-50">
                         <div class="list list-row">
                             <span class="input-label text-bold">Pedido</span>
                             <label class="item item-input plain-text">
@@ -30,7 +30,7 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-20">
+                    <div class="col-50">
                         <div class="list list-row">
                             <span class="input-label text-bold">Status</span>
                             <label class="item item-input plain-text input-item">
@@ -108,14 +108,14 @@
             </div>
 
             <div class="view-block">
-                <div class="row">
-                    <div class="col-25">
+                <div class="row personal-details">
+                    <div class="col-25 ">
                         <div class="list">
                             <span class="input-label text-bold">Nota Fiscal</span>
                             <label class="item item-input input-box-extra">
                                 <input type="text" name="invoice" ng-model="PersonalData.invoice" required>
                             </label>
-                            <i class="icon ion-ios7-search fa-md-arrow-right extra-search"></i>
+                            <i class="icon ion-ios7-search fa-md-arrow-right1 extra-search"></i>
                             <i class="icon ion-ios7-search fa-md-search extra-search"></i>
                             <label class="extra-error" ng-show="submitted && PersonalDataForm.invoice.$error.required">Nota Fiscal field is required.</label>
                         </div>
@@ -126,18 +126,16 @@
                             <label class="item item-input input-box-extra">
                                 <input type="text" name="transport" ng-model="PersonalData.transport" required>
                             </label>
-                            <i class="icon ion-ios7-search fa-md-arrow-right extra-search"></i>
+                            <i class="icon ion-ios7-search fa-md-arrow-right1 extra-search"></i>
                             <i class="icon ion-ios7-search fa-md-search extra-search"></i>
                             <label class="extra-error" ng-show="submitted && PersonalDataForm.transport.$error.required">Transportadora field is required.</label>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="view-block">
                 <div class="row">
                     <div class="col-25">
                         <div class="list">
-                            <span class="input-label text-bold">Nome do contato</span>
+                            <span class="input-label text-bold">Contato</span>
                             <label class="item item-input input-box-extra">
                                 <input type="text" name="name" ng-model="PersonalData.name" required>
                             </label>
@@ -164,7 +162,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col">
                     <div class="list">
@@ -187,11 +184,11 @@
                                     </div>
                                     <div class="text-wrap2" ng-if="history.status.code == 3">
                                         <span class="history_date">{{history.date | getDate}}</span>
-                                        <span>{{history.comment}}</span>
+                                        <span class="history_desc">{{history.comment}}</span>
                                     </div>
                                     <div class="text-wrap3" ng-if="history.status.code == 2">
                                         <span class="history_date">{{history.date | getDate}}</span>
-                                        <span>{{history.comment}}</span>
+                                        <span class="history_desc">{{history.comment}}</span>
                                     </div>
                                 </div>
                             </li>

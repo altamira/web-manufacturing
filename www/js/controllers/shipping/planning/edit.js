@@ -343,6 +343,9 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                 $scope.historyModal.hide();
             }
             $scope.openHistoryModal = function() {
+                $scope.historyData.date = moment().format('DD/MM/YYYY');
+                $scope.historyData.comment = '';
+                $scope.historyData.statusDescription = '';
                 $scope.historyModalShow();
             }
             $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/status_list.html', {
