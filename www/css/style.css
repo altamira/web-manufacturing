@@ -2729,3 +2729,9 @@
     font-size: 18px;
     font-weight: 500;
 }
+
+.item-input input { font-size: 19px !important;}
+.unit-label { position: absolute; width: auto; right: 10px; top: 42px; color: #666666; font-size: 24px; font-weight: bold; z-index: 9999;}
+.unit-input { text-align: right; flex:1 0 0px !important; padding-right: 50px !important;}
+.unit-input-no { text-align: right; flex:1 0 0px !important; padding-right: 10px !important;}
+.grid-name {  overflow: hidden; position: relative; text-overflow: ellipsis; white-space: nowrap; width: 110px;}

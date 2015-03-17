@@ -116,6 +116,7 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                     partDelivery = $scope.getObjects(part[0].delivery, 'id', $scope.itemPartDeliveryArr[0]);
                     $scope.partDelivery = partDelivery[0];
                     $scope.divideData.chnDateTotalQuantity = partDelivery[0].quantity.value;
+                    $scope.divideData.chnDateTotalQuantityUnit = partDelivery[0].quantity.unit.symbol;
                     $scope.divideData.pesoTotal = partDelivery[0].quantity.value * part[0].weight.value;
                     $scope.divideData.chnDateItem = {};
                     $scope.divideData.chnDateItem.id = tempVar[0].id;
@@ -236,8 +237,9 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                         }
                     }
                     $scope.joinData.chnDateCode = $scope.joinData.chnDateParts[0].material.code;
-                    $scope.joinData.chnDateDesc = $scope.joinData.chnDateParts[0].description;
+                    $scope.joinData.chnDateDesc = $scope.joinData.chnDateParts[0].quantity.unit.symbol;
                     $scope.joinData.chnDateTotalQuantity = chnDateTotalQuantity;
+                    $scope.joinData.chnDateTotalQuantityUnit = $scope.joinData.chnDateParts[0].quantity.unit.symbol;
                     $scope.joinData.chnDateUnit = chnDateUnit;
                     $scope.joinData.pesoTotal = pesoTotal;
                     $scope.joinData.chnDateItem = {};

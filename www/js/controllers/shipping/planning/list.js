@@ -385,9 +385,9 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         revert: 'invalid'
                     });
                     $(".makeDroppable").droppable({
-                        accept: function(item) {
-                            return $(this).closest("tr").is(item.closest("tr")) && $(this).find("*").length == 0;
-                        },
+//                        accept: function(item) {
+//                            return $(this).closest("tr").is(item.closest("tr")) && $(this).find("*").length == 0;
+//                        },
                         drop: function(event, ui) {
                             $scope.changeDelDateByDrag(ui.draggable.data('orderid'), ui.draggable.data('olddate'), $(this).data('day'));
 

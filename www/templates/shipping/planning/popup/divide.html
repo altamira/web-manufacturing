@@ -56,7 +56,7 @@
                     <div class="list list-row">
                         <span class="input-label text-bold"><i class="fa fa-list-ol"></i> Quantidade 1</span>
                         <label class="item item-input input-box-extra">
-                            <input type="text" name="quantity1" ng-model="divideData.quantity1" ng-change="desideQun2()">
+                            <input type="text" name="quantity1" ng-model="divideData.quantity1" ng-change="desideQun2()"  class="unit-input-no">
                         </label>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                     <div class="list list-row">
                         <span class="input-label text-bold"><i class="fa fa-list-ol"></i> Quantidade 2</span>
                         <label class="item item-input input-box-extra">
-                            <input type="text" name="quantity2" ng-model="divideData.quantity2" readonly="readonly">
+                            <input type="text" name="quantity2" ng-model="divideData.quantity2" readonly="readonly"  class="unit-input-no">
                         </label>
                     </div>
                 </div>
@@ -74,8 +74,9 @@
                     <div class="list list-row">
                         <span class="input-label text-bold"><i class="fa fa-list-ol"></i> Quantidade Total</span>
                         <label class="item item-input input-box-extra">
-                            <input type="text" name="chnDateTotalQuantity" ng-model="divideData.chnDateTotalQuantity" readonly="readonly">
+                            <input type="text" name="chnDateTotalQuantity" ng-model="divideData.chnDateTotalQuantity" readonly="readonly"  class="unit-input">
                         </label>
+                        <span class="unit-label">{{divideData.chnDateTotalQuantityUnit}}</span>
                     </div>
                 </div>
             </div>
@@ -83,9 +84,10 @@
                 <div class="col">
                     <div class="list list-row">
                         <span class="input-label text-bold"><i class="fa fa-tachometer"></i> Peso Total</span>
-                        <label class="item item-input input-box-extra">
-                            <input type="text" name="pesoTotal" ng-model="divideData.pesoTotal" readonly="readonly">
+                        <label class="item item-input input-box-extra ">
+                            <input type="text" name="pesoTotal" ng-model="divideData.pesoTotal" readonly="readonly" class="unit-input">
                         </label>
+                        <span class="unit-label">{{divideData.chnDateTotalQuantityUnit}}</span>
                     </div>
                 </div>
             </div>

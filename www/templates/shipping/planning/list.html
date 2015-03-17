@@ -89,7 +89,7 @@
                                                 <div class="cutomer-name dragDiv" ng-repeat="order in finalArr" data-orderid="{{order.id}}" data-olddate="{{order.delivery}}" ng-if="(checkDay(order.delivery) == getDay(day)) && (checkMonth(order.delivery) == getMonth(day)) && (checkYear(order.delivery) == getYear(day))">
                                                     <!--<p class="wrap-text">{{order.customer}}</p>-->
                                                     <p>{{order.number}}</p>
-                                                    <p>{{order.customer}}</p>
+                                                    <p class="grid-name">{{order.customer}}</p>
                                                 </div>
                                             </td>
                                         </tr>

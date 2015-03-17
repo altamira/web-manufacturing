@@ -46,8 +46,9 @@
                     <div class="list list-row">
                         <span class="input-label text-bold"><i class="fa fa-list-ol"></i> Quantidade Total</span>
                         <label class="item item-input input-box-extra">
-                            <input type="text" name="chnDateTotalQuantity" ng-model="joinData.chnDateTotalQuantity" readonly="readonly">
+                            <input type="text" name="chnDateTotalQuantity" ng-model="joinData.chnDateTotalQuantity" readonly="readonly"  class="unit-input">
                         </label>
+                        <span class="unit-label">{{joinData.chnDateTotalQuantityUnit}}</span>
                     </div>
                 </div>
             </div>
@@ -56,8 +57,9 @@
                     <div class="list list-row">
                         <span class="input-label text-bold"><i class="fa fa-tachometer"></i> Peso Total</span>
                         <label class="item item-input input-box-extra">
-                            <input type="text" name="pesoTotal" ng-model="joinData.pesoTotal" readonly="readonly">
+                            <input type="text" name="pesoTotal" ng-model="joinData.pesoTotal" readonly="readonly"  class="unit-input">
                         </label>
+                        <span class="unit-label">{{joinData.chnDateTotalQuantityUnit}}</span>
                     </div>
                 </div>
             </div>
