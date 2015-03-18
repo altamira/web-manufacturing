@@ -331,17 +331,17 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         dragging = false;
                     }
                 });
-                $(".shipping_data").mCustomScrollbar({
-                    axis: "y",
-                    theme: "inset-3",
-                    scrollButtons: {enable: true},
-                });
                 $(".mainRow").mCustomScrollbar({
                     axis: "x",
                     theme: "inset-3",
                     scrollButtons: {enable: true},
                     scrollbarPosition: "outside"
                 });
+                $(".mainRow").mCustomScrollbar("scrollTo",$('.'+moment().format('D_M_YYYY')));
+                setTimeout(function() {
+                    var w = ($( window ).width()/2)-50;
+                    $(".mainRow").mCustomScrollbar("scrollTo",'+='+w)
+                }, 1000);
                 $(".dataRow").mCustomScrollbar({
                     axis: "yx",
                     theme: "inset-3",
@@ -411,46 +411,6 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     });
                 }, 100);
             }
-            $scope.makeCalender = function() {
-                $scope.days = [];
-                $scope.monthDays = [];
-                var startMonth = parseInt(moment($scope.tempUnixTS[$scope.tempUnixTS.length - 1]).format('M'));
-                var startYear = parseInt(moment($scope.tempUnixTS[$scope.tempUnixTS.length - 1]).format('YYYY'));
-                var endMonth = parseInt(moment($scope.tempUnixTS[0]).format('M'));
-                var endYear = parseInt(moment($scope.tempUnixTS[0]).format('YYYY'));
-                $scope.maxYear = endYear;
-                $scope.subCalander = function(stMonth, year) {
-                    for (var i = stMonth; i <= 12; i++)
-                    {
-                        if (year == endYear)
-                        {
-                            if (i <= endMonth)
-                            {
-                                var arrTemp = {};
-                                arrTemp.name = month[i - 1] + ',' + year;
-                                arrTemp.days = range(1, daysInMonth(i, year));
-                                createDaysArray(arrTemp.days, i, year);
-                                $scope.monthDays.push(arrTemp);
-                            }
-                        } else
-                        {
-                            var arrTemp = {};
-                            arrTemp.name = month[i - 1] + ',' + year;
-                            arrTemp.days = range(1, daysInMonth(i, year));
-                            createDaysArray(arrTemp.days, i, year);
-                            $scope.monthDays.push(arrTemp);
-                        }
-                        if (i == 12)
-                        {
-                            if (year < endYear)
-                            {
-                                $scope.subCalander(1, year + 1);
-                            }
-                        }
-                    }
-                }
-                $scope.subCalander(startMonth, startYear);
-            };
             $scope.loadGrid = function() {
                 $scope.loading = true;
                 $scope.itemId = [];
@@ -468,7 +428,6 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     $scope.tempUnixTS.sort(function(a, b) {
                         return b - a
                     });
-                    console.log(JSON.stringify($scope.finalArr));
                     $scope.makeCalender();
                     setTimeout(function() {
                         $scope.decorateTable();

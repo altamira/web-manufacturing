@@ -85,7 +85,7 @@
                                             <th ng-repeat="day in days track by $index" ng-if='viewWeekly == true'>{{getWeekDayShort(day)}}</th>
                                         </tr>
                                         <tr>
-                                            <td ng-repeat="day in days track by $index" data-day='{{day}}' class='maintable-td'  ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'">
+                                            <td ng-repeat="day in days track by $index" data-day='{{day}}' class='{{day}} maintable-td'  ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'">
                                                 <div class="cutomer-name dragDiv green" ng-repeat="order in finalArr" data-orderid="{{order.id}}" data-olddate="{{order.delivery}}" ng-if="(order.status.code == 1) && (checkDay(order.delivery) == getDay(day)) && (checkMonth(order.delivery) == getMonth(day)) && (checkYear(order.delivery) == getYear(day))">
                                                     <p style="color: #000">{{order.number}}</p>
                                                     <p class="grid-name" style="color: #000">{{order.customer}}</p>
