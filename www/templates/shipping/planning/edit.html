@@ -1,0 +1,281 @@
+<div class="loding_div" ng-show="loading">
+    <div id="loadingProgressG">
+        <div id="loadingProgressG_1" class="loadingProgressG">
+        </div>
+    </div>
+</div>
+<ion-pane>
+    <form name="PersonalDataForm" novalidate ng-submit="submitPersonalDataForm(PersonalDataForm.$valid)">
+        <ion-header-bar class="bar-calm">
+            <div class="buttons header-margin">
+                <button type="button" class="button fa-arrow-left" ng-click="goBack()"></button>
+                <span class="btn-separator"></span>
+                <h4 style="color: #ffffff;margin-top: 5px;">&nbsp{{planningId}}&nbsp;</h4>
+                <span class="btn-separator"></span>
+                <button type="button" class="button fa-calender-header" ng-click="updateMultiplePart()" ></button>
+                <button class="button fa-check" ng-click="submitted=true" ></button>
+                <span class="btn-separator"></span>
+                <button type="button" class="button fa-link-header" ng-click="joinDate()"></button>
+                <button type="button" class="button fa-unlink-header" ng-click="divideDate()"></button>
+            </div>
+        </ion-header-bar>
+        <ion-content>
+            <div class="view-content">
+                <div class="desktop-view">
+                    <div class="row">
+                        <div class="col-75">
+                            <div class="list list-row">
+                                <span class="input-label text-bold">Pedido</span>
+                                <label class="item item-input plain-text">
+                                    {{orderData.number}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-25">
+                            <div class="list list-row">
+                                <span class="input-label text-bold">Status</span>
+                                <label class="item item-input plain-text input-item">
+                                    <span>{{orderData.status.description}}</span>
+                                    <img src="img/like.jpg" ng-if="orderData.status.code == 1">
+                                    <img src="img/question.jpg" ng-if="orderData.status.code == 2">
+                                    <img src="img/unlike.jpg" ng-if="orderData.status.code == 3">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mobile-view">
+                    <div class="row">
+                        <div class="col-50">
+                            <div class="list list-row">
+                                <span class="input-label text-bold">Pedido</span>
+                                <label class="item item-input plain-text">
+                                    {{orderData.number}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-50">
+                            <div class="list list-row">
+                                <span class="input-label text-bold">Status</span>
+                                <label class="item item-input plain-text input-item">
+                                    <span>{{orderData.status.description}}</span>
+                                    <img src="img/like.jpg" ng-if="orderData.status.code == 1">
+                                    <img src="img/question.jpg" ng-if="orderData.status.code == 2">
+                                    <img src="img/unlike.jpg" ng-if="orderData.status.code == 3">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col">
+                        <div class="list list-row">
+                            <span class="input-label text-bold">Cliente</span>
+                            <label class="item item-input" >
+                                {{orderData.customer}}
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-50">
+                        <div class="list list-row">
+                            <span class="input-label text-bold">Representante</span>
+                            <label class="item item-input" >
+                                {{orderData.representative}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col col-50">
+                        <div class="list list-row">
+                            <span class="input-label text-bold">Acabamento</span>
+                            <label class="item item-input" >
+                                {{orderData.finish}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-25">
+                        <div class="list list-row">
+                            <span class="input-label text-bold">Orcamento</span>
+                            <label class="item item-input" >
+                                {{orderData.quotation}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col col-25">
+                        <div class="list list-row">
+                            <span class="input-label text-bold">Projeto</span>
+                            <label class="item item-input" >
+                                {{orderData.project}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col col-25">
+                        <div class="list list-row">
+                            <span class="input-label text-bold">Data Pedido</span>
+                            <label class="item item-input" >
+                                {{orderData.created | getDate}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col col-25">
+                        <div class="list list-row">
+                            <span class="input-label text-bold">Data Entrega </span>
+                            <label class="item item-input" >
+                                {{orderData.delivery | getDate}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="view-block">
+                <div class="row personal-details">
+                    <div class="col-25 ">
+                        <div class="list">
+                            <span class="input-label text-bold">Nota Fiscal</span>
+                            <label class="item item-input input-box-extra">
+                                <input type="text" name="invoice" ng-model="PersonalData.invoice" required>
+                            </label>
+                            <i class="icon ion-ios7-search fa-md-arrow-right1 extra-search"></i>
+                            <i class="icon ion-ios7-search fa-md-search extra-search"></i>
+                            <label class="extra-error" ng-show="submitted && PersonalDataForm.invoice.$error.required">Nota Fiscal field is required.</label>
+                        </div>
+                    </div>
+                    <div class="col-75">
+                        <div class="list">
+                            <span class="input-label text-bold">Transportadora</span>
+                            <label class="item item-input input-box-extra">
+                                <input type="text" name="transport" ng-model="PersonalData.transport" required>
+                            </label>
+                            <i class="icon ion-ios7-search fa-md-arrow-right1 extra-search"></i>
+                            <i class="icon ion-ios7-search fa-md-search extra-search"></i>
+                            <label class="extra-error" ng-show="submitted && PersonalDataForm.transport.$error.required">Transportadora field is required.</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <div class="list">
+                            <span class="input-label text-bold">Contato</span>
+                            <label class="item item-input input-box-extra">
+                                <input type="text" name="name" ng-model="PersonalData.name" required>
+                            </label>
+                            <label class="extra-error" ng-show="submitted && PersonalDataForm.name.$error.required">Nome do contato field is required.</label>
+                        </div>
+                    </div>
+                    <div class="col-25">
+                        <div class="list">
+                            <span class="input-label text-bold">Telefone</span>
+                            <label class="item item-input input-box-extra">
+                                <input type="text" name="phone" ng-model="PersonalData.phone" required>
+                            </label>
+                            <label class="extra-error" ng-show="submitted && PersonalDataForm.phone.$error.required">Telefone field is required.</label>
+                        </div>
+                    </div>
+                    <div class="col-50">
+                        <div class="list">
+                            <span class="input-label text-bold">Email</span>
+                            <label class="item item-input input-box-extra">
+                                <input type="text" name="email" ng-model="PersonalData.email" required>
+                            </label>
+                            <label class="extra-error" ng-show="submitted && PersonalDataForm.email.$error.required">Email field is required.</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="list">
+                        <a class="process-item-list item-icon-left item-icon-right">
+                            <i class="icon left-icon fa-list-history"></i> Histórico
+                            <i style="width: 7px;" ng-click="openHistoryModal()" class="icon plus-icon fa-plus-bom-edit"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="list">
+                        <ul>
+                            <li ng-repeat="history in orderData.history | orderBy:'date'">
+                                <div class="mouse-pointer">
+                                    <div class="text-wrap1" ng-if="history.status.code == 1">
+                                        <span class="history_date">{{history.date | getDate}}</span>
+                                        <span class="history_desc">{{history.comment}}</span>
+                                    </div>
+                                    <div class="text-wrap2" ng-if="history.status.code == 3">
+                                        <span class="history_date">{{history.date | getDate}}</span>
+                                        <span class="history_desc">{{history.comment}}</span>
+                                    </div>
+                                    <div class="text-wrap3" ng-if="history.status.code == 2">
+                                        <span class="history_date">{{history.date | getDate}}</span>
+                                        <span class="history_desc">{{history.comment}}</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="list">
+                        <a class="process-item-list item-icon-left item-icon-right">
+                            <i class="icon left-icon fa-list-history"></i>
+                            Itens
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-repeat='data in finalList'>
+                <div id="item_repeat" class="width-100">
+                    <div class="row" style="margin-top:-15px;">
+                        <div class="col">
+                            <div class="list"> <a class="process-item-list item-icon-right " style="padding-left:0px;">ITEM {{data.item}}  </a> </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div style="font-size: 16px;">{{data.description}}</div>
+                        </div>
+                    </div>
+                    <div class="edit-item" ng-if="data.delivery != ''">
+                        <div class="col row">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td class="edit-item-title align-center width-9"><i class="fa-calender"></i> <span>Entrega</span></td>
+                                    <td class="edit-item-title align-center width-9"><i class="fa-list-ol"></i> <span>Quantidade</span></td>
+                                    <td class="edit-item-title align-center width-9"><i class="fa-list-ol"></i> <span>Entregue</span></td>
+                                    <td class="edit-item-title align-center width-9"><i class="fa-list-ol"></i> <span>Restante</span></td>
+                                    <td class="edit-item-title width-42"> Descricao</td>
+                                    <td class="edit-item-title align-center width-10"><i class="fa-pencil"></i> <span>Cor</span></td>
+                                    <td class="edit-item-title align-center width-9"><i class="fa-tachometer"></i> <span>Peso</span></td>
+                                    <td class="edit-item-title align-center width-3">&nbsp;</td>
+                                </tr>
+                                <tr ng-repeat='component in data.delivery' id="{{component.delivery.id}}" data-itemId="{{data.id}}">
+                                    <td class="edit-info align-center width-9">{{ component.delivery.delivery | getDate }}</td>
+                                    <td class="edit-info align-right width-9">{{component.delivery.quantity.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
+                                    <td class="edit-info align-right width-9">{{component.delivery.delivered.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
+                                    <td class="edit-info align-right width-9">{{component.delivery.remaining.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
+                                    <td class="edit-text width-42" ng-click='updatePart(orderData.id,data.id,component.componentId,component.delivery.id)'  style="cursor: pointer;">{{component.description}}</td>
+                                    <td class="edit-text align-center width-10">{{component.color}}</td>
+                                    <td class="edit-info align-right width-9">{{component.weight * component.delivery.quantity.value | setDecimal:3}}<span style="margin-left: 5px;">{{component.weightType}}</span></td>
+                                    <td class="edit-text align-center width-3">
+                                        <i class="icon plus-icon fa-square-o" select-delivery dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}"></i>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ion-content>
+    </form>
+</ion-pane>
+

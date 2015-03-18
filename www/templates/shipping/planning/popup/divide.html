@@ -41,16 +41,6 @@
                 </div>
                 <div class="col col-50">
                     <div class="list list-row">
-                        <span class="input-label text-bold"><i class="fa fa-list-ol"></i> Quantidade 1</span>
-                        <label class="item item-input input-box-extra">
-                            <input type="text" name="quantity1" ng-model="divideData.quantity1" ng-change="desideQun2()">
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col col-50">
-                    <div class="list list-row">
                         <span class="input-label text-bold">Data Entrega 2</span>
                         <label class="item item-input input-box-extra">
                             <input type="text" name="delivery2" ng-model="divideData.delivery2" required ng-click="showdate_2=false">
@@ -59,11 +49,22 @@
                     </div>
                     <div divide-date-change2 ng-hide="showdate_2"></div>
                 </div>
+
+            </div>
+            <div class="row">
+                <div class="col col-50">
+                    <div class="list list-row">
+                        <span class="input-label text-bold"><i class="fa fa-list-ol"></i> Quantidade 1</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="quantity1" ng-model="divideData.quantity1" ng-change="desideQun2()"  class="unit-input-no">
+                        </label>
+                    </div>
+                </div>
                 <div class="col col-50">
                     <div class="list list-row">
                         <span class="input-label text-bold"><i class="fa fa-list-ol"></i> Quantidade 2</span>
                         <label class="item item-input input-box-extra">
-                            <input type="text" name="quantity2" ng-model="divideData.quantity2" readonly="readonly">
+                            <input type="text" name="quantity2" ng-model="divideData.quantity2" readonly="readonly"  class="unit-input-no">
                         </label>
                     </div>
                 </div>
@@ -73,8 +74,9 @@
                     <div class="list list-row">
                         <span class="input-label text-bold"><i class="fa fa-list-ol"></i> Quantidade Total</span>
                         <label class="item item-input input-box-extra">
-                            <input type="text" name="chnDateTotalQuantity" ng-model="divideData.chnDateTotalQuantity" readonly="readonly">
+                            <input type="text" name="chnDateTotalQuantity" ng-model="divideData.chnDateTotalQuantity" readonly="readonly"  class="unit-input">
                         </label>
+                        <span class="unit-label">{{divideData.chnDateTotalQuantityUnit}}</span>
                     </div>
                 </div>
             </div>
@@ -82,67 +84,10 @@
                 <div class="col">
                     <div class="list list-row">
                         <span class="input-label text-bold"><i class="fa fa-tachometer"></i> Peso Total</span>
-                        <label class="item item-input input-box-extra">
-                            <input type="text" name="pesoTotal" ng-model="divideData.pesoTotal" readonly="readonly">
+                        <label class="item item-input input-box-extra ">
+                            <input type="text" name="pesoTotal" ng-model="divideData.pesoTotal" readonly="readonly" class="unit-input">
                         </label>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="list">
-                        <a class="process-item-list item-icon-left item-icon-right">
-                            <i class="icon left-icon fa-list"></i>
-                            Itens
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="row" style="margin-top:-15px;">
-                <div class="col">
-                    <div class="list">
-                        <a class="process-item-list item-icon-right" style="padding-left:0px;">
-                            ITEM {{chnDateItem.item}}
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="components">
-                <div class="row">
-                    <div class="col" ng-repeat="components in divideData.chnDateParts | orderBy:'id'">
-                        <div class="components-col">
-                            <div class="components-title ">
-                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                    <tr>
-                                        <td width="25%"><i class="fa fa-calender"></i></td>
-                                        <td width="25%">{{ partDelivery.delivery | getDate }}</td>
-                                        <td align="right">
-                                            <i ng-click="removePart(components.id)" class="icon plus-icon fa-plus-cross-circle-1" style=" right: 7px;top: 13px;"></i>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                <tr>
-                                    <td width="25%"><i class="fa fa-arrows-h"></i></td>
-                                    <td width="25%" valign="top">{{components.length.value}} {{components.length.unit.symbol}}</td>
-                                    <td width="25%" valign="top"><i class="fa fa-list-ol"></i></td>
-                                    <td align="right" valign="top">{{partDelivery.quantity.value}} {{components.quantity.unit.symbol}}</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="fa fa-arrows-v"></i></td>
-                                    <td valign="top">{{components.height.value}} {{components.height.unit.symbol}}</td>
-                                    <td valign="top"><i class="fa fa-tachometer"></i></td>
-                                    <td align="right" valign="top">{{components.weight.value | setDecimal:3}} {{partDelivery.quantity.unit.symbol}}</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="fa fa-expand"></i></td>
-                                    <td valign="top">{{components.width.value}} {{components.width.unit.symbol}}</td>
-                                    <td valign="top"><i class="fa fa-tachometer"></i></td>
-                                    <td align="right" valign="top">{{ (components.weight.value*partDelivery.quantity.value) | setDecimal:3}} {{partDelivery.quantity.unit.symbol}}</td>
-                                </tr>
-                            </table>
-                        </div>
+                        <span class="unit-label">{{divideData.chnDateTotalQuantityUnit}}</span>
                     </div>
                 </div>
             </div>

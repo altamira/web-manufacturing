@@ -115,6 +115,10 @@ altamiraApp.config(['$routeProvider',
             templateUrl: 'templates/shipping/planning/list.html',
             controller: 'ShippingPlanningCtrl'
         })
+                .when('/shipping/planning/:planningId', {
+            templateUrl: 'templates/shipping/planning/edit.html',
+            controller: 'ShippingPlanningEditCtrl'
+        })
                 .when('/shipping/execution', {
             templateUrl: 'templates/shipping/execution/list.html',
             controller: 'ShippingExecutionCtrl'

@@ -43,69 +43,12 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <div class="list">
-                        <a class="process-item-list item-icon-left item-icon-right">
-                            <i class="icon left-icon fa-list"></i>
-                            Itens
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="row" style="margin-top:-15px;">
-                <div class="col">
-                    <div class="list">
-                        <a class="process-item-list" style="padding-left:0px;">
-                            ITEM {{joinData.chnDateItem.item}}
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="components">
-                <div class="row">
-                    <div class="col" ng-repeat="components in joinData.chnDateParts | orderBy:'id'">
-                        <div class="components-col" ng-repeat="delivery in components.deliveryArr">
-                            <div class="components-title ">
-                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                    <tr>
-                                        <td width="25%"><i class="fa fa-calender"></i></td>
-                                        <td width="25%">{{ delivery.delivery | getDate }}</td>
-                                        <td align="right">
-                                            <i ng-click="removePart(components.id)" class="icon plus-icon fa-plus-cross-circle-1" style=" right: 7px;top: 13px;"></i>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                <tr>
-                                    <td width="25%"><i class="fa fa-arrows-h"></i></td>
-                                    <td width="25%" valign="top">{{components.length.value}} {{components.length.unit.symbol}}</td>
-                                    <td width="25%" valign="top"><i class="fa fa-list-ol"></i></td>
-                                    <td align="right" valign="top">{{delivery.quantity.value}} {{delivery.quantity.unit.symbol}}</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="fa fa-arrows-v"></i></td>
-                                    <td valign="top">{{components.height.value}} {{components.height.unit.symbol}}</td>
-                                    <td valign="top"><i class="fa fa-tachometer"></i></td>
-                                    <td align="right" valign="top">{{components.weight.value | setDecimal:3}} {{components.weight.unit.symbol}}</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="fa fa-expand"></i></td>
-                                    <td valign="top">{{components.width.value}} {{components.width.unit.symbol}}</td>
-                                    <td valign="top"><i class="fa fa-tachometer"></i></td>
-                                    <td align="right" valign="top">{{components.weight.value * delivery.quantity.value | setDecimal:3}} {{components.weight.unit.symbol}}</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
                     <div class="list list-row">
                         <span class="input-label text-bold"><i class="fa fa-list-ol"></i> Quantidade Total</span>
                         <label class="item item-input input-box-extra">
-                            <input type="text" name="chnDateTotalQuantity" ng-model="joinData.chnDateTotalQuantity" readonly="readonly">
+                            <input type="text" name="chnDateTotalQuantity" ng-model="joinData.chnDateTotalQuantity" readonly="readonly"  class="unit-input">
                         </label>
+                        <span class="unit-label">{{joinData.chnDateTotalQuantityUnit}}</span>
                     </div>
                 </div>
             </div>
@@ -114,8 +57,9 @@
                     <div class="list list-row">
                         <span class="input-label text-bold"><i class="fa fa-tachometer"></i> Peso Total</span>
                         <label class="item item-input input-box-extra">
-                            <input type="text" name="pesoTotal" ng-model="joinData.pesoTotal" readonly="readonly">
+                            <input type="text" name="pesoTotal" ng-model="joinData.pesoTotal" readonly="readonly"  class="unit-input">
                         </label>
+                        <span class="unit-label">{{joinData.chnDateTotalQuantityUnit}}</span>
                     </div>
                 </div>
             </div>
