@@ -6,6 +6,7 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
             $scope.showdate = true;
             $scope.showdate_1 = true;
             $scope.showdate_2 = true;
+            $scope.validDelivery = '';
             $scope.PersonalData = {};
             $scope.historyData = {};
             $scope.getOrderData = function(orderId) {
@@ -61,6 +62,7 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                     services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             };
+            $scope.getOrderData($scope.planningId);
             $scope.goBack = function() {
                 $location.path('shipping/planning');
             };
@@ -208,51 +210,63 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                 $scope.divideData.quantity2 = parseInt($scope.divideData.chnDateTotalQuantity) - parseInt($scope.divideData.quantity1);
             }
             $scope.joinDate = function() {
-                $scope.itemId = unique_arr($scope.itemId);
-                $scope.itemPartIdArr = unique_arr($scope.itemPartIdArr);
-                $scope.itemPartDeliveryArr = unique_arr($scope.itemPartDeliveryArr);
-                if ($scope.itemPartDeliveryArr.length > 1)
+                $scope.checkComponents();
+                if ($scope.validDelivery > 1)
                 {
-                    var tempVar = $scope.getObjects($scope.orderData.item, 'id', $scope.itemId);
-                    $scope.joinData.chnDateParts = [];
-                    var part;
-                    var delivery;
-                    var chnDateTotalQuantity = 0;
-                    var pesoTotal = 0;
-                    var chnDateUnit = '';
-                    for (var i = 0; i < $scope.itemPartIdArr.length; i++)
+                    if ($scope.validDelivery == 2)
                     {
-                        part = $scope.getObjects(tempVar[0].component, 'id', $scope.itemPartIdArr[i]);
-                        $scope.joinData.chnDateParts.push(part[0]);
-                        $scope.joinData.chnDateParts[i].deliveryArr = [];
-                        for (var j = 0; j < $scope.itemPartDeliveryArr.length; j++)
+                        if ($scope.itemPartDeliveryArr.length > 1)
                         {
-                            delivery = $scope.getObjects(part[0].delivery, 'id', $scope.itemPartDeliveryArr[j]);
-                            if (delivery != '')
+                            var tempVar = $scope.getObjects($scope.orderData.item, 'id', $scope.itemId);
+                            $scope.joinData.chnDateParts = [];
+                            var part;
+                            var delivery;
+                            var chnDateTotalQuantity = 0;
+                            var pesoTotal = 0;
+                            var chnDateUnit = '';
+                            for (var i = 0; i < $scope.itemPartIdArr.length; i++)
                             {
-                                $scope.joinData.chnDateParts[i].deliveryArr.push(delivery[0]);
-                                chnDateTotalQuantity = chnDateTotalQuantity + parseInt(delivery[0].quantity.value);
-                                pesoTotal = pesoTotal + (parseInt(delivery[0].quantity.value) * parseInt(part[0].weight.value));
+                                part = $scope.getObjects(tempVar[0].component, 'id', $scope.itemPartIdArr[i]);
+                                $scope.joinData.chnDateParts.push(part[0]);
+                                $scope.joinData.chnDateParts[i].deliveryArr = [];
+                                for (var j = 0; j < $scope.itemPartDeliveryArr.length; j++)
+                                {
+                                    delivery = $scope.getObjects(part[0].delivery, 'id', $scope.itemPartDeliveryArr[j]);
+                                    if (delivery != '')
+                                    {
+                                        $scope.joinData.chnDateParts[i].deliveryArr.push(delivery[0]);
+                                        chnDateTotalQuantity = chnDateTotalQuantity + parseInt(delivery[0].quantity.value);
+                                        pesoTotal = pesoTotal + (parseInt(delivery[0].quantity.value) * parseInt(part[0].weight.value));
+                                    }
+                                    chnDateUnit = part[0].weight.unit;
+                                }
                             }
-                            chnDateUnit = part[0].weight.unit;
+                            $scope.joinData.chnDateCode = $scope.joinData.chnDateParts[0].material.code;
+                            $scope.joinData.chnDateDesc = $scope.joinData.chnDateParts[0].quantity.unit.symbol;
+                            $scope.joinData.chnDateTotalQuantity = chnDateTotalQuantity;
+                            $scope.joinData.chnDateTotalQuantityUnit = $scope.joinData.chnDateParts[0].quantity.unit.symbol;
+                            $scope.joinData.chnDateUnit = chnDateUnit;
+                            $scope.joinData.pesoTotal = pesoTotal;
+                            $scope.joinData.chnDateItem = {};
+                            $scope.joinData.chnDateItem.id = tempVar[0].id;
+                            $scope.joinData.chnDateItem.version = tempVar[0].version;
+                            $scope.joinData.chnDateItem.item = tempVar[0].item;
+                            $scope.joinData.chnDateItem.description = tempVar[0].description;
+                            $scope.joinDateModalShow();
                         }
+                        else {
+                            services.showAlert('Falhou', 'Please select atleast 2 components to join delivery date');
+                        }
+                    } else
+                    {
+                        services.showAlert('Error', 'Selecione o mesmo tipo de material.');
                     }
-                    $scope.joinData.chnDateCode = $scope.joinData.chnDateParts[0].material.code;
-                    $scope.joinData.chnDateDesc = $scope.joinData.chnDateParts[0].quantity.unit.symbol;
-                    $scope.joinData.chnDateTotalQuantity = chnDateTotalQuantity;
-                    $scope.joinData.chnDateTotalQuantityUnit = $scope.joinData.chnDateParts[0].quantity.unit.symbol;
-                    $scope.joinData.chnDateUnit = chnDateUnit;
-                    $scope.joinData.pesoTotal = pesoTotal;
-                    $scope.joinData.chnDateItem = {};
-                    $scope.joinData.chnDateItem.id = tempVar[0].id;
-                    $scope.joinData.chnDateItem.version = tempVar[0].version;
-                    $scope.joinData.chnDateItem.item = tempVar[0].item;
-                    $scope.joinData.chnDateItem.description = tempVar[0].description;
-                    $scope.joinDateModalShow();
+
+                } else
+                {
+                    services.showAlert('Error', 'Selecione o mesmo item.');
                 }
-                else {
-                    services.showAlert('Falhou', 'Please select atleast 2 components to join delivery date');
-                }
+
             }
             $scope.submitJoinComponent = function(isValid) {
                 if (isValid) {
@@ -316,7 +330,22 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                     });
                 }
             };
-            $scope.getOrderData($scope.planningId);
+            $scope.checkComponents = function() {
+                $scope.itemId = unique_arr($scope.itemId);
+                $scope.itemPartIdArr = unique_arr($scope.itemPartIdArr);
+                $scope.itemMaterialArr = unique_arr($scope.itemMaterialArr);
+                $scope.itemPartDeliveryArr = unique_arr($scope.itemPartDeliveryArr);
+                if ($scope.itemId.length == 1) {
+                    $scope.validDelivery = 2;
+                    if ($scope.itemMaterialArr.length > 1)
+                    {
+                        $scope.validDelivery = 3; // not a same material
+                    }
+                } else if ($scope.itemId.length > 1)
+                {
+                    $scope.validDelivery = 1; // not a same item
+                }
+            }
             $scope.submitPersonalDataForm = function(isValid) {
                 if (isValid) {
                     $scope.loading = true;
