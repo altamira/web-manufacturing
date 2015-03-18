@@ -339,7 +339,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 });
                 $(".mainRow").mCustomScrollbar("scrollTo",$('.'+moment().format('D_M_YYYY')));
                 setTimeout(function() {
-                    var w = ($( window ).width()/2)-50;
+                    var w = ($( window ).width()/2)-100;
                     $(".mainRow").mCustomScrollbar("scrollTo",'+='+w)
                 }, 1000);
                 $(".dataRow").mCustomScrollbar({

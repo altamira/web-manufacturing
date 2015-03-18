@@ -1995,6 +1995,12 @@
     font-size: 24px;
     color: #ffffff;
 }
+.fa-calender-header:before {
+    font-family: "fontawesome";
+    content: "\f073";
+    font-size: 24px;
+    color: #ffffff;
+}
 .edit-item-title span { text-align:right; float:right; padding-right:10px;}
 
 .edit-content .row { display: inline-block;}

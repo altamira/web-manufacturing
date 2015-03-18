@@ -410,37 +410,45 @@ altamiraApp.directive('selectDelivery', function(services) {
             elm.toggleClass('fa-check-square-o');
             if (elm.hasClass('fa-check-square-o'))
             {
-                if (scope.itemId.length == 0)
-                {
-                    tempItemId = parseInt(attr.dataitem);
-                    tempMaterialId = parseInt(attr.datamaterial);
-                    scope.itemId.push(parseInt(attr.dataitem));
-                    scope.itemPartIdArr.push(parseInt(attr.datapart));
-                    scope.itemPartDeliveryArr.push(parseInt(attr.datadelivery));
-                }
-                else if (scope.itemId.length > 0 && tempItemId == parseInt(attr.dataitem)) {
-
-                    if (tempMaterialId == parseInt(attr.datamaterial))
-                    {
-                        scope.itemId.push(parseInt(attr.dataitem));
-                        scope.itemPartIdArr.push(parseInt(attr.datapart));
-                        scope.itemPartDeliveryArr.push(parseInt(attr.datadelivery));
-                    } else {
-                        elm.toggleClass('fa-check-square-o');
-                        services.showAlert('Error', 'Selecione o mesmo tipo de material.');
-                    }
-
-                } else {
-                    elm.toggleClass('fa-check-square-o');
-                    services.showAlert('Error', 'Selecione o mesmo item.');
-                }
+                scope.itemId.push(parseInt(attr.dataitem));
+                scope.itemPartIdArr.push(parseInt(attr.datapart));
+                scope.itemMaterialArr.push(parseInt(attr.datamaterial));
+                scope.itemPartDeliveryArr.push(parseInt(attr.datadelivery));
+//                if (scope.itemId.length == 0)
+//                {
+//                    tempItemId = parseInt(attr.dataitem);
+//                    tempMaterialId = parseInt(attr.datamaterial);
+//                    scope.itemId.push(parseInt(attr.dataitem));
+//                    scope.itemPartIdArr.push(parseInt(attr.datapart));
+//                    scope.itemMaterialArr.push(parseInt(attr.datamaterial));
+//                    scope.itemPartDeliveryArr.push(parseInt(attr.datadelivery));
+//                }
+//                else if (scope.itemId.length > 0 && tempItemId == parseInt(attr.dataitem)) {
+//
+//                    if (tempMaterialId == parseInt(attr.datamaterial))
+//                    {
+//                        scope.itemId.push(parseInt(attr.dataitem));
+//                        scope.itemPartIdArr.push(parseInt(attr.datapart));
+//                        scope.itemMaterialArr.push(parseInt(attr.datamaterial));
+//                        scope.itemPartDeliveryArr.push(parseInt(attr.datadelivery));
+//                    } else {
+//                        elm.toggleClass('fa-check-square-o');
+//                        services.showAlert('Error', 'Selecione o mesmo tipo de material.');
+//                    }
+//
+//                } else {
+//                    elm.toggleClass('fa-check-square-o');
+//                    services.showAlert('Error', 'Selecione o mesmo item.');
+//                }
             }
             else
             {
                 scope.itemId.splice(scope.itemId.indexOf(parseInt(attr.dataitem)), 1);
                 scope.itemPartIdArr.splice(scope.itemPartIdArr.indexOf(parseInt(attr.datapart)), 1);
+                scope.itemMaterialArr.splice(scope.itemMaterialArr.indexOf(parseInt(attr.datamaterial)), 1);
                 scope.itemPartDeliveryArr.splice(scope.itemPartDeliveryArr.indexOf(parseInt(attr.datadelivery)), 1);
             }
+            
         });
 
     }
@@ -480,7 +488,7 @@ altamiraApp.directive('leftsideMenu', function(services) {
     return function(scope, elm, attr) {
         elm.html('<div class="row">\n\
                     <div class="col" style="color: white;text-align: center">\n\
-                        <a href="'+sessionStorage.getItem('MainRestangular')+'" style="text-decoration: none;color: #ffffff">\n\
+                        <a href="' + sessionStorage.getItem('MainRestangular') + '" style="text-decoration: none;color: #ffffff">\n\
                             <span class="logo-side-menu"></span>\n\
                             <span style="font-size: 30px; float:left; padding-top:16px; padding-left:10px; font-family: Open Sans">Altamira</span>\n\
                         </a>\n\
@@ -694,9 +702,9 @@ altamiraApp.directive('leftsideMenu', function(services) {
     }
 });
 
-function leftMenuClick(showMenu){
+function leftMenuClick(showMenu) {
     $(".left-menu-items").hide('slow');
-    $("#"+showMenu).show('slow');
+    $("#" + showMenu).show('slow');
 }
 
 function totalWeightCal() {

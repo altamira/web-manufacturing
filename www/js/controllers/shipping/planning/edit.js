@@ -12,6 +12,7 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                 $scope.loading = true;
                 $scope.itemId = [];
                 $scope.itemPartIdArr = [];
+                $scope.itemMaterialArr = [];
                 $scope.itemPartDeliveryArr = [];
                 Restangular.one('shipping/planning', orderId).get().then(function(response) {
                     $scope.loading = false;
@@ -386,14 +387,14 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                     $scope.postData = {};
                     $scope.postData.id = 0;
                     $scope.postData.type = "br.com.altamira.data.model.shipping.planning.History",
-                    $scope.postData.status = {};
+                            $scope.postData.status = {};
                     $scope.postData.status.id = $scope.historyData.statusId;
                     $scope.postData.status.type = $scope.historyData.statusType;
                     $scope.postData.status.description = $scope.historyData.statusDescription;
                     $scope.postData.status.code = $scope.historyData.statusCode;
                     $scope.postData.date = CommonFun.getFullTimestamp($scope.historyData.date);
                     $scope.postData.comment = $scope.historyData.comment;
-                    Restangular.one('shipping/planning',$scope.planningId).all('history').post($scope.postData).then(function(response) {
+                    Restangular.one('shipping/planning', $scope.planningId).all('history').post($scope.postData).then(function(response) {
                         $scope.loading = false;
                         $scope.historyModalHide();
                         $scope.getOrderData($scope.planningId);
@@ -401,6 +402,191 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                         $scope.loading = false;
                         services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                     });
+                }
+            };
+            $scope.updatePart = function(bomId, itemId, partId, deliveryid) {
+                $scope.loading = true;
+                $scope.BOMId = bomId;
+                $scope.ITEMId = itemId;
+                $scope.PARTId = partId;
+                $scope.DELIVERYId = deliveryid;
+                $scope.partData = {};
+                Restangular.one('shipping/planning', bomId).one('item', itemId).one('component', partId).get().then(function(response) {
+
+                    var data = response.data;
+                    $scope.partData.version = data.version;
+                    $scope.partData.materialId = data.material.id;
+                    $scope.partData.code = data.material.code;
+                    $scope.partData.description = data.description;
+                    $scope.partData.delivery = data.delivery.delivery;
+                    $scope.getColorName(data.color.id);
+                    $scope.partData.quantity = data.quantity.value;
+                    $scope.partData.quantityType = data.quantity.unit.symbol;
+                    $scope.partData.width = data.width.value;
+                    $scope.getUnitSymbol(data.width.unit.id, 'width');
+                    $scope.partData.height = data.height.value;
+                    $scope.getUnitSymbol(data.height.unit.id, 'height');
+                    $scope.partData.length = data.length.value;
+                    $scope.getUnitSymbol(data.length.unit.id, 'length');
+                    $scope.partData.weight = data.weight.value;
+                    $scope.getUnitSymbol(data.weight.unit.id, 'weight');
+                    Restangular.one('shipping/planning', bomId).one('item', itemId).one('component', partId).one('delivery', deliveryid).get().then(function(response1) {
+                        $scope.partData.delivery = CommonFun.getFullDate(response1.data.delivery);
+                        $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/part.html', {
+                            scope: $scope,
+                            animation: 'fade-in'
+                        }).then(function(modal) {
+                            $scope.changePartModal = modal;
+                            $scope.loading = false;
+                            $scope.changePartModal.show();
+                        });
+                        $scope.changePartModalHide = function() {
+                            $scope.changePartModal.hide();
+                        };
+                        $scope.changePartModalShow = function() {
+                            $scope.changePartModal.show();
+                        };
+                    }, function(response1) {
+                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    });
+                }, function(response) {
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                });
+                $scope.getUnitSymbol = function(unitId, unitType) {
+                    Restangular.one('measurement/unit', unitId).get().then(function(response) {
+                        var symbol = response.data.symbol;
+                        var id = response.data.id;
+                        if (unitType == "width")
+                        {
+                            $scope.partData.widthType = symbol;
+                            $scope.partData.widthTypeId = id;
+                        } else if (unitType == "height") {
+                            $scope.partData.heightType = symbol;
+                            $scope.partData.heightTypeId = id;
+                        } else if (unitType == "length") {
+                            $scope.partData.lengthType = symbol;
+                            $scope.partData.lengthTypeId = id;
+                        } else if (unitType == "weight") {
+                            $scope.partData.weightType = symbol;
+                            $scope.partData.weightTypeId = id;
+                        }
+                    }, function(response) {
+                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    });
+                };
+                $scope.getColorName = function(colorId) {
+                    Restangular.one('common/color', colorId).get().then(function(response) {
+                        $scope.partData.color = {};
+                        $scope.partData.color.version = response.data.version;
+                        $scope.partData.color.code = response.data.code;
+                        $scope.partData.color.id = response.data.id;
+                        $scope.partData.color.name = response.data.name;
+                    }, function(response) {
+                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    });
+                };
+            };
+            $scope.submitPartForm = function(isValid) {
+                if (isValid) {
+                    $scope.loading = true;
+                    Restangular.all('shipping').one('planning', $scope.BOMId).one('item', $scope.ITEMId).one('component', $scope.PARTId).one('delivery', $scope.DELIVERYId).get().then(function(response) {
+                        $scope.chgDeliveryData = {};
+                        $scope.chgDeliveryData.id = response.data.id;
+                        $scope.chgDeliveryData.version = response.data.version;
+                        $scope.chgDeliveryData.type = response.data.type;
+                        $scope.chgDeliveryData.delivery = moment($scope.partData.delivery, 'DD/MM/YYYY').format('YYYY-MM-DD');
+                        $scope.chgDeliveryData.quantity = response.data.quantity;
+                        $scope.chgDeliveryData.delivered = response.data.delivered;
+                        $scope.chgDeliveryData.remaining = response.data.remaining;
+                        Restangular.all('shipping').one('planning', $scope.BOMId).one('item', $scope.ITEMId).one('component', $scope.PARTId).one('delivery', $scope.DELIVERYId).customPUT($scope.chgDeliveryData).then(function(response) {
+                            $scope.loading = false;
+                            $scope.changePartModalHide();
+                            services.showAlert('Success', 'Delivery date changed to ' + $scope.partData.delivery).then(function(res) {
+                                if ($scope.viewtype == 'grid')
+                                {
+                                    $scope.loadGrid();
+                                } else
+                                {
+                                    $scope.getOrderData($scope.BOMId);
+                                }
+                            });
+                        }, function(response) {
+                            $scope.loading = false;
+                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                        });
+                    }, function(response) {
+                        $scope.loading = false;
+                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    });
+                }
+            };
+            $scope.updateMultiplePart = function() {
+                console.log(JSON.stringify($scope.itemId))
+                console.log(JSON.stringify($scope.itemPartIdArr))
+                console.log(JSON.stringify($scope.itemMaterialArr))
+                console.log(JSON.stringify($scope.itemPartDeliveryArr))
+                $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/multiplepart.html', {
+                    scope: $scope,
+                    animation: 'fade-in'
+                }).then(function(modal) {
+                    $scope.changePartModal = modal;
+                    $scope.loading = false;
+                    $scope.changePartModal.show();
+                });
+                $scope.changePartModalHide = function() {
+                    $scope.changePartModal.hide();
+                };
+                $scope.changePartModalShow = function() {
+                    $scope.changePartModal.show();
+                };
+                $scope.partData = {};
+
+            };
+
+            $scope.submitMultipleDeliveryDate = function(isValid)
+            {
+                if (isValid)
+                {
+                    var i = 0;
+                    $scope.changePartModalHide();
+                    $scope.changeDeliveryDate = function()
+                    {
+                        $scope.loading = true;
+                        Restangular.all('shipping').one('planning', $scope.planningId).one('item', $scope.itemId[i]).one('component', $scope.itemPartIdArr[i]).one('delivery', $scope.itemPartDeliveryArr[i]).get().then(function(response) {
+                            $scope.chgDeliveryData = {};
+                            $scope.chgDeliveryData.id = response.data.id;
+                            $scope.chgDeliveryData.version = response.data.version;
+                            $scope.chgDeliveryData.type = response.data.type;
+                            $scope.chgDeliveryData.delivery = moment($scope.partData.delivery, 'DD/MM/YYYY').format('YYYY-MM-DD');
+                            $scope.chgDeliveryData.quantity = response.data.quantity;
+                            $scope.chgDeliveryData.delivered = response.data.delivered;
+                            $scope.chgDeliveryData.remaining = response.data.remaining;
+                            console.log(JSON.stringify($scope.chgDeliveryData));
+                            Restangular.all('shipping').one('planning', $scope.planningId).one('item', $scope.itemId[i]).one('component', $scope.itemPartIdArr[i]).one('delivery', $scope.itemPartDeliveryArr[i]).customPUT($scope.chgDeliveryData).then(function(response) {
+                                i++;
+                                if (i < $scope.itemId.length)
+                                {
+                                    $scope.changeDeliveryDate();
+                                }
+                                else
+                                {
+                                    $scope.loading = false;
+                                    services.showAlert('Success', 'Delivery date changed to ' + $scope.partData.delivery).then(function(res) {
+                                        $scope.getOrderData($scope.planningId);
+                                    });
+                                }
+                            }, function(response) {
+                                $scope.loading = false;
+                                $scope.changePartModalShow();
+                                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                            });
+                        }, function(response) {
+                            $scope.loading = false;
+                            $scope.changePartModalShow();
+                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                        });
+                    }
+                    $scope.changeDeliveryDate();
                 }
             }
         });
