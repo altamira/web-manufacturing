@@ -394,7 +394,7 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
             }
             $scope.openStatusListModal = function() {
                 $scope.statusListModalShow();
-                Restangular.one('shipping/planning/status').get().then(function(response) {
+                Restangular.one('shipping/planning/status').get({max:999}).then(function(response) {
                     $scope.loading = false;
                     $scope.statusData = response.data;
                 }, function() {
