@@ -31,7 +31,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
                         } else
                         {
                             $scope.pageStack = [];
-                            services.showAlert('Notice', 'Material list is empty').then(function(res) {
+                            services.showAlert('Notice', 'A Lista de Material esta vazia.').then(function(res) {
                             });
                         }
                     } else
@@ -234,7 +234,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
                         } else
                         {
                             $scope.materialType.hide();
-                            services.showAlert('Notice', 'Material list is empty').then(function(res) {
+                            services.showAlert('Notice', 'A Lista de Material esta vazia.').then(function(res) {
                             });
                         }
                     } else

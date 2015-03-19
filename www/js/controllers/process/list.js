@@ -30,7 +30,7 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                         } else
                         {
                             $scope.pageStack = [];
-                            services.showAlert('Notice', 'Process list is empty').then(function(res) {
+                            services.showAlert('Aviso', 'Lista de Processos de Fabricação esta vazia.').then(function(res) {
                             });
                         }
                     } else

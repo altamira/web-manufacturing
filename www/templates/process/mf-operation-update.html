@@ -25,8 +25,8 @@
                         <label class="item item-input input-box-extra">
                             <input type="number" name="sequence" number-mask ng-model="operationData.sequence" required/>
                         </label>
-                        <label class="extra-error" ng-show="submitted && operationForm.sequence.$error.required">Sequence field is required.</label>
-                        <label class="extra-error" ng-show="submitted && operationForm.sequence.$error.number">Please enter only numeric values.</label>
+                        <label class="extra-error" ng-show="submitted && operationForm.sequence.$error.required">Sequencia é obrigatório.</label>
+                        <label class="extra-error" ng-show="submitted && operationForm.sequence.$error.number">Somente numeros.</label>
                     </div>
                     <div class="list list-row">
                         <span class="input-label text-bold">Operação</span>
@@ -48,7 +48,7 @@
                     <div class="list list-row">
                         <span class="input-label text-bold">Descrição</span>
                         <textarea name="description" ng-model="operationData.description" class="textarea-extra" required></textarea>
-                        <label class="extra-error" ng-show="submitted && operationForm.description.$error.required">Description field is required.</label>
+                        <label class="extra-error" ng-show="submitted && operationForm.description.$error.required">Descrição é obrigatório.</label>
                     </div>
                     <div class="list list-row">
                         <span class="input-label text-bold">Croqui</span>

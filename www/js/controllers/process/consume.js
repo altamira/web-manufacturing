@@ -112,7 +112,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                         }
                         else
                         {
-                            services.showAlert('Error', 'Material not found for written code.Please check it').then(function(res) {
+                            services.showAlert('Error', 'O código do Material não foi encontrado, verifique.').then(function(res) {
                                 return false;
                             });
                         }
@@ -131,23 +131,23 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                     }
                     else
                     {
-                        services.showAlert('Error', 'Material not found for written code.Please check it').then(function(res) {
+                        services.showAlert('Error', 'O código do Material não foi encontrado, verifique.').then(function(res) {
                             return false;
                         });
                     }
                 }, function(response1) {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Material not found for written code.Please check it');
+                    services.showAlert('Falhou', 'O código do Material não foi encontrado, verifique.');
                 });
             };
 
             $scope.removeConsume = function() {
-                services.showConfirmBox('Confirmation', 'Are you sure to remove this consume ?').then(function(res) {
+                services.showConfirmBox('Confirmation', 'Tem certeza de remover este item ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
                         Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).one('consume', $scope.consumeId).remove().then(function() {
                             $scope.loading = false;
-                            services.showAlert(' A consume - ' + $scope.consumeId + ' removed successfully.').then(function(res) {
+                            services.showAlert('Item removido com sucesso.').then(function(res) {
                                 if (res) {
                                     services.goToOperationUpdateForm($scope.processId, $scope.operationId);
                                 }
@@ -266,7 +266,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationConsumeCtrl',
                         } else
                         {
                             $scope.materialType.hide();
-                            services.showAlert('Notice', 'Material list is empty').then(function(res) {
+                            services.showAlert('Notice', 'Lista de Material esta vazia.').then(function(res) {
                             });
                         }
                     } else

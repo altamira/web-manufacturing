@@ -707,11 +707,11 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                             }
                         }, function(response) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Error in update details of delivery');
+                            services.showAlert('Falhou', 'Error ao atualizar a data de entrega.');
                         });
                     }, function(response) {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Error in getting details of delivery');
+                        services.showAlert('Falhou', 'Erro ao obter os dados da data de entrega.');
                     });
                 }
                 if ($scope.remainingQtnArr.length > 0)
@@ -720,7 +720,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                     $scope.updateRemainingQtn();
                 } else
                 {
-                    services.showAlert('Falhou', 'Please select atleast one delivery');
+                    services.showAlert('Falhou', 'Selecione ao menos 1 data de entrega.');
                 }
 
             }

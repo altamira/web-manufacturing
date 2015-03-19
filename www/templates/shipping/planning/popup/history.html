@@ -18,7 +18,7 @@
                             <input type="text" name="date" ng-model="historyData.date" required ng-click="showdate=false">
                             <i class="icon ion-ios7-search fa-calender" style="margin-right: 10px;"></i>
                         </label>
-                        <label class="extra-error" ng-show="submitted && historyForm.date.$error.required">Data Entrega field is required.</label>
+                        <label class="extra-error" ng-show="submitted && historyForm.date.$error.required">Data Entrega é obrigatório.</label>
                     </div>
                     <div history-date ng-hide="showdate"></div>
                 </div>
@@ -29,7 +29,7 @@
                             <input type="text" name="description" ng-model="historyData.statusDescription" required>
                         </label>
                         <i class="icon ion-ios7-search fa-md-search extra-search" ng-click="openStatusListModal()"></i>
-                        <label class="extra-error" ng-show="submitted && historyForm.description.$error.required">Status field is required.</label>
+                        <label class="extra-error" ng-show="submitted && historyForm.description.$error.required">Status é obrigatório.</label>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                     <div class="list list-row">
                         <span class="input-label text-bold"><i class="fa fa-book"></i> Historico</span>
                         <textarea name="comment" ng-model="historyData.comment" class="textarea-extra" required></textarea>
-                        <label class="extra-error" ng-show="submitted && historyForm.comment.$error.required">Historico field is required.</label>
+                        <label class="extra-error" ng-show="submitted && historyForm.comment.$error.required">Historico é obrigatório.</label>
                     </div>
                 </div>
             </div>

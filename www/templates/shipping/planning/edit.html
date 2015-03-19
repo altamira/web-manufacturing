@@ -141,7 +141,7 @@
                             <label class="item item-input input-box-extra">
                                 <input type="number" name="invoice" ng-model="PersonalData.invoice">
                             </label>
-                            <label class="extra-error" ng-show="submitted && PersonalDataForm.invoice.$error.number">Please enter only numbers.</label>
+                            <label class="extra-error" ng-show="submitted && PersonalDataForm.invoice.$error.number">Somente numeros.</label>
                             <i class="icon ion-ios7-search fa-md-arrow-right1 extra-search"></i>
                             <i class="icon ion-ios7-search fa-md-search extra-search"></i>
                         </div>
@@ -154,7 +154,7 @@
                             </label>
                             <i class="icon ion-ios7-search fa-md-arrow-right1 extra-search"></i>
                             <i class="icon ion-ios7-search fa-md-search extra-search"></i>
-                            <label class="extra-error" ng-show="submitted && PersonalDataForm.transport.$error.required">Transportadora field is required.</label>
+                            <label class="extra-error" ng-show="submitted && PersonalDataForm.transport.$error.required">Transportadora é obrigatório.</label>
                         </div>
                     </div>
                 </div>
@@ -165,7 +165,7 @@
                             <label class="item item-input input-box-extra">
                                 <input type="text" name="name" ng-model="PersonalData.name" required>
                             </label>
-                            <label class="extra-error" ng-show="submitted && PersonalDataForm.name.$error.required">Nome do contato field is required.</label>
+                            <label class="extra-error" ng-show="submitted && PersonalDataForm.name.$error.required">Nome do contato é obrigatório.</label>
                         </div>
                     </div>
                     <div class="col-25">
@@ -174,7 +174,7 @@
                             <label class="item item-input input-box-extra">
                                 <input type="text" name="phone" ng-model="PersonalData.phone" required>
                             </label>
-                            <label class="extra-error" ng-show="submitted && PersonalDataForm.phone.$error.required">Telefone field is required.</label>
+                            <label class="extra-error" ng-show="submitted && PersonalDataForm.phone.$error.required">Telefone é obrigatório.</label>
                         </div>
                     </div>
                     <div class="col-50">
@@ -183,7 +183,7 @@
                             <label class="item item-input input-box-extra">
                                 <input type="email" name="email" ng-model="PersonalData.email">
                             </label>
-                            <label class="extra-error" ng-show="submitted && PersonalDataForm.email.$error.email">Not a valid email.</label>
+                            <label class="extra-error" ng-show="submitted && PersonalDataForm.email.$error.email">Não é um email valido.</label>
                         </div>
                     </div>
                 </div>

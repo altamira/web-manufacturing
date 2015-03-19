@@ -134,7 +134,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         $scope.range();
                     }
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente novamente.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
             $scope.loadOrderList();
@@ -413,7 +413,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         $scope.decorateTable();
                     }, 100);
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
             $scope.changeDelDateByDrag = function(orderId, oldDate, newDate) {
@@ -429,7 +429,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         });
                     } else
                     {
-                        services.showAlert('Error', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.').then(function(res) {
+                        services.showAlert('Error', 'Tente novamente ou entre em contato com o Suporte Técnico.').then(function(res) {
                             $(".gridTable > tbody > tr:nth-child(3) > td." + newDate).each(function() {
                                 $(this).children().each(function() {
                                     if (parseInt($(this).data('olddate')) == parseInt(oldDate) && parseInt(orderId) == parseInt($(this).data('orderid')))
@@ -444,7 +444,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
 
                 }, function(response) {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Error in PUT request');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
             $scope.goEdit = function(planningId) {

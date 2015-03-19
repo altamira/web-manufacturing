@@ -31,7 +31,7 @@ altamiraAppControllers.controller('ManufactureExecutionListCtrl',
                         } else
                         {
                             $scope.pageStack = [];
-                            services.showAlert('Notice', 'PackingList list is empty').then(function(res) {
+                            services.showAlert('Aviso', 'Lista de Romaneios de entrega esta vazia.').then(function(res) {
                             });
                         }
                     } else

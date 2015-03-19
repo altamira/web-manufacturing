@@ -80,12 +80,12 @@ altamiraAppControllers.controller('BomViewCtrl',
                 $location.path('/bom/item/update/' + $scope.bomId + '/' + itemId);
             };
             $scope.removeBom = function() {
-                services.showConfirmBox('Confirmation', 'Are you sure to remove this BOM?').then(function(res) {
+                services.showConfirmBox('Confirmation', 'Tem certeza de remover esta Lista de Material ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
                         Restangular.one('manufacturing/bom', $scope.bomId).remove().then(function() {
                             $scope.loading = false;
-                            services.showAlert(' A BOM - ' + $scope.bomId + ' removed successfully.').then(function(res) {
+                            services.showAlert('A Lista de Material foi removida com sucesso.').then(function(res) {
                                 if (res) {
                                     $location.path('/manufacturing/bom');
                                 }

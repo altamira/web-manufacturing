@@ -83,7 +83,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
                                     Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).all('use').post($scope.postdata).then(function(response) {
                                         $scope.loading = false;
                                         if (response.status == 201) {
-                                            services.showAlert('Success', 'Processo foi gravado com sucesso !').then(function(res) {
+                                            services.showAlert('Successo', 'Processo foi gravado com sucesso !').then(function(res) {
                                                 services.goToOperationUpdateForm($scope.processId, $scope.operationId);
                                             });
                                         }
@@ -111,7 +111,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
                         }
                         else
                         {
-                            services.showAlert('Error', 'Material not found for written code.Please check it').then(function(res) {
+                            services.showAlert('Error', 'Código do Material não encontrado.').then(function(res) {
                                 return false;
                             });
                         }
@@ -130,23 +130,23 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
                     }
                     else
                     {
-                        services.showAlert('Error', 'Material not found for written code.Please check it').then(function(res) {
+                        services.showAlert('Error', 'MCódigo do Material não encontrado.').then(function(res) {
                             return false;
                         });
                     }
                 }, function(response1) {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Material not found for written code.Please check it');
+                    services.showAlert('Falhou', 'Código do Material não encontrado.');
                 });
             };
 
             $scope.removeUse = function() {
-                services.showConfirmBox('Confirmation', 'Are you sure to remove this use ?').then(function(res) {
+                services.showConfirmBox('Confirmação', 'Tem certeza de remover este item ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
                         Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).one('use', $scope.useId).remove().then(function() {
                             $scope.loading = false;
-                            services.showAlert(' A use - ' + $scope.useId + ' removed successfully.').then(function(res) {
+                            services.showAlert('Item removido com sucesso.').then(function(res) {
                                 if (res) {
                                     services.goToOperationUpdateForm($scope.processId, $scope.operationId);
                                 }
@@ -265,7 +265,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationUseCtrl',
                         } else
                         {
                             $scope.materialType.hide();
-                            services.showAlert('Notice', 'Material list is empty').then(function(res) {
+                            services.showAlert('Notice', 'A Lista de Material esta vazia.').then(function(res) {
                             });
                         }
                     } else

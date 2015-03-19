@@ -117,7 +117,7 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                 services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
             });
             $scope.getData = function(newDate, bom) {
-                services.showAlert('Success', 'BOM ' + bom + ' delivery date changed to ' + moment(newDate, "D_M_YYYY").format('D/M/YYYY')).then(function(res) {
+                services.showAlert('Success', 'A data de entrega foi alterada para ' + moment(newDate, "D_M_YYYY").format('D/M/YYYY')).then(function(res) {
                     changeDateDataTab(newDate, bom);
                 });
             }
@@ -324,7 +324,7 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                     $scope.divideDateModalShow();
                 }
                 else {
-                    services.showAlert('Falhou', 'Please select components to divide delivery date');
+                    services.showAlert('Falhou', 'Selecione os componentes a serem dividos em 2 datas de entrega.');
                 }
             };
             $ionicModal.fromTemplateUrl('templates/delivery/planning/popup/join.html', {
@@ -370,7 +370,7 @@ altamiraAppControllers.controller('DeliveryPlanningListCtrl',
                     $scope.joinDateModalShow();
                 }
                 else {
-                    services.showAlert('Falhou', 'Please select atleast 2 components to join delivery date');
+                    services.showAlert('Falhou', 'Selecione pelo menos 2 componentes para juntar as datas de entrega.');
                 }
             };
 

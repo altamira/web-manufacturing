@@ -21,7 +21,7 @@ altamiraAppControllers.controller('BomCreateCtrl',
                     Restangular.all('manufacturing/bom').post($scope.postdata).then(function(response) {
                         $scope.loading = false;
                         if (response.status == 201) {
-                            services.showAlert('Success', 'com sucesso BOM criado!').then(function(res) {
+                            services.showAlert('Successo', 'Lista de Material criada com sucesso !').then(function(res) {
                                 $location.path('/bom/edit/'+response.data.id);
                             });
                         }

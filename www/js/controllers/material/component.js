@@ -139,7 +139,7 @@ altamiraAppControllers.controller('MaterialComponentCtrl',
             });
 
             $scope.removeUse = function() {
-                services.showConfirmBox('Confirmation', 'Are you sure to remove this Component ?').then(function(res) {
+                services.showConfirmBox('Confirmação', 'Tem certeza de remover este componente ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
                         Restangular.one('common/material', $scope.materialId).one('component', $scope.componentId).remove().then(function() {

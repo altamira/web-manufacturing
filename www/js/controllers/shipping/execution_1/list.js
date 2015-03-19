@@ -44,7 +44,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         $scope.decorateTable();
                     }, 100);
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                 });
             };
             $scope.loadOrderList();
@@ -121,7 +121,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                             } else
                             {
                                 $scope.loading = false;
-                                services.showAlert('Success', 'Successfully remaining value changed').then(function(res) {
+                                services.showAlert('Successo', 'Valor alterado com sucesso.').then(function(res) {
                                     $scope.remainingQtnArr = [];
                                     if ($scope.viewtype == 'form')
                                     {
@@ -134,11 +134,11 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                             }
                         }, function(response) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Error in update details of delivery');
+                            services.showAlert('Falhou', 'Erro ao alterar os detalhes da entrega.');
                         });
                     }, function(response) {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Error in getting details of delivery');
+                        services.showAlert('Falhou', 'Erro ao obter os dados da entrega.');
                     });
                 }
                 if ($scope.remainingQtnArr.length > 0)
@@ -147,7 +147,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                     $scope.updateRemainingQtn();
                 } else
                 {
-                    services.showAlert('Falhou', 'Please select atleast one delivery');
+                    services.showAlert('Falhou', 'Selecione ao menos uma data de entrega.');
                 }
 
             }
@@ -318,11 +318,11 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                 else {
                     if ($scope.itemPartIdArr.length < 1)
                     {
-                        services.showAlert('Falhou', 'Please select components to divide delivery date');
+                        services.showAlert('Falhou', 'Selecione os componentes para dividir a data de entrega.');
                     }
                     if ($scope.itemPartIdArr.length > 1)
                     {
-                        services.showAlert('Falhou', 'Please select only one component to divide delivery date');
+                        services.showAlert('Falhou', 'Selecione os componentes para dividir a data de entrega.');
                     }
 
                 }
@@ -446,7 +446,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                     $scope.joinDateModalShow();
                 }
                 else {
-                    services.showAlert('Falhou', 'Please select atleast 2 components to join delivery date');
+                    services.showAlert('Falhou', 'Selecione ao menos 2 componentes para unir a data de entrega.');
                 }
             }
             $scope.submitJoinComponent = function(isValid) {
@@ -490,7 +490,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                                         } else
                                         {
                                             $scope.loading = false;
-                                            services.showAlert('success', 'Successfully joined delivery dates').then(function(response) {
+                                            services.showAlert('successo', 'Datas de entrega unidas com sucesso.').then(function(response) {
                                                 if ($scope.viewGrid == true)
                                                 {
                                                     $scope.getOrderData($scope.orderData.id);
@@ -626,11 +626,11 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                             });
                         }, function(response) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Error in PUT request');
+                            services.showAlert('Falhou', 'Erro ao enviar os dados.');
                         });
                     }, function(response) {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Error in GET request');
+                        services.showAlert('Falhou', 'Erro ao obter os dados.');
                     });
                 }
             }

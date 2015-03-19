@@ -152,12 +152,12 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl',
                 }
             };
             $scope.removeProcess = function() {
-                services.showConfirmBox('Confirmation', 'Are you sure to remove this Process?').then(function(res) {
+                services.showConfirmBox('Confirmacao', 'Tem certeza de remover este Processo ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
                         Restangular.one('manufacturing/process', $scope.processId).remove().then(function() {
                             $scope.loading = false;
-                            services.showAlert('Success', 'A Process - ' + $scope.processId + ' removed successfully.').then(function(res) {
+                            services.showAlert('Successo', 'Processo removido com sucesso.').then(function(res) {
                                 if (res) {
                                     $location.path('/manufacturing/process/0');
                                 }
@@ -170,12 +170,12 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl',
                 });
             };
             $scope.removeOperation = function(operationId) {
-                services.showConfirmBox('Confirmation', 'Are you sure to remove this Operation?').then(function(res) {
+                services.showConfirmBox('Confirmation', 'Tem certeza de remover esta operação ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
                         Restangular.one('manufacturing/process', $scope.processId).one('operation', operationId).remove().then(function() {
                             $scope.loading = false;
-                            services.showAlert('Success', 'An Operation - ' + operationId + ' removed successfully.').then(function(res) {
+                            services.showAlert('Successo', 'Operação removida com sucesso.').then(function(res) {
                                 if (res) {
                                     $route.reload();
                                 }

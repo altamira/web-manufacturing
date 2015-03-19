@@ -54,7 +54,7 @@ altamiraAppControllers.controller('ManufactureExecutionPackingCtrl',
             }
             $scope.remainingQtnArr = [];
             $scope.changeRemainingQun = function() {
-                services.showConfirmBox('Confirmation', 'Seguro de crear la lista de contenido?').then(function(res) {
+                services.showConfirmBox('Confirmação', 'Confirma a operação ?').then(function(res) {
                     if (res)
                     {
                         var i = 0;
@@ -79,18 +79,18 @@ altamiraAppControllers.controller('ManufactureExecutionPackingCtrl',
                                     } else
                                     {
                                         $scope.loading = false;
-                                        services.showAlert('Success', 'Successfully remaining value changed').then(function(res) {
+                                        services.showAlert('Successo', 'Valores alterados com sucesso.').then(function(res) {
                                             $scope.remainingQtnArr = [];
                                             $scope.getOrderData($scope.executionId);
                                         });
                                     }
                                 }, function(response) {
                                     $scope.loading = false;
-                                    services.showAlert('Falhou', 'Error in update details of delivery');
+                                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                                 });
                             }, function(response) {
                                 $scope.loading = false;
-                                services.showAlert('Falhou', 'Error in getting details of delivery');
+                                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                             });
                         }
                         if ($scope.remainingQtnArr.length > 0)
@@ -99,7 +99,7 @@ altamiraAppControllers.controller('ManufactureExecutionPackingCtrl',
                             $scope.updateRemainingQtn();
                         } else
                         {
-                            services.showAlert('Falhou', 'Please select atleast one delivery');
+                            services.showAlert('Falhou', 'Selecione ao menos uma data de entrega.');
                         }
                     }
                 });
