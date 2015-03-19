@@ -12,10 +12,12 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
             moment.locale('en');
             $scope.tempUnixTS = [];
             $scope.viewWeekly = false;
+            $scope.setToday = 'yes';
             $scope.currentYear = moment().format('YYYY');
             $scope.validYears = [parseInt($scope.currentYear) - 1, parseInt($scope.currentYear), parseInt($scope.currentYear) + 1];
             $scope.formView = function() {
                 $scope.viewtype = 'form';
+                $scope.setToday = 'yes'
                 $('#form_view').show();
                 $('#formShowBtn').removeClass('month');
                 $('#grid_view').hide();
@@ -337,46 +339,19 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     scrollButtons: {enable: true},
                     scrollbarPosition: "outside"
                 });
-                $(".mainRow").mCustomScrollbar("scrollTo",$('.'+moment().format('D_M_YYYY')));
-                setTimeout(function() {
-                    var w = ($( window ).width()/2)-100;
-                    $(".mainRow").mCustomScrollbar("scrollTo",'+='+w)
-                }, 1000);
-                $(".dataRow").mCustomScrollbar({
-                    axis: "yx",
-                    theme: "inset-3",
-                    scrollButtons: {enable: true},
-                    scrollbarPosition: "outside",
-                    autoHideScrollbar: false
-                });
-                $(".dataRow  .mCSB_scrollTools_vertical").css('left', '-10px');
-                $(".dataRowGrid").mCustomScrollbar({
-                    axis: "x",
-                    theme: "inset-3",
-                    scrollButtons: {enable: true},
-                    scrollbarPosition: "outside"
-                });
+                if ($scope.setToday == 'yes')
+                {
+                    $(".mainRow").mCustomScrollbar("scrollTo", $('.' + moment().format('D_M_YYYY')));
+                    setTimeout(function() {
+                        var w = ($(window).width() / 2) - 100;
+                        $(".mainRow").mCustomScrollbar("scrollTo", '+=' + w);
+                        $scope.setToday = 'no';
+                    }, 1000);
+                }
 
-                $('.dataTable tr').hover(function() {
-                    var hoverClass = $(this).attr('id');
-                    $(this).css('background-color', '#95bcf2');
-                    $('.' + hoverClass).css('background-color', '#95bcf2');
-                });
-                $('.dataTable tr').mouseleave(function() {
-                    var hoverClass = $(this).attr('id');
-                    $(this).css('background-color', '#ffffff');
-                    $('.' + hoverClass).css('background-color', '#ffffff');
-                });
-                $('.mainTable tr').hover(function() {
-                    var hoverClass = $(this).attr('class');
-                    $('#' + hoverClass).css('background-color', '#95bcf2 !important');
-                });
-                $('.mainTable tr').mouseleave(function() {
-                    var hoverClass = $(this).attr('class');
-                    $('#' + hoverClass).css('background-color', '#ffffff');
-                });
+
                 $('.dragDiv').on('dblclick', function(e) {
-                    $location.path('shipping/planning/'+$(this).data('orderid'));
+                    $location.path('shipping/planning/' + $(this).data('orderid'));
                     $scope.$apply();
                 });
                 setTimeout(function() {
@@ -411,8 +386,13 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     });
                 }, 100);
             }
+            $scope.setTodayGrid = function() {
+
+            }
             $scope.loadGrid = function() {
                 $scope.loading = true;
+
+//                $('.gridTable').empty();
                 $scope.itemId = [];
                 $scope.itemPartIdArr = [];
                 $scope.itemPartDeliveryArr = [];
@@ -440,10 +420,8 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 $scope.loading = true;
                 $scope.postdata = [];
                 $scope.postdata = [oldDate, CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat(newDate, 'D_M_YYYY'))];
-                console.log(JSON.stringify($scope.postdata));
                 Restangular.all('shipping').one('planning', orderId).all('delivery').customPUT($scope.postdata).then(function(response) {
                     $scope.loading = false;
-                    console.log(JSON.stringify(response.data));
                     if (response.data.count > 0)
                     {
                         services.showAlert('Success', 'Successfully delivery date changed to ' + CommonFun.setDefaultDateFormat(newDate, 'D_M_YYYY')).then(function(res) {
@@ -452,6 +430,14 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     } else
                     {
                         services.showAlert('Error', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.').then(function(res) {
+                            $(".gridTable > tbody > tr:nth-child(3) > td." + newDate).each(function() {
+                                $(this).children().each(function() {
+                                    if (parseInt($(this).data('olddate')) == parseInt(oldDate) && parseInt(orderId) == parseInt($(this).data('orderid')))
+                                    {
+                                        $(this).remove();
+                                    }
+                                });
+                            });
                             $scope.loadGrid();
                         });
                     }
@@ -461,8 +447,8 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     services.showAlert('Falhou', 'Error in PUT request');
                 });
             };
-            $scope.goEdit = function (planningId) {
-                $location.path('shipping/planning/'+planningId);
+            $scope.goEdit = function(planningId) {
+                $location.path('shipping/planning/' + planningId);
             }
         });
 function unique_arr(array) {
