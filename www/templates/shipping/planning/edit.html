@@ -263,6 +263,7 @@
                                     <td class="edit-info align-right width-9">{{component.delivery.delivered.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
                                     <td class="edit-info align-right width-9">{{component.delivery.remaining.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
                                     <td class="edit-text width-42" ng-click='updatePart(orderData.id,data.id,component.componentId,component.delivery.id)'  style="cursor: pointer;">{{component.description}}</td>
+                                    <!--<td class="edit-text width-42" style="cursor: pointer;">{{data.id}}-{{component.componentId}}-{{component.delivery.id}}</td>-->
                                     <td class="edit-text align-center width-10">{{component.color}}</td>
                                     <td class="edit-info align-right width-9">{{component.weight * component.delivery.quantity.value | setDecimal:3}}<span style="margin-left: 5px;">{{component.weightType}}</span></td>
                                     <td class="edit-text align-center width-3">

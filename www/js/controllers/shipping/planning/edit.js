@@ -394,7 +394,7 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
             }
             $scope.openStatusListModal = function() {
                 $scope.statusListModalShow();
-                Restangular.one('shipping/planning/status').get({max:999}).then(function(response) {
+                Restangular.one('shipping/planning/status').get({max: 999}).then(function(response) {
                     $scope.loading = false;
                     $scope.statusData = response.data;
                 }, function() {
@@ -509,6 +509,7 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                         $scope.chgDeliveryData.quantity = response.data.quantity;
                         $scope.chgDeliveryData.delivered = response.data.delivered;
                         $scope.chgDeliveryData.remaining = response.data.remaining;
+                        console.log(JSON.stringify($scope.chgDeliveryData));
                         Restangular.all('shipping').one('planning', $scope.BOMId).one('item', $scope.ITEMId).one('component', $scope.PARTId).one('delivery', $scope.DELIVERYId).customPUT($scope.chgDeliveryData).then(function(response) {
                             $scope.loading = false;
                             $scope.changePartModalHide();
@@ -552,6 +553,7 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
 
             $scope.submitMultipleDeliveryDate = function(isValid)
             {
+
                 if (isValid)
                 {
                     var i = 0;
