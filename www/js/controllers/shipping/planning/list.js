@@ -129,7 +129,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                                 $scope.pageOrderListes();
                             }
                         }
-
+                        console.log(JSON.stringify($scope.orderData));
                         $scope.loading = false;
                         $scope.range();
                     }

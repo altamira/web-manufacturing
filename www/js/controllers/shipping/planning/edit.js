@@ -448,15 +448,8 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                     $scope.partData.code = data.material.code;
                     $scope.partData.description = data.description;
                     $scope.partData.delivery = data.delivery.delivery;
-                    $scope.getColorName(data.color.id);
                     $scope.partData.quantity = data.quantity.value;
                     $scope.partData.quantityType = data.quantity.unit.symbol;
-                    $scope.partData.width = data.width.value;
-                    $scope.getUnitSymbol(data.width.unit.id, 'width');
-                    $scope.partData.height = data.height.value;
-                    $scope.getUnitSymbol(data.height.unit.id, 'height');
-                    $scope.partData.length = data.length.value;
-                    $scope.getUnitSymbol(data.length.unit.id, 'length');
                     $scope.partData.weight = data.weight.value;
                     $scope.getUnitSymbol(data.weight.unit.id, 'weight');
                     Restangular.one('shipping/planning', bomId).one('item', itemId).one('component', partId).one('delivery', deliveryid).get().then(function(response1) {
@@ -503,17 +496,6 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                         services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                     });
                 };
-                $scope.getColorName = function(colorId) {
-                    Restangular.one('common/color', colorId).get().then(function(response) {
-                        $scope.partData.color = {};
-                        $scope.partData.color.version = response.data.version;
-                        $scope.partData.color.code = response.data.code;
-                        $scope.partData.color.id = response.data.id;
-                        $scope.partData.color.name = response.data.name;
-                    }, function(response) {
-                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
-                    });
-                };
             };
             $scope.submitPartForm = function(isValid) {
                 if (isValid) {
@@ -550,10 +532,6 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                 }
             };
             $scope.updateMultiplePart = function() {
-                console.log(JSON.stringify($scope.itemId))
-                console.log(JSON.stringify($scope.itemPartIdArr))
-                console.log(JSON.stringify($scope.itemMaterialArr))
-                console.log(JSON.stringify($scope.itemPartDeliveryArr))
                 $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/multiplepart.html', {
                     scope: $scope,
                     animation: 'fade-in'

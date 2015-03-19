@@ -10,11 +10,10 @@
             <div class="buttons header-margin">
                 <button type="button" class="button fa-arrow-left" ng-click="goBack()"></button>
                 <span class="btn-separator"></span>
-                <h4 style="color: #ffffff;margin-top: 5px;">&nbsp{{planningId}}&nbsp;</h4>
+                <h4 style="color: #ffffff;margin-top: 5px;">&nbsp{{orderData.number}}&nbsp;</h4>
                 <span class="btn-separator"></span>
-                <button type="button" class="button fa-calender-header" ng-click="updateMultiplePart()" ></button>
                 <button class="button fa-check" ng-click="submitted=true" ></button>
-                <span class="btn-separator"></span>
+                <button type="button" class="button fa-calender-header" ng-click="updateMultiplePart()" ></button>
                 <button type="button" class="button fa-link-header" ng-click="joinDate()"></button>
                 <button type="button" class="button fa-unlink-header" ng-click="divideDate()"></button>
             </div>
@@ -140,11 +139,11 @@
                         <div class="list">
                             <span class="input-label text-bold">Nota Fiscal</span>
                             <label class="item item-input input-box-extra">
-                                <input type="text" name="invoice" ng-model="PersonalData.invoice" required>
+                                <input type="number" name="invoice" ng-model="PersonalData.invoice">
                             </label>
+                            <label class="extra-error" ng-show="submitted && PersonalDataForm.invoice.$error.number">Please enter only numbers.</label>
                             <i class="icon ion-ios7-search fa-md-arrow-right1 extra-search"></i>
                             <i class="icon ion-ios7-search fa-md-search extra-search"></i>
-                            <label class="extra-error" ng-show="submitted && PersonalDataForm.invoice.$error.required">Nota Fiscal field is required.</label>
                         </div>
                     </div>
                     <div class="col-75">
@@ -182,9 +181,9 @@
                         <div class="list">
                             <span class="input-label text-bold">Email</span>
                             <label class="item item-input input-box-extra">
-                                <input type="text" name="email" ng-model="PersonalData.email" required>
+                                <input type="email" name="email" ng-model="PersonalData.email">
                             </label>
-                            <label class="extra-error" ng-show="submitted && PersonalDataForm.email.$error.required">Email field is required.</label>
+                            <label class="extra-error" ng-show="submitted && PersonalDataForm.email.$error.email">Not a valid email.</label>
                         </div>
                     </div>
                 </div>
