@@ -11,7 +11,7 @@
             <div class="col">
                 <div class="list">
                     <ul>
-                        <li ng-repeat="status in statusData">
+                        <li ng-repeat="status in statusData | orderBy:'id'">
                             <div ng-click="selectStatusType(status)" class="mouse-pointer">
                                 <div class="text-wrap1" ng-if="status.code == 1" style="font-size: 20px;">
                                     {{status.description}}
