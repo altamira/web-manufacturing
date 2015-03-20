@@ -390,6 +390,46 @@ altamiraApp.directive('componentDate', function() {
         }
     };
 });
+altamiraApp.directive('planningInicial', function() {
+    return {
+        link: function(scope, el, attr) {
+            $(el).datepicker({
+                dateFormat: 'dd/mm/yy',
+                inline: true,
+                beforeShowDay: function(date) {
+                    var day = date.getDay();
+                    return [day == 1 || day == 2 || day == 3 || day == 4 || day == 5, ''];
+                },
+                onSelect: function(dateText) {
+                    scope.$apply(function() {
+                        scope.planning.inicial = dateText
+                        scope.inicialDate = true;
+                    });
+                }
+            });
+        }
+    };
+});
+altamiraApp.directive('planningFinal', function() {
+    return {
+        link: function(scope, el, attr) {
+            $(el).datepicker({
+                dateFormat: 'dd/mm/yy',
+                inline: true,
+                beforeShowDay: function(date) {
+                    var day = date.getDay();
+                    return [day == 1 || day == 2 || day == 3 || day == 4 || day == 5, ''];
+                },
+                onSelect: function(dateText) {
+                    scope.$apply(function() {
+                        scope.planning.final = dateText
+                        scope.finalDate = true;
+                    });
+                }
+            });
+        }
+    };
+});
 altamiraApp.directive('getQuantity', function() {
     return function(scope, el, attrs) {
     }
@@ -448,7 +488,7 @@ altamiraApp.directive('selectDelivery', function(services) {
                 scope.itemMaterialArr.splice(scope.itemMaterialArr.indexOf(parseInt(attr.datamaterial)), 1);
                 scope.itemPartDeliveryArr.splice(scope.itemPartDeliveryArr.indexOf(parseInt(attr.datadelivery)), 1);
             }
-            
+
         });
 
     }
