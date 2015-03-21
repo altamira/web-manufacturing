@@ -159,9 +159,9 @@ altamiraApp.config(['$routeProvider',
     }]);
 
 altamiraApp.config(function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('http://ec2-54-94-134-111.sa-east-1.compute.amazonaws.com/data-rest-0.8.0.Final');
-    sessionStorage.setItem('reportBaseUrl', 'http://ec2-54-94-134-111.sa-east-1.compute.amazonaws.com/manufacturing-report-0.8.0.Final');
-    sessionStorage.setItem('MainRestangular', 'http://sistema.altamira.com.br/#/blacktheme/home');
+    RestangularProvider.setBaseUrl('http://data.altamira.com.br/data-rest-0.9.0-SNAPSHOT');
+    sessionStorage.setItem('reportBaseUrl', 'http://data.altamira.com.br/manufacturing-report-0.9.0-SNAPSHOT');
+    sessionStorage.setItem('MainRestangular', 'http://localhost/altamira_main/www/#/blacktheme/home');
     RestangularProvider.setFullResponse(true);
     RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json; charset=iso-8859-1'});
     RestangularProvider.setRestangularFields({
@@ -174,7 +174,7 @@ altamiraApp.config(function(RestangularProvider) {
     RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
         if (response.status === 401)
         {
-            window.location = 'http://sistema.altamira.com.br/#/blacktheme/login';
+            window.location = 'http://localhost/altamira_main/www/#/blacktheme/login';
         } else
         {
             var extractedData;
@@ -186,7 +186,7 @@ altamiraApp.config(function(RestangularProvider) {
 
 altamiraApp.factory('IntegrationRestangular', function(Restangular) {
     return Restangular.withConfig(function(RestangularProvider) {
-        RestangularProvider.setBaseUrl('http://192.168.0.8/integration');
+        RestangularProvider.setBaseUrl('http://ec2-54-207-103-15.sa-east-1.compute.amazonaws.com');
         RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json; charset=iso-8859-1'});
         RestangularProvider.setFullResponse(true);
     });
