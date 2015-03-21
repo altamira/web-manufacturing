@@ -598,4 +598,26 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                     $scope.changeDeliveryDate();
                 }
             }
+            $scope.checkAllDelivery = function() {
+                $scope.itemId = [];
+                $scope.itemPartIdArr = [];
+                $scope.itemMaterialArr = [];
+                $scope.itemPartDeliveryArr = [];
+                $('.delivery-table > tbody > tr > td:last-child').each(function() {
+                    $scope.itemId.push(parseInt($(this).children().attr('dataitem')));
+                    $scope.itemPartIdArr.push(parseInt($(this).children().attr('datapart')));
+                    $scope.itemMaterialArr.push(parseInt($(this).children().attr('datamaterial')));
+                    $scope.itemPartDeliveryArr.push(parseInt($(this).children().attr('datadelivery')));
+                    $(this).children().toggleClass('fa-check-square-o');
+                });
+            }
+            $scope.uncheckAllDelivery = function() {
+                $scope.itemId = [];
+                $scope.itemPartIdArr = [];
+                $scope.itemMaterialArr = [];
+                $scope.itemPartDeliveryArr = [];
+                $('.delivery-table > tbody > tr > td:last-child').each(function() {
+                    $(this).children().toggleClass('fa-check-square-o');
+                });
+            }
         });
