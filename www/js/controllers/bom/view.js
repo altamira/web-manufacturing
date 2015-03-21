@@ -30,7 +30,7 @@ altamiraAppControllers.controller('BomViewCtrl',
                     $scope.bomData.items = data.item;
                 }
             }, function(response) {
-                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
             });
             $scope.makeChecked = function() {
                 services.showConfirmBox('Confirmation', 'A Lista de Material foi conferida ?').then(function(res) {
@@ -46,7 +46,7 @@ altamiraAppControllers.controller('BomViewCtrl',
 
                         }, function(response) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                         });
                     }
                 });
@@ -65,7 +65,7 @@ altamiraAppControllers.controller('BomViewCtrl',
 
                         }, function(response) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                         });
                     }
                 });
@@ -80,19 +80,19 @@ altamiraAppControllers.controller('BomViewCtrl',
                 $location.path('/bom/item/update/' + $scope.bomId + '/' + itemId);
             };
             $scope.removeBom = function() {
-                services.showConfirmBox('Confirmation', 'Are you sure to remove this BOM?').then(function(res) {
+                services.showConfirmBox('Confirmation', 'Tem certeza de remover esta Lista de Material ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
                         Restangular.one('manufacturing/bom', $scope.bomId).remove().then(function() {
                             $scope.loading = false;
-                            services.showAlert(' A BOM - ' + $scope.bomId + ' removed successfully.').then(function(res) {
+                            services.showAlert('A Lista de Material foi removida com sucesso.').then(function(res) {
                                 if (res) {
                                     $location.path('/manufacturing/bom');
                                 }
                             });
                         }, function() {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                         });
                     }
                 });

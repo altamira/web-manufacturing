@@ -28,22 +28,22 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
             Restangular.one('common/color').get({max: 0}).then(function(response) {
                 $scope.partData.colorBox = response.data;
             }, function(response) {
-                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
             });
             Restangular.one('measurement/unit').get({magnitude: 'dimencional'}).then(function(response) {
                 $scope.partData.unitLengthBox = response.data;
             }, function(response) {
-                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
             });
             Restangular.one('measurement/unit').get({magnitude: 'peso'}).then(function(response) {
                 $scope.partData.unitWeightBox = response.data;
             }, function(response) {
-                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
             });
             Restangular.one('measurement/unit').get({magnitude: 'unidade'}).then(function(response) {
                 $scope.partData.unitQuantityBox = response.data;
             }, function(response) {
-                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
             });
 
             $scope.loadPart = function() {
@@ -66,7 +66,7 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
                     $scope.partData.weight = data.weight.value;
                     $scope.partData.weightType = data.weight.unit.id;
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
 
@@ -131,7 +131,7 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
                                         $location.path('/bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
                                     }, function() {
                                         $scope.loading = false;
-                                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                                     });
                                 }
                                 else
@@ -143,26 +143,26 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
                                             $location.path('/bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
                                         }, function(response) {
                                             $scope.loading = false;
-                                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                                            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                                         });
                                     }, function(response1) {
                                         $scope.loading = false;
-                                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                                     });
                                 }
                             }, function(response) {
-                                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                             });
                         }
                         else
                         {
-                            services.showAlert('Error', 'Material not found for written code.Please check it').then(function(res) {
+                            services.showAlert('Error', 'Material não localizado, verifique o código.').then(function(res) {
                                 return false;
                             });
                         }
                     }, function(response1) {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Material not found for written code.Please check it');
+                        services.showAlert('Falhou', 'Material não localizado, verifique o código.');
                     });
                 }
             }
@@ -174,29 +174,29 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
                     }
                     else
                     {
-                        services.showAlert('Error', 'Material not found for written code.Please check it').then(function(res) {
+                        services.showAlert('Error', 'Material não localizado, verifique o código.').then(function(res) {
                             return false;
                         });
                     }
                 }, function(response1) {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Material not found for written code.Please check it');
+                    services.showAlert('Falhou', 'Material não localizado, verifique o código.');
                 });
             };
             $scope.removePart = function() {
-                services.showConfirmBox('Confirmation', 'Are you sure to remove this Part?').then(function(res) {
+                services.showConfirmBox('Confirmation', 'Tem certeza de remover este componente ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
                         Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('component', $scope.partId).remove().then(function() {
                             $scope.loading = false;
-                            services.showAlert('A Part - ' + $scope.partId + ' removed successfully.').then(function(res) {
+                            services.showAlert('Componente ' + $scope.partId + ' removido com sucesso.').then(function(res) {
                                 if (res) {
                                     $location.path('bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
                                 }
                             });
                         }, function() {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                         });
                     }
                 });
@@ -296,7 +296,7 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
                         } else
                         {
                             $scope.materialType.hide();
-                            services.showAlert('Notice', 'Material list is empty').then(function(res) {
+                            services.showAlert('Notice', 'A lista de Material esta vazia.').then(function(res) {
                             });
                         }
                     } else
@@ -341,7 +341,7 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
                         $scope.rangeImportMaterial();
                     }
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
 
@@ -456,22 +456,22 @@ altamiraAppControllers.controller('BomPartUpdateCtrl',
             Restangular.one('common/color').get({max: 0}).then(function(response) {
                 $scope.partData.colorBox = response.data;
             }, function(response) {
-                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
             });
             Restangular.one('measurement/unit').get({magnitude: 'dimencional'}).then(function(response) {
                 $scope.partData.unitLengthBox = response.data;
             }, function(response) {
-                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
             });
             Restangular.one('measurement/unit').get({magnitude: 'peso'}).then(function(response) {
                 $scope.partData.unitWeightBox = response.data;
             }, function(response) {
-                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
             });
             Restangular.one('measurement/unit').get({magnitude: 'unidade'}).then(function(response) {
                 $scope.partData.unitQuantityBox = response.data;
             }, function(response) {
-                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
             });
 
             $scope.loadPart = function() {
@@ -510,7 +510,7 @@ altamiraAppControllers.controller('BomPartUpdateCtrl',
                     }
                     $scope.partData.weightType = data.weight.unit.id;
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
             $scope.loadPart();
@@ -565,25 +565,25 @@ altamiraAppControllers.controller('BomPartUpdateCtrl',
                                         $location.path('/bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
                                     }, function(response) {
                                         $scope.loading = false;
-                                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                                     });
                                 }, function(response1) {
                                     $scope.loading = false;
-                                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                                 });
                             }, function(response) {
-                                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                             });
                         }
                         else
                         {
-                            services.showAlert('Error', 'Material not found for written code.Please check it').then(function(res) {
+                            services.showAlert('Error', 'O codigo do Material não foi encontrado, verifique.').then(function(res) {
                                 return false;
                             });
                         }
                     }, function(response) {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
 
 
@@ -591,19 +591,19 @@ altamiraAppControllers.controller('BomPartUpdateCtrl',
             }
 
             $scope.removePart = function() {
-                services.showConfirmBox('Confirmation', 'Are you sure to remove this Part?').then(function(res) {
+                services.showConfirmBox('Confirmation', 'Tem certeza de remover este componente ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
                         Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('component', $scope.partId).remove().then(function() {
                             $scope.loading = false;
-                            services.showAlert('A Part - ' + $scope.partId + ' removed successfully.').then(function(res) {
+                            services.showAlert('Componente ' + $scope.partId + ' removido com sucesso.').then(function(res) {
                                 if (res) {
                                     $location.path('bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
                                 }
                             });
                         }, function() {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                         });
                     }
                 });
@@ -636,7 +636,7 @@ altamiraAppControllers.controller('BomPartUpdateCtrl',
                             $scope.loadMaterial();
                         } else
                         {
-                            services.showAlert('Notice', 'Material list is empty').then(function(res) {
+                            services.showAlert('Notice', 'A lista de Material esta vazia.').then(function(res) {
                             });
                         }
                     } else
@@ -669,7 +669,7 @@ altamiraAppControllers.controller('BomPartUpdateCtrl',
                         $scope.range();
                     }
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
             $scope.pageItems = function() {
@@ -846,7 +846,7 @@ altamiraAppControllers.controller('BomPartUpdateCtrl',
                         }
                     }, function() {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
                 }
             };
@@ -933,7 +933,7 @@ altamiraAppControllers.controller('BomPartUpdateCtrl',
                         } else
                         {
                             $scope.materialType.hide();
-                            services.showAlert('Notice', 'Material list is empty').then(function(res) {
+                            services.showAlert('Notice', 'Lista de Material esta vazia.').then(function(res) {
                             });
                         }
                     } else
@@ -978,7 +978,7 @@ altamiraAppControllers.controller('BomPartUpdateCtrl',
                         $scope.rangeImportMaterial();
                     }
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
 

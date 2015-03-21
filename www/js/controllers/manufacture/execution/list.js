@@ -31,7 +31,7 @@ altamiraAppControllers.controller('ManufactureExecutionListCtrl',
                         } else
                         {
                             $scope.pageStack = [];
-                            services.showAlert('Notice', 'PackingList list is empty').then(function(res) {
+                            services.showAlert('Aviso', 'Lista de Romaneios de entrega esta vazia.').then(function(res) {
                             });
                         }
                     } else
@@ -64,7 +64,7 @@ altamiraAppControllers.controller('ManufactureExecutionListCtrl',
                         $scope.range();
                     }
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
             $scope.loadPackingList();

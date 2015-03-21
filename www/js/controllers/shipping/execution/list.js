@@ -89,7 +89,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         $scope.range();
                     }
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente novamente.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
             $scope.loadPackingList();
@@ -162,7 +162,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                 Restangular.one('shipping/execution', executionId).all('packinglist').post($scope.postData).then(function(response) {
                     $location.path('/shipping/execution/' + executionId + '/packinglist/' + response.data.id);
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente novamente.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             }
             $scope.toggleLeft = function() {
@@ -293,7 +293,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         $scope.decorateTable();
                     }, 100);
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
             function createDaysArray(daysArray, m, y)

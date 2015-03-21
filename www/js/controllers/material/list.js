@@ -31,7 +31,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
                         } else
                         {
                             $scope.pageStack = [];
-                            services.showAlert('Notice', 'Material list is empty').then(function(res) {
+                            services.showAlert('Notice', 'A Lista de Material esta vazia.').then(function(res) {
                             });
                         }
                     } else
@@ -64,7 +64,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
                         $scope.range();
                     }
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
             $scope.loadMaterial();
@@ -181,12 +181,12 @@ altamiraAppControllers.controller('MaterialListCtrl',
                 Restangular.one('measurement/unit').get({magnitude: 'dimencional'}).then(function(response) {
                     $scope.unitLengthBox = response.data;
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
                 Restangular.one('measurement/unit').get({magnitude: 'peso'}).then(function(response) {
                     $scope.unitWeightBox = response.data;
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             });
 
@@ -234,7 +234,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
                         } else
                         {
                             $scope.materialType.hide();
-                            services.showAlert('Notice', 'Material list is empty').then(function(res) {
+                            services.showAlert('Notice', 'A Lista de Material esta vazia.').then(function(res) {
                             });
                         }
                     } else
@@ -279,7 +279,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
                         $scope.rangeImportMaterial();
                     }
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
 
@@ -424,8 +424,7 @@ altamiraAppControllers.controller('MaterialListCtrl',
                         $scope.rangeImportMaterial();
                     }
                 }, function(response) {
-                    console.log(JSON.stringify(response));
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             }
 

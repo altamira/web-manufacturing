@@ -3,7 +3,7 @@ altamiraAppControllers.controller('ManufactureExecutionCtrl',
             Restangular.one('manufacture/operation').get().then(function(response) {
                 $scope.operationTypeData = response.data;
             }, function(response) {
-                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
             });
             $scope.selectOperationType = function(operationId) {
                 var temp = $scope.getObjects($scope.operationTypeData,'id',operationId);

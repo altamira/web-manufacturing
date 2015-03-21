@@ -36,7 +36,7 @@ altamiraAppControllers.controller('ManufacturingProcessCreateOperationCtrl',
                         }
                     }, function() {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
                 }
             };
@@ -85,13 +85,13 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                                 $scope.operationData.filetype = response1.data.extension;
                             }, function(response) {
                                 $scope.loading = false;
-                                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                             });
                         }
                     }
                 }, function(response) {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
             $scope.loadOperation();
@@ -124,11 +124,11 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                             $scope.loading = false;
                         }, function(response) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                         });
                     }, function(response1) {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
 
                 }
@@ -151,7 +151,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
 
                     }, function(response) {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
                 }
                 else
@@ -162,7 +162,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                         $scope.operationData.sketchId = response.data.id;
                     }, function(response) {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
                 }
 
@@ -175,23 +175,23 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                     $scope.operationData.sketchId = '';
                 }, function(response) {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
             $scope.removeOperation = function() {
-                services.showConfirmBox('Confirmation', 'Are you sure to remove this Operation?').then(function(res) {
+                services.showConfirmBox('Confirmation', 'Tem certeza de remover esta operação ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
                         Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).remove().then(function() {
                             $scope.loading = false;
-                            services.showAlert('Success', 'An Operation - ' + $scope.operationId + ' removed successfully.').then(function(res) {
+                            services.showAlert('Successo', 'A operação foi removida com sucesso.').then(function(res) {
                                 if (res) {
                                     services.goToProcessUpdateForm($scope.processId);
                                 }
                             });
                         }, function(response1) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                         });
                     }
                 });
@@ -231,19 +231,19 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                 {
                     url = Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).one('produce', typeId);
                 }
-                services.showConfirmBox('Confirmation', 'Are you sure to remove this ' + type + ' ?').then(function(res) {
+                services.showConfirmBox('Confirmação', 'Tem certeza de remover este item ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
                         url.remove().then(function() {
                             $scope.loading = false;
-                            services.showAlert('Success', type + ' - ' + typeId + ' removed successfully.').then(function(res) {
+                            services.showAlert('Successo', 'Removido com sucesso.').then(function(res) {
                                 if (res) {
                                     $route.reload();
                                 }
                             });
                         }, function(response1) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                         });
                     }
                 });

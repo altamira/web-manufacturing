@@ -10,12 +10,12 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                 Restangular.one('measurement/unit').get({magnitude: 'dimencional'}).then(function(response) {
                     $scope.unitLengthBox = response.data;
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
                 Restangular.one('measurement/unit').get({magnitude: 'peso'}).then(function(response) {
                     $scope.unitWeightBox = response.data;
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
 
 
@@ -82,7 +82,7 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                 }
             }, function(response) {
                 $scope.loading = false;
-                services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
             });
             $scope.submitUpdateMaterial = function(isValid) {
                 if (isValid) {
@@ -217,7 +217,7 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                         });
                     }, function() {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
                 }
             };
@@ -235,7 +235,7 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                             });
                         }, function() {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                         });
                     }
                 });

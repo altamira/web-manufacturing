@@ -43,7 +43,7 @@ altamiraAppControllers.controller('ShippingExecutionPackingCreateCtrl',
                         } else
                         {
                             $scope.pageStack = [];
-                            services.showAlert('Notice', 'PackingList list is empty').then(function(res) {
+                            services.showAlert('Notice', 'A lista de Romaneios esta vazia.').then(function(res) {
                             });
                         }
                     } else
@@ -76,7 +76,7 @@ altamiraAppControllers.controller('ShippingExecutionPackingCreateCtrl',
                         $scope.range();
                     }
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                 });
             };
 
@@ -158,7 +158,7 @@ altamiraAppControllers.controller('ShippingExecutionPackingCreateCtrl',
                 Restangular.one('shipping/execution', executionId).all('packinglist').post($scope.postData).then(function(response) {
                     $location.path('/shipping/execution/' + executionId + '/packinglist/' + response.data.id);
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                 });
             }
             $scope.getObjects = function(obj, key, val) {

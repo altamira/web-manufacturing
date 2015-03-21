@@ -88,7 +88,7 @@ altamiraAppControllers.controller('BomEditCtrl',
                 });
             };
             $scope.removeItem = function(itemId) {
-                services.showConfirmBox('Confirmation', 'Confirma a exclusão este item ?').then(function(res) {
+                services.showConfirmBox('Confirmation', 'Confirma a exclusão deste item ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
                         Restangular.one('manufacturing/bom', $scope.bomId).one('item', itemId).remove().then(function() {
@@ -109,12 +109,12 @@ altamiraAppControllers.controller('BomEditCtrl',
                 $location.path('bom/component/update/' + $scope.bomId + '/' + itemId + '/' + partId);
             };
             $scope.removePart = function(itemId, partId) {
-                services.showConfirmBox('Confirmation', 'Are you sure to remove this Part?').then(function(res) {
+                services.showConfirmBox('Confirmation', 'Confirma a exclusão deste componente ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
                         Restangular.one('manufacturing/bom', $scope.bomId).one('item', itemId).one('component', partId).remove().then(function() {
                             $scope.loading = false;
-                            services.showAlert('A Part - ' + partId + ' removed successfully.').then(function(res) {
+                            services.showAlert('Componente ' + partId + ' removido com sucesso.').then(function(res) {
                                 if (res) {
                                     $route.reload();
                                 }

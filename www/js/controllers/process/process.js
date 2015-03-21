@@ -19,7 +19,7 @@ altamiraAppControllers.controller('ManufacturingProcessCreateCtrl',
                         }
                     }, function() {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
                 }
             };
@@ -101,7 +101,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl',
                     }
                 }, function(response) {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
             $scope.loadProcess();
@@ -120,11 +120,11 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl',
                             $location.path('/manufacturing/process/0');
                         }, function(response) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                         });
                     }, function(response1) {
                         $scope.loading = false;
-                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
                 }
             };
@@ -152,37 +152,37 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl',
                 }
             };
             $scope.removeProcess = function() {
-                services.showConfirmBox('Confirmation', 'Are you sure to remove this Process?').then(function(res) {
+                services.showConfirmBox('Confirmacao', 'Tem certeza de remover este Processo ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
                         Restangular.one('manufacturing/process', $scope.processId).remove().then(function() {
                             $scope.loading = false;
-                            services.showAlert('Success', 'A Process - ' + $scope.processId + ' removed successfully.').then(function(res) {
+                            services.showAlert('Successo', 'Processo removido com sucesso.').then(function(res) {
                                 if (res) {
                                     $location.path('/manufacturing/process/0');
                                 }
                             });
                         }, function(response1) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                         });
                     }
                 });
             };
             $scope.removeOperation = function(operationId) {
-                services.showConfirmBox('Confirmation', 'Are you sure to remove this Operation?').then(function(res) {
+                services.showConfirmBox('Confirmation', 'Tem certeza de remover esta operação ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
                         Restangular.one('manufacturing/process', $scope.processId).one('operation', operationId).remove().then(function() {
                             $scope.loading = false;
-                            services.showAlert('Success', 'An Operation - ' + operationId + ' removed successfully.').then(function(res) {
+                            services.showAlert('Successo', 'Operação removida com sucesso.').then(function(res) {
                                 if (res) {
                                     $route.reload();
                                 }
                             });
                         }, function(response1) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                         });
                     }
                 });
