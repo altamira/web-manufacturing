@@ -1461,6 +1461,12 @@
     font-size: 24px;
     color: #00ABA9;
 }
+.fa-arrow-down:before {
+    font-family: "fontawesome";
+    content: "\f107";
+    font-size: 24px;
+    color: #00ABA9;
+}
 .fa-arrow-right:hover {
     color: #ffffff;
 }
@@ -2372,6 +2378,20 @@
     text-align: left;
 }
 .mainTable tr:hover {
+    background-color: #95bcf2;
+}
+.planningTable tr th, .planningTable tr td {
+    border: 1px solid black;
+    height: 30px;
+    min-width: 150px;
+}
+.planningTable tr th {
+    background-color: #cccccc;
+}
+.planningTable tr td {
+    text-align: left;
+}
+.planningTable tr:hover {
     background-color: #95bcf2;
 }
 .gridTable tr th, .gridTable tr td {

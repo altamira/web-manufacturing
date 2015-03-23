@@ -608,7 +608,10 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                     $scope.itemPartIdArr.push(parseInt($(this).children().attr('datapart')));
                     $scope.itemMaterialArr.push(parseInt($(this).children().attr('datamaterial')));
                     $scope.itemPartDeliveryArr.push(parseInt($(this).children().attr('datadelivery')));
-                    $(this).children().toggleClass('fa-check-square-o');
+                    if ($(this).children().hasClass('fa-check-square-o') == false)
+                    {
+                        $(this).children().toggleClass('fa-check-square-o');
+                    }
                 });
             }
             $scope.uncheckAllDelivery = function() {
@@ -617,7 +620,10 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                 $scope.itemMaterialArr = [];
                 $scope.itemPartDeliveryArr = [];
                 $('.delivery-table > tbody > tr > td:last-child').each(function() {
-                    $(this).children().toggleClass('fa-check-square-o');
+                    if ($(this).children().hasClass('fa-check-square-o') == true)
+                    {
+                        $(this).children().toggleClass('fa-check-square-o');
+                    }
                 });
             }
         });

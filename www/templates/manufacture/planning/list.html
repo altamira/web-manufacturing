@@ -15,7 +15,10 @@
                             <span class="btn-separator"></span>
                             <h4 style="color: #ffffff;margin-top: 5px;">&nbsp;Planejamento de Entrega&nbsp;</h4>
                             <span class="btn-separator"></span>
-                            <button ng-click="createPlanning()" class="button fa-plus"></button>
+                            <button ng-click="createPlanning()" class="button fa-plus" ng-if="viewtype != 'grid'"></button>
+                            <button class="button fa-check" ng-if="viewtype == 'grid'"></button>
+                            <button class="button fa-remove-header" ng-if="viewtype == 'grid'"></button>
+                            <button class="button fa-print-header" ng-if="viewtype == 'grid'"></button>
                         </div>
                     </ion-header-bar>
                 </div>
@@ -55,14 +58,12 @@
                                 <div class="row">
                                     <div class="col">
                                         <div ng-repeat="planning in orderData">
-                                            <div class="list-date">{{planning.delivery | getDate}}</div>
+                                            <div class="list-date"><span class="align-left">{{planning.delivery | getDate}}</span><span class="align-right" style="margin-left: 93%"><i class="icon fa-arrow-down arrow-right"></i></span></div>
                                             <div class="list list-inset listing-col" ng-repeat="planData in planning.planningData" >
                                                 <a class="item-list item-icon-right" ng-click="goEdit({{planData.id}})" style="padding-left: 105px;">
                                                     <span class="text-center-middle">
                                                         {{planData.number}} {{planData.customer}}</span>
-                                                    <i class="icon green_signal arrow-right" ng-if="planData.status.code == 1"></i>
-                                                    <i class="icon yellow_signal arrow-right" ng-if="planData.status.code == 2"></i>
-                                                    <i class="icon red_signal arrow-right" ng-if="planData.status.code == 3"></i>
+                                                    <i class="icon fa-arrow-right arrow-right"></i>
                                                 </a>
                                             </div>
                                         </div>
@@ -89,14 +90,14 @@
                                                 <th class="monthTitle dataTable-title">Pedidos</th>
                                             </tr>
                                             <tr>
-                                                <th>Cliente</th>
+                                                <th style="height: 30px;">Linha de Produto</th>
                                             </tr>
                                             <tr ng-repeat="BOM in finalArr" id="{{BOM.id}}" ng-click="getShippingDetail({{BOM.id}})" style="cursor: pointer" ng-if="checkYear(BOM.delivery) <= maxYear">
                                                 <td>{{BOM.customer}}</td>
                                             </tr>
                                         </table>
                                     </div>
-                                    <div class="col-70 scroll-div mainRow">
+                                    <div class="col-70 scroll-div mainRow" style="width: 78%">
                                         <!--                                        <table border="1" class="gridTable" sortable-func ng-if='orderData != "" && viewtype == "grid"'>
                                                                                     <tr>
                                                                                         <th class="monthTitle" colspan="{{month.days.length}}" ng-repeat="month in monthDays">{{month.name}}</th>
@@ -126,7 +127,7 @@
                                                                                         </td>
                                                                                     </tr>
                                                                                 </table>-->
-                                        <table border="1" class="mainTable" sortable-func>
+                                        <table border="1" class="planningTable" sortable-func>
                                             <tr>
                                                 <th class="monthTitle" colspan="{{month.days.length}}" ng-repeat="month in monthDays">{{month.name}}</th>
                                             </tr>
@@ -135,13 +136,12 @@
                                             </tr>
                                             <tr ng-repeat="BOM in finalArr" class="{{BOM.id}}" ng-if="checkYear(BOM.delivery) <= maxYear">
                                                 <td ng-repeat="day in days track by $index" id="{{BOM.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components != ''">
-                                                    <div class="dragDiv" ng-repeat="del in BOM.components" id="{{day}}" data-itemid="{{del.itemid}}" data-comdel="{{del.comdel}}" ng-class="getCellColor(del.deliverydate,del.deliveryweight)" ng-if="(checkDay(del.deliverydate) == getDay(day)) && (checkMonth(del.deliverydate) == getMonth(day)) && (checkYear(del.deliverydate) == getYear(day))" data-weight='{{del.deliveryweight}}'>
-                                                        <!--{{del.deliveryweight | setDecimal:1}}-->
+<!--                                                    <div class="dragDiv" ng-repeat="del in BOM.components" id="{{day}}" data-itemid="{{del.itemid}}" data-comdel="{{del.comdel}}" ng-class="getCellColor(del.deliverydate,del.deliveryweight)" ng-if="(checkDay(del.deliverydate) == getDay(day)) && (checkMonth(del.deliverydate) == getMonth(day)) && (checkYear(del.deliverydate) == getYear(day))" data-weight='{{del.deliveryweight}}'>
                                                         {{showWeight(del.deliveryweight)}}
-                                                    </div>
+                                                    </div>-->Ni
                                                 </td>
                                                 <td ng-repeat="day in days track by $index" id="{{BOM.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components == ''" style="width: 50px;height: 30px;">
-                                                    &nbsp;
+                                                    N
                                                 </td>
                                             </tr>
                                             <tr class="totalWeightRow">

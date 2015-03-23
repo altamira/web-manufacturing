@@ -360,15 +360,21 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                     scrollButtons: {enable: true},
                     scrollbarPosition: "outside"
                 });
-                if ($scope.setToday == 'yes')
-                {
-                    $(".mainRow").mCustomScrollbar("scrollTo", $('.' + moment().format('D_M_YYYY')));
-                    setTimeout(function() {
-                        var w = ($(window).width() / 2) - 100;
-                        $(".mainRow").mCustomScrollbar("scrollTo", '+=' + w);
-                        $scope.setToday = 'no';
-                    }, 1000);
-                }
+                $(".planning-page").mCustomScrollbar({
+                    axis: "y",
+                    theme: "inset-3",
+                    scrollButtons: {enable: true},
+                    scrollbarPosition: "outside"
+                });
+//                if ($scope.setToday == 'yes')
+//                {
+//                    $(".mainRow").mCustomScrollbar("scrollTo", $('.' + moment().format('D_M_YYYY')));
+//                    setTimeout(function() {
+//                        var w = ($(window).width() / 2) - 100;
+//                        $(".mainRow").mCustomScrollbar("scrollTo", '+=' + w);
+//                        $scope.setToday = 'no';
+//                    }, 1000);
+//                }
 
 
                 $('.dragDiv').on('dblclick', function(e) {
