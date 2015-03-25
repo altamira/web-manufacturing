@@ -1,10 +1,10 @@
 altamiraAppControllers.controller('ManufacturePlanningCtrl',
         function($scope, $location, $route, Restangular, services, $ionicModal, CommonFun, $ionicSideMenuDelegate, $routeParams) {
-            if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && sessionStorage.getItem('token') == '')
-            {
-                sessionStorage.setItem('token', $routeParams.token);
-                $window.location.reload();
-            }
+//            if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && sessionStorage.getItem('token') == '')
+//            {
+//                sessionStorage.setItem('token', $routeParams.token);
+//                $window.location.reload();
+//            }
             var pt = moment().locale('pt-br');
             $scope.today = pt.format('dddd, LL');
             moment.locale('pt-br');
@@ -24,7 +24,7 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                 $('#formShowBtn').removeClass('month');
                 $('#grid_view').hide();
                 $('#gridShowBtn').addClass('month');
-                $scope.loadOrderList();
+                $scope.loadPlanning();
             }
             $scope.gridView = function() {
                 $scope.viewtype = 'grid';
@@ -47,57 +47,49 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                 }
                 return objects;
             };
-            $scope.resetOrderList = function() {
+            $scope.resetPlanning = function() {
                 $scope.startPage = 0;
                 $scope.maxRecord = 10;
-                $scope.orderData = '';
-                $scope.orderDataArray = [];
+                $scope.plannings = [];
+                $scope.planningsArray = [];
                 $scope.nextButton = true;
             };
-            $scope.searchText = sessionStorage.getItem('searchOrderList');
+            $scope.searchText = sessionStorage.getItem('searchText');
             $scope.tempSearch = '';
             $scope.isDataSearch = '';
-            $scope.resetOrderList();
-            $scope.loadOrderList = function() {
+            $scope.resetPlanning();
+            $scope.loadPlanning = function() {
                 $scope.loading = true;
-                Restangular.one('shipping/planning').get({search: sessionStorage.getItem('searchOrderList'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
+                Restangular.one('manufacture').one('planning').get({search: sessionStorage.getItem('searchText'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
                     if (response.data == '') {
                         $scope.loading = false;
                         if ((parseInt($scope.startPage) != 0))
                         {
                             $scope.nextButton = false;
                             $scope.startPage = (parseInt($scope.startPage) - 1);
-                            $scope.loadOrderList();
+                            $scope.loadPlanning();
                         } else
                         {
                             $scope.pageStack = [];
-                            services.showAlert('Aviso', 'A lista de Romaneios esta vazia.').then(function(res) {
+                            services.showAlert('Aviso', 'Lista de Planning de Fabricação esta vazia.').then(function(res) {
                             });
                         }
                     } else
                     {
-                        if ($scope.orderData.length <= 0 && $scope.isDataSearch == '')
+                        if ($scope.plannings.length <= 0 && $scope.isDataSearch == '')
                         {
-                            $scope.orderResponse = response.data;
-                            $scope.tarray = [];
-                            for (var i = 0; i < $scope.orderResponse.length; i++)
+                            for (var i = 0; i < response.data.length; i++)
                             {
-                                if ($scope.tarray.indexOf(parseInt($scope.orderResponse[i].delivery)) < 0)
-                                {
-                                    $scope.tarray.push(parseInt($scope.orderResponse[i].delivery));
-                                }
-
+                                $scope.tempPlan = {};
+                                $scope.tempPlan.id = response.data[i].id;
+                                $scope.tempPlan.type = response.data[i].type;
+                                $scope.tempPlan.createdDate = response.data[i].createdDate;
+                                $scope.tempPlan.startDate = response.data[i].startDate;
+                                $scope.tempPlan.endDate = response.data[i].endDate;
+                                $scope.tempPlan.bom = [];
+                                $scope.plannings.push($scope.tempPlan);
                             }
-                            $scope.orderData = [];
-                            $scope.orderDataArray = [];
-                            for (var i = 0; i < $scope.tarray.length; i++)
-                            {
-                                $scope.tempArray = {};
-                                $scope.tempArray.delivery = $scope.tarray[i];
-                                $scope.tempArray.planningData = $scope.getObjects($scope.orderResponse, 'delivery', $scope.tarray[i]);
-                                $scope.orderDataArray.push($scope.tempArray);
-                            }
-                            $scope.orderData = $scope.orderDataArray;
+                            $scope.planningsArray = $scope.plannings;
                             if ($scope.searchText != '')
                             {
                                 $scope.isDataSearch = 'yes';
@@ -111,62 +103,61 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                         {
                             if ($scope.nextButton != false)
                             {
-                                $scope.orderResponse = response.data;
-                                $scope.tarray = [];
-                                for (var i = 0; i < $scope.orderResponse.length; i++)
+                                for (var i = 0; i < response.data.length; i++)
                                 {
-                                    if ($scope.tarray.indexOf(parseInt($scope.orderResponse[i].delivery)) < 0)
-                                    {
-                                        $scope.tarray.push(parseInt($scope.orderResponse[i].delivery));
-                                    }
-
+                                    $scope.tempPlan = {};
+                                    $scope.tempPlan.id = response.data[i].id;
+                                    $scope.tempPlan.type = response.data[i].type;
+                                    $scope.tempPlan.createdDate = response.data[i].createdDate;
+                                    $scope.tempPlan.startDate = response.data[i].startDate;
+                                    $scope.tempPlan.endDate = response.data[i].endDate;
+                                    $scope.tempPlan.bom = [];
+                                    $scope.planningsArray.push($scope.tempPlan);
                                 }
-                                for (var i = 0; i < $scope.tarray.length; i++)
-                                {
-                                    $scope.tempArray = {};
-                                    $scope.tempArray.delivery = $scope.tarray[i];
-                                    $scope.tempArray.planningData = $scope.getObjects($scope.orderResponse, 'delivery', $scope.tarray[i]);
-                                    $scope.orderDataArray.push($scope.tempArray);
-                                }
-                                $scope.pageOrderListes();
+                                $scope.pagePlanning();
                             }
                         }
                         $scope.loading = false;
                         $scope.range();
+                        setTimeout(function() {
+                            $scope.manageSection();
+                        }, 100);
+
                     }
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente novamente.');
+                    $scope.loading = false;
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             };
-            $scope.loadOrderList();
-            $scope.pageOrderListes = function() {
-                $scope.orderData = [];
+            $scope.loadPlanning();
+            $scope.pagePlanning = function() {
+                $scope.plannings = [];
                 $scope.start = $scope.startPage * $scope.maxRecord;
                 $scope.end = ($scope.startPage * $scope.maxRecord) + $scope.maxRecord;
                 for (var i = $scope.start; i < $scope.end; i++)
                 {
-                    if ($scope.orderDataArray[i])
+                    if ($scope.planningsArray[i])
                     {
-                        $scope.orderData.push($scope.orderDataArray[i]);
+                        $scope.plannings.push($scope.planningsArray[i]);
                     }
                 }
-                if ($scope.orderData.length != $scope.maxRecord)
+                if ($scope.plannings.length != $scope.maxRecord)
                 {
                     $scope.nextButton = false;
                 }
             };
 
-            $scope.searchOrderList = function(text) {
+            $scope.searchTextFind = function(text) {
                 if (text != '')
                 {
-                    $scope.resetOrderList();
-                    sessionStorage.setItem('searchOrderList', text);
+                    $scope.resetPlanning();
+                    sessionStorage.setItem('searchText', text);
                 } else
                 {
-                    sessionStorage.setItem('searchOrderList', '');
-                    $scope.resetOrderList();
+                    sessionStorage.setItem('searchText', '');
+                    $scope.resetPlanning();
                 }
-                $scope.loadOrderList();
+                $scope.loadPlanning();
             };
             $scope.range = function() {
                 $scope.pageStack = [];
@@ -178,28 +169,79 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
             $scope.nextPage = function(len) {
                 var nextPage = parseInt(len);
                 $scope.startPage = nextPage;
-                $scope.loadOrderList();
+                $scope.loadPlanning();
 
             }
             $scope.prevPage = function(nextPage) {
                 $scope.startPage = nextPage;
-                $scope.loadOrderList();
+                $scope.loadPlanning();
             }
             $scope.goPage = function(pageNumber) {
                 var nextPage = parseInt(pageNumber) - 1;
                 $scope.startPage = nextPage;
-                if ($scope.orderDataArray.length > 0)
+                if ($scope.planningsArray.length > 0)
                 {
                     if ($scope.searchText == '' || ($scope.searchText != '' && $scope.isDataSearch != ''))
                     {
-                        $scope.pageOrderListes();
+                        $scope.pagePlanning();
                     }
                 }
                 else
                 {
-                    $scope.loadOrderList();
+                    $scope.loadPlanning();
                 }
             }
+            $scope.getOrders = function(planingId) {
+                $scope.loading = true;
+                Restangular.one('manufacture').one('planning', planingId).one('bom').get().then(function(response) {
+                    for (var i = 0; i < $scope.planningsArray.length; i++)
+                    {
+                        if (parseInt($scope.planningsArray[i].id) == parseInt(planingId))
+                        {
+                            $scope.planningsArray[i].bom = response.data;
+                            $('.bom_' + planingId).show('slow');
+                            $scope.loading = false;
+                        }
+                    }
+                }, function(response) {
+                    $scope.loading = false;
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                });
+            }
+            $scope.manageSection = function()
+            {
+                $('.list_manage_button').click(function() {
+                    var planningid = $(this).data('planningid');
+                    if ($('.bom_' + planningid).html() == undefined)
+                    {
+                        $scope.getOrders(planningid);
+                        $(this).addClass('fa-minus-square-o');
+                    }
+                });
+//                $('.list_manage_button').click(function() {
+//                    var planningid = $(this).data('planningid');
+//                    console.log(JSON.stringify($(this).hasClass('fa-minus-square-o')));
+//                    if ($(this).hasClass('fa-minus-square-o')) {
+//                        $('.bom_' + planningid).hide('slow');
+//                        $(this).removeClass('fa-minus-square-o');
+//                    }
+//                    else
+//                    {
+//                        if ($('.bom_' + planningid).html() == undefined)
+//                        {
+//                            $scope.getOrders(planningid);
+//                            $(this).addClass('fa-minus-square-o');
+//                        }
+//                        else
+//                        {
+//                            $('.bom_' + planningid).show('slow');
+//                            $(this).addClass('fa-minus-square-o');
+//                        }
+//
+//                    }
+//                });
+            }
+
             $scope.getCellColor = function(st, weight) {
                 if (st < moment().valueOf() || (parseInt(weight) / 1000 > 20))
                 {
@@ -257,8 +299,26 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
 
 
             };
-            $scope.submitCreateManufacturePlanning = function() {
-                console.log(JSON.stringify($scope.planning));
+            $scope.submitCreateManufacturePlanning = function(isValid) {
+                if (isValid) {
+                    $scope.postdata = {};
+                    $scope.postdata.id = 0;
+                    $scope.postdata.type = "br.com.altamira.data.model.manufacture.planning.Order";
+                    $scope.postdata.startDate = $scope.planning.inicial;
+                    $scope.postdata.endDate = $scope.planning.final;
+                    Restangular.all('manufacture').all('planning').post($scope.postdata).then(function(response) {
+                        $scope.loading = false;
+                        services.showAlert('Success', 'Planning foi gravado com sucesso !').then(function(res) {
+                            $scope.createManPlanningModalHide();
+                            $scope.resetPlanning();
+                            $scope.loadPlanning();
+                        });
+                    }, function() {
+                        $scope.loading = false;
+                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
+                    });
+                }
+
             };
             $scope.makeCalender = function() {
                 $scope.days = [];

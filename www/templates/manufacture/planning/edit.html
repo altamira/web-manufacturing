@@ -1,0 +1,193 @@
+<div class="loding_div" ng-show="loading">
+    <div id="loadingProgressG">
+        <div id="loadingProgressG_1" class="loadingProgressG">
+        </div>
+    </div>
+</div>
+<ion-pane>
+    <ion-header-bar class="bar-calm">
+        <div class="buttons header-margin">
+            <button type="button" class="button fa-arrow-left" ng-click="goBack()"></button>
+            <span class="btn-separator"></span>
+            <h4 style="color: #ffffff;margin-top: 5px;">&nbsp;{{planningId}}&nbsp;</h4>
+            <span class="btn-separator"></span>
+            <button class="button fa-check" ng-click="startDateCreateModalShow()" ></button>
+            <button class="button fa-remove-header"></button>
+            <span class="btn-separator"></span>
+            <button type="button" class="button fa-check-square-o-header" ng-click="checkAllDelivery()"></button>
+            <button type="button" class="button fa-square-o-header" ng-click="uncheckAllDelivery()"></button>
+            <span class="btn-separator"></span>
+            <button type="button" class="button fa-plus-square-o-header" ng-click="uncheckAllDelivery()"></button>
+            <button type="button" class="button fa-minus-square-o-header" ng-click="uncheckAllDelivery()"></button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <div class="row">
+            <div id="item_repeat" class="width-100">
+                <div class="row">
+                    <div class="col">
+                        <div class="list">
+                            <a class="process-item-list item-icon-left item-icon-right">
+                                <i class="icon left-icon fa-square-o"></i> Lorem Ipsum is simply dummy text of the printing and typesetting
+                                <i class="list_manage_button icon plus-icon fa-plus-square-o" data-listid="555" style="width: 7px;right: 23px"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="list_section_555" style="display: none">
+                    <div class="row" style="padding-bottom: 0; padding-top: 0;">
+                        <div class="col">
+                            <div class="list">
+                                <a class="process-item-list item-icon-right" style="padding-left: 0px; margin-left: 2%; padding-bottom: 8px; padding-top: 0px;">
+                                    72078 Lorem Ipsum is simply dummy text of the printing and typesetting
+                                    <i class="order_manage_button icon plus-icon fa-plus-square-o fa-minus-square-o" data-orderid="55501" style="padding-bottom: 7px;right: 23px;width: 7px;"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order_section_55501">
+                        <div class="row" style="padding-bottom: 0; padding-top: 0;">
+                            <div class="col">
+                                <div class="list">
+                                    <a class="process-item-list item-icon-right" style="padding-left: 0px; margin-left: 2%; padding-bottom: 8px; padding-top: 0px;">
+                                        ITEM 10
+                                        <i class="item_mange_button icon plus-icon fa-plus-square-o" ng-click='createItem()' data-itemid="55510" style="padding-bottom: 7px;right: 23px;width: 7px;"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row item_desc_55510" style="display: none">
+                            <div class="col">
+                                <div style="font-size: 16px;margin-left: 2%">Lorem Ipsum is simply dummy text of the printing and typesetting
+                                    Lorem Ipsum is simply dummy text of the printing and typesetting
+                                    Lorem Ipsum is simply dummy text of the printing and typesetting</div>
+                            </div>
+                        </div>
+                        <div class="edit-item">
+                            <div class="col row">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="delivery-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="edit-item-title align-center width-11"><i class="fa-calender"></i> <span>Entrega</span></th>
+                                            <th class="edit-item-title width-55"> Descricao</th>
+                                            <th class="edit-item-title align-center width-10"><i class="fa-list-ol"></i> <span>Quantidade</span></th>
+                                            <th class="edit-item-title align-center width-10"><i class="fa-list-ol"></i> <span>Produzir</span></th>
+                                            <th class="edit-item-title align-center width-11"><i class="fa-tachometer"></i> <span>Peso</span></th>
+                                            <th class="edit-item-title align-center width-3">&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="edit-info align-center width-11">23/10/2015</td>
+                                            <td class="edit-text width-55" ng-click='updatePart(orderData.id,data.id,component.componentId,component.delivery.id)'  style="cursor: pointer;">
+                                                Lorem Ipsum is simply dummy text of the printing and typesetting
+                                                Lorem Ipsum is simply dummy text of the printing and typesetting
+                                                Lorem Ipsum is simply dummy text of the printing and typesetting
+                                            </td>
+                                            <td class="edit-info align-right width-10">2500<span style="margin-left: 5px;">unid</span></td>
+                                            <td class="edit-info align-right width-10">1000<span style="margin-left: 5px;">unid</span></td>
+                                            <td class="edit-info align-right width-11">45621<span style="margin-left: 5px;">kg</span></td>
+                                            <td class="edit-text align-center width-3">
+                                                <i class="icon plus-icon fa-square-o" select-delivery dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}"></i>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="edit-info align-center width-11">23/10/2015</td>
+                                            <td class="edit-text width-55" ng-click='updatePart(orderData.id,data.id,component.componentId,component.delivery.id)'  style="cursor: pointer;">Lorem Ipsum is simply dummy text of the printing and typesetting</td>
+                                            <td class="edit-info align-right width-10">2500<span style="margin-left: 5px;">unid</span></td>
+                                            <td class="edit-info align-right width-10">1000<span style="margin-left: 5px;">unid</span></td>
+                                            <td class="edit-info align-right width-11">45621<span style="margin-left: 5px;">kg</span></td>
+                                            <td class="edit-text align-center width-3">
+                                                <i class="icon plus-icon fa-square-o" select-delivery dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}"></i>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="edit-info align-center width-11">23/10/2015</td>
+                                            <td class="edit-text width-55" ng-click='updatePart(orderData.id,data.id,component.componentId,component.delivery.id)'  style="cursor: pointer;">Lorem Ipsum is simply dummy text of the printing and typesetting</td>
+                                            <td class="edit-info align-right width-10">2500<span style="margin-left: 5px;">unid</span></td>
+                                            <td class="edit-info align-right width-10">1000<span style="margin-left: 5px;">unid</span></td>
+                                            <td class="edit-info align-right width-11">45621<span style="margin-left: 5px;">kg</span></td>
+                                            <td class="edit-text align-center width-3">
+                                                <i class="icon plus-icon fa-square-o" select-delivery dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}"></i>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="edit-info align-center width-11">23/10/2015</td>
+                                            <td class="edit-text width-55" ng-click='updatePart(orderData.id,data.id,component.componentId,component.delivery.id)'  style="cursor: pointer;">Lorem Ipsum is simply dummy text of the printing and typesetting</td>
+                                            <td class="edit-info align-right width-10">2500<span style="margin-left: 5px;">unid</span></td>
+                                            <td class="edit-info align-right width-10">1000<span style="margin-left: 5px;">unid</span></td>
+                                            <td class="edit-info align-right width-11">45621<span style="margin-left: 5px;">kg</span></td>
+                                            <td class="edit-text align-center width-3">
+                                                <i class="icon plus-icon fa-square-o" select-delivery dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}"></i>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 0; padding-top: 0;">
+                            <div class="col">
+                                <div class="list">
+                                    <a class="process-item-list item-icon-right" style="padding-left: 0px; margin-left: 2%; padding-bottom: 8px; padding-top: 0px;">
+                                        ITEM 20
+                                        <i class="item_mange_button icon plus-icon fa-plus-square-o" ng-click='createItem()' data-itemid="55520" style="padding-bottom: 7px;right: 23px;width: 7px;"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row item_desc_55520" style="display: none">
+                            <div class="col">
+                                <div style="font-size: 16px;margin-left: 2%">Lorem Ipsum is simply dummy text of the printing and typesetting
+                                    Lorem Ipsum is simply dummy text of the printing and typesetting
+                                    Lorem Ipsum is simply dummy text of the printing and typesetting</div>
+                            </div>
+                        </div>
+                        <div class="edit-item">
+                            <div class="col row">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="delivery-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="edit-item-title align-center width-11"><i class="fa-calender"></i> <span>Entrega</span></th>
+                                            <th class="edit-item-title width-55"> Descricao</th>
+                                            <th class="edit-item-title align-center width-10"><i class="fa-list-ol"></i> <span>Quantidade</span></th>
+                                            <th class="edit-item-title align-center width-10"><i class="fa-list-ol"></i> <span>Produzir</span></th>
+                                            <th class="edit-item-title align-center width-11"><i class="fa-tachometer"></i> <span>Peso</span></th>
+                                            <th class="edit-item-title align-center width-3">&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="edit-info align-center width-11">23/10/2015</td>
+                                            <td class="edit-text width-55" ng-click='updatePart(orderData.id,data.id,component.componentId,component.delivery.id)'  style="cursor: pointer;">
+                                                Lorem Ipsum is simply dummy text of the printing and typesetting
+                                                Lorem Ipsum is simply dummy text of the printing and typesetting
+                                                Lorem Ipsum is simply dummy text of the printing and typesetting
+                                            </td>
+                                            <td class="edit-info align-right width-10">2500<span style="margin-left: 5px;">unid</span></td>
+                                            <td class="edit-info align-right width-10">1000<span style="margin-left: 5px;">unid</span></td>
+                                            <td class="edit-info align-right width-11">45621<span style="margin-left: 5px;">kg</span></td>
+                                            <td class="edit-text align-center width-3">
+                                                <i class="icon plus-icon fa-square-o" select-delivery dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}"></i>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="edit-info align-center width-11">23/10/2015</td>
+                                            <td class="edit-text width-55" ng-click='updatePart(orderData.id,data.id,component.componentId,component.delivery.id)'  style="cursor: pointer;">Lorem Ipsum is simply dummy text of the printing and typesetting</td>
+                                            <td class="edit-info align-right width-10">2500<span style="margin-left: 5px;">unid</span></td>
+                                            <td class="edit-info align-right width-10">1000<span style="margin-left: 5px;">unid</span></td>
+                                            <td class="edit-info align-right width-11">45621<span style="margin-left: 5px;">kg</span></td>
+                                            <td class="edit-text align-center width-3">
+                                                <i class="icon plus-icon fa-square-o" select-delivery dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}"></i>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-pane>
+

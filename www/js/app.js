@@ -147,6 +147,14 @@ altamiraApp.config(['$routeProvider',
             templateUrl: 'templates/manufacture/planning/list.html',
             controller: 'ManufacturePlanningCtrl'
         })
+                .when('/manufacture/planning/create', {
+            templateUrl: 'templates/manufacture/planning/create.html',
+            controller: 'ManufacturePlanningCreateCtrl'
+        })
+                .when('/manufacture/planning/edit/:planningId', {
+            templateUrl: 'templates/manufacture/planning/edit.html',
+            controller: 'ManufacturePlanningEditCtrl'
+        })
                 .when('/manufacturing/main', {
             templateUrl: 'templates/manufacturing/main.html',
             controller: 'ManufacturingMainCtrl'

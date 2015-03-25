@@ -1502,6 +1502,30 @@
     font-size: 24px;
     color: #ffffff;
 }
+.fa-plus-square-o:before{
+    font-family: "fontawesome";
+    content: "\f196";
+    font-size: 28px;
+    color: #00ABA9;
+}
+.fa-plus-square-o-header:before{
+    font-family: "fontawesome";
+    content: "\f196";
+    font-size: 24px;
+    color: #ffffff;
+}
+.fa-minus-square-o:before{
+    font-family: "fontawesome";
+    content: "\f147";
+    font-size: 28px;
+    color: #00ABA9;
+}
+.fa-minus-square-o-header:before{
+    font-family: "fontawesome";
+    content: "\f147";
+    font-size: 24px;
+    color: #ffffff;
+}
 .fa-link-header:before{
     font-family: "fontawesome";
     content: "\f0c1";
@@ -2793,3 +2817,25 @@
 .green_signal{ background: url(../img/like.jpg) no-repeat right 0px; width: 30px; margin-top: 11px;}
 .yellow_signal{ background: url(../img/question.jpg) no-repeat right 4px; width: 30px; margin-top: 11px;}
 .red_signal{ background: url(../img/unlike.jpg) no-repeat right 1px; width: 30px; margin-top: 11px;}
+.show_block{
+    display: block;
+}
+.hide_block{
+    display: none;
+}
+
+
+
+  /*************      25---03---2015     *************/
+ 
+  .planning-detail .align-right { float: right; margin-top: 2px; }
+  .planning-detail .col-90 { margin-left: 6%; flex: 0 0 94%;  max-width: 94%;} 
+  .create-list .process-item-list { text-transform: uppercase; font-weight: bold; color: #000;}
+  .create-list .edit-text {  display: table-cell;  vertical-align: middle; padding-bottom: 3px; padding-top: 10px; font-weight: bold; font-size: 16px;}
+  .create-list .edit-info {vertical-align: middle; font-weight: bold;}
+  .create-list .edit-item-title {border-left: 1px solid #666666; text-align: left;}
+ .create-list .edit-item { margin-left: 2.3%;}
+ .create-date { text-align: left;}
+ .create-list .width-10 { color: #000;}
+  .create-list .color { color: #666 !important;}
+  .create-list .width-55 { padding-top: 0px !important;}

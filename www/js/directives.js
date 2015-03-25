@@ -394,7 +394,7 @@ altamiraApp.directive('planningInicial', function() {
     return {
         link: function(scope, el, attr) {
             $(el).datepicker({
-                dateFormat: 'dd/mm/yy',
+                dateFormat: 'yy-mm-dd',
                 inline: true,
                 beforeShowDay: function(date) {
                     var day = date.getDay();
@@ -410,11 +410,31 @@ altamiraApp.directive('planningInicial', function() {
         }
     };
 });
-altamiraApp.directive('planningFinal', function() {
+altamiraApp.directive('planningStartDateCreate', function() {
     return {
         link: function(scope, el, attr) {
             $(el).datepicker({
                 dateFormat: 'dd/mm/yy',
+                inline: true,
+                beforeShowDay: function(date) {
+                    var day = date.getDay();
+                    return [day == 1 || day == 2 || day == 3 || day == 4 || day == 5, ''];
+                },
+                onSelect: function(dateText) {
+                    scope.$apply(function() {
+                        scope.planning.startDate = dateText;
+                        scope.startDate = true;
+                    });
+                }
+            });
+        }
+    };
+});
+altamiraApp.directive('planningFinal', function() {
+    return {
+        link: function(scope, el, attr) {
+            $(el).datepicker({
+                dateFormat: 'yy-mm-dd',
                 inline: true,
                 beforeShowDay: function(date) {
                     var day = date.getDay();

@@ -51,23 +51,29 @@
                                                     <input type="text" class="input-box" placeholder="search" ng-model="searchText">
                                                 </label>
                                             </div>
-                                            <i class="icon fa-search search-icon" ng-click="searchOrderList(searchText)"></i>
+                                            <i class="icon fa-search search-icon" ng-click="searchTextFind(searchText)"></i>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <div ng-repeat="planning in orderData">
-                                            <div class="list-date"><span class="align-left">{{planning.delivery | getDate}}</span><span class="align-right" style="margin-left: 93%"><i class="icon fa-arrow-down arrow-right"></i></span></div>
-                                            <div class="list list-inset listing-col" ng-repeat="planData in planning.planningData" >
-                                                <a class="item-list item-icon-right" ng-click="goEdit({{planData.id}})" style="padding-left: 105px;">
-                                                    <span class="text-center-middle">
-                                                        {{planData.number}} {{planData.customer}}</span>
-                                                    <i class="icon fa-arrow-right arrow-right"></i>
-                                                </a>
+                                        <div ng-repeat="planning in plannings | orderBy : 'id'">
+                                            <div class="list-date">
+                                                <span class="align-left">{{planning.createdDate}} {{planning.id}} ({{planning.startDate}} a {{planning.endDate}})</span>
+                                                <span class="align-right"><i  class="list_manage_button icon plus-icon fa-plus-square-o" data-planningid='{{planning.id}}'></i></span>
+                                            </div>
+                                            <div class="bom_{{planning.id}}" ng-if='planning.bom != ""'>
+                                                <div class="col-90" ng-repeat="bom in planning.bom">
+                                                    <div class="list list-inset listing-col">
+                                                        <a class="item-list item-icon-right">
+                                                            <span class="text-center-middle">
+                                                                {{bom.created | getDate}} {{bom.number}} {{bom.customer}}</span>
+                                                            <i class="icon fa-arrow-right arrow-right"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                                 <div class="row">
@@ -136,9 +142,9 @@
                                             </tr>
                                             <tr ng-repeat="BOM in finalArr" class="{{BOM.id}}" ng-if="checkYear(BOM.delivery) <= maxYear">
                                                 <td ng-repeat="day in days track by $index" id="{{BOM.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components != ''">
-<!--                                                    <div class="dragDiv" ng-repeat="del in BOM.components" id="{{day}}" data-itemid="{{del.itemid}}" data-comdel="{{del.comdel}}" ng-class="getCellColor(del.deliverydate,del.deliveryweight)" ng-if="(checkDay(del.deliverydate) == getDay(day)) && (checkMonth(del.deliverydate) == getMonth(day)) && (checkYear(del.deliverydate) == getYear(day))" data-weight='{{del.deliveryweight}}'>
-                                                        {{showWeight(del.deliveryweight)}}
-                                                    </div>-->Ni
+                                                    <!--                                                    <div class="dragDiv" ng-repeat="del in BOM.components" id="{{day}}" data-itemid="{{del.itemid}}" data-comdel="{{del.comdel}}" ng-class="getCellColor(del.deliverydate,del.deliveryweight)" ng-if="(checkDay(del.deliverydate) == getDay(day)) && (checkMonth(del.deliverydate) == getMonth(day)) && (checkYear(del.deliverydate) == getYear(day))" data-weight='{{del.deliveryweight}}'>
+                                                                                                            {{showWeight(del.deliveryweight)}}
+                                                                                                        </div>-->Ni
                                                 </td>
                                                 <td ng-repeat="day in days track by $index" id="{{BOM.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components == ''" style="width: 50px;height: 30px;">
                                                     N
