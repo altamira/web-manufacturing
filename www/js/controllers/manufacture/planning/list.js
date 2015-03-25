@@ -83,9 +83,9 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                                 $scope.tempPlan = {};
                                 $scope.tempPlan.id = response.data[i].id;
                                 $scope.tempPlan.type = response.data[i].type;
-                                $scope.tempPlan.createdDate = response.data[i].createdDate;
-                                $scope.tempPlan.startDate = response.data[i].startDate;
-                                $scope.tempPlan.endDate = response.data[i].endDate;
+                                $scope.tempPlan.createdDate = CommonFun.setDefaultDateFormat(response.data[i].createdDate,'YYYY-MM-DD');
+                                $scope.tempPlan.startDate = CommonFun.setDefaultDateFormat(response.data[i].startDate,'YYYY-MM-DD');
+                                $scope.tempPlan.endDate = CommonFun.setDefaultDateFormat(response.data[i].endDate,'YYYY-MM-DD');
                                 $scope.tempPlan.bom = [];
                                 $scope.plannings.push($scope.tempPlan);
                             }
@@ -98,6 +98,9 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                             {
                                 $scope.isDataSearch = '';
                             }
+                            setTimeout(function() {
+                                $scope.manageSection();
+                            }, 500);
                         }
                         else
                         {
@@ -119,9 +122,7 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                         }
                         $scope.loading = false;
                         $scope.range();
-                        setTimeout(function() {
-                            $scope.manageSection();
-                        }, 100);
+
 
                     }
                 }, function(response) {
@@ -216,6 +217,15 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                     {
                         $scope.getOrders(planningid);
                         $(this).addClass('fa-minus-square-o');
+                    } else if ($('.bom_' + planningid).html() != undefined && $(this).hasClass('fa-minus-square-o') == false)
+                    {
+                        $('.bom_' + planningid).show('slow');
+                        $(this).addClass('fa-minus-square-o');
+                    }
+                    else
+                    {
+                        $('.bom_' + planningid).hide('slow');
+                        $(this).removeClass('fa-minus-square-o');
                     }
                 });
 //                $('.list_manage_button').click(function() {
@@ -301,22 +311,21 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
             };
             $scope.submitCreateManufacturePlanning = function(isValid) {
                 if (isValid) {
-                    $scope.postdata = {};
-                    $scope.postdata.id = 0;
-                    $scope.postdata.type = "br.com.altamira.data.model.manufacture.planning.Order";
-                    $scope.postdata.startDate = $scope.planning.inicial;
-                    $scope.postdata.endDate = $scope.planning.final;
-                    Restangular.all('manufacture').all('planning').post($scope.postdata).then(function(response) {
-                        $scope.loading = false;
-                        services.showAlert('Success', 'Planning foi gravado com sucesso !').then(function(res) {
-                            $scope.createManPlanningModalHide();
-                            $scope.resetPlanning();
-                            $scope.loadPlanning();
-                        });
-                    }, function() {
-                        $scope.loading = false;
-                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
-                    });
+                    sessionStorage.setItem('createOrderFormInicial', $scope.planning.inicial);
+                    sessionStorage.setItem('createOrderFormFinal', $scope.planning.final);
+                    $scope.createManPlanningModalHide();
+                    $location.path('manufacture/planning/create');
+//                    Restangular.all('manufacture').all('planning').post($scope.postdata).then(function(response) {
+//                        $scope.loading = false;
+//                        services.showAlert('Success', 'Planning foi gravado com sucesso !').then(function(res) {
+//                            $scope.createManPlanningModalHide();
+//                            $scope.resetPlanning();
+//                            $scope.loadPlanning();
+//                        });
+//                    }, function() {
+//                        $scope.loading = false;
+//                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
+//                    });
                 }
 
             };

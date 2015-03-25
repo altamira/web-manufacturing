@@ -59,7 +59,7 @@
                                     <div class="col">
                                         <div ng-repeat="planning in plannings | orderBy : 'id'">
                                             <div class="list-date">
-                                                <span class="align-left">{{planning.createdDate}} {{planning.id}} ({{planning.startDate}} a {{planning.endDate}})</span>
+                                                <span class="align-left" style="font-weight: normal">{{planning.createdDate}} {{planning.id}} ({{planning.startDate}} a {{planning.endDate}})</span>
                                                 <span class="align-right"><i  class="list_manage_button icon plus-icon fa-plus-square-o" data-planningid='{{planning.id}}'></i></span>
                                             </div>
                                             <div class="bom_{{planning.id}}" ng-if='planning.bom != ""'>
