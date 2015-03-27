@@ -544,7 +544,7 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                 });
             };
             $scope.goEdit = function(planningId) {
-                $location.path('shipping/planning/' + planningId);
+                $location.path('manufacture/planning/edit/' + planningId);
             }
         });
 function unique_arr(array) {

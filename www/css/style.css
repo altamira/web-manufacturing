@@ -2627,7 +2627,7 @@
     padding-left: 5px !important;
 }
 .topBtnRadius {
-    border-radius: 5px 0 0 5px;
+    border-radius: 5px 0 0 5px !important;
 }
 
 .align-right {
@@ -2834,7 +2834,7 @@
   .planning-detail .col-90 { margin-left: 6%; flex: 0 0 94%;  max-width: 94%;}
   .create-list .process-item-list { text-transform: uppercase; font-weight: bold; color: #000;}
   .create-list .edit-text {  display: table-cell;  vertical-align: middle; padding-bottom: 3px; padding-top: 10px; font-weight: bold; font-size: 16px;}
-  .create-list .edit-info {vertical-align: middle; font-weight: bold;}
+  .create-list .edit-info {vertical-align: middle; font-weight: normal;}
   .create-list .edit-item-title {border-left: 1px solid #666666; text-align: left;}
  .create-list .edit-item { margin-left: 2.3%;}
  .create-date { text-align: left;}

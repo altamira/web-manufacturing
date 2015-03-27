@@ -422,7 +422,7 @@ altamiraApp.directive('planningStartDateCreate', function() {
                 },
                 onSelect: function(dateText) {
                     scope.$apply(function() {
-                        scope.planning.startDate = dateText;
+                        scope.planningStartDate.startDate = dateText;
                         scope.startDate = true;
                     });
                 }
@@ -474,32 +474,6 @@ altamiraApp.directive('selectDelivery', function(services) {
                 scope.itemPartIdArr.push(parseInt(attr.datapart));
                 scope.itemMaterialArr.push(parseInt(attr.datamaterial));
                 scope.itemPartDeliveryArr.push(parseInt(attr.datadelivery));
-//                if (scope.itemId.length == 0)
-//                {
-//                    tempItemId = parseInt(attr.dataitem);
-//                    tempMaterialId = parseInt(attr.datamaterial);
-//                    scope.itemId.push(parseInt(attr.dataitem));
-//                    scope.itemPartIdArr.push(parseInt(attr.datapart));
-//                    scope.itemMaterialArr.push(parseInt(attr.datamaterial));
-//                    scope.itemPartDeliveryArr.push(parseInt(attr.datadelivery));
-//                }
-//                else if (scope.itemId.length > 0 && tempItemId == parseInt(attr.dataitem)) {
-//
-//                    if (tempMaterialId == parseInt(attr.datamaterial))
-//                    {
-//                        scope.itemId.push(parseInt(attr.dataitem));
-//                        scope.itemPartIdArr.push(parseInt(attr.datapart));
-//                        scope.itemMaterialArr.push(parseInt(attr.datamaterial));
-//                        scope.itemPartDeliveryArr.push(parseInt(attr.datadelivery));
-//                    } else {
-//                        elm.toggleClass('fa-check-square-o');
-//                        services.showAlert('Error', 'Selecione o mesmo tipo de material.');
-//                    }
-//
-//                } else {
-//                    elm.toggleClass('fa-check-square-o');
-//                    services.showAlert('Error', 'Selecione o mesmo item.');
-//                }
             }
             else
             {
@@ -508,9 +482,104 @@ altamiraApp.directive('selectDelivery', function(services) {
                 scope.itemMaterialArr.splice(scope.itemMaterialArr.indexOf(parseInt(attr.datamaterial)), 1);
                 scope.itemPartDeliveryArr.splice(scope.itemPartDeliveryArr.indexOf(parseInt(attr.datadelivery)), 1);
             }
-
         });
-
+    }
+});
+altamiraApp.directive('selectComponents', function(services) {
+    return function(scope, elm, attr) {
+        elm.bind('click', function() {
+            elm.toggleClass('fa-check-square-o');
+            if (elm.hasClass('fa-check-square-o'))
+            {
+                scope.operationIdArr.push(parseInt(attr.operationid));
+                scope.bomIdArr.push(parseInt(attr.bomid));
+                scope.itemIdArr.push(parseInt(attr.itemid));
+                scope.componentIdArr.push(parseInt(attr.componentid));
+                scope.componentQunArr.push(parseFloat(attr.componentqun));
+                scope.componentPesoArr.push(parseFloat(attr.componentpeso));
+            }
+            else
+            {
+                scope.operationIdArr.splice(scope.operationIdArr.indexOf(parseInt(attr.operationid)), 1);
+                scope.bomIdArr.splice(scope.bomIdArr.indexOf(parseInt(attr.bomid)), 1);
+                scope.itemIdArr.splice(scope.itemIdArr.indexOf(parseInt(attr.itemid)), 1);
+                scope.componentIdArr.splice(scope.componentIdArr.indexOf(parseInt(attr.componentid)), 1);
+                scope.componentQunArr.splice(scope.componentQunArr.indexOf(parseInt(attr.componentqun)), 1);
+                scope.componentPesoArr.splice(scope.componentPesoArr.indexOf(parseInt(attr.componentpeso)), 1);
+            }
+        });
+    }
+});
+altamiraApp.directive('manageOperationsection', function(services) {
+    return function(scope, elm, attr) {
+        var operationid = attr.operationid;
+        setTimeout(function() {
+            $('.operation_manage_button_' + operationid).click(function() {
+                if ($('.operation_section_' + operationid).html() == undefined)
+                {
+                    scope.getOperationBomData(operationid);
+                    $(this).addClass('fa-minus-square-o');
+                } else if ($('.operation_section_' + operationid).html() != undefined && $(this).hasClass('fa-minus-square-o') == false)
+                {
+                    $('.operation_section_' + operationid).show('slow');
+                    $(this).addClass('fa-minus-square-o');
+                }
+                else
+                {
+                    $('.operation_section_' + operationid).hide('slow');
+                    $(this).removeClass('fa-minus-square-o');
+                }
+            });
+        }, 500);
+    }
+});
+altamiraApp.directive('manageBomsection', function(services) {
+    return function(scope, elm, attr) {
+        var operationid = attr.operationid;
+        var bomid = attr.bomid;
+        setTimeout(function() {
+            $('.bom_manage_button_' + operationid + '_' + bomid).click(function() {
+                if ($('.bom_section_' + operationid + '_' + bomid).html() == undefined)
+                {
+                    scope.getBomItemData(operationid, bomid);
+                    $(this).addClass('fa-minus-square-o');
+                } else if ($('.bom_section_' + operationid + '_' + bomid).html() != undefined && $(this).hasClass('fa-minus-square-o') == false)
+                {
+                    $('.bom_section_' + operationid + '_' + bomid).show('slow');
+                    $(this).addClass('fa-minus-square-o');
+                }
+                else
+                {
+                    $('.bom_section_' + operationid + '_' + bomid).hide('slow');
+                    $(this).removeClass('fa-minus-square-o');
+                }
+            });
+        }, 500);
+    }
+});
+altamiraApp.directive('manageItemsection', function(services) {
+    return function(scope, elm, attr) {
+        var operationid = attr.operationid;
+        var bomid = attr.bomid;
+        var itemid = attr.itemid;
+        setTimeout(function() {
+            $('.item_mange_button_' + operationid + '_' + bomid + '_' + itemid).click(function() {
+                if ($('.item_section_' + operationid + '_' + bomid + '_' + itemid).html() == undefined)
+                {
+                    scope.getItemComponentData(operationid, bomid, itemid);
+                    $(this).addClass('fa-minus-square-o');
+                } else if ($('.item_section_' + operationid + '_' + bomid + '_' + itemid).html() != undefined && $(this).hasClass('fa-minus-square-o') == false)
+                {
+                    $('.item_section_' + operationid + '_' + bomid + '_' + itemid).show('slow');
+                    $(this).addClass('fa-minus-square-o');
+                }
+                else
+                {
+                    $('.item_section_' + operationid + '_' + bomid + '_' + itemid).hide('slow');
+                    $(this).removeClass('fa-minus-square-o');
+                }
+            });
+        }, 500);
     }
 });
 altamiraApp.directive('checkLogic', function(services) {
