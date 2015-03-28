@@ -19,6 +19,7 @@
             <button type="button" class="button fa-plus-square-o-header" ng-click="expandAll()"></button>
             <button type="button" class="button fa-minus-square-o-header" ng-click="collapseAll()"></button>
         </div>
+        <div class="header-col-right">{{totalWeight}} kg</div>
     </ion-header-bar>
     <ion-content>
         <div class="row bar-calm-top">
@@ -44,8 +45,9 @@
                     <div class="col">
                         <div class="list">
                             <a class="process-item-list item-icon-left item-icon-right color" style="font-weight: normal">
-                                <i class="icon left-icon fa-square-o"></i> {{operation.description}}
-                                <i class="operation_manage_button_{{operation.id}} icon plus-icon fa-plus-square-o" manage-operationsection operationid="{{operation.id}}" style="width: 7px;right: 23px"></i>
+                                <i class="operation_manage_button_{{operation.id}} icon left-icon plus-icon fa-plus-square-o" manage-operationsection operationid="{{operation.id}}" style="width: 7px;right: 23px"></i>
+                                {{operation.description}}
+                                <i class="icon right-icon fa-square-o checkall_{{operation.id}}" ng-click="checkOperationDelivery({{operation.id}})" style="width: 19px"></i>
                             </a>
                         </div>
                     </div>
@@ -54,9 +56,10 @@
                     <div class="row" style="padding-bottom: 0; padding-top: 0;">
                         <div class="col">
                             <div class="list">
-                                <a class="process-item-list item-icon-right" style="padding-left: 0px; margin-left: 2%; padding-bottom: 8px; padding-top: 0px;font-weight: normal">
-                                    {{bom.number}} {{bom.customer}}
+                                <a class="process-item-list item-icon-left item-icon-right" style="padding-left: 3%; margin-left: 15px; padding-bottom: 8px; padding-top: 0px;font-weight: normal">
                                     <i class="bom_manage_button_{{operation.id}}_{{bom.id}} icon plus-icon fa-plus-square-o" manage-bomsection operationid="{{operation.id}}" bomid="{{bom.id}}" style="padding-bottom: 7px;right: 23px;width: 7px;"></i>
+                                    {{bom.number}} {{bom.customer}}
+                                    <i class="icon right-icon fa-square-o checkall_{{operation.id}}_{{bom.id}}" ng-click="checkBomDelivery({{operation.id}}, {{bom.id}})" style="width: 19px"></i>
                                 </a>
                             </div>
                         </div>
@@ -65,9 +68,10 @@
                         <div class="row" style="padding-bottom: 0; padding-top: 0;">
                             <div class="col">
                                 <div class="list">
-                                    <a class="process-item-list item-icon-right" style="padding-left: 0px; margin-left: 2%; padding-bottom: 8px; padding-top: 0px;font-weight: normal">
-                                        ITEM {{item.item}}
+                                    <a class="process-item-list item-icon-left item-icon-right" style="padding-left: 3%; margin-left: 38px; padding-bottom: 8px; padding-top: 0px;font-weight: normal">
                                         <i class="item_mange_button_{{operation.id}}_{{bom.id}}_{{item.id}} icon plus-icon fa-plus-square-o" manage-itemsection operationid="{{operation.id}}" bomid="{{bom.id}}" itemid="{{item.id}}" style="padding-bottom: 7px;right: 23px;width: 7px;"></i>
+                                        ITEM {{item.item}}
+                                        <i class="icon right-icon fa-square-o checkall_{{operation.id}}_{{bom.id}}_{{item.id}}" ng-click="checkItemDelivery({{operation.id}}, {{bom.id}}, {{item.id}})" style="width: 19px"></i>
                                     </a>
                                 </div>
                             </div>
@@ -75,12 +79,12 @@
                         <div class="item_section_{{operation.id}}_{{bom.id}}_{{item.id}}" ng-if='item.component != ""'>
                             <div class="row">
                                 <div class="col">
-                                    <div style="font-size: 16px;margin-left: 2%">{{item.description}}</div>
+                                    <div style="font-size: 16px;margin-left: 3%">{{item.description}}</div>
                                 </div>
                             </div>
                             <div class="edit-item">
                                 <div class="col row">
-                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="delivery-table">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="delivery-table component_table_{{operation.id}}_{{bom.id}}_{{item.id}}">
                                         <thead>
                                             <tr>
                                                 <th class="edit-item-title align-center width-11"><i class="fa-calender"></i> <span>Entrega</span></th>
@@ -96,9 +100,12 @@
                                                 <td class="edit-info align-center width-11 create-date">{{component.delivery[0].delivery}}</td>
                                                 <td class="edit-text width-55" style="font-weight: normal">{{component.material.description}}</td>
                                                 <td class="edit-info align-right width-10">{{component.quantity.value}}<span style="margin-left: 5px;">{{component.quantity.unit.symbol}}</span></td>
-                                                <td class="edit-info align-right width-10"><input type="number" value="{{component.remaining.value}}"><span style="margin-left: 5px;">{{component.delivered.unit.symbol}}</span></td>
+                                                <td class="edit-info align-right width-10">
+                                                    <input type="number" id="remaining_{{operation.id}}_{{bom.id}}_{{item.id}}_{{component.id}}" value="{{component.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.remaining.value > 0">
+                                                    <input type="number" id="remaining_{{operation.id}}_{{bom.id}}_{{item.id}}_{{component.id}}" value="{{component.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.remaining.value < 1" readonly>
+                                                </td>
                                                 <td class="edit-info align-right width-11">{{component.weight.value}}<span style="margin-left: 5px;">{{component.weight.unit.symbol}}</span></td>
-                                                <td class="edit-text align-center width-3" style="font-weight: normal">
+                                                <td class="edit-text align-center width-3 td_{{operation.id}}_{{bom.id}}_{{item.id}}_{{component.id}}" style="font-weight: normal">
                                                     <i class="icon plus-icon fa-square-o" select-components operationid="{{operation.id}}" bomid="{{bom.id}}" itemid="{{item.id}}" componentid="{{component.id}}" componentqun="{{component.quantity.value}}" componentpeso="{{component.weight.value}}"></i>
                                                 </td>
                                             </tr>

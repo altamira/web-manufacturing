@@ -2836,8 +2836,9 @@
   .create-list .edit-text {  display: table-cell;  vertical-align: middle; padding-bottom: 3px; padding-top: 10px; font-weight: bold; font-size: 16px;}
   .create-list .edit-info {vertical-align: middle; font-weight: normal;}
   .create-list .edit-item-title {border-left: 1px solid #666666; text-align: left;}
- .create-list .edit-item { margin-left: 2.3%;}
+ .create-list .edit-item { margin-left: 3.3%;}
  .create-date { text-align: left;}
  .create-list .width-10 { color: #000;}
   .create-list .color { color: #666 !important;}
   .create-list .width-55 { padding-top: 0px !important;}
+  .header-col-right { font-size: 24px; color: #fff; font-weight: 600; float: right; position: absolute; right: 15px; top: 11px; }
