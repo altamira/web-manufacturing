@@ -118,7 +118,6 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                 });
             }
 
-
             $scope.getItemComponentData = function(operationid, bomId, itemId)
             {
                 $scope.loading = true;
@@ -165,7 +164,7 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                 }
             }
 
-            $scope.checkOperationDelivery = function(operationId)
+            $scope.checkAllOperationDelivery = function(operationId)
             {
                 for (var i = 0; i < $scope.operationData.length; i++)
                 {
@@ -183,15 +182,12 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                                         {
                                             $('.operation_manage_button_' + $scope.operationData[i].id).addClass('fa-minus-square-o');
                                             $('.operation_section_' + $scope.operationData[i].id).show('slow');
-                                            $('.checkall_' + $scope.operationData[i].id).toggleClass('fa-check-square-o');
 
                                             $('.bom_manage_button_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).addClass('fa-minus-square-o');
                                             $('.bom_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).show('slow');
-                                            $('.checkall_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).toggleClass('fa-check-square-o');
 
                                             $('.item_mange_button_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).addClass('fa-minus-square-o');
                                             $('.item_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).show('slow');
-                                            $('.checkall_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).toggleClass('fa-check-square-o');
 
                                             $('.component_table_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id + ' > tbody > tr > td:last-child').each(function() {
                                                 if ($(this).children().hasClass('fa-check-square-o') == false)
@@ -203,7 +199,35 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                                                     $scope.componentQunArr.push(parseFloat($(this).children().attr('componentqun')));
                                                     $scope.componentPesoArr.push(parseFloat($(this).children().attr('componentpeso')));
                                                     $(this).children().toggleClass('fa-check-square-o');
-                                                } else
+                                                }
+                                            });
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                $scope.calculateTotalWeight();
+            }
+            $scope.uncheckAllOperationDelivery = function(operationId)
+            {
+                for (var i = 0; i < $scope.operationData.length; i++)
+                {
+                    if (parseInt($scope.operationData[i].id) == parseInt(operationId))
+                    {
+                        if ($('.operation_section_' + $scope.operationData[i].id).html() != undefined)
+                        {
+                            for (var j = 0; j < $scope.operationData[i].bom.length; j++)
+                            {
+                                if ($('.bom_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).html() != undefined)
+                                {
+                                    for (var k = 0; k < $scope.operationData[i].bom[j].item.length; k++)
+                                    {
+                                        if ($('.item_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).html() != undefined)
+                                        {
+                                            $('.component_table_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id + ' > tbody > tr > td:last-child').each(function() {
+                                                if ($(this).children().hasClass('fa-check-square-o') == true)
                                                 {
                                                     $scope.operationIdArr.splice($scope.operationIdArr.indexOf(parseInt($(this).children().attr('operationid'))), 1);
                                                     $scope.bomIdArr.splice($scope.bomIdArr.indexOf(parseInt($(this).children().attr('bomid'))), 1);
@@ -222,13 +246,9 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                     }
                 }
                 $scope.calculateTotalWeight();
-                console.log(JSON.stringify($scope.operationIdArr))
-                console.log(JSON.stringify($scope.bomIdArr))
-                console.log(JSON.stringify($scope.itemIdArr))
-                console.log(JSON.stringify($scope.componentIdArr))
             }
 
-            $scope.checkBomDelivery = function(operationId, bomId)
+            $scope.checkAllBomDelivery = function(operationId, bomId)
             {
                 for (var i = 0; i < $scope.operationData.length; i++)
                 {
@@ -245,70 +265,55 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                                         $('.bom_manage_button_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).addClass('fa-minus-square-o');
                                         $('.bom_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).show('slow');
 
-                                        if ($('.checkall_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).hasClass('fa-check-square-o') == false)
-                                        {
-                                            $('.item_mange_button_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).addClass('fa-minus-square-o');
-                                            $('.item_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).show('slow');
+                                        $('.item_mange_button_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).addClass('fa-minus-square-o');
+                                        $('.item_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).show('slow');
 
-                                            if ($('.checkall_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).hasClass('fa-check-square-o') == false)
+                                        $('.component_table_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id + ' > tbody > tr > td:last-child').each(function() {
+                                            if ($(this).children().hasClass('fa-check-square-o') == false)
                                             {
-                                                $('.component_table_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id + ' > tbody > tr > td:last-child').each(function() {
-                                                    if ($(this).children().hasClass('fa-check-square-o') == false)
-                                                    {
-                                                        $scope.operationIdArr.push(parseInt($(this).children().attr('operationid')));
-                                                        $scope.bomIdArr.push(parseInt($(this).children().attr('bomid')));
-                                                        $scope.itemIdArr.push(parseInt($(this).children().attr('itemid')));
-                                                        $scope.componentIdArr.push(parseInt($(this).children().attr('componentid')));
-                                                        $scope.componentQunArr.push(parseFloat($(this).children().attr('componentqun')));
-                                                        $scope.componentPesoArr.push(parseFloat($(this).children().attr('componentpeso')));
-                                                        $(this).children().toggleClass('fa-check-square-o');
-                                                    }
-                                                });
-                                                $('.checkall_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).toggleClass('fa-check-square-o');
+                                                $scope.operationIdArr.push(parseInt($(this).children().attr('operationid')));
+                                                $scope.bomIdArr.push(parseInt($(this).children().attr('bomid')));
+                                                $scope.itemIdArr.push(parseInt($(this).children().attr('itemid')));
+                                                $scope.componentIdArr.push(parseInt($(this).children().attr('componentid')));
+                                                $scope.componentQunArr.push(parseFloat($(this).children().attr('componentqun')));
+                                                $scope.componentPesoArr.push(parseFloat($(this).children().attr('componentpeso')));
+                                                $(this).children().toggleClass('fa-check-square-o');
                                             }
-
-                                        } else
-                                        {
-                                            $('.checkall_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).toggleClass('fa-check-square-o');
-                                            $('.component_table_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id + ' > tbody > tr > td:last-child').each(function() {
-                                                if ($(this).children().hasClass('fa-check-square-o') == true)
-                                                {
-                                                    $scope.operationIdArr.splice($scope.operationIdArr.indexOf(parseInt($(this).children().attr('operationid'))), 1);
-                                                    $scope.bomIdArr.splice($scope.bomIdArr.indexOf(parseInt($(this).children().attr('bomid'))), 1);
-                                                    $scope.itemIdArr.splice($scope.itemIdArr.indexOf(parseInt($(this).children().attr('itemid'))), 1);
-                                                    $scope.componentIdArr.splice($scope.componentIdArr.indexOf(parseInt($(this).children().attr('componentid'))), 1);
-                                                    $scope.componentQunArr.splice($scope.componentQunArr.indexOf(parseInt($(this).children().attr('componentqun'))), 1);
-                                                    $scope.componentPesoArr.splice($scope.componentPesoArr.indexOf(parseInt($(this).children().attr('componentpeso'))), 1);
-                                                    $(this).children().toggleClass('fa-check-square-o');
-                                                }
-                                            });
-                                        }
-                                        $('.checkall_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).toggleClass('fa-check-square-o');
-//                                        $('.item_mange_button_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).addClass('fa-minus-square-o');
-//                                        $('.item_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).show('slow');
-//                                        $('.checkall_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).toggleClass('fa-check-square-o');
-//
-//                                        $('.component_table_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id + ' > tbody > tr > td:last-child').each(function() {
-//                                            if ($(this).children().hasClass('fa-check-square-o') == false)
-//                                            {
-//                                                $scope.operationIdArr.push(parseInt($(this).children().attr('operationid')));
-//                                                $scope.bomIdArr.push(parseInt($(this).children().attr('bomid')));
-//                                                $scope.itemIdArr.push(parseInt($(this).children().attr('itemid')));
-//                                                $scope.componentIdArr.push(parseInt($(this).children().attr('componentid')));
-//                                                $scope.componentQunArr.push(parseFloat($(this).children().attr('componentqun')));
-//                                                $scope.componentPesoArr.push(parseFloat($(this).children().attr('componentpeso')));
-//                                                $(this).children().toggleClass('fa-check-square-o');
-//                                            } else
-//                                            {
-//                                                $scope.operationIdArr.splice($scope.operationIdArr.indexOf(parseInt($(this).children().attr('operationid'))), 1);
-//                                                $scope.bomIdArr.splice($scope.bomIdArr.indexOf(parseInt($(this).children().attr('bomid'))), 1);
-//                                                $scope.itemIdArr.splice($scope.itemIdArr.indexOf(parseInt($(this).children().attr('itemid'))), 1);
-//                                                $scope.componentIdArr.splice($scope.componentIdArr.indexOf(parseInt($(this).children().attr('componentid'))), 1);
-//                                                $scope.componentQunArr.splice($scope.componentQunArr.indexOf(parseInt($(this).children().attr('componentqun'))), 1);
-//                                                $scope.componentPesoArr.splice($scope.componentPesoArr.indexOf(parseInt($(this).children().attr('componentpeso'))), 1);
-//                                                $(this).children().toggleClass('fa-check-square-o');
-//                                            }
-//                                        });
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                $scope.calculateTotalWeight();
+            }
+            $scope.uncheckAllBomDelivery = function(operationId, bomId)
+            {
+                for (var i = 0; i < $scope.operationData.length; i++)
+                {
+                    if (parseInt($scope.operationData[i].id) == parseInt(operationId) && $('.operation_section_' + $scope.operationData[i].id).html() != undefined)
+                    {
+                        for (var j = 0; j < $scope.operationData[i].bom.length; j++)
+                        {
+                            if (parseInt($scope.operationData[i].bom[j].id) == parseInt(bomId) && $('.bom_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).html() != undefined)
+                            {
+                                for (var k = 0; k < $scope.operationData[i].bom[j].item.length; k++)
+                                {
+                                    if ($('.item_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).html() != undefined)
+                                    {
+                                        $('.component_table_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id + ' > tbody > tr > td:last-child').each(function() {
+                                            if ($(this).children().hasClass('fa-check-square-o') == true)
+                                            {
+                                                $scope.operationIdArr.splice($scope.operationIdArr.indexOf(parseInt($(this).children().attr('operationid'))), 1);
+                                                $scope.bomIdArr.splice($scope.bomIdArr.indexOf(parseInt($(this).children().attr('bomid'))), 1);
+                                                $scope.itemIdArr.splice($scope.itemIdArr.indexOf(parseInt($(this).children().attr('itemid'))), 1);
+                                                $scope.componentIdArr.splice($scope.componentIdArr.indexOf(parseInt($(this).children().attr('componentid'))), 1);
+                                                $scope.componentQunArr.splice($scope.componentQunArr.indexOf(parseInt($(this).children().attr('componentqun'))), 1);
+                                                $scope.componentPesoArr.splice($scope.componentPesoArr.indexOf(parseInt($(this).children().attr('componentpeso'))), 1);
+                                                $(this).children().toggleClass('fa-check-square-o');
+                                            }
+                                        });
                                     }
                                 }
                             }
@@ -322,7 +327,7 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                 console.log(JSON.stringify($scope.componentIdArr))
             }
 
-            $scope.checkItemDelivery = function(operationId, bomId, itemId)
+            $scope.checkAllItemDelivery = function(operationId, bomId, itemId)
             {
                 for (var i = 0; i < $scope.operationData.length; i++)
                 {
@@ -339,58 +344,18 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                                         $('.item_mange_button_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).addClass('fa-minus-square-o');
                                         $('.item_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).show('slow');
 
-                                        if ($('.checkall_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).hasClass('fa-check-square-o') == false)
-                                        {
-                                            $('.component_table_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id + ' > tbody > tr > td:last-child').each(function() {
-                                                if ($(this).children().hasClass('fa-check-square-o') == false)
-                                                {
-                                                    $scope.operationIdArr.push(parseInt($(this).children().attr('operationid')));
-                                                    $scope.bomIdArr.push(parseInt($(this).children().attr('bomid')));
-                                                    $scope.itemIdArr.push(parseInt($(this).children().attr('itemid')));
-                                                    $scope.componentIdArr.push(parseInt($(this).children().attr('componentid')));
-                                                    $scope.componentQunArr.push(parseFloat($(this).children().attr('componentqun')));
-                                                    $scope.componentPesoArr.push(parseFloat($(this).children().attr('componentpeso')));
-                                                    $(this).children().toggleClass('fa-check-square-o');
-                                                }
-                                            });
-                                        }
-                                        else
-                                        {
-                                            $('.component_table_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id + ' > tbody > tr > td:last-child').each(function() {
-                                                if ($(this).children().hasClass('fa-check-square-o') == true)
-                                                {
-                                                    $scope.operationIdArr.splice($scope.operationIdArr.indexOf(parseInt($(this).children().attr('operationid'))), 1);
-                                                    $scope.bomIdArr.splice($scope.bomIdArr.indexOf(parseInt($(this).children().attr('bomid'))), 1);
-                                                    $scope.itemIdArr.splice($scope.itemIdArr.indexOf(parseInt($(this).children().attr('itemid'))), 1);
-                                                    $scope.componentIdArr.splice($scope.componentIdArr.indexOf(parseInt($(this).children().attr('componentid'))), 1);
-                                                    $scope.componentQunArr.splice($scope.componentQunArr.indexOf(parseInt($(this).children().attr('componentqun'))), 1);
-                                                    $scope.componentPesoArr.splice($scope.componentPesoArr.indexOf(parseInt($(this).children().attr('componentpeso'))), 1);
-                                                    $(this).children().toggleClass('fa-check-square-o');
-                                                }
-                                            });
-                                        }
-                                        $('.checkall_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).toggleClass('fa-check-square-o');
-//                                        $('.component_table_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id + ' > tbody > tr > td:last-child').each(function() {
-//                                            if ($(this).children().hasClass('fa-check-square-o') == false)
-//                                            {
-//                                                $scope.operationIdArr.push(parseInt($(this).children().attr('operationid')));
-//                                                $scope.bomIdArr.push(parseInt($(this).children().attr('bomid')));
-//                                                $scope.itemIdArr.push(parseInt($(this).children().attr('itemid')));
-//                                                $scope.componentIdArr.push(parseInt($(this).children().attr('componentid')));
-//                                                $scope.componentQunArr.push(parseFloat($(this).children().attr('componentqun')));
-//                                                $scope.componentPesoArr.push(parseFloat($(this).children().attr('componentpeso')));
-//                                                $(this).children().toggleClass('fa-check-square-o');
-//                                            } else
-//                                            {
-//                                                $scope.operationIdArr.splice($scope.operationIdArr.indexOf(parseInt($(this).children().attr('operationid'))), 1);
-//                                                $scope.bomIdArr.splice($scope.bomIdArr.indexOf(parseInt($(this).children().attr('bomid'))), 1);
-//                                                $scope.itemIdArr.splice($scope.itemIdArr.indexOf(parseInt($(this).children().attr('itemid'))), 1);
-//                                                $scope.componentIdArr.splice($scope.componentIdArr.indexOf(parseInt($(this).children().attr('componentid'))), 1);
-//                                                $scope.componentQunArr.splice($scope.componentQunArr.indexOf(parseInt($(this).children().attr('componentqun'))), 1);
-//                                                $scope.componentPesoArr.splice($scope.componentPesoArr.indexOf(parseInt($(this).children().attr('componentpeso'))), 1);
-//                                                $(this).children().toggleClass('fa-check-square-o');
-//                                            }
-//                                        });
+                                        $('.component_table_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id + ' > tbody > tr > td:last-child').each(function() {
+                                            if ($(this).children().hasClass('fa-check-square-o') == false)
+                                            {
+                                                $scope.operationIdArr.push(parseInt($(this).children().attr('operationid')));
+                                                $scope.bomIdArr.push(parseInt($(this).children().attr('bomid')));
+                                                $scope.itemIdArr.push(parseInt($(this).children().attr('itemid')));
+                                                $scope.componentIdArr.push(parseInt($(this).children().attr('componentid')));
+                                                $scope.componentQunArr.push(parseFloat($(this).children().attr('componentqun')));
+                                                $scope.componentPesoArr.push(parseFloat($(this).children().attr('componentpeso')));
+                                                $(this).children().toggleClass('fa-check-square-o');
+                                            }
+                                        });
                                     }
                                 }
                             }
@@ -398,10 +363,42 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                     }
                 }
                 $scope.calculateTotalWeight();
-                console.log(JSON.stringify($scope.operationIdArr))
-                console.log(JSON.stringify($scope.bomIdArr))
-                console.log(JSON.stringify($scope.itemIdArr))
-                console.log(JSON.stringify($scope.componentIdArr))
+            }
+            $scope.uncheckAllItemDelivery = function(operationId, bomId, itemId)
+            {
+                for (var i = 0; i < $scope.operationData.length; i++)
+                {
+                    if (parseInt($scope.operationData[i].id) == parseInt(operationId) && $('.operation_section_' + $scope.operationData[i].id).html() != undefined)
+                    {
+                        for (var j = 0; j < $scope.operationData[i].bom.length; j++)
+                        {
+                            if (parseInt($scope.operationData[i].bom[j].id) == parseInt(bomId) && $('.bom_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).html() != undefined)
+                            {
+                                for (var k = 0; k < $scope.operationData[i].bom[j].item.length; k++)
+                                {
+                                    if (parseInt($scope.operationData[i].bom[j].item[k].id) == parseInt(itemId) && $('.item_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).html() != undefined)
+                                    {
+//                                        $('.item_mange_button_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).removeClass('fa-minus-square-o');
+//                                        $('.item_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).hide('slow');
+                                        $('.component_table_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id + ' > tbody > tr > td:last-child').each(function() {
+                                            if ($(this).children().hasClass('fa-check-square-o') == true)
+                                            {
+                                                $scope.operationIdArr.splice($scope.operationIdArr.indexOf(parseInt($(this).children().attr('operationid'))), 1);
+                                                $scope.bomIdArr.splice($scope.bomIdArr.indexOf(parseInt($(this).children().attr('bomid'))), 1);
+                                                $scope.itemIdArr.splice($scope.itemIdArr.indexOf(parseInt($(this).children().attr('itemid'))), 1);
+                                                $scope.componentIdArr.splice($scope.componentIdArr.indexOf(parseInt($(this).children().attr('componentid'))), 1);
+                                                $scope.componentQunArr.splice($scope.componentQunArr.indexOf(parseInt($(this).children().attr('componentqun'))), 1);
+                                                $scope.componentPesoArr.splice($scope.componentPesoArr.indexOf(parseInt($(this).children().attr('componentpeso'))), 1);
+                                                $(this).children().toggleClass('fa-check-square-o');
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                $scope.calculateTotalWeight();
             }
 
             $scope.checkAllDelivery = function()
@@ -412,14 +409,14 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                 $scope.componentIdArr = [];
                 $scope.componentQunArr = [];
                 $('.delivery-table > tbody > tr > td:last-child').each(function() {
-                    $scope.operationIdArr.push(parseInt($(this).children().attr('operationid')));
-                    $scope.bomIdArr.push(parseInt($(this).children().attr('bomid')));
-                    $scope.itemIdArr.push(parseInt($(this).children().attr('itemid')));
-                    $scope.componentIdArr.push(parseInt($(this).children().attr('componentid')));
-                    $scope.componentQunArr.push(parseFloat($(this).children().attr('componentqun')));
-                    $scope.componentPesoArr.push(parseFloat($(this).children().attr('componentpeso')));
                     if ($(this).children().hasClass('fa-check-square-o') == false)
                     {
+                        $scope.operationIdArr.push(parseInt($(this).children().attr('operationid')));
+                        $scope.bomIdArr.push(parseInt($(this).children().attr('bomid')));
+                        $scope.itemIdArr.push(parseInt($(this).children().attr('itemid')));
+                        $scope.componentIdArr.push(parseInt($(this).children().attr('componentid')));
+                        $scope.componentQunArr.push(parseFloat($(this).children().attr('componentqun')));
+                        $scope.componentPesoArr.push(parseFloat($(this).children().attr('componentpeso')));
                         $(this).children().toggleClass('fa-check-square-o');
                     }
                 });
@@ -518,15 +515,23 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
 
             $scope.openStartDateModal = function()
             {
-                $scope.planningStartDate = {};
-                $scope.planningStartDate.chnDateTotalQuantity = 0;
-                $scope.planningStartDate.pesoTotal = 0;
-                for (var i = 0; i < $scope.componentIdArr.length; i++)
+                if ($scope.operationIdArr.length > 0)
                 {
-                    $scope.planningStartDate.chnDateTotalQuantity = $scope.planningStartDate.chnDateTotalQuantity + $scope.componentQunArr[i];
-                    $scope.planningStartDate.pesoTotal = $scope.planningStartDate.pesoTotal + $scope.componentPesoArr[i];
+                    $scope.planningStartDate = {};
+                    $scope.planningStartDate.chnDateTotalQuantity = 0;
+                    $scope.planningStartDate.pesoTotal = 0;
+                    for (var i = 0; i < $scope.componentIdArr.length; i++)
+                    {
+                        $scope.planningStartDate.chnDateTotalQuantity = $scope.planningStartDate.chnDateTotalQuantity + $scope.componentQunArr[i];
+                        $scope.planningStartDate.pesoTotal = $scope.planningStartDate.pesoTotal + $scope.componentPesoArr[i];
+                    }
+                    $scope.startDateCreateModalShow();
                 }
-                $scope.startDateCreateModalShow();
+                else
+                {
+                    services.showAlert('Successo', 'Please select component').then(function(res) {
+                    });
+                }
             }
 
             $scope.submitStartDateCreate = function(isValid)
@@ -598,8 +603,9 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                                     }
                                     else
                                     {
+                                        $scope.loading = false;
                                         services.showAlert('Successo', 'Material Order created !').then(function(res) {
-                                            $scope.loading = false;
+                                            $scope.getLatetComponentData();
                                         });
                                     }
                                 }, function() {
@@ -610,7 +616,6 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                                 $scope.loading = false;
                                 services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                             });
-
                         }
                         $scope.createProduce();
                     }, function() {
@@ -618,5 +623,57 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                         services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
                 }
+            }
+
+            $scope.getLatetComponentData = function()
+            {
+                $scope.loading = true;
+                var i = 0;
+                var tempItemArr = [];
+                $scope.getCompData = function()
+                {
+                    Restangular.one('shipping').one('planning', $scope.bomIdArr[i]).one('item', $scope.itemIdArr[i]).one('component').get().then(function(response) {
+                        for (var n = 0; n < $scope.operationData.length; n++)
+                        {
+                            if (parseInt($scope.operationData[n].id) == parseInt($scope.operationIdArr[i]))
+                            {
+                                for (var j = 0; j < $scope.operationData[n].bom.length; j++)
+                                {
+                                    if (parseInt($scope.operationData[n].bom[j].id) == parseInt($scope.bomIdArr[i]))
+                                    {
+                                        for (var k = 0; k < $scope.operationData[n].bom[j].item.length; k++)
+                                        {
+                                            if (parseInt($scope.operationData[n].bom[j].item[k].id) == parseInt($scope.itemIdArr[i]))
+                                            {
+                                                $scope.operationData[n].bom[j].item[k].component = response.data;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        tempItemArr.push(parseInt($scope.itemIdArr[i]));
+                        i++;
+                        if (i < $scope.itemIdArr.length)
+                        {
+                            $scope.getCompData();
+                        }
+                        else
+                        {
+                            $scope.operationIdArr = [];
+                            $scope.bomIdArr = [];
+                            $scope.itemIdArr = [];
+                            $scope.componentIdArr = [];
+                            $scope.componentQunArr = [];
+                            $scope.componentPesoArr = [];
+                            $scope.totalWeight = 0;
+                            $scope.loading = false;
+                        }
+                    }, function(response) {
+                        $scope.loading = false;
+                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    });
+                }
+                $scope.getCompData();
             }
         });

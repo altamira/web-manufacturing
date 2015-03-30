@@ -45,9 +45,9 @@
                     <div class="col">
                         <div class="list">
                             <a class="process-item-list item-icon-left item-icon-right color" style="font-weight: normal">
-                                <i class="operation_manage_button_{{operation.id}} icon left-icon plus-icon fa-plus-square-o" manage-operationsection operationid="{{operation.id}}" style="width: 7px;right: 23px"></i>
-                                {{operation.description}}
-                                <i class="icon right-icon fa-square-o checkall_{{operation.id}}" ng-click="checkOperationDelivery({{operation.id}})" style="width: 19px"></i>
+                                <i class="operation_manage_button_{{operation.id}} icon left-icon plus-icon fa-plus-square-o" manage-operationsection operationid="{{operation.id}}" style="font-size: 22px">{{operation.description}}</i>
+                                <i class="icon fa-check-square-o checkall_{{operation.id}}" ng-click="checkAllOperationDelivery({{operation.id}})" style="width: 19px; margin-left: 96%;"></i>
+                                <i class="icon right-icon fa-square-o checkall_{{operation.id}}" ng-click="uncheckAllOperationDelivery({{operation.id}})" style="width: 19px"></i>
                             </a>
                         </div>
                     </div>
@@ -56,10 +56,10 @@
                     <div class="row" style="padding-bottom: 0; padding-top: 0;">
                         <div class="col">
                             <div class="list">
-                                <a class="process-item-list item-icon-left item-icon-right" style="padding-left: 3%; margin-left: 15px; padding-bottom: 8px; padding-top: 0px;font-weight: normal">
-                                    <i class="bom_manage_button_{{operation.id}}_{{bom.id}} icon plus-icon fa-plus-square-o" manage-bomsection operationid="{{operation.id}}" bomid="{{bom.id}}" style="padding-bottom: 7px;right: 23px;width: 7px;"></i>
-                                    {{bom.number}} {{bom.customer}}
-                                    <i class="icon right-icon fa-square-o checkall_{{operation.id}}_{{bom.id}}" ng-click="checkBomDelivery({{operation.id}}, {{bom.id}})" style="width: 19px"></i>
+                                <a class="process-item-list item-icon-left item-icon-right" style="padding-left: 3%; margin-left: 15px; padding-bottom: 8px; padding-top: 0px;font-weight: normal;height: 35px">
+                                    <i class="bom_manage_button_{{operation.id}}_{{bom.id}} icon plus-icon fa-plus-square-o" manage-bomsection operationid="{{operation.id}}" bomid="{{bom.id}}" style="font-size: 20px">{{bom.number}} {{bom.customer}}</i>
+                                    <i class="icon fa-check-square-o checkall_{{operation.id}}_{{bom.id}}" ng-click="checkAllBomDelivery({{operation.id}}, {{bom.id}})" style="width: 19px; margin-left: 96%;"></i>
+                                    <i class="icon right-icon fa-square-o checkall_{{operation.id}}_{{bom.id}}" ng-click="uncheckAllBomDelivery({{operation.id}}, {{bom.id}})" style="width: 19px"></i>
                                 </a>
                             </div>
                         </div>
@@ -68,10 +68,10 @@
                         <div class="row" style="padding-bottom: 0; padding-top: 0;">
                             <div class="col">
                                 <div class="list">
-                                    <a class="process-item-list item-icon-left item-icon-right" style="padding-left: 3%; margin-left: 38px; padding-bottom: 8px; padding-top: 0px;font-weight: normal">
-                                        <i class="item_mange_button_{{operation.id}}_{{bom.id}}_{{item.id}} icon plus-icon fa-plus-square-o" manage-itemsection operationid="{{operation.id}}" bomid="{{bom.id}}" itemid="{{item.id}}" style="padding-bottom: 7px;right: 23px;width: 7px;"></i>
-                                        ITEM {{item.item}}
-                                        <i class="icon right-icon fa-square-o checkall_{{operation.id}}_{{bom.id}}_{{item.id}}" ng-click="checkItemDelivery({{operation.id}}, {{bom.id}}, {{item.id}})" style="width: 19px"></i>
+                                    <a class="process-item-list item-icon-left item-icon-right" style="padding-left: 3%; margin-left: 38px; padding-bottom: 8px; padding-top: 0px;font-weight: normal;height: 30px">
+                                        <i class="item_mange_button_{{operation.id}}_{{bom.id}}_{{item.id}} icon plus-icon fa-plus-square-o" manage-itemsection operationid="{{operation.id}}" bomid="{{bom.id}}" itemid="{{item.id}}" style="padding-bottom: 7px;font-size: 18px">ITEM {{item.item}}</i>
+                                        <i class="icon right-icon fa-check-square-o checkall_{{operation.id}}_{{bom.id}}_{{item.id}}" ng-click="checkAllItemDelivery({{operation.id}}, {{bom.id}}, {{item.id}})" style="width: 19px; margin-left: 96%;"></i>
+                                        <i class="icon right-icon fa-square-o checkall_{{operation.id}}_{{bom.id}}_{{item.id}}" ng-click="uncheckAllItemDelivery({{operation.id}}, {{bom.id}}, {{item.id}})" style="width: 19px"></i>
                                     </a>
                                 </div>
                             </div>

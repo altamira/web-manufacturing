@@ -493,13 +493,13 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                 $scope.itemPartIdArr = [];
                 $scope.itemPartDeliveryArr = [];
                 $scope.finalArr = '';
-                Restangular.one('shipping/planning').get({max: 999}).then(function(response) {
+                Restangular.one('manufacture/planning/operation/summary').get().then(function(response) {
                     $scope.loading = false;
                     $scope.finalArr = response.data;
                     var main = [];
                     for (var i = 0; i < $scope.finalArr.length; i++)
                     {
-                        $scope.tempUnixTS.push($scope.finalArr[i].delivery);
+                        $scope.tempUnixTS.push(CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat($scope.finalArr[i].produce.startDate,'YYYY-MM-DD')));
                     }
                     $scope.tempUnixTS.sort(function(a, b) {
                         return b - a
