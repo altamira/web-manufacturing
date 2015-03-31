@@ -852,8 +852,14 @@ function totalWeightCal() {
         if (tempTotalWeight != 0)
         {
             $th.addClass('totalWeightShow');
-            $th.addClass('green');
             $th.html(Math.ceil(tempTotalWeight));
+            if (tempTotalWeight > 30)
+            {
+                $th.addClass('red');
+            } else
+            {
+                $th.addClass('green');
+            }
         } else
         {
             $th.removeClass('totalWeightShow');

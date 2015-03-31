@@ -85,70 +85,44 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="grid_view" class="planning-detail width-100" style="display: none;">
+                            <div id="grid_view" class="planning-detail width-100" style="display: none;" ng-controller='ManufacturePlanningGridCtrl'>
                                 <div class="row planning-col">
                                     <div class="col tableTitle align-right">Hoje : {{today}}</div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-30 scroll-div dataRow">
+                                <div class="row manufacture-grid" ng-if="finalArr != ''">
+                                    <div class="col-25 scroll-div dataRow">
                                         <table class="dataTable">
                                             <tr>
-                                                <th class="monthTitle dataTable-title">Pedidos</th>
+                                                <th class="monthTitle dataTable-title" style="border-bottom:1px solid #666;"></th>
                                             </tr>
                                             <tr>
-                                                <th style="height: 30px;">Linha de Produto</th>
+                                                <th style="height: 26px; text-align: left; border-right:none; border-bottom:none;">Linha de Produto</th>
                                             </tr>
-                                            <tr ng-repeat="order in finalArr" id="{{BOM.id}}" ng-click="getShippingDetail({{order.id}})" style="cursor: pointer">
-                                                <td>{{order.description}}</td>
+                                            <tr ng-repeat="order in finalArr" id="{{BOM.id}}" ng-click="getShippingDetail({{order.id}})" style="cursor: pointer" ng-class-odd="'odd'" ng-class-even="'even'">
+                                                <td style="border-top:none;" >{{order.description}}</td>
+                                            </tr>
+                                            <tr>
+                                               <td style="border-top:none;  background: #00aba9; border:1px solid #666; height: 36px;" class="ng-binding"></td>
                                             </tr>
                                         </table>
                                     </div>
-                                    <div class="col-70 scroll-div mainRow" style="width: 78%">
-                                        <!--                                        <table border="1" class="gridTable" sortable-func ng-if='orderData != "" && viewtype == "grid"'>
-                                                                                    <tr>
-                                                                                        <th class="monthTitle" colspan="{{month.days.length}}" ng-repeat="month in monthDays">{{month.name}}</th>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <th ng-repeat="day in days track by $index" ng-if='viewWeekly == false'>{{getWeekDayShort(day)}}</th>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td ng-repeat="day in days track by $index" data-day='{{day}}' class='{{day}} maintable-td'  ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'">
-                                                                                            <div class="cutomer-name dragDiv green" ng-repeat="order in finalArr" data-orderid="{{order.id}}" data-olddate="{{order.delivery}}" ng-if="(order.status.code == 1) && (checkDay(order.delivery) == getDay(day)) && (checkMonth(order.delivery) == getMonth(day)) && (checkYear(order.delivery) == getYear(day))">
-                                                                                                <p style="color: #000">{{order.number}}</p>
-                                                                                                <p class="grid-name" style="color: #000">{{order.customer}}</p>
-                                                                                            </div>
-                                                                                            <div class="cutomer-name dragDiv yellow" ng-repeat="order in finalArr" data-orderid="{{order.id}}" data-olddate="{{order.delivery}}" ng-if="(order.status.code == 2) && (checkDay(order.delivery) == getDay(day)) && (checkMonth(order.delivery) == getMonth(day)) && (checkYear(order.delivery) == getYear(day))">
-                                                                                                <p style="color: #000">{{order.number}}</p>
-                                                                                                <p class="grid-name" style="color: #000">{{order.customer}}</p>
-                                                                                            </div>
-                                                                                            <div class="cutomer-name dragDiv red" ng-repeat="order in finalArr" data-orderid="{{order.id}}" data-olddate="{{order.delivery}}" ng-if="(order.status.code == 3) && (checkDay(order.delivery) == getDay(day)) && (checkMonth(order.delivery) == getMonth(day)) && (checkYear(order.delivery) == getYear(day))">
-                                                                                                <p style="color: #000">{{order.number}}</p>
-                                                                                                <p class="grid-name" style="color: #000">{{order.customer}}</p>
-                                                                                            </div>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr class="totalWeightRow">
-                                                                                        <td ng-repeat="day in days track by $index" data-date='{{day}}'>
-                                                                                            &nbsp;
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </table>-->
-                                        <table border="1" class="planningTable" sortable-func>
+                                    <div class="col-75 scroll-div mainRow">
+                                        <table border="1" class="manufactureTable" sortable-func>
                                             <tr>
-                                                <th class="monthTitle" colspan="{{month.days.length}}" ng-repeat="month in monthDays">{{month.name}}</th>
+                                                <th class="monthTitle" style="line-height: 26px; border-left:1px solid #fff; border-top:1px solid #fff; border-bottom:1px solid #666; " colspan="{{month.days.length}}" ng-repeat="month in monthDays">{{month.name}}</th>
                                             </tr>
                                             <tr>
-                                                <th ng-repeat="day in days track by $index" ng-if='viewWeekly == false'>{{getWeekDayShort(day)}}</th>
+                                                <th style="line-height: 26px;" ng-repeat="day in days track by $index" ng-if='viewWeekly == false'>{{getWeekDayShort(day)}}</th>
                                             </tr>
-                                            <tr ng-repeat="order in finalArr" class="{{order.id}}" ng-if="checkYear(BOM.delivery) <= maxYear">
+                                            <tr ng-repeat="order in finalArr" class="{{order.id}}" ng-if="checkYear(BOM.delivery) <= maxYear" ng-class-odd="'odd'" ng-class-even="'even'">
                                                 <td ng-repeat="day in days track by $index" id="{{order.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components != ''">
-                                                    <div class="dragDiv" id="{{day}}" ng-class="getCellColor(order.produce.startDate,order.produce.quantity.value)" ng-if="(checkDay(order.produce.startDate) == getDay(day)) && (checkMonth(order.produce.startDate) == getMonth(day)) && (checkYear(order.produce.startDate) == getYear(day))" data-weight='{{order.produce.quantity.value}}'>
+                                                    <div id="{{day}}" ng-class="getCellColor(order.produce.startDate,order.produce.quantity.value)" ng-if="(checkDay(order.produce.startDate) == getDay(day)) && (checkMonth(order.produce.startDate) == getMonth(day)) && (checkYear(order.produce.startDate) == getYear(day))" data-weight='{{order.produce.quantity.value}}'>
                                                         {{order.produce.quantity.value}}
                                                     </div>
                                                 </td>
-<!--                                                <td ng-repeat="day in days track by $index" id="{{BOM.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components == ''" style="width: 50px;height: 30px;">
-                                                    N
-                                                </td>-->
+                                                <!--                                                <td ng-repeat="day in days track by $index" id="{{BOM.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components == ''" style="width: 50px;height: 30px;">
+                                                                                                    N
+                                                                                                </td>-->
                                             </tr>
                                             <tr class="totalWeightRow">
                                                 <td ng-repeat="day in days track by $index" data-date='{{day}}'>
@@ -158,12 +132,6 @@
                                         </table>
                                     </div>
                                 </div>
-                                <!--                                <div class="row  width-30" style="height: 740px;">
-
-                                                                </div>
-                                                                <div class="row  width-70">
-
-                                                                </div>-->
                             </div>
                         </div>
                     </ion-content>

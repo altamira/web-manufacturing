@@ -34,19 +34,6 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                 $('#gridShowBtn').removeClass('month');
                 $scope.loadGrid();
             }
-            $scope.getObjects = function(obj, key, val) {
-                var objects = [];
-                for (var i in obj) {
-                    if (!obj.hasOwnProperty(i))
-                        continue;
-                    if (typeof obj[i] == 'object') {
-                        objects = objects.concat($scope.getObjects(obj[i], key, val));
-                    } else if (i == key && obj[key] == val) {
-                        objects.push(obj);
-                    }
-                }
-                return objects;
-            };
             $scope.resetPlanning = function() {
                 $scope.startPage = 0;
                 $scope.maxRecord = 10;
@@ -83,9 +70,9 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                                 $scope.tempPlan = {};
                                 $scope.tempPlan.id = response.data[i].id;
                                 $scope.tempPlan.type = response.data[i].type;
-                                $scope.tempPlan.createdDate = CommonFun.setDefaultDateFormat(response.data[i].createdDate,'YYYY-MM-DD');
-                                $scope.tempPlan.startDate = CommonFun.setDefaultDateFormat(response.data[i].startDate,'YYYY-MM-DD');
-                                $scope.tempPlan.endDate = CommonFun.setDefaultDateFormat(response.data[i].endDate,'YYYY-MM-DD');
+                                $scope.tempPlan.createdDate = CommonFun.setDefaultDateFormat(response.data[i].createdDate, 'YYYY-MM-DD');
+                                $scope.tempPlan.startDate = CommonFun.setDefaultDateFormat(response.data[i].startDate, 'YYYY-MM-DD');
+                                $scope.tempPlan.endDate = CommonFun.setDefaultDateFormat(response.data[i].endDate, 'YYYY-MM-DD');
                                 $scope.tempPlan.bom = [];
                                 $scope.plannings.push($scope.tempPlan);
                             }
@@ -251,14 +238,37 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
 //                    }
 //                });
             }
-
+            $scope.createPlanning = function() {
+                $scope.planning = {};
+                $ionicModal.fromTemplateUrl('templates/manufacture/planning/popup/create.html', {
+                    scope: $scope,
+                    animation: 'fade-in'
+                }).then(function(modal) {
+                    $scope.createManPlanningModal = modal;
+                    $scope.createManPlanningModalShow = function() {
+                        $scope.createManPlanningModal.show();
+                    }
+                    $scope.createManPlanningModalHide = function() {
+                        $scope.createManPlanningModal.hide();
+                    }
+                    $scope.createManPlanningModalShow();
+                });
+            };
+            $scope.submitCreateManufacturePlanning = function(isValid) {
+                if (isValid) {
+                    sessionStorage.setItem('createOrderFormInicial', $scope.planning.inicial);
+                    sessionStorage.setItem('createOrderFormFinal', $scope.planning.final);
+                    $scope.createManPlanningModalHide();
+                    $location.path('manufacture/planning/create');
+                }
+            };
+            $scope.goEdit = function(planningId) {
+                $location.path('manufacture/planning/edit/' + planningId);
+            }
             $scope.getCellColor = function(st, weight) {
-                if (st < moment().valueOf() || (parseInt(weight) / 1000 > 20))
+                if (st < moment().valueOf() || (parseInt(weight) > 30))
                 {
                     return 'red';
-                } else
-                {
-                    return 'green';
                 }
             }
             $scope.checkDay = function(st) {
@@ -291,44 +301,7 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
             $scope.getYear = function(date) {
                 return moment(date, "D_M_YYYY").format('YYYY')
             }
-            $scope.createPlanning = function() {
-                $scope.planning = {};
-                $ionicModal.fromTemplateUrl('templates/manufacture/planning/popup/create.html', {
-                    scope: $scope,
-                    animation: 'fade-in'
-                }).then(function(modal) {
-                    $scope.createManPlanningModal = modal;
-                    $scope.createManPlanningModalShow = function() {
-                        $scope.createManPlanningModal.show();
-                    }
-                    $scope.createManPlanningModalHide = function() {
-                        $scope.createManPlanningModal.hide();
-                    }
-                    $scope.createManPlanningModalShow();
-                });
 
-
-            };
-            $scope.submitCreateManufacturePlanning = function(isValid) {
-                if (isValid) {
-                    sessionStorage.setItem('createOrderFormInicial', $scope.planning.inicial);
-                    sessionStorage.setItem('createOrderFormFinal', $scope.planning.final);
-                    $scope.createManPlanningModalHide();
-                    $location.path('manufacture/planning/create');
-//                    Restangular.all('manufacture').all('planning').post($scope.postdata).then(function(response) {
-//                        $scope.loading = false;
-//                        services.showAlert('Success', 'Planning foi gravado com sucesso !').then(function(res) {
-//                            $scope.createManPlanningModalHide();
-//                            $scope.resetPlanning();
-//                            $scope.loadPlanning();
-//                        });
-//                    }, function() {
-//                        $scope.loading = false;
-//                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
-//                    });
-                }
-
-            };
             $scope.makeCalender = function() {
                 $scope.days = [];
                 $scope.monthDays = [];
@@ -480,15 +453,12 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                             });
                         }
                     });
+                    totalWeightCal();
                 }, 100);
             }
-            $scope.setTodayGrid = function() {
 
-            }
             $scope.loadGrid = function() {
                 $scope.loading = true;
-
-//                $('.gridTable').empty();
                 $scope.itemId = [];
                 $scope.itemPartIdArr = [];
                 $scope.itemPartDeliveryArr = [];
@@ -499,7 +469,7 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                     var main = [];
                     for (var i = 0; i < $scope.finalArr.length; i++)
                     {
-                        $scope.tempUnixTS.push(CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat($scope.finalArr[i].produce.startDate,'YYYY-MM-DD')));
+                        $scope.tempUnixTS.push(CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat($scope.finalArr[i].produce.startDate, 'YYYY-MM-DD')));
                     }
                     $scope.tempUnixTS.sort(function(a, b) {
                         return b - a
@@ -507,45 +477,12 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                     $scope.makeCalender();
                     setTimeout(function() {
                         $scope.decorateTable();
+
                     }, 100);
                 }, function(response) {
                     services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             };
-            $scope.changeDelDateByDrag = function(orderId, oldDate, newDate) {
-                $scope.loading = true;
-                $scope.postdata = [];
-                $scope.postdata = [oldDate, CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat(newDate, 'D_M_YYYY'))];
-                Restangular.all('shipping').one('planning', orderId).all('delivery').customPUT($scope.postdata).then(function(response) {
-                    $scope.loading = false;
-                    if (response.data.count > 0)
-                    {
-                        services.showAlert('Success', 'Successfully delivery date changed to ' + CommonFun.setDefaultDateFormat(newDate, 'D_M_YYYY')).then(function(res) {
-                            totalWeightCal();
-                        });
-                    } else
-                    {
-                        services.showAlert('Error', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.').then(function(res) {
-                            $(".gridTable > tbody > tr:nth-child(3) > td." + newDate).each(function() {
-                                $(this).children().each(function() {
-                                    if (parseInt($(this).data('olddate')) == parseInt(oldDate) && parseInt(orderId) == parseInt($(this).data('orderid')))
-                                    {
-                                        $(this).remove();
-                                    }
-                                });
-                            });
-                            $scope.loadGrid();
-                        });
-                    }
-
-                }, function(response) {
-                    $scope.loading = false;
-                    services.showAlert('Falhou', 'Error in PUT request');
-                });
-            };
-            $scope.goEdit = function(planningId) {
-                $location.path('manufacture/planning/edit/' + planningId);
-            }
         });
 function unique_arr(array) {
     return array.filter(function(el, index, arr) {
