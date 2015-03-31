@@ -567,7 +567,7 @@ altamiraApp.directive('manageItemsection', function(services) {
             $('.item_mange_button_' + operationid + '_' + bomid + '_' + itemid).click(function() {
                 if ($('.item_section_' + operationid + '_' + bomid + '_' + itemid).html() == undefined)
                 {
-                    scope.getItemComponentData(operationid, bomid, itemid);
+//                    scope.getItemComponentData(operationid, bomid, itemid);
                     $(this).addClass('fa-minus-square-o');
                 } else if ($('.item_section_' + operationid + '_' + bomid + '_' + itemid).html() != undefined && $(this).hasClass('fa-minus-square-o') == false)
                 {

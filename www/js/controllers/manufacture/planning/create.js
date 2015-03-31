@@ -34,15 +34,22 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                 $scope.loading = true;
                 Restangular.one('manufacture').one('planning').one('operation').get().then(function(response) {
                     $scope.operationData = [];
-                    for (var i = 0; i < response.data.length; i++)
+                    if (response.data.length > 0)
                     {
-                        $scope.tempOpeData = {};
-                        $scope.tempOpeData.id = response.data[i].id;
-                        $scope.tempOpeData.type = response.data[i].type;
-                        $scope.tempOpeData.description = response.data[i].description;
-                        $scope.tempOpeData.bom = [];
-                        $scope.operationData.push($scope.tempOpeData);
+                        for (var i = 0; i < response.data.length; i++)
+                        {
+                            $scope.tempOpeData = {};
+                            $scope.tempOpeData.id = response.data[i].id;
+                            $scope.tempOpeData.type = response.data[i].type;
+                            $scope.tempOpeData.description = response.data[i].description;
+                            $scope.tempOpeData.bom = [];
+                            $scope.operationData.push($scope.tempOpeData);
+                        }
+                    } else
+                    {
+                        services.showAlert('Message', 'No data found');
                     }
+
                     $scope.loading = false;
                 }, function(response) {
                     $scope.loading = false;
@@ -104,7 +111,7 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                                         $scope.tempOpeItemData.type = response.data[k].type;
                                         $scope.tempOpeItemData.item = response.data[k].item;
                                         $scope.tempOpeItemData.description = response.data[k].description;
-                                        $scope.tempOpeItemData.component = [];
+                                        $scope.tempOpeItemData.component = response.data[k].component;
                                         $scope.operationData[i].bom[j].item.push($scope.tempOpeItemData);
                                     }
                                 }
@@ -186,8 +193,8 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                                             $('.bom_manage_button_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).addClass('fa-minus-square-o');
                                             $('.bom_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).show('slow');
 
-                                            $('.item_mange_button_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).addClass('fa-minus-square-o');
-                                            $('.item_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).show('slow');
+//                                            $('.item_mange_button_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).addClass('fa-minus-square-o');
+//                                            $('.item_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).show('slow');
 
                                             $('.component_table_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id + ' > tbody > tr > td:last-child').each(function() {
                                                 if ($(this).children().hasClass('fa-check-square-o') == false)
@@ -233,8 +240,8 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                                                     $scope.bomIdArr.splice($scope.bomIdArr.indexOf(parseInt($(this).children().attr('bomid'))), 1);
                                                     $scope.itemIdArr.splice($scope.itemIdArr.indexOf(parseInt($(this).children().attr('itemid'))), 1);
                                                     $scope.componentIdArr.splice($scope.componentIdArr.indexOf(parseInt($(this).children().attr('componentid'))), 1);
-                                                    $scope.componentQunArr.splice($scope.componentQunArr.indexOf(parseInt($(this).children().attr('componentqun'))), 1);
-                                                    $scope.componentPesoArr.splice($scope.componentPesoArr.indexOf(parseInt($(this).children().attr('componentpeso'))), 1);
+                                                    $scope.componentQunArr.splice($scope.componentQunArr.indexOf(parseFloat($(this).children().attr('componentqun'))), 1);
+                                                    $scope.componentPesoArr.splice($scope.componentPesoArr.indexOf(parseFloat($(this).children().attr('componentpeso'))), 1);
                                                     $(this).children().toggleClass('fa-check-square-o');
                                                 }
                                             });
@@ -265,8 +272,8 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                                         $('.bom_manage_button_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).addClass('fa-minus-square-o');
                                         $('.bom_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).show('slow');
 
-                                        $('.item_mange_button_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).addClass('fa-minus-square-o');
-                                        $('.item_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).show('slow');
+//                                        $('.item_mange_button_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).addClass('fa-minus-square-o');
+//                                        $('.item_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).show('slow');
 
                                         $('.component_table_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id + ' > tbody > tr > td:last-child').each(function() {
                                             if ($(this).children().hasClass('fa-check-square-o') == false)
@@ -309,8 +316,8 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                                                 $scope.bomIdArr.splice($scope.bomIdArr.indexOf(parseInt($(this).children().attr('bomid'))), 1);
                                                 $scope.itemIdArr.splice($scope.itemIdArr.indexOf(parseInt($(this).children().attr('itemid'))), 1);
                                                 $scope.componentIdArr.splice($scope.componentIdArr.indexOf(parseInt($(this).children().attr('componentid'))), 1);
-                                                $scope.componentQunArr.splice($scope.componentQunArr.indexOf(parseInt($(this).children().attr('componentqun'))), 1);
-                                                $scope.componentPesoArr.splice($scope.componentPesoArr.indexOf(parseInt($(this).children().attr('componentpeso'))), 1);
+                                                $scope.componentQunArr.splice($scope.componentQunArr.indexOf(parseFloat($(this).children().attr('componentqun'))), 1);
+                                                $scope.componentPesoArr.splice($scope.componentPesoArr.indexOf(parseFloat($(this).children().attr('componentpeso'))), 1);
                                                 $(this).children().toggleClass('fa-check-square-o');
                                             }
                                         });
@@ -321,10 +328,6 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                     }
                 }
                 $scope.calculateTotalWeight();
-                console.log(JSON.stringify($scope.operationIdArr))
-                console.log(JSON.stringify($scope.bomIdArr))
-                console.log(JSON.stringify($scope.itemIdArr))
-                console.log(JSON.stringify($scope.componentIdArr))
             }
 
             $scope.checkAllItemDelivery = function(operationId, bomId, itemId)
@@ -341,8 +344,8 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                                 {
                                     if (parseInt($scope.operationData[i].bom[j].item[k].id) == parseInt(itemId) && $('.item_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).html() != undefined)
                                     {
-                                        $('.item_mange_button_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).addClass('fa-minus-square-o');
-                                        $('.item_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).show('slow');
+//                                        $('.item_mange_button_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).addClass('fa-minus-square-o');
+//                                        $('.item_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).show('slow');
 
                                         $('.component_table_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id + ' > tbody > tr > td:last-child').each(function() {
                                             if ($(this).children().hasClass('fa-check-square-o') == false)
@@ -387,8 +390,8 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                                                 $scope.bomIdArr.splice($scope.bomIdArr.indexOf(parseInt($(this).children().attr('bomid'))), 1);
                                                 $scope.itemIdArr.splice($scope.itemIdArr.indexOf(parseInt($(this).children().attr('itemid'))), 1);
                                                 $scope.componentIdArr.splice($scope.componentIdArr.indexOf(parseInt($(this).children().attr('componentid'))), 1);
-                                                $scope.componentQunArr.splice($scope.componentQunArr.indexOf(parseInt($(this).children().attr('componentqun'))), 1);
-                                                $scope.componentPesoArr.splice($scope.componentPesoArr.indexOf(parseInt($(this).children().attr('componentpeso'))), 1);
+                                                $scope.componentQunArr.splice($scope.componentQunArr.indexOf(parseFloat($(this).children().attr('componentqun'))), 1);
+                                                $scope.componentPesoArr.splice($scope.componentPesoArr.indexOf(parseFloat($(this).children().attr('componentpeso'))), 1);
                                                 $(this).children().toggleClass('fa-check-square-o');
                                             }
                                         });
@@ -438,7 +441,6 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                         $(this).children().toggleClass('fa-check-square-o');
                     }
                 });
-                $scope.collapseAll();
                 $scope.calculateTotalWeight();
             }
 
