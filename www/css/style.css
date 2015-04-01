@@ -1784,11 +1784,15 @@
     font-size: 22px;
     color: #666666;
 }
-
-
 .fa-square-o:before {
     font-family: "fontawesome";
     content: "\f096";
+    font-size: 28px;
+    color: #00ABA9;
+}
+.fa-ban:before {
+    font-family: "fontawesome";
+    content: "\f05e";
     font-size: 28px;
     color: #00ABA9;
 }
@@ -2866,3 +2870,21 @@
 .manufacture-grid .holiday {opacity:0.5;}
 .manufacture-grid .manufactureTable tr td { text-align: center;  font-size: 22px; font-weight: bold; }
 .manufacture-grid .totalWeightShow{ color: #000;}
+
+.button-bar-unselected {
+    background-color: #fff !important;
+    color: #00aba9 !important;
+    border: 1px solid #00ABA9;
+}
+.button-bar-selected {
+    background-color: #00aba9 !important;
+    color: #ffffff !important;
+    border: 1px solid #00ABA9;
+}
+
+.top-view-change-btn a:first-child{
+    border-radius: 5px 0 0 5px !important;
+}
+.top-view-change-btn a:last-child{
+    border-radius: 0 5px 5px 0 !important;
+}
