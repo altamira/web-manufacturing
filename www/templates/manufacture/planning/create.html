@@ -12,12 +12,6 @@
             <h4 style="color: #ffffff;margin-top: 5px;">&nbsp;Planejamento de Producao&nbsp;</h4>
             <span class="btn-separator"></span>
             <button class="button fa-check" ng-click="openStartDateModal()" ></button>
-            <!--            <span class="btn-separator"></span>
-                        <button type="button" class="button fa-check-square-o-header" ng-click="checkAllDelivery()"></button>
-                        <button type="button" class="button fa-square-o-header" ng-click="uncheckAllDelivery()"></button>
-                        <span class="btn-separator"></span>
-                        <button type="button" class="button fa-plus-square-o-header" ng-click="expandAll()"></button>
-                        <button type="button" class="button fa-minus-square-o-header" ng-click="collapseAll()"></button>-->
         </div>
         <div class="header-col-right">{{totalWeight | setDecimal:2}} kg</div>
     </ion-header-bar>
@@ -90,58 +84,6 @@
                             </div>
                         </div>
                     </div>
-                    <!--                    <div class="width-100">
-                                            <div class="col row">
-                                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="delivery-table component_table_{{operation.id}}_{{bom.id}}_{{item.id}}">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="edit-item-title align-center width-11"><i class="fa-calender"></i> <span>Entrega</span></th>
-                                                            <th class="edit-item-title width-55">Descricao</th>
-                                                            <th class="edit-item-title align-center width-10"><i class="fa-list-ol"></i> <span class="color">Quantidade</span></th>
-                                                            <th class="edit-item-title align-center width-10"><i class="fa-list-ol"></i> <span class="color">Produzir</span></th>
-                                                            <th class="edit-item-title align-center width-11"><i class="fa-tachometer"></i> <span class="color">Peso</span></th>
-                                                            <th class="edit-item-title align-center width-3">&nbsp;</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="edit-info align-center width-11 create-date">23-10-2015</td>
-                                                            <td class="edit-text width-55" style="font-weight: normal">Lorem Ipsum is simply dummy text of the printing and typesetting</td>
-                                                            <td class="edit-info align-right width-10">50<span style="margin-left: 5px;">kg</span></td>
-                                                            <td class="edit-info align-right width-10">
-                                                                <input type="number" value="10.50" class="saldo" style="margin-bottom: 5px; text-align: right">
-                                                            </td>
-                                                            <td class="edit-info align-right width-11">400<span style="margin-left: 5px;">Kg</span></td>
-                                                            <td class="edit-text align-center width-3" style="font-weight: normal">
-                                                                <i class="icon plus-icon fa-square-o" select-components></i>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="edit-info align-center width-11 create-date">23-10-2015</td>
-                                                            <td class="edit-text width-55" style="font-weight: normal">Lorem Ipsum is simply dummy text of the printing and typesetting</td>
-                                                            <td class="edit-info align-right width-10">50<span style="margin-left: 5px;">kg</span></td>
-                                                            <td class="edit-info align-right width-10">
-                                                                <input type="number" value="10.50" class="saldo" style="margin-bottom: 5px; text-align: right">
-                                                            </td>
-                                                            <td class="edit-info align-right width-11">400<span style="margin-left: 5px;">Kg</span></td>
-                                                            <td class="edit-text align-center width-3" style="font-weight: normal">
-                                                                <i class="icon plus-icon fa-square-o" select-components></i>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="edit-info align-center width-11 create-date">23-10-2015</td>
-                                                            <td class="edit-text width-55" style="font-weight: normal">Lorem Ipsum is simply dummy text of the printing and typesetting</td>
-                                                            <td class="edit-info align-right width-10">50<span style="margin-left: 5px;">kg</span></td>
-                                                            <td class="edit-info align-right width-10">0 un</td>
-                                                            <td class="edit-info align-right width-11">0<span style="margin-left: 5px;">Kg</span></td>
-                                                            <td class="edit-text align-center width-3" style="font-weight: normal">
-                                                                <i class="icon plus-icon fa-ban"></i>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>-->
                 </div>
             </div>
         </div>
@@ -206,7 +148,7 @@
                                         <tbody>
                                             <tr ng-repeat='component in item.component |  orderBy : "id"'>
                                                 <td class="edit-info align-center width-11 create-date">{{component.delivery[0].delivery | getDate}}</td>
-                                                <td class="edit-text width-55" style="font-weight: normal">{{component.material.description}}</td>
+                                                <td class="edit-text width-55" style="font-weight: normal">{{component.description}}</td>
                                                 <td class="edit-info align-right width-10">{{component.quantity.value}}<span style="margin-left: 5px;">{{component.quantity.unit.symbol}}</span></td>
                                                 <td class="edit-info align-right width-10">
                                                     <input type="number" id="remaining_{{operation.id}}_{{bom.id}}_{{item.id}}_{{component.id}}" value="{{component.remaining.value}}" class="saldo" style="margin-bottom: 5px; text-align: right" ng-if="component.remaining.value > 0">
@@ -259,9 +201,6 @@
                                     {{produce.quantity.value}}
                                 </div>
                             </td>
-                            <!--                                                <td ng-repeat="day in days track by $index" id="{{BOM.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components == ''" style="width: 50px;height: 30px;">
-                                                                                N
-                                                                            </td>-->
                         </tr>
                         <tr class="totalWeightRow">
                             <td ng-repeat="day in days track by $index" data-date='{{day}}'>
