@@ -4,12 +4,7 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
             $scope.finalDate = true;
             $scope.startDate = true;
             $scope.manageBomSection = false;
-            $scope.operationIdArr = [];
-            $scope.bomIdArr = [];
-            $scope.itemIdArr = [];
-            $scope.componentIdArr = [];
-            $scope.componentQunArr = [];
-            $scope.componentPesoArr = [];
+
             $scope.totalWeight = 0;
 
             $scope.listView = function() {
@@ -57,8 +52,15 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                     $scope.createManPlanningModal.hide();
                 }
             });
+
             $scope.loadOperations = function()
             {
+                $scope.operationIdArr = [];
+                $scope.bomIdArr = [];
+                $scope.itemIdArr = [];
+                $scope.componentIdArr = [];
+                $scope.componentQunArr = [];
+                $scope.componentPesoArr = [];
                 $scope.operationData = [];
                 $scope.loading = true;
                 Restangular.one('manufacture').one('planning').one('process').get().then(function(response) {
@@ -85,6 +87,30 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                 });
             }
             $scope.loadOperations();
+            $scope.loadOperationComponents = function(processId)
+            {
+                $scope.loading = true;
+                Restangular.one('manufacture').one('planning').one('process', processId).one('component').get().then(function(response) {
+                    if (response.data.length > 0)
+                    {
+                        for (var i = 0; i < $scope.operationData.length; i++)
+                        {
+                            if (parseInt($scope.operationData[i].id) == parseInt(processId))
+                            {
+                                $scope.operationData[i].bom = response.data;
+                            }
+                        }
+                    } else
+                    {
+                        services.showAlert('Message', 'No data found');
+                    }
+//
+                    $scope.loading = false;
+                }, function(response) {
+                    $scope.loading = false;
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                });
+            }
             $scope.getOperationBomData = function(operationId)
             {
                 $scope.loading = true;
@@ -584,70 +610,77 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                         var i = 0;
                         $scope.createProduce = function()
                         {
-                            Restangular.all('shipping')
-                                    .one('planning', $scope.bomIdArr[i])
-                                    .one('item', $scope.itemIdArr[i])
-                                    .one('component', $scope.componentIdArr[i])
-                                    .get().then(function(response) {
-                                var comp_temp_id = $scope.componentIdArr[i];
-                                var remaining_temp = '#remaining_' + $scope.operationIdArr[i] + '_' + $scope.bomIdArr[i] + '_' + $scope.itemIdArr[i] + '_' + $scope.componentIdArr[i];
-                                $scope.produceData = {};
-                                $scope.produceData.id = 0;
-                                $scope.produceData.version = 0;
-                                $scope.produceData.type = 'br.com.altamira.data.model.manufacture.planning.Produce';
-
-                                $scope.produceData.order = {};
-                                $scope.produceData.order.id = res.data.id;
-                                $scope.produceData.order.type = "br.com.altamira.data.model.manufacture.planning.Order";
-                                $scope.produceData.order.createdDate = moment().format('YYYY-MM-DD');
-                                $scope.produceData.order.startDate = sessionStorage.getItem('createOrderFormInicial');
-                                $scope.produceData.order.endDate = sessionStorage.getItem('createOrderFormFinal');
-
-                                $scope.produceData.component = {};
-                                $scope.produceData.component.id = comp_temp_id;
-                                $scope.produceData.component.type = response.data.type;
-                                $scope.produceData.component.material = {};
-                                $scope.produceData.component.material.id = response.data.material.id;
-                                $scope.produceData.component.material.version = response.data.material.version;
-                                $scope.produceData.component.material.type = response.data.material.type;
-                                $scope.produceData.component.material.code = response.data.material.code;
-                                $scope.produceData.component.material.description = response.data.material.description;
-
-                                $scope.produceData.startDate = moment($scope.planningStartDate.startDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
-
-                                $scope.produceData.produced = {};
-                                $scope.produceData.produced.value = 0;
-                                $scope.produceData.produced.unit = response.data.delivery[0].quantity.unit;
-
-                                $scope.produceData.remaining = {};
-                                $scope.produceData.remaining.value = 0;
-                                $scope.produceData.remaining.unit = response.data.delivery[0].quantity.unit;
-
-                                $scope.produceData.quantity = {};
-                                $scope.produceData.quantity.value = parseFloat($(remaining_temp).val());
-                                $scope.produceData.quantity.unit = response.data.delivery[0].quantity.unit;
-
-                                Restangular.all('manufacture').one('planning', res.data.id).all('produce').post($scope.produceData).then(function(res) {
-                                    i++;
-                                    if (i < $scope.operationIdArr.length)
+                            for (var n = 0; n < $scope.operationData.length; n++)
+                            {
+                                if (parseInt($scope.operationData[n].id) == parseInt($scope.operationIdArr[i]))
+                                {
+                                    for (var j = 0; j < $scope.operationData[n].bom.length; j++)
                                     {
-                                        $scope.createProduce();
+                                        if (parseInt($scope.operationData[n].bom[j].id) == parseInt($scope.bomIdArr[i]))
+                                        {
+                                            for (var k = 0; k < $scope.operationData[n].bom[j].item.length; k++)
+                                            {
+                                                if (parseInt($scope.operationData[n].bom[j].item[k].id) == parseInt($scope.itemIdArr[i]))
+                                                {
+                                                    for (var l = 0; l < $scope.operationData[n].bom[j].item[k].component.length; l++)
+                                                    {
+                                                        if (parseInt($scope.operationData[n].bom[j].item[k].component[l].id) == parseInt($scope.componentIdArr[i]))
+                                                        {
+                                                            var comp_temp_id = $scope.componentIdArr[i];
+                                                            var remaining_temp = '#remaining_' + $scope.operationIdArr[i] + '_' + $scope.bomIdArr[i] + '_' + $scope.itemIdArr[i] + '_' + $scope.componentIdArr[i];
+                                                            $scope.produceData = {};
+                                                            $scope.produceData.id = 0;
+                                                            $scope.produceData.version = 0;
+                                                            $scope.produceData.type = 'br.com.altamira.data.model.manufacture.planning.Produce';
+
+                                                            $scope.produceData.order = {};
+                                                            $scope.produceData.order.id = res.data.id;
+                                                            $scope.produceData.order.type = "br.com.altamira.data.model.manufacture.planning.Order";
+                                                            $scope.produceData.order.createdDate = moment().format('YYYY-MM-DD');
+                                                            $scope.produceData.order.startDate = sessionStorage.getItem('createOrderFormInicial');
+                                                            $scope.produceData.order.endDate = sessionStorage.getItem('createOrderFormFinal');
+
+                                                            $scope.produceData.component = {};
+                                                            $scope.produceData.component.id = comp_temp_id;
+
+                                                            $scope.produceData.startDate = moment($scope.planningStartDate.startDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
+                                                            $scope.produceData.produced = {};
+                                                            $scope.produceData.produced.value = 0;
+                                                            $scope.produceData.produced.unit = $scope.operationData[n].bom[j].item[k].component[l].quantity.unit;
+
+                                                            $scope.produceData.remaining = {};
+                                                            $scope.produceData.remaining.value = 0;
+                                                            $scope.produceData.remaining.unit = $scope.operationData[n].bom[j].item[k].component[l].quantity.unit;
+
+                                                            $scope.produceData.quantity = {};
+                                                            $scope.produceData.quantity.value = parseFloat($(remaining_temp).val());
+                                                            $scope.produceData.quantity.unit = $scope.operationData[n].bom[j].item[k].component[l].quantity.unit;
+                                                            Restangular.all('manufacture').one('planning', res.data.id).all('produce').post($scope.produceData).then(function(res) {
+                                                                i++;
+                                                                if (i < $scope.operationIdArr.length)
+                                                                {
+                                                                    $scope.createProduce();
+                                                                }
+                                                                else
+                                                                {
+                                                                    $scope.loading = false;
+                                                                    services.showAlert('Successo', 'Material Order created !').then(function(res) {
+                                                                        $scope.getLatetComponentData();
+                                                                    });
+                                                                }
+                                                            }, function() {
+                                                                $scope.loading = false;
+                                                                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
+                                                            });
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
-                                    else
-                                    {
-                                        $scope.loading = false;
-                                        services.showAlert('Successo', 'Material Order created !').then(function(res) {
-                                            $scope.getLatetComponentData();
-                                        });
-                                    }
-                                }, function() {
-                                    $scope.loading = false;
-                                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
-                                });
-                            }, function() {
-                                $scope.loading = false;
-                                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
-                            });
+                                }
+                            }
                         }
                         $scope.createProduce();
                     }, function() {
@@ -664,27 +697,52 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                 var tempItemArr = [];
                 $scope.getCompData = function()
                 {
-                    Restangular.one('shipping').one('planning', $scope.bomIdArr[i]).one('item', $scope.itemIdArr[i]).one('component').get().then(function(response) {
-                        for (var n = 0; n < $scope.operationData.length; n++)
-                        {
-                            if (parseInt($scope.operationData[n].id) == parseInt($scope.operationIdArr[i]))
+                    if (tempItemArr.indexOf(parseInt($scope.itemIdArr[i])) < 0)
+                    {
+                        Restangular.one('shipping').one('planning', $scope.bomIdArr[i]).one('item', $scope.itemIdArr[i]).one('component').get().then(function(response) {
+                            for (var n = 0; n < $scope.operationData.length; n++)
                             {
-                                for (var j = 0; j < $scope.operationData[n].bom.length; j++)
+                                if (parseInt($scope.operationData[n].id) == parseInt($scope.operationIdArr[i]))
                                 {
-                                    if (parseInt($scope.operationData[n].bom[j].id) == parseInt($scope.bomIdArr[i]))
+                                    for (var j = 0; j < $scope.operationData[n].bom.length; j++)
                                     {
-                                        for (var k = 0; k < $scope.operationData[n].bom[j].item.length; k++)
+                                        if (parseInt($scope.operationData[n].bom[j].id) == parseInt($scope.bomIdArr[i]))
                                         {
-                                            if (parseInt($scope.operationData[n].bom[j].item[k].id) == parseInt($scope.itemIdArr[i]))
+                                            for (var k = 0; k < $scope.operationData[n].bom[j].item.length; k++)
                                             {
-                                                $scope.operationData[n].bom[j].item[k].component = response.data;
+                                                if (parseInt($scope.operationData[n].bom[j].item[k].id) == parseInt($scope.itemIdArr[i]))
+                                                {
+                                                    $scope.operationData[n].bom[j].item[k].component = response.data;
+                                                }
                                             }
                                         }
                                     }
                                 }
                             }
-                        }
-                        tempItemArr.push(parseInt($scope.itemIdArr[i]));
+                            tempItemArr.push(parseInt($scope.itemIdArr[i]));
+                            i++;
+                            if (i < $scope.itemIdArr.length)
+                            {
+                                $scope.getCompData();
+                            }
+                            else
+                            {
+                                $scope.operationIdArr = [];
+                                $scope.bomIdArr = [];
+                                $scope.itemIdArr = [];
+                                $scope.componentIdArr = [];
+                                $scope.componentQunArr = [];
+                                $scope.componentPesoArr = [];
+                                $scope.totalWeight = 0;
+                                $scope.loading = false;
+                            }
+                        }, function(response) {
+                            $scope.loading = false;
+                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                        });
+                    }
+                    else
+                    {
                         i++;
                         if (i < $scope.itemIdArr.length)
                         {
@@ -701,10 +759,7 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                             $scope.totalWeight = 0;
                             $scope.loading = false;
                         }
-                    }, function(response) {
-                        $scope.loading = false;
-                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
-                    });
+                    }
                 }
                 $scope.getCompData();
             }
@@ -921,10 +976,29 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                 $scope.itemPartIdArr = [];
                 $scope.itemPartDeliveryArr = [];
                 $scope.finalArr = '';
-                Restangular.one('manufacture/planning/process/summary').get().then(function(response) {
+                Restangular.one('manufacture').one('planning').one('process').one('summary').get().then(function(response) {
                     $scope.loading = false;
                     $scope.finalArr = response.data;
-                    var main = [];
+                    $scope.gridArr = [];
+                    for (var i = 0; i < response.data.length; i++)
+                    {
+                        $scope.tempArr = {};
+                        $scope.tempArr.id = response.data[i].id;
+                        $scope.tempArr.type = response.data[i].type;
+                        $scope.tempArr.name = response.data[i].name;
+                        $scope.tempArr.produce = [];
+                        for (var j = 0; j < $scope.finalArr.length; j++)
+                        {
+                            if (parseInt($scope.tempArr.id) == parseInt($scope.finalArr[j].id))
+                            {
+                                $scope.tempArr.produce.push($scope.finalArr[j].produce)
+                            }
+                        }
+                        if ($scope.getObjects($scope.gridArr, 'id', $scope.tempArr.id).length == 0)
+                        {
+                            $scope.gridArr.push($scope.tempArr);
+                        }
+                    }
                     for (var i = 0; i < $scope.finalArr.length; i++)
                     {
                         $scope.tempUnixTS.push(CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat($scope.finalArr[i].produce.startDate, 'YYYY-MM-DD')));
@@ -935,10 +1009,86 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                     $scope.makeCalender();
                     setTimeout(function() {
                         $scope.decorateTable();
-
+                        $scope.makeDummyRowL();
+                        $scope.makeDummyRowR();
                     }, 100);
                 }, function(response) {
                     services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             };
+            $scope.getObjects = function(obj, key, val) {
+                var objects = [];
+                for (var i in obj) {
+                    if (!obj.hasOwnProperty(i))
+                        continue;
+                    if (typeof obj[i] == 'object') {
+                        objects = objects.concat($scope.getObjects(obj[i], key, val));
+                    } else if (i == key && obj[key] == val) {
+                        objects.push(obj);
+                    }
+                }
+                return objects;
+            };
+            $scope.makeDummyRowL = function()
+            {
+                var totalrow = 19; // total 23
+                var usedrow = $scope.gridArr.length;
+                var dataTableRowLen = $('.dataTable tr').length;
+
+                if (dataTableRowLen < totalrow)
+                {
+                    for (usedrow; usedrow <= totalrow; usedrow++)
+                    {
+                        if (($('.dataTable tr').length % 2) == 0)
+                        {
+                            $('.dataTable tr:last').before('<tr class="even" style="height: 36px;"><td></td></tr>');
+                        }
+                        else
+                        {
+                            $('.dataTable tr:last').before('<tr class="odd" style="height: 36px;"><td></td></tr>');
+                        }
+                    }
+                }
+            }
+            $scope.makeDummyRowR = function()
+            {
+                var totalrow = 20;
+                var usedrow = $scope.gridArr.length;
+                var mainTableRowLen = $('.manufactureTable tr').length;
+                if (usedrow < mainTableRowLen)
+                {
+                    var mainTableTR = '';
+                    $('.manufactureTable tr:nth-last-child(2) td').each(function() {
+                        var strClass = $(this).attr("class");
+                        var dataDay = $(this).data("day");
+                        if (strClass.indexOf('holiday') > -1) {
+                            mainTableTR += '<td class="' + dataDay + ' holiday">&nbsp;</td>';
+                        } else {
+                            mainTableTR += '<td class="' + dataDay + '">&nbsp;</td>';
+                        }
+                    });
+                    for (usedrow; usedrow < totalrow; usedrow++)
+                    {
+                        if (($('.manufactureTable tr').length % 2) == 0)
+                        {
+                            $('.manufactureTable tr:last').before('<tr class="even" style="height: 36px;">' + mainTableTR + '</tr>');
+                        }
+                        else
+                        {
+                            $('.manufactureTable tr:last').before('<tr class="odd" style="height: 36px;">' + mainTableTR + '</tr>');
+                        }
+
+                    }
+                }
+//                var allCells = $(".mainTable td");
+//                allCells.on("mouseover", function() {
+//                    var el = $(this),
+//                            pos = el.index();
+//                    el.parent().find("th, td").addClass("hover");
+//                    allCells.filter(":nth-child(" + (pos + 1) + ")").addClass("hover");
+//                })
+//                        .on("mouseout", function() {
+//                    allCells.removeClass("hover");
+//                });
+            }
         });

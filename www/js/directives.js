@@ -511,6 +511,29 @@ altamiraApp.directive('selectComponents', function(services) {
         });
     }
 });
+altamiraApp.directive('manageOperationcomponentsection', function(services) {
+    return function(scope, elm, attr) {
+        var operationid = attr.operationid;
+        setTimeout(function() {
+            $('.operationcompo_manage_button_' + operationid).click(function() {
+                if ($('.operation_compo_section_' + operationid).html() == undefined)
+                {
+                    scope.loadOperationComponents(operationid);
+                    $(this).addClass('fa-minus-square-o');
+                } else if ($('.operation_compo_section_' + operationid).html() != undefined && $(this).hasClass('fa-minus-square-o') == false)
+                {
+                    $('.operation_compo_section_' + operationid).show('slow');
+                    $(this).addClass('fa-minus-square-o');
+                }
+                else
+                {
+                    $('.operation_compo_section_' + operationid).hide('slow');
+                    $(this).removeClass('fa-minus-square-o');
+                }
+            });
+        }, 500);
+    }
+});
 altamiraApp.directive('manageOperationsection', function(services) {
     return function(scope, elm, attr) {
         var operationid = attr.operationid;
