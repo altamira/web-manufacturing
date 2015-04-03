@@ -507,6 +507,12 @@ altamiraApp.directive('selectComponents', function(services) {
                 scope.componentQunArr.splice(scope.componentQunArr.indexOf(parseInt(attr.componentqun)), 1);
                 scope.componentPesoArr.splice(scope.componentPesoArr.indexOf(parseInt(attr.componentpeso)), 1);
             }
+            console.log(JSON.stringify(scope.operationIdArr))
+            console.log(JSON.stringify(scope.bomIdArr))
+            console.log(JSON.stringify(scope.itemIdArr))
+            console.log(JSON.stringify(scope.componentIdArr))
+            console.log(JSON.stringify(scope.componentQunArr))
+            console.log(JSON.stringify(scope.componentPesoArr))
             scope.calculateTotalWeight();
         });
     }

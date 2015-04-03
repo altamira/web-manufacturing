@@ -4,9 +4,9 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
             $scope.finalDate = true;
             $scope.startDate = true;
             $scope.manageBomSection = false;
-
+            $scope.tempOperationId = '';
             $scope.totalWeight = 0;
-
+            $scope.viewtype = 'list';
             $scope.listView = function() {
                 $scope.viewtype = 'list';
                 $('#grid_view').hide();
@@ -52,7 +52,14 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                     $scope.createManPlanningModal.hide();
                 }
             });
-
+            $scope.submitCreateManufacturePlanning = function(isValid) {
+                if (isValid) {
+                    sessionStorage.setItem('createOrderFormInicial', $scope.planning.inicial);
+                    sessionStorage.setItem('createOrderFormFinal', $scope.planning.final);
+                    $scope.createManPlanningModalHide();
+//                    $location.path('manufacture/planning/create');
+                }
+            };
             $scope.loadOperations = function()
             {
                 $scope.operationIdArr = [];
@@ -73,6 +80,7 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                             $scope.tempOpeData.type = response.data[i].type;
                             $scope.tempOpeData.name = response.data[i].name;
                             $scope.tempOpeData.bom = [];
+                            $scope.tempOpeData.operationComponent = [];
                             $scope.operationData.push($scope.tempOpeData);
                         }
                     } else
@@ -90,13 +98,38 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
             $scope.loadOperationComponents = function(processId)
             {
                 $scope.loading = true;
+                $scope.operationIdArr = [];
+                $scope.bomIdArr = [];
+                $scope.itemIdArr = [];
+                $scope.componentIdArr = [];
+                $scope.componentQunArr = [];
+                $scope.componentPesoArr = [];
                 Restangular.one('manufacture').one('planning').one('process', processId).one('component').get().then(function(response) {
+                    $scope.operationComponent = [];
                     if (response.data.length > 0)
                     {
+                        for (var i = 0; i < response.data.length; i++)
+                        {
+                            for (var j = 0; j < response.data[i].item.length; j++)
+                            {
+                                for (var k = 0; k < response.data[i].item[j].component.length; k++)
+                                {
+                                    $scope.tempComponentArr = {};
+                                    $scope.tempComponentArr.operationid = processId;
+                                    $scope.tempComponentArr.bomid = response.data[i].id;
+                                    $scope.tempComponentArr.bomnumber = response.data[i].number;
+                                    $scope.tempComponentArr.bomcustomer = response.data[i].customer;
+                                    $scope.tempComponentArr.itemid = response.data[i].item[j].id;
+                                    $scope.tempComponentArr.component = response.data[i].item[j].component[k];
+                                    $scope.operationComponent.push($scope.tempComponentArr);
+                                }
+                            }
+                        }
                         for (var i = 0; i < $scope.operationData.length; i++)
                         {
                             if (parseInt($scope.operationData[i].id) == parseInt(processId))
                             {
+                                $scope.operationData[i].operationComponent = $scope.operationComponent;
                                 $scope.operationData[i].bom = response.data;
                             }
                         }
@@ -104,7 +137,6 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                     {
                         services.showAlert('Message', 'No data found');
                     }
-//
                     $scope.loading = false;
                 }, function(response) {
                     $scope.loading = false;
@@ -233,37 +265,57 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                 {
                     if (parseInt($scope.operationData[i].id) == parseInt(operationId))
                     {
-                        if ($('.operation_section_' + $scope.operationData[i].id).html() != undefined)
+                        if ($scope.viewtype == 'list')
                         {
-                            for (var j = 0; j < $scope.operationData[i].bom.length; j++)
+                            if ($('.operation_compo_section_' + $scope.operationData[i].id).html() != undefined)
                             {
-                                if ($('.bom_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).html() != undefined)
-                                {
-                                    for (var k = 0; k < $scope.operationData[i].bom[j].item.length; k++)
+                                $('.component_table_' + $scope.operationData[i].id + ' > tbody > tr > td:last-child').each(function() {
+                                    if ($(this).children().hasClass('fa-check-square-o') == false && $(this).children().hasClass('fa-ban') == false)
                                     {
-                                        if ($('.item_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).html() != undefined)
+                                        $scope.operationIdArr.push(parseInt($(this).children().attr('operationid')));
+                                        $scope.bomIdArr.push(parseInt($(this).children().attr('bomid')));
+                                        $scope.itemIdArr.push(parseInt($(this).children().attr('itemid')));
+                                        $scope.componentIdArr.push(parseInt($(this).children().attr('componentid')));
+                                        $scope.componentQunArr.push(parseFloat($(this).children().attr('componentqun')));
+                                        $scope.componentPesoArr.push(parseFloat($(this).children().attr('componentpeso')));
+                                        $(this).children().toggleClass('fa-check-square-o');
+                                    }
+                                });
+                            }
+                        } else
+                        {
+                            if ($('.operation_section_' + $scope.operationData[i].id).html() != undefined)
+                            {
+                                for (var j = 0; j < $scope.operationData[i].bom.length; j++)
+                                {
+                                    if ($('.bom_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).html() != undefined)
+                                    {
+                                        for (var k = 0; k < $scope.operationData[i].bom[j].item.length; k++)
                                         {
-                                            $('.operation_manage_button_' + $scope.operationData[i].id).addClass('fa-minus-square-o');
-                                            $('.operation_section_' + $scope.operationData[i].id).show('slow');
+                                            if ($('.item_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).html() != undefined)
+                                            {
+                                                $('.operation_manage_button_' + $scope.operationData[i].id).addClass('fa-minus-square-o');
+                                                $('.operation_section_' + $scope.operationData[i].id).show('slow');
 
-                                            $('.bom_manage_button_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).addClass('fa-minus-square-o');
-                                            $('.bom_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).show('slow');
+                                                $('.bom_manage_button_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).addClass('fa-minus-square-o');
+                                                $('.bom_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).show('slow');
 
 //                                            $('.item_mange_button_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).addClass('fa-minus-square-o');
 //                                            $('.item_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).show('slow');
 
-                                            $('.component_table_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id + ' > tbody > tr > td:last-child').each(function() {
-                                                if ($(this).children().hasClass('fa-check-square-o') == false && $(this).children().hasClass('fa-ban') == false)
-                                                {
-                                                    $scope.operationIdArr.push(parseInt($(this).children().attr('operationid')));
-                                                    $scope.bomIdArr.push(parseInt($(this).children().attr('bomid')));
-                                                    $scope.itemIdArr.push(parseInt($(this).children().attr('itemid')));
-                                                    $scope.componentIdArr.push(parseInt($(this).children().attr('componentid')));
-                                                    $scope.componentQunArr.push(parseFloat($(this).children().attr('componentqun')));
-                                                    $scope.componentPesoArr.push(parseFloat($(this).children().attr('componentpeso')));
-                                                    $(this).children().toggleClass('fa-check-square-o');
-                                                }
-                                            });
+                                                $('.component_table_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id + ' > tbody > tr > td:last-child').each(function() {
+                                                    if ($(this).children().hasClass('fa-check-square-o') == false && $(this).children().hasClass('fa-ban') == false)
+                                                    {
+                                                        $scope.operationIdArr.push(parseInt($(this).children().attr('operationid')));
+                                                        $scope.bomIdArr.push(parseInt($(this).children().attr('bomid')));
+                                                        $scope.itemIdArr.push(parseInt($(this).children().attr('itemid')));
+                                                        $scope.componentIdArr.push(parseInt($(this).children().attr('componentid')));
+                                                        $scope.componentQunArr.push(parseFloat($(this).children().attr('componentqun')));
+                                                        $scope.componentPesoArr.push(parseFloat($(this).children().attr('componentpeso')));
+                                                        $(this).children().toggleClass('fa-check-square-o');
+                                                    }
+                                                });
+                                            }
                                         }
                                     }
                                 }
@@ -279,33 +331,55 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                 {
                     if (parseInt($scope.operationData[i].id) == parseInt(operationId))
                     {
-                        if ($('.operation_section_' + $scope.operationData[i].id).html() != undefined)
+                        if ($scope.viewtype == 'list')
                         {
-                            for (var j = 0; j < $scope.operationData[i].bom.length; j++)
+                            if ($('.operation_compo_section_' + $scope.operationData[i].id).html() != undefined)
                             {
-                                if ($('.bom_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).html() != undefined)
-                                {
-                                    for (var k = 0; k < $scope.operationData[i].bom[j].item.length; k++)
+                                $('.component_table_' + $scope.operationData[i].id + ' > tbody > tr > td:last-child').each(function() {
+                                    if ($(this).children().hasClass('fa-check-square-o') == true && $(this).children().hasClass('fa-ban') == false)
                                     {
-                                        if ($('.item_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).html() != undefined)
+                                        $scope.operationIdArr.splice($scope.operationIdArr.indexOf(parseInt($(this).children().attr('operationid'))), 1);
+                                        $scope.bomIdArr.splice($scope.bomIdArr.indexOf(parseInt($(this).children().attr('bomid'))), 1);
+                                        $scope.itemIdArr.splice($scope.itemIdArr.indexOf(parseInt($(this).children().attr('itemid'))), 1);
+                                        $scope.componentIdArr.splice($scope.componentIdArr.indexOf(parseInt($(this).children().attr('componentid'))), 1);
+                                        $scope.componentQunArr.splice($scope.componentQunArr.indexOf(parseFloat($(this).children().attr('componentqun'))), 1);
+                                        $scope.componentPesoArr.splice($scope.componentPesoArr.indexOf(parseFloat($(this).children().attr('componentpeso'))), 1);
+                                        $(this).children().toggleClass('fa-check-square-o');
+                                    }
+                                });
+                            }
+                        }
+                        else
+                        {
+                            if ($('.operation_section_' + $scope.operationData[i].id).html() != undefined)
+                            {
+                                for (var j = 0; j < $scope.operationData[i].bom.length; j++)
+                                {
+                                    if ($('.bom_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id).html() != undefined)
+                                    {
+                                        for (var k = 0; k < $scope.operationData[i].bom[j].item.length; k++)
                                         {
-                                            $('.component_table_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id + ' > tbody > tr > td:last-child').each(function() {
-                                                if ($(this).children().hasClass('fa-check-square-o') == true && $(this).children().hasClass('fa-ban') == false)
-                                                {
-                                                    $scope.operationIdArr.splice($scope.operationIdArr.indexOf(parseInt($(this).children().attr('operationid'))), 1);
-                                                    $scope.bomIdArr.splice($scope.bomIdArr.indexOf(parseInt($(this).children().attr('bomid'))), 1);
-                                                    $scope.itemIdArr.splice($scope.itemIdArr.indexOf(parseInt($(this).children().attr('itemid'))), 1);
-                                                    $scope.componentIdArr.splice($scope.componentIdArr.indexOf(parseInt($(this).children().attr('componentid'))), 1);
-                                                    $scope.componentQunArr.splice($scope.componentQunArr.indexOf(parseFloat($(this).children().attr('componentqun'))), 1);
-                                                    $scope.componentPesoArr.splice($scope.componentPesoArr.indexOf(parseFloat($(this).children().attr('componentpeso'))), 1);
-                                                    $(this).children().toggleClass('fa-check-square-o');
-                                                }
-                                            });
+                                            if ($('.item_section_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id).html() != undefined)
+                                            {
+                                                $('.component_table_' + $scope.operationData[i].id + '_' + $scope.operationData[i].bom[j].id + '_' + $scope.operationData[i].bom[j].item[k].id + ' > tbody > tr > td:last-child').each(function() {
+                                                    if ($(this).children().hasClass('fa-check-square-o') == true && $(this).children().hasClass('fa-ban') == false)
+                                                    {
+                                                        $scope.operationIdArr.splice($scope.operationIdArr.indexOf(parseInt($(this).children().attr('operationid'))), 1);
+                                                        $scope.bomIdArr.splice($scope.bomIdArr.indexOf(parseInt($(this).children().attr('bomid'))), 1);
+                                                        $scope.itemIdArr.splice($scope.itemIdArr.indexOf(parseInt($(this).children().attr('itemid'))), 1);
+                                                        $scope.componentIdArr.splice($scope.componentIdArr.indexOf(parseInt($(this).children().attr('componentid'))), 1);
+                                                        $scope.componentQunArr.splice($scope.componentQunArr.indexOf(parseFloat($(this).children().attr('componentqun'))), 1);
+                                                        $scope.componentPesoArr.splice($scope.componentPesoArr.indexOf(parseFloat($(this).children().attr('componentpeso'))), 1);
+                                                        $(this).children().toggleClass('fa-check-square-o');
+                                                    }
+                                                });
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
+
                     }
                 }
                 $scope.calculateTotalWeight();
@@ -467,6 +541,7 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                 $scope.itemIdArr = [];
                 $scope.componentIdArr = [];
                 $scope.componentQunArr = [];
+                $scope.componentPesoArr = [];
                 $('.delivery-table > tbody > tr > td:last-child').each(function() {
                     if ($(this).children().hasClass('fa-check-square-o') == false && $(this).children().hasClass('fa-ban') == false)
                     {
@@ -657,6 +732,7 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                                                             $scope.produceData.quantity.value = parseFloat($(remaining_temp).val());
                                                             $scope.produceData.quantity.unit = $scope.operationData[n].bom[j].item[k].component[l].quantity.unit;
                                                             Restangular.all('manufacture').one('planning', res.data.id).all('produce').post($scope.produceData).then(function(res) {
+                                                                $scope.tempOperationId = $scope.operationIdArr[i];
                                                                 i++;
                                                                 if (i < $scope.operationIdArr.length)
                                                                 {
@@ -666,7 +742,14 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                                                                 {
                                                                     $scope.loading = false;
                                                                     services.showAlert('Successo', 'Material Order created !').then(function(res) {
-                                                                        $scope.getLatetComponentData();
+                                                                        if ($scope.viewtype == 'form')
+                                                                        {
+                                                                            $scope.getLatetComponentData();
+                                                                        }
+                                                                        if ($scope.viewtype == 'list')
+                                                                        {
+                                                                            $scope.loadOperationComponents($scope.tempOperationId);
+                                                                        }
                                                                     });
                                                                 }
                                                             }, function() {
@@ -976,7 +1059,7 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                 $scope.itemPartIdArr = [];
                 $scope.itemPartDeliveryArr = [];
                 $scope.finalArr = '';
-                Restangular.one('manufacture').one('planning').one('process').one('summary').get().then(function(response) {
+                Restangular.one('manufacture').one('planning').one('process').one('summary').get({max: 99999}).then(function(response) {
                     $scope.loading = false;
                     $scope.finalArr = response.data;
                     $scope.gridArr = [];
