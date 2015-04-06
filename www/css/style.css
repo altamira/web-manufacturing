@@ -2837,8 +2837,8 @@
 .planning-detail .align-right { float: right; margin-top: 2px; }
 .planning-detail .col-90 { margin-left: 6%; flex: 0 0 94%;  max-width: 94%;}
 .create-list .process-item-list { text-transform: uppercase; font-weight: bold; color: #000;}
-.create-list .edit-text {  display: table-cell;  vertical-align: middle; padding-bottom: 3px; padding-top: 10px; font-weight: bold; font-size: 16px;}
-.create-list .edit-info {vertical-align: middle; font-weight: normal;}
+.create-list .edit-text {  display: table-cell;  vertical-align: top; padding-bottom: 3px; padding-top: 10px; font-weight: bold; font-size: 16px;}
+.create-list .edit-info {vertical-align: top; font-weight: normal; padding-top: 5px;}
 .create-list .edit-item-title {border-left: 1px solid #666666; text-align: left;}
 .create-list .edit-item { margin-left: 3.3%;}
 .create-date { text-align: left;}

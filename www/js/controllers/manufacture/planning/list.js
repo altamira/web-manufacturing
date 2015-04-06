@@ -418,7 +418,14 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
 //                    }, 1000);
 //                }
 
-
+                $('.prev-btn').on('click', function(e) {
+                    var val = 1000;
+                    $('.mainRow').mCustomScrollbar("scrollTo", "+=" + val);
+                });
+                $('.next-btn').on('click', function(e) {
+                    var val = 1000;
+                    $('.mainRow').mCustomScrollbar("scrollTo", "-=" + val);
+                });
                 $('.dragDiv').on('dblclick', function(e) {
                     $location.path('shipping/planning/' + $(this).data('orderid'));
                     $scope.$apply();
@@ -463,10 +470,29 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                 $scope.itemPartIdArr = [];
                 $scope.itemPartDeliveryArr = [];
                 $scope.finalArr = '';
-                Restangular.one('manufacture/planning/operation/summary').get().then(function(response) {
+                Restangular.one('manufacture').one('planning').one('process').one('summary').get({max: 99999}).then(function(response) {
                     $scope.loading = false;
                     $scope.finalArr = response.data;
-                    var main = [];
+                    $scope.gridArr = [];
+                    for (var i = 0; i < response.data.length; i++)
+                    {
+                        $scope.tempArr = {};
+                        $scope.tempArr.id = response.data[i].id;
+                        $scope.tempArr.type = response.data[i].type;
+                        $scope.tempArr.name = response.data[i].name;
+                        $scope.tempArr.produce = [];
+                        for (var j = 0; j < $scope.finalArr.length; j++)
+                        {
+                            if (parseInt($scope.tempArr.id) == parseInt($scope.finalArr[j].id))
+                            {
+                                $scope.tempArr.produce.push($scope.finalArr[j].produce)
+                            }
+                        }
+                        if ($scope.getObjects($scope.gridArr, 'id', $scope.tempArr.id).length == 0)
+                        {
+                            $scope.gridArr.push($scope.tempArr);
+                        }
+                    }
                     for (var i = 0; i < $scope.finalArr.length; i++)
                     {
                         $scope.tempUnixTS.push(CommonFun.getFullTimestamp(CommonFun.setDefaultDateFormat($scope.finalArr[i].produce.startDate, 'YYYY-MM-DD')));
@@ -477,12 +503,88 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                     $scope.makeCalender();
                     setTimeout(function() {
                         $scope.decorateTable();
-
+//                        $scope.makeDummyRowL();
+//                        $scope.makeDummyRowR();
                     }, 100);
                 }, function(response) {
                     services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             };
+            $scope.getObjects = function(obj, key, val) {
+                var objects = [];
+                for (var i in obj) {
+                    if (!obj.hasOwnProperty(i))
+                        continue;
+                    if (typeof obj[i] == 'object') {
+                        objects = objects.concat($scope.getObjects(obj[i], key, val));
+                    } else if (i == key && obj[key] == val) {
+                        objects.push(obj);
+                    }
+                }
+                return objects;
+            };
+            $scope.makeDummyRowL = function()
+            {
+                var totalrow = 18; // total 23
+                var usedrow = $scope.gridArr.length;
+                var dataTableRowLen = $('.dataTable tr').length;
+
+                if (dataTableRowLen < totalrow)
+                {
+                    for (usedrow; usedrow <= totalrow; usedrow++)
+                    {
+                        if (($('.dataTable tr').length % 2) == 0)
+                        {
+                            $('.dataTable tr:last').before('<tr class="even" style="height: 36px;"><td></td></tr>');
+                        }
+                        else
+                        {
+                            $('.dataTable tr:last').before('<tr class="odd" style="height: 36px;"><td></td></tr>');
+                        }
+                    }
+                }
+            }
+            $scope.makeDummyRowR = function()
+            {
+                var totalrow = 19;
+                var usedrow = $scope.gridArr.length;
+                var mainTableRowLen = $('.manufactureTable tr').length;
+                if (mainTableRowLen < totalrow)
+                {
+                    var mainTableTR = '';
+                    $('.manufactureTable tr:nth-last-child(2) td').each(function() {
+                        var strClass = $(this).attr("class");
+                        var dataDay = $(this).data("day");
+                        if (strClass.indexOf('holiday') > -1) {
+                            mainTableTR += '<td class="' + dataDay + ' holiday">&nbsp;</td>';
+                        } else {
+                            mainTableTR += '<td class="' + dataDay + '">&nbsp;</td>';
+                        }
+                    });
+                    for (usedrow; usedrow < totalrow; usedrow++)
+                    {
+                        if (($('.manufactureTable tr').length % 2) == 0)
+                        {
+                            $('.manufactureTable tr:last').before('<tr class="even" style="height: 36px;">' + mainTableTR + '</tr>');
+                        }
+                        else
+                        {
+                            $('.manufactureTable tr:last').before('<tr class="odd" style="height: 36px;">' + mainTableTR + '</tr>');
+                        }
+
+                    }
+                }
+//                var allCells = $(".mainTable td");
+//                allCells.on("mouseover", function() {
+//                    var el = $(this),
+//                            pos = el.index();
+//                    el.parent().find("th, td").addClass("hover");
+//                    allCells.filter(":nth-child(" + (pos + 1) + ")").addClass("hover");
+//                })
+//                        .on("mouseout", function() {
+//                    allCells.removeClass("hover");
+//                });
+            }
         });
 function unique_arr(array) {
     return array.filter(function(el, index, arr) {

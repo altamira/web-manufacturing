@@ -7,7 +7,7 @@
 <ion-pane>
     <ion-header-bar class="bar-calm">
         <div class="buttons header-margin">
-            <button type="button" class="button fa-arrow-left" ng-click="createManPlanningModalShow()"></button>
+            <button type="button" class="button fa-arrow-left" ng-click="goBack()"></button>
             <span class="btn-separator"></span>
             <h4 style="color: #ffffff;margin-top: 5px;">&nbsp;Ordem Producao&nbsp;</h4>
             <span class="btn-separator"></span>
@@ -25,9 +25,9 @@
             </div>
             <div class="col col-50 col-offset-50" style="padding-right: 20px;">
                 <div class="button-bar top-view-change-btn" style="float: right;width: 140px;">
-                    <a class="button button-bar-unselected button-bar-selected fa-component-switch" ng-click="listView()" id="listShowBtn"></a>
-                    <a class="button button-bar-unselected fa-list-alt" ng-click="formView()" id="formShowBtn"></a>
-                    <a class="button button-bar-unselected fa-th" ng-click="gridView()" id="gridShowBtn"></a>
+                    <a class="button button-bar-unselected button-bar-selected fa-component-switch" ng-click="listView()" id="listShowBtn" style="overflow: visible"></a>
+                    <a class="button button-bar-unselected fa-list-alt" ng-click="formView()" id="formShowBtn" style="overflow: visible"></a>
+                    <a class="button button-bar-unselected fa-th" ng-click="gridView()" id="gridShowBtn" style="overflow: visible"></a>
                 </div>
             </div>
         </div>
@@ -42,7 +42,7 @@
                             <div class="list">
                                 <a class="process-item-list item-icon-left item-icon-right color" style="font-weight: normal">
                                     <i class="operationcompo_manage_button_{{operation.id}} icon left-icon plus-icon fa-plus-square-o" manage-operationcomponentsection operationid="{{operation.id}}" style="font-size: 22px">{{operation.name}}</i>
-                                    <i class="icon fa-check-square-o checkall_{{operation.id}}" ng-click="checkAllOperationDelivery({{operation.id}})" style="width: 19px; margin-left: 96%;"></i>
+                                    <i class="icon fa-check-square-o checkall_{{operation.id}} select-pos" ng-click="checkAllOperationDelivery({{operation.id}})" style="width: 19px; margin-left: 96%;"></i>
                                     <i class="icon right-icon fa-square-o checkall_{{operation.id}}" ng-click="uncheckAllOperationDelivery({{operation.id}})" style="width: 19px"></i>
                                 </a>
                             </div>
@@ -99,7 +99,7 @@
                             <div class="list">
                                 <a class="process-item-list item-icon-left item-icon-right color" style="font-weight: normal">
                                     <i class="operation_manage_button_{{operation.id}} icon left-icon plus-icon fa-plus-square-o" manage-operationsection operationid="{{operation.id}}" style="font-size: 22px">{{operation.name}}</i>
-                                    <i class="icon fa-check-square-o checkall_{{operation.id}}" ng-click="checkAllOperationDelivery({{operation.id}})" style="width: 19px; margin-left: 96%;"></i>
+                                    <i class="icon fa-check-square-o checkall_{{operation.id}} select-pos" ng-click="checkAllOperationDelivery({{operation.id}})" style="width: 19px; margin-left: 96%;"></i>
                                     <i class="icon right-icon fa-square-o checkall_{{operation.id}}" ng-click="uncheckAllOperationDelivery({{operation.id}})" style="width: 19px"></i>
                                 </a>
                             </div>
@@ -111,7 +111,7 @@
                                 <div class="list">
                                     <a class="process-item-list item-icon-left item-icon-right" style="padding-left: 3%; margin-left: 15px; padding-bottom: 8px; padding-top: 0px;font-weight: normal;height: 35px">
                                         <i class="bom_manage_button_{{operation.id}}_{{bom.id}} icon plus-icon fa-plus-square-o" manage-bomsection operationid="{{operation.id}}" bomid="{{bom.id}}" style="font-size: 20px">{{bom.number}} {{bom.customer}}</i>
-                                        <i class="icon fa-check-square-o checkall_{{operation.id}}_{{bom.id}}" ng-click="checkAllBomDelivery({{operation.id}}, {{bom.id}})" style="width: 19px; margin-left: 96%;"></i>
+                                        <i class="icon fa-check-square-o checkall_{{operation.id}}_{{bom.id}} select-pos" ng-click="checkAllBomDelivery({{operation.id}}, {{bom.id}})" style="width: 19px; margin-left: 96%;"></i>
                                         <i class="icon right-icon fa-square-o checkall_{{operation.id}}_{{bom.id}}" ng-click="uncheckAllBomDelivery({{operation.id}}, {{bom.id}})" style="width: 19px"></i>
                                     </a>
                                 </div>
@@ -123,7 +123,7 @@
                                     <div class="list">
                                         <a class="process-item-list item-icon-left item-icon-right" style="padding-left: 3%; margin-left: 38px; padding-bottom: 8px; padding-top: 0px;font-weight: normal;height: 30px">
                                             <i class="item_mange_button_{{operation.id}}_{{bom.id}}_{{item.id}} icon plus-icon fa-plus-square-o" manage-itemsection operationid="{{operation.id}}" bomid="{{bom.id}}" itemid="{{item.id}}" style="padding-bottom: 7px;font-size: 18px">ITEM {{item.item}}</i>
-                                            <i class="icon right-icon fa-check-square-o checkall_{{operation.id}}_{{bom.id}}_{{item.id}}" ng-click="checkAllItemDelivery({{operation.id}}, {{bom.id}}, {{item.id}})" style="width: 19px; margin-left: 96%;"></i>
+                                            <i class="icon right-icon fa-check-square-o checkall_{{operation.id}}_{{bom.id}}_{{item.id}} select-pos" ng-click="checkAllItemDelivery({{operation.id}}, {{bom.id}}, {{item.id}})" style="width: 19px; margin-left: 96%;"></i>
                                             <i class="icon right-icon fa-square-o checkall_{{operation.id}}_{{bom.id}}_{{item.id}}" ng-click="uncheckAllItemDelivery({{operation.id}}, {{bom.id}}, {{item.id}})" style="width: 19px"></i>
                                         </a>
                                     </div>
@@ -174,6 +174,12 @@
             </div>
         </div>
         <div id="grid_view" class="planning-detail width-100" style="display: none;">
+            <div class="row">
+                <div class="col col-75 col-offset-25">
+                    <button type="button" class="button button-calm prev-btn"> Prev </button>
+                    <button type="button" class="button button-calm next-btn"> Next </button>
+                </div>
+            </div>
             <div class="row manufacture-grid" ng-if="gridArr != ''">
                 <div class="col-25 scroll-div dataRow">
                     <table class="dataTable">
@@ -202,7 +208,7 @@
                         <tr ng-repeat="order in gridArr" class="{{order.id}}" ng-if="checkYear(BOM.delivery) <= maxYear" ng-class-odd="'odd'" ng-class-even="'even'">
                             <td ng-repeat="day in days track by $index" id="{{order.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components != ''">
                                 <div id="{{day}}" ng-repeat="produce in order.produce" ng-class="getCellColor(produce.startDate,produce.quantity.value)" ng-if="(checkDay(produce.startDate) == getDay(day)) && (checkMonth(produce.startDate) == getMonth(day)) && (checkYear(produce.startDate) == getYear(day))" data-weight='{{produce.quantity.value}}'>
-                                    {{produce.quantity.value}}
+                                    {{produce.quantity.value | setDecimal:1}}
                                 </div>
                             </td>
                         </tr>

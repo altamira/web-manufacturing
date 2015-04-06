@@ -1,7 +1,20 @@
+@media (max-width: 1750px){
+
+.select-pos { margin-left: 95% !important;}
+
+}
+
+@media (max-width: 1400px){
+
+.select-pos { margin-left: 93.5% !important;}
+
+}
 @media (max-width: 1067px){
     .material-search{
         width: 94% !important;
     }
+    .select-pos { margin-left: 92% !important;}
+
 }
 @media (max-width: 1023px){
     .item-input-search {width: 93%;}
@@ -32,6 +45,8 @@
     .croqui-img {
         width: 100%;
     }
+        .select-pos { margin-left: 91% !important;}
+
 }
 @media (min-width: 1024px){
     .mobile-view { display: none}
@@ -48,6 +63,8 @@
     .material-search{
         width: 91% !important;
     }
+            .select-pos { margin-left: 90% !important;}
+
 }
 
 @media (max-width: 767px){
@@ -100,7 +117,7 @@
 
 }
 @media (max-width: 499px) and (min-width: 481px){
- 
+
     search-icon {
     cursor: pointer;
     left: 15px;
@@ -152,7 +169,7 @@
     .bar-calm-top .button-bar { width:100%;}
     .planning-detail .text-center-middle { width: 200px;}
 
-    
+
 }
 
 @media (max-width: 320px){

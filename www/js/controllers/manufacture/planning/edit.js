@@ -1021,7 +1021,14 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
 //                    }, 1000);
 //                }
 
-
+                $('.prev-btn').on('click', function(e) {
+                    var val = 1000;
+                    $('.mainRow').mCustomScrollbar("scrollTo", "+=" + val);
+                });
+                $('.next-btn').on('click', function(e) {
+                    var val = 1000;
+                    $('.mainRow').mCustomScrollbar("scrollTo", "-=" + val);
+                });
                 $('.dragDiv').on('dblclick', function(e) {
                     $location.path('shipping/planning/' + $(this).data('orderid'));
                     $scope.$apply();
@@ -1121,7 +1128,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
             };
             $scope.makeDummyRowL = function()
             {
-                var totalrow = 19; // total 23
+                var totalrow = 17; // total 23
                 var usedrow = $scope.gridArr.length;
                 var dataTableRowLen = $('.dataTable tr').length;
 
@@ -1142,7 +1149,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
             }
             $scope.makeDummyRowR = function()
             {
-                var totalrow = 20;
+                var totalrow = 18;
                 var usedrow = $scope.gridArr.length;
                 var mainTableRowLen = $('.manufactureTable tr').length;
                 if (mainTableRowLen < totalrow)

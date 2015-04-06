@@ -89,7 +89,14 @@
                                 <div class="row planning-col">
                                     <div class="col tableTitle align-right">Hoje : {{today}}</div>
                                 </div>
-                                <div class="row manufacture-grid" ng-if="finalArr != ''">
+                                <div class="row">
+                                    <div class="col">
+                                        <button type="button" class="button button-calm prev-btn"> Prev </button>
+                                        <button type="button" class="button button-calm next-btn"> Next </button>
+                                    </div>
+                                </div>
+                                <div class="row manufacture-grid" ng-if="gridArr != ''">
+
                                     <div class="col-25 scroll-div dataRow">
                                         <table class="dataTable">
                                             <tr>
@@ -98,11 +105,11 @@
                                             <tr>
                                                 <th style="height: 26px; text-align: left; border-right:none; border-bottom:none;">Linha de Produto</th>
                                             </tr>
-                                            <tr ng-repeat="order in finalArr" id="{{BOM.id}}" ng-click="getShippingDetail({{order.id}})" style="cursor: pointer" ng-class-odd="'odd'" ng-class-even="'even'">
-                                                <td style="border-top:none;" >{{order.description}}</td>
+                                            <tr ng-repeat="order in gridArr" id="{{BOM.id}}" ng-click="getShippingDetail({{order.id}})" style="cursor: pointer" ng-class-odd="'odd'" ng-class-even="'even'">
+                                                <td style="border-top:none;" >{{order.name}}</td>
                                             </tr>
                                             <tr>
-                                               <td style="border-top:none;  background: #00aba9; border:1px solid #666; height: 36px;" class="ng-binding"></td>
+                                                <td style="border-top:none;  background: #00aba9; border:1px solid #666; height: 36px;" class="ng-binding"></td>
                                             </tr>
                                         </table>
                                     </div>
@@ -114,15 +121,12 @@
                                             <tr>
                                                 <th style="line-height: 26px;" ng-repeat="day in days track by $index" ng-if='viewWeekly == false'>{{getWeekDayShort(day)}}</th>
                                             </tr>
-                                            <tr ng-repeat="order in finalArr" class="{{order.id}}" ng-if="checkYear(BOM.delivery) <= maxYear" ng-class-odd="'odd'" ng-class-even="'even'">
+                                            <tr ng-repeat="order in gridArr" class="{{order.id}}" ng-if="checkYear(BOM.delivery) <= maxYear" ng-class-odd="'odd'" ng-class-even="'even'">
                                                 <td ng-repeat="day in days track by $index" id="{{order.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components != ''">
-                                                    <div id="{{day}}" ng-class="getCellColor(order.produce.startDate,order.produce.quantity.value)" ng-if="(checkDay(order.produce.startDate) == getDay(day)) && (checkMonth(order.produce.startDate) == getMonth(day)) && (checkYear(order.produce.startDate) == getYear(day))" data-weight='{{order.produce.quantity.value}}'>
-                                                        {{order.produce.quantity.value}}
+                                                    <div id="{{day}}" ng-repeat="produce in order.produce" ng-class="getCellColor(produce.startDate,produce.quantity.value)" ng-if="(checkDay(produce.startDate) == getDay(day)) && (checkMonth(produce.startDate) == getMonth(day)) && (checkYear(produce.startDate) == getYear(day))" data-weight='{{produce.quantity.value}}'>
+                                                        {{produce.quantity.value | setDecimal:1}}
                                                     </div>
                                                 </td>
-                                                <!--                                                <td ng-repeat="day in days track by $index" id="{{BOM.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components == ''" style="width: 50px;height: 30px;">
-                                                                                                    N
-                                                                                                </td>-->
                                             </tr>
                                             <tr class="totalWeightRow">
                                                 <td ng-repeat="day in days track by $index" data-date='{{day}}'>
