@@ -1138,7 +1138,7 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                 var totalrow = 20;
                 var usedrow = $scope.gridArr.length;
                 var mainTableRowLen = $('.manufactureTable tr').length;
-                if (usedrow < mainTableRowLen)
+                if (mainTableRowLen < totalrow)
                 {
                     var mainTableTR = '';
                     $('.manufactureTable tr:nth-last-child(2) td').each(function() {

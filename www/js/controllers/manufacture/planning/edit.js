@@ -1145,7 +1145,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                 var totalrow = 20;
                 var usedrow = $scope.gridArr.length;
                 var mainTableRowLen = $('.manufactureTable tr').length;
-                if (usedrow < mainTableRowLen)
+                if (mainTableRowLen < totalrow)
                 {
                     var mainTableTR = '';
                     $('.manufactureTable tr:nth-last-child(2) td').each(function() {
@@ -1181,7 +1181,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
 //                    allCells.removeClass("hover");
 //                });
             }
-            
+
             $ionicModal.fromTemplateUrl('templates/manufacture/planning/popup/report_type.html', {
                 scope: $scope,
                 animation: 'fade-in'

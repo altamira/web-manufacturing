@@ -54,43 +54,81 @@
                         <div class="width-100">
                             <div class="col row">
                                 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="delivery-table component_table_{{operation.id}}">
-                                    <thead>
-                                        <tr>
-                                            <th class="edit-item-title align-center width-3">&nbsp;</th>
-                                            <th class="edit-item-title align-center width-10"><i class="fa-calender"></i> <span>Entrega</span></th>
-                                            <th class="edit-item-title width-7">Pedido</th>
-                                            <th class="edit-item-title width-7">Cliente</th>
-                                            <th class="edit-item-title width-30">Descricao</th>
-                                            <th class="edit-item-title align-center width-10"><i class="fa-list-ol"></i> <span class="color">Quantidade</span></th>
-                                            <th class="edit-item-title align-center width-10"><i class="fa-list-ol"></i> <span class="color">Produzir</span></th>
-                                            <th class="edit-item-title align-center width-10"><i class="fa-list-ol"></i> <span class="color">Saldo</span></th>
-                                            <th class="edit-item-title align-center width-10"><i class="fa-tachometer"></i> <span class="color">Peso</span></th>
-                                            <th class="edit-item-title align-center width-3">&nbsp;</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat='compo in operation.operationComponent'>
-                                            <td class="edit-text align-center width-3 td_{{compo.operationid}}_{{compo.bomid}}_{{compo.itemid}}_{{compo.component.id}}" style="font-weight: normal">
-                                                <i class="icon left-icon plus-icon fa-plus-square-o" operationid="{{compo.operationid}}" bomid="{{compo.bomid}}" itemid="{{compo.itemid}}" componentid="{{compo.component.id}}" componentqun="{{compo.component.quantity.value}}" componentpeso="{{compo.component.weight.value}}"></i>
-                                            </td>
-                                            <td class="edit-info align-center width-10 create-date">{{compo.component.delivery[0].delivery | getDate}}</td>
-                                            <td class="edit-text width-7" style="font-weight: normal">{{compo.bomnumber}}</td>
-                                            <td class="edit-text width-7" style="font-weight: normal">{{compo.bomcustomer}}</td>
-                                            <td class="edit-text width-30" style="font-weight: normal">{{compo.component.description}}</td>
-                                            <td class="edit-info align-right width-10">{{compo.component.quantity.value}}<span style="margin-left: 5px;">{{compo.component.quantity.unit.symbol}}</span></td>
-                                            <td class="edit-info align-right width-10">{{compo.component.delivered.value | setDecimal:2}}<span style="margin-left: 5px;">{{compo.component.delivered.unit.symbol}}</span></td>
-                                            <td class="edit-info align-right width-10">
-                                                <input type="number" id="remaining_{{compo.operationid}}_{{compo.bomid}}_{{compo.itemid}}_{{compo.component.id}}" value="{{compo.component.remaining.value}}" class="saldo" style="margin-bottom: 5px; text-align: right" ng-if="compo.component.remaining.value > 0">
-                                                <span ng-if="compo.component.remaining.value <= 0">{{compo.component.remaining.value}}<span style="margin-left: 5px;">{{compo.component.remaining.unit.symbol}}</span></span>
-                                            </td>
-                                            <td class="edit-info align-right width-10">{{compo.component.weight.value | setDecimal:2}}<span style="margin-left: 5px;">{{compo.component.weight.unit.symbol}}</span></td>
-                                            <td class="edit-text align-center width-3 td_{{compo.operationid}}_{{compo.bomid}}_{{compo.itemid}}_{{compo.component.id}}" style="font-weight: normal">
-                                                <i class="icon plus-icon fa-square-o" select-components operationid="{{compo.operationid}}" bomid="{{compo.bomid}}" itemid="{{compo.itemid}}" componentid="{{compo.component.id}}" componentqun="{{compo.component.quantity.value}}" componentpeso="{{compo.component.weight.value}}"  ng-if="compo.component.remaining.value > 0"></i>
-                                                <i class="icon plus-icon fa-ban" operationid="{{compo.operationid}}" bomid="{{compo.bomid}}" itemid="{{compo.itemid}}" componentid="{{compo.component.id}}" componentqun="{{compo.component.quantity.value}}" componentpeso="{{compo.component.weight.value}}" ng-if="compo.component.remaining.value <= 0"></i>
-                                            </td>
-                                        </tr>
-                                    </tbody>
+                                    <tr>
+                                        <th class="edit-item-title align-center width-3">&nbsp;</th>
+                                        <th class="edit-item-title align-center width-10"><i class="fa-calender"></i> <span>Entrega</span></th>
+                                        <th class="edit-item-title width-7">Pedido</th>
+                                        <th class="edit-item-title width-7">Cliente</th>
+                                        <th class="edit-item-title width-30">Descricao</th>
+                                        <th class="edit-item-title align-center width-10"><i class="fa-list-ol"></i> <span class="color">Quantidade</span></th>
+                                        <th class="edit-item-title align-center width-10"><i class="fa-list-ol"></i> <span class="color">Produzir</span></th>
+                                        <th class="edit-item-title align-center width-10"><i class="fa-list-ol"></i> <span class="color">Saldo</span></th>
+                                        <th class="edit-item-title align-center width-10"><i class="fa-tachometer"></i> <span class="color">Peso</span></th>
+                                        <th class="edit-item-title align-center width-3">&nbsp;</th>
+                                    </tr>
                                 </table>
+                                <div ng-repeat='compo in operation.operationComponent'>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="delivery-table component_table_{{operation.id}}">
+                                        <tbody>
+                                            <tr>
+                                                <td class="edit-text align-center width-3 td_{{compo.operationid}}_{{compo.bomid}}_{{compo.itemid}}_{{compo.component.id}}" style="font-weight: normal">
+                                                    <i class="component_manage_button_{{compo.component.id}} icon left-icon plus-icon fa-plus-square-o" manage-componentchildsection componentid="{{compo.component.id}}"></i>
+                                                </td>
+                                                <td class="edit-info align-center width-10 create-date">{{compo.component.delivery[0].delivery | getDate}}</td>
+                                                <td class="edit-text width-7" style="font-weight: normal">{{compo.bomnumber}}</td>
+                                                <td class="edit-text width-7" style="font-weight: normal">{{compo.bomcustomer}}</td>
+                                                <td class="edit-text width-30" style="font-weight: normal">{{compo.component.description}}</td>
+                                                <td class="edit-info align-right width-10">{{compo.component.quantity.value}}<span style="margin-left: 5px;">{{compo.component.quantity.unit.symbol}}</span></td>
+                                                <td class="edit-info align-right width-10">{{compo.component.delivered.value | setDecimal:2}}<span style="margin-left: 5px;">{{compo.component.delivered.unit.symbol}}</span></td>
+                                                <td class="edit-info align-right width-10">
+                                                    <input type="number" id="remaining_{{compo.operationid}}_{{compo.bomid}}_{{compo.itemid}}_{{compo.component.id}}" value="{{compo.component.remaining.value}}" class="saldo" style="margin-bottom: 5px; text-align: right" ng-if="compo.component.remaining.value > 0">
+                                                    <span ng-if="compo.component.remaining.value <= 0">{{compo.component.remaining.value}}<span style="margin-left: 5px;">{{compo.component.remaining.unit.symbol}}</span></span>
+                                                </td>
+                                                <td class="edit-info align-right width-10">{{compo.component.weight.value | setDecimal:2}}<span style="margin-left: 5px;">{{compo.component.weight.unit.symbol}}</span></td>
+                                                <td class="edit-text align-center width-3 td_{{compo.operationid}}_{{compo.bomid}}_{{compo.itemid}}_{{compo.component.id}}" style="font-weight: normal">
+                                                    <i class="icon plus-icon fa-square-o" select-components operationid="{{compo.operationid}}" bomid="{{compo.bomid}}" itemid="{{compo.itemid}}" componentid="{{compo.component.id}}" componentqun="{{compo.component.quantity.value}}" componentpeso="{{compo.component.weight.value}}"  ng-if="compo.component.remaining.value > 0"></i>
+                                                    <i class="icon plus-icon fa-ban" operationid="{{compo.operationid}}" bomid="{{compo.bomid}}" itemid="{{compo.itemid}}" componentid="{{compo.component.id}}" componentqun="{{compo.component.quantity.value}}" componentpeso="{{compo.component.weight.value}}" ng-if="compo.component.remaining.value <= 0"></i>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div style="margin-left: 3%; margin-top: 1%; width: 97%;display: none" class="component_section_{{compo.component.id}}">
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="delivery-table">
+                                            <tr>
+                                                <th class="edit-item-title align-center width-10"><i class="fa-calender"></i> <span>Entrega</span></th>
+                                                <th class="edit-item-title width-70">Descricao</th>
+                                                <th class="edit-item-title align-center width-7"><i class="fa-list-ol"></i> <span class="color">Produzir</span></th>
+                                                <th class="edit-item-title align-center width-10"><i class="fa-tachometer"></i> <span class="color">Peso</span></th>
+                                                <th class="edit-item-title align-center width-3">&nbsp;</th>
+                                            </tr>
+                                        </table>
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="edit-info align-center width-10 create-date">23/10/2015</td>
+                                                    <td class="edit-text width-70" style="font-weight: normal">Lorem Ipsum is simply dummy text of the printing and typesettin</td>
+                                                    <td class="edit-info align-right width-7">1000<span style="margin-left: 5px;">Kg</span></td>
+                                                    <td class="edit-info align-right width-10">570<span style="margin-left: 5px;">unid</span></td>
+                                                    <td class="edit-text align-center width-3 td_{{compo.operationid}}_{{compo.bomid}}_{{compo.itemid}}_{{compo.component.id}}" style="font-weight: normal">
+                                                        <i class="icon plus-icon fa-square-o" select-components operationid="{{compo.operationid}}" bomid="{{compo.bomid}}" itemid="{{compo.itemid}}" componentid="{{compo.component.id}}" componentqun="{{compo.component.quantity.value}}" componentpeso="{{compo.component.weight.value}}"  ng-if="compo.component.remaining.value > 0"></i>
+                                                        <i class="icon plus-icon fa-ban" operationid="{{compo.operationid}}" bomid="{{compo.bomid}}" itemid="{{compo.itemid}}" componentid="{{compo.component.id}}" componentqun="{{compo.component.quantity.value}}" componentpeso="{{compo.component.weight.value}}" ng-if="compo.component.remaining.value <= 0"></i>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="edit-info align-center width-10 create-date">23/10/2015</td>
+                                                    <td class="edit-text width-70" style="font-weight: normal">Lorem Ipsum is simply dummy text of the printing and typesettin</td>
+                                                    <td class="edit-info align-right width-7">1000<span style="margin-left: 5px;">Kg</span></td>
+                                                    <td class="edit-info align-right width-10">570<span style="margin-left: 5px;">unid</span></td>
+                                                    <td class="edit-text align-center width-3 td_{{compo.operationid}}_{{compo.bomid}}_{{compo.itemid}}_{{compo.component.id}}" style="font-weight: normal">
+                                                        <i class="icon plus-icon fa-square-o" select-components operationid="{{compo.operationid}}" bomid="{{compo.bomid}}" itemid="{{compo.itemid}}" componentid="{{compo.component.id}}" componentqun="{{compo.component.quantity.value}}" componentpeso="{{compo.component.weight.value}}"  ng-if="compo.component.remaining.value > 0"></i>
+                                                        <i class="icon plus-icon fa-ban" operationid="{{compo.operationid}}" bomid="{{compo.bomid}}" itemid="{{compo.itemid}}" componentid="{{compo.component.id}}" componentqun="{{compo.component.quantity.value}}" componentpeso="{{compo.component.weight.value}}" ng-if="compo.component.remaining.value <= 0"></i>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
