@@ -18,7 +18,7 @@ altamiraAppControllers.controller('BomCreateCtrl',
                     $scope.postdata.created = CommonFun.getFullTimestamp($scope.bomData.created);
                     $scope.postdata.delivery = CommonFun.getFullTimestamp($scope.bomData.delivery);
 
-                    Restangular.all('manufacturing/bom').post($scope.postdata).then(function(response) {
+                    Restangular.all('manufacture/bom').post($scope.postdata).then(function(response) {
                         $scope.loading = false;
                         if (response.status == 201) {
                             services.showAlert('Successo', 'Lista de Material criada com sucesso !').then(function(res) {
@@ -32,6 +32,6 @@ altamiraAppControllers.controller('BomCreateCtrl',
                 }
             };
             $scope.goBack = function() {
-                $location.path('manufacturing/bom');
+                $location.path('manufacture/bom');
             };
         });

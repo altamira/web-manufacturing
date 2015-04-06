@@ -11,7 +11,7 @@ altamiraAppControllers.controller('BomItemCreateCtrl',
                     $scope.postdata = {};
                     $scope.postdata.item = $scope.itemData.item;
                     $scope.postdata.description = $scope.itemData.description;
-                    Restangular.one('manufacturing/bom', $scope.bomId).all('item').post($scope.postdata).then(function(res) {
+                    Restangular.one('manufacture/bom', $scope.bomId).all('item').post($scope.postdata).then(function(res) {
                         $scope.loading = false;
                         if (res.status == 201) {
                             $location.path('/bom/item/update/' + $scope.bomId + '/' + res.data.id);
@@ -38,7 +38,7 @@ altamiraAppControllers.controller('BomItemUpdateCtrl',
             $scope.itemData.description = '';
             $scope.loadItem = function() {
                 $scope.loading = true;
-                Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).get().then(function(response) {
+                Restangular.one('manufacture/bom', $scope.bomId).one('item', $scope.itemId).get().then(function(response) {
                     $scope.loading = false;
                     var data = response.data;
                     $scope.itemData.version = data.version;
@@ -83,9 +83,9 @@ altamiraAppControllers.controller('BomItemUpdateCtrl',
                     $scope.postdata.item = $scope.itemData.item;
                     $scope.postdata.description = $scope.itemData.description;
 
-                    Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).get().then(function(response1) {
+                    Restangular.one('manufacture/bom', $scope.bomId).one('item', $scope.itemId).get().then(function(response1) {
                         $scope.postdata.version = response1.data.version;
-                        Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).customPUT($scope.postdata).then(function(response) {
+                        Restangular.one('manufacture/bom', $scope.bomId).one('item', $scope.itemId).customPUT($scope.postdata).then(function(response) {
                             $scope.loading = false;
                             $location.path('bom/edit/' + $scope.bomId);
                         }, function(response) {
@@ -104,7 +104,7 @@ altamiraAppControllers.controller('BomItemUpdateCtrl',
                 services.showConfirmBox('Confirmation', 'Are you sure to remove this Item?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
-                        Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).remove().then(function() {
+                        Restangular.one('manufacture/bom', $scope.bomId).one('item', $scope.itemId).remove().then(function() {
                             $scope.loading = false;
                             services.showAlert('An Item - ' + $scope.itemId + ' removed successfully.').then(function(res) {
                                 if (res) {
@@ -131,7 +131,7 @@ altamiraAppControllers.controller('BomItemUpdateCtrl',
                 services.showConfirmBox('Confirmation', 'Are you sure to remove this Part?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
-                        Restangular.one('manufacturing/bom', $scope.bomId).one('item', $scope.itemId).one('part', PartId).remove().then(function() {
+                        Restangular.one('manufacture/bom', $scope.bomId).one('item', $scope.itemId).one('part', PartId).remove().then(function() {
                             $scope.loading = false;
                             services.showAlert('A Part - ' + PartId + ' removed successfully.').then(function(res) {
                                 if (res) {

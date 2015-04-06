@@ -25,7 +25,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
             {
                 $scope.action = 'update';
                 $scope.loading = true;
-                Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).one('produce', $scope.produceId).get().then(function(response) {
+                Restangular.one('manufacture/process', $scope.processId).one('operation', $scope.operationId).one('produce', $scope.produceId).get().then(function(response) {
                     $scope.loading = false;
                     $scope.produceData.code = response.data.material.code;
                     $scope.produceData.version = response.data.version;
@@ -81,7 +81,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
 
                                 if (method == 'POST')
                                 {
-                                    Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).all('produce').post($scope.postdata).then(function(response) {
+                                    Restangular.one('manufacture/process', $scope.processId).one('operation', $scope.operationId).all('produce').post($scope.postdata).then(function(response) {
                                         $scope.loading = false;
                                         if (response.status == 201) {
                                             services.showAlert('Successo', 'Processo foi gravado com sucesso !').then(function(res) {
@@ -96,7 +96,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
 
                                 if (method == 'PUT')
                                 {
-                                    Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).one('produce', $scope.produceId).customPUT($scope.postdata).then(function(response) {
+                                    Restangular.one('manufacture/process', $scope.processId).one('operation', $scope.operationId).one('produce', $scope.produceId).customPUT($scope.postdata).then(function(response) {
                                         $scope.loading = false;
                                         services.showAlert('Success', 'Processo foi gravado com sucesso !').then(function(res) {
                                             services.goToOperationUpdateForm($scope.processId, $scope.operationId);
@@ -145,7 +145,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
                 services.showConfirmBox('Confirmação', 'Tem certeza de remover este item ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
-                        Restangular.one('manufacturing/process', $scope.processId).one('operation', $scope.operationId).one('produce', $scope.produceId).remove().then(function() {
+                        Restangular.one('manufacture/process', $scope.processId).one('operation', $scope.operationId).one('produce', $scope.produceId).remove().then(function() {
                             $scope.loading = false;
                             services.showAlert('Item removido com sucesso.').then(function(res) {
                                 if (res) {
@@ -160,7 +160,7 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
                 });
             };
             $scope.goBack = function() {
-                $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
+                $location.path('/manufacture/process/operation/update/' + $scope.processId + '/' + $scope.operationId);
             };
 
             $ionicModal.fromTemplateUrl('templates/popup/material_list.html', {

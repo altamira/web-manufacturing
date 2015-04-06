@@ -12,7 +12,7 @@ altamiraAppControllers.controller('BomListCtrl',
                 services.showConfirmBox('Confirmation', 'A Lista de Material foi conferida ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
-                        Restangular.one('manufacturing/bom', itemId).all('checked').customPUT().then(function(response) {
+                        Restangular.one('manufacture/bom', itemId).all('checked').customPUT().then(function(response) {
                             $scope.loading = false;
                             $scope.tempBomArr = [];
                             $scope.tempBomArr = $scope.bomArray;
@@ -43,7 +43,7 @@ altamiraAppControllers.controller('BomListCtrl',
                 services.showConfirmBox('Confirmation', 'A Lista de Material foi conferida ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
-                        Restangular.one('manufacturing/bom', itemId).all('unchecked').customPUT().then(function(response) {
+                        Restangular.one('manufacture/bom', itemId).all('unchecked').customPUT().then(function(response) {
                             $scope.loading = false;
                             $scope.tempBomArr = [];
                             $scope.tempBomArr = $scope.bomArray;
@@ -89,10 +89,10 @@ altamiraAppControllers.controller('BomListCtrl',
                 $scope.loading = true;
                 if (sessionStorage.getItem('searchBOM') == null || sessionStorage.getItem('searchBOM') == "")
                 {
-                    var request = Restangular.one('manufacturing').one('bom').get({checked: 'false', start: $scope.startPage, max: $scope.maxRecord});
+                    var request = Restangular.one('manufacture').one('bom').get({checked: 'false', start: $scope.startPage, max: $scope.maxRecord});
                 } else
                 {
-                    var request = Restangular.one('manufacturing').one('bom').get({search: sessionStorage.getItem('searchBOM'), start: $scope.startPage, max: $scope.maxRecord});
+                    var request = Restangular.one('manufacture').one('bom').get({search: sessionStorage.getItem('searchBOM'), start: $scope.startPage, max: $scope.maxRecord});
                 }
                 request.then(function(response) {
                     if (response.data == '') {
@@ -223,8 +223,8 @@ altamiraAppControllers.controller('BomListCtrl',
                             onTap: function(res) {
                                 $scope.loading = true;
                                 //get data from api
-                                IntegrationRestangular.one('manufacturing/bom?' + $scope.orderData.ordernumber).get().then(function(response) {
-                                    Restangular.all('manufacturing/bom').post(response.data).then(function(res) {
+                                IntegrationRestangular.one('manufacture/bom?' + $scope.orderData.ordernumber).get().then(function(response) {
+                                    Restangular.all('manufacture/bom').post(response.data).then(function(res) {
                                         $scope.loading = false;
                                         if (res.status == 201) {
                                             services.showAlert('Pedido ' + $scope.orderData.ordernumber, 'Pedido ' + $scope.orderData.ordernumber + ' foi importado com sucesso !').then(function(res) {

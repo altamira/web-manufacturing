@@ -10,7 +10,7 @@ altamiraAppControllers.controller('ManufacturingProcessCreateCtrl',
                     $scope.postdata.code = $scope.processData.code;
                     $scope.postdata.description = $scope.processData.description;
 
-                    Restangular.all('manufacturing/process').post($scope.postdata).then(function(response) {
+                    Restangular.all('manufacture/process').post($scope.postdata).then(function(response) {
                         $scope.loading = false;
                         if (response.status == 201) {
                             services.showAlert('Success', 'Processo foi gravado com sucesso !').then(function(res) {
@@ -24,7 +24,7 @@ altamiraAppControllers.controller('ManufacturingProcessCreateCtrl',
                 }
             };
             $scope.goBack = function() {
-                $location.url('/manufacturing/process/' + 0);
+                $location.url('/manufacture/process/' + 0);
             };
         });
 
@@ -34,7 +34,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl',
             $scope.processData = {};
             $scope.loadProcess = function() {
                 $scope.loading = true;
-                Restangular.one('manufacturing/process', $scope.processId).get().then(function(response) {
+                Restangular.one('manufacture/process', $scope.processId).get().then(function(response) {
                     $scope.loading = false;
                     $scope.processData = response.data;
                     $scope.processData.operations = response.data.operation;
@@ -113,11 +113,11 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl',
                     $scope.postdata.version = $scope.processData.version;
                     $scope.postdata.code = $scope.processData.code;
                     $scope.postdata.description = $scope.processData.description;
-                    Restangular.one('manufacturing/process', $scope.processId).get().then(function(response1) {
+                    Restangular.one('manufacture/process', $scope.processId).get().then(function(response1) {
                         $scope.postdata.version = response1.data.version;
-                        Restangular.one('manufacturing/process', $scope.processId).customPUT($scope.postdata).then(function(response) {
+                        Restangular.one('manufacture/process', $scope.processId).customPUT($scope.postdata).then(function(response) {
                             $scope.loading = false;
-                            $location.path('/manufacturing/process/0');
+                            $location.path('/manufacture/process/0');
                         }, function(response) {
                             $scope.loading = false;
                             services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
@@ -129,37 +129,37 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl',
                 }
             };
             $scope.goBack = function() {
-                $location.path('/manufacturing/process/' + 0);
+                $location.path('/manufacture/process/' + 0);
             };
             $scope.updateOperation = function() {
-                $location.path('/manufacturing/process/operation/' + $scope.processId);
+                $location.path('/manufacture/process/operation/' + $scope.processId);
             };
             $scope.goUpdateOperation = function(operationId) {
-                $location.path('/manufacturing/process/operation/update/' + $scope.processId + '/' + operationId);
+                $location.path('/manufacture/process/operation/update/' + $scope.processId + '/' + operationId);
             };
             $scope.goUpdateOperationType = function(operationType, operationTypeId, operationId) {
                 if (operationType == 'produto')
                 {
-                    $location.path('/manufacturing/process/operation/produce/update/' + $scope.processId + '/' + operationId + '/' + operationTypeId);
+                    $location.path('/manufacture/process/operation/produce/update/' + $scope.processId + '/' + operationId + '/' + operationTypeId);
                 }
                 if (operationType == 'consumo')
                 {
-                    $location.path('/manufacturing/process/operation/consume/update/' + $scope.processId + '/' + operationId + '/' + operationTypeId);
+                    $location.path('/manufacture/process/operation/consume/update/' + $scope.processId + '/' + operationId + '/' + operationTypeId);
                 }
                 if (operationType == 'uso')
                 {
-                    $location.path('/manufacturing/process/operation/use/update/' + $scope.processId + '/' + operationId + '/' + operationTypeId);
+                    $location.path('/manufacture/process/operation/use/update/' + $scope.processId + '/' + operationId + '/' + operationTypeId);
                 }
             };
             $scope.removeProcess = function() {
                 services.showConfirmBox('Confirmacao', 'Tem certeza de remover este Processo ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
-                        Restangular.one('manufacturing/process', $scope.processId).remove().then(function() {
+                        Restangular.one('manufacture/process', $scope.processId).remove().then(function() {
                             $scope.loading = false;
                             services.showAlert('Successo', 'Processo removido com sucesso.').then(function(res) {
                                 if (res) {
-                                    $location.path('/manufacturing/process/0');
+                                    $location.path('/manufacture/process/0');
                                 }
                             });
                         }, function(response1) {
@@ -173,7 +173,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl',
                 services.showConfirmBox('Confirmation', 'Tem certeza de remover esta operação ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
-                        Restangular.one('manufacturing/process', $scope.processId).one('operation', operationId).remove().then(function() {
+                        Restangular.one('manufacture/process', $scope.processId).one('operation', operationId).remove().then(function() {
                             $scope.loading = false;
                             services.showAlert('Successo', 'Operação removida com sucesso.').then(function(res) {
                                 if (res) {

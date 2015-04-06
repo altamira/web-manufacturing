@@ -14,54 +14,54 @@ altamiraApp.run(function($ionicPlatform) {
 altamiraApp.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider
-                /* manufacturing/process  Start */
-                .when('/manufacturing/process', {
+                /* manufacture/process  Start */
+                .when('/manufacture/process', {
             templateUrl: 'templates/process/mf-process-list.html',
             controller: 'ManufacturingProcsSearchCtrl'
         })
-                .when('/manufacturing/create/process', {
+                .when('/manufacture/create/process', {
             templateUrl: 'templates/process/mf-process-create.html',
             controller: 'ManufacturingProcessCreateCtrl'
         })
-                .when('/manufacturing/update/process/:processId', {
+                .when('/manufacture/update/process/:processId', {
             templateUrl: 'templates/process/mf-process-update.html',
             controller: 'ManufacturingProcessUpdateCtrl'
         })
-                .when('/manufacturing/process/operation/:processId', {
+                .when('/manufacture/process/operation/:processId', {
             templateUrl: 'templates/process/mf-operation-create.html',
             controller: 'ManufacturingProcessCreateOperationCtrl'
         })
-                .when('/manufacturing/process/operation/update/:processId/:operationId', {
+                .when('/manufacture/process/operation/update/:processId/:operationId', {
             templateUrl: 'templates/process/mf-operation-update.html',
             controller: 'ManufacturingProcessUpdateOperationCtrl'
         })
-                .when('/manufacturing/process/operation/consume/:processId/:operationId', {
+                .when('/manufacture/process/operation/consume/:processId/:operationId', {
             templateUrl: 'templates/process/mf-operation-consume.html',
             controller: 'ManufacturingProcessOperationConsumeCtrl'
         })
-                .when('/manufacturing/process/operation/consume/update/:processId/:operationId/:consumeId', {
+                .when('/manufacture/process/operation/consume/update/:processId/:operationId/:consumeId', {
             templateUrl: 'templates/process/mf-operation-consume.html',
             controller: 'ManufacturingProcessOperationConsumeCtrl'
         })
-                .when('/manufacturing/process/operation/produce/:processId/:operationId', {
+                .when('/manufacture/process/operation/produce/:processId/:operationId', {
             templateUrl: 'templates/process/mf-operation-produce.html',
             controller: 'ManufacturingProcessOperationProduceCtrl'
         })
-                .when('/manufacturing/process/operation/produce/update/:processId/:operationId/:produceId', {
+                .when('/manufacture/process/operation/produce/update/:processId/:operationId/:produceId', {
             templateUrl: 'templates/process/mf-operation-produce.html',
             controller: 'ManufacturingProcessOperationProduceCtrl'
         })
-                .when('/manufacturing/process/operation/use/:processId/:operationId', {
+                .when('/manufacture/process/operation/use/:processId/:operationId', {
             templateUrl: 'templates/process/mf-operation-use.html',
             controller: 'ManufacturingProcessOperationUseCtrl'
         })
-                .when('/manufacturing/process/operation/use/update/:processId/:operationId/:useId', {
+                .when('/manufacture/process/operation/use/update/:processId/:operationId/:useId', {
             templateUrl: 'templates/process/mf-operation-use.html',
             controller: 'ManufacturingProcessOperationUseCtrl'
         })
-                /* manufacturing/process  End */
+                /* manufacture/process  End */
                 /* BOM pages  Start */
-                .when('/manufacturing/bom', {
+                .when('/manufacture/bom', {
             templateUrl: 'templates/bom/list.html',
             controller: 'BomListCtrl'
         })
@@ -155,20 +155,20 @@ altamiraApp.config(['$routeProvider',
             templateUrl: 'templates/manufacture/planning/edit.html',
             controller: 'ManufacturePlanningEditCtrl'
         })
-                .when('/manufacturing/main', {
-            templateUrl: 'templates/manufacturing/main.html',
+                .when('/manufacture/main', {
+            templateUrl: 'templates/manufacture/main.html',
             controller: 'ManufacturingMainCtrl'
         })
                 /* Material pages  End */
 
                 .otherwise({
-            redirectTo: '/manufacturing/process'
+            redirectTo: '/manufacture/process'
         });
     }]);
 
 altamiraApp.config(function(RestangularProvider) {
     RestangularProvider.setBaseUrl('http://data.altamira.com.br/data-rest-0.9.0-SNAPSHOT');
-    sessionStorage.setItem('reportBaseUrl', 'http://data.altamira.com.br/manufacturing-report-0.9.0-SNAPSHOT');
+    sessionStorage.setItem('reportBaseUrl', 'http://data.altamira.com.br/manufacture-report-0.9.0-SNAPSHOT');
     sessionStorage.setItem('MainRestangular', 'http://localhost/altamira_main/www/#/blacktheme/home');
     RestangularProvider.setFullResponse(true);
     RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json; charset=iso-8859-1'});

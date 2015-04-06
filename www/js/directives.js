@@ -692,7 +692,7 @@ altamiraApp.directive('leftsideMenu', function(services) {
                 </div>\n\
                 <div id="producao" class="left-menu-items"><div class="row list-box" style="margin-bottom:10px;">\n\
                     <div class="col icon-list-box" style="background-color: #00ABA9;">\n\
-                        <a href="#/manufacturing/bom" style="text-decoration: none;color: #000000">\n\
+                        <a href="#/manufacture/bom" style="text-decoration: none;color: #000000">\n\
                             <div class="row">\n\
                                 <div class="col" style="padding-top:15px;">\n\
                                     <span class="icon-side-list"></span>\n\
@@ -706,7 +706,7 @@ altamiraApp.directive('leftsideMenu', function(services) {
                         </a>\n\
                     </div>\n\
                     <div class="col icon-list-box" style="background-color: #00ABA9;">\n\
-                        <a href="#/manufacturing/process/0" style="text-decoration: none;color: #000000">\n\
+                        <a href="#/manufacture/process/0" style="text-decoration: none;color: #000000">\n\
                             <div class="row">\n\
                                 <div class="col" style="padding-top:15px;">\n\
                                     <span class="icon-side-github-6"></span>\n\
@@ -762,7 +762,7 @@ altamiraApp.directive('leftsideMenu', function(services) {
                 </div>\n\
                 <div id="vendas" class="left-menu-items" style="display:none;"><div class="row list-box" style="margin-bottom:10px;">\n\
                     <div class="col icon-list-box" style="background-color: #a4c400;">\n\
-                        <a href="#/manufacturing/bom" style="text-decoration: none;color: #000000">\n\
+                        <a href="#/manufacture/bom" style="text-decoration: none;color: #000000">\n\
                             <div class="row">\n\
                                 <div class="col" style="padding-top:15px;">\n\
                                     <span class="icon-side-list"></span>\n\
@@ -776,7 +776,7 @@ altamiraApp.directive('leftsideMenu', function(services) {
                         </a>\n\
                     </div>\n\
                     <div class="col icon-list-box" style="background-color: #a4c400;">\n\
-                        <a href="#/manufacturing/process/0" style="text-decoration: none;color: #000000">\n\
+                        <a href="#/manufacture/process/0" style="text-decoration: none;color: #000000">\n\
                             <div class="row">\n\
                                 <div class="col" style="padding-top:15px;">\n\
                                     <span class="icon-side-github-6"></span>\n\
