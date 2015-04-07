@@ -13,7 +13,7 @@ altamiraAppControllers.controller('BomViewCtrl',
             $scope.bomData.created = '';
             $scope.bomData.delivery = '';
             $scope.loading = true;
-            Restangular.one('manufacturing/bom', $scope.bomId).get().then(function(response) {
+            Restangular.one('manufacture/bom', $scope.bomId).get().then(function(response) {
                 $scope.loading = false;
                 var data = response.data;
                 if (data != '')
@@ -36,11 +36,11 @@ altamiraAppControllers.controller('BomViewCtrl',
                 services.showConfirmBox('Confirmation', 'A Lista de Material foi conferida ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
-                        Restangular.one('manufacturing/bom', $scope.bomId).all('checked').customPUT().then(function(response) {
+                        Restangular.one('manufacture/bom', $scope.bomId).all('checked').customPUT().then(function(response) {
                             $scope.loading = false;
                             services.showAlert('Success', 'A Lista de Material do Pedido ' + $scope.bomData.number + ' foi marcada como conferida.').then(function(res) {
                                 if (res) {
-                                    $location.path('/manufacturing/bom');
+                                    $location.path('/manufacture/bom');
                                 }
                             });
 
@@ -55,7 +55,7 @@ altamiraAppControllers.controller('BomViewCtrl',
                 services.showConfirmBox('Confirmation', 'A Lista de Material foi conferida ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
-                        Restangular.one('manufacturing/bom', $scope.bomId).all('unchecked').customPUT().then(function(response) {
+                        Restangular.one('manufacture/bom', $scope.bomId).all('unchecked').customPUT().then(function(response) {
                             $scope.loading = false;
                             services.showAlert('Success', 'A Lista de Material do Pedido ' + $scope.bomData.number + ' foi marcada como conferida.').then(function(res) {
                                 if (res) {
@@ -83,11 +83,11 @@ altamiraAppControllers.controller('BomViewCtrl',
                 services.showConfirmBox('Confirmation', 'Tem certeza de remover esta Lista de Material ?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
-                        Restangular.one('manufacturing/bom', $scope.bomId).remove().then(function() {
+                        Restangular.one('manufacture/bom', $scope.bomId).remove().then(function() {
                             $scope.loading = false;
                             services.showAlert('A Lista de Material foi removida com sucesso.').then(function(res) {
                                 if (res) {
-                                    $location.path('/manufacturing/bom');
+                                    $location.path('/manufacture/bom');
                                 }
                             });
                         }, function() {
@@ -117,7 +117,7 @@ altamiraAppControllers.controller('BomViewCtrl',
             $scope.genrateReport = function() {
                 if ($scope.totalReport.length > 0) {
                     $scope.reportTypeModalClose();
-                    window.open(sessionStorage.getItem('reportBaseUrl') + '/report/manufacturing/bom/' + $scope.bomId + '?report=' + $scope.totalReport.join('&report='), '_blank');
+                    window.open(sessionStorage.getItem('reportBaseUrl') + '/report/manufacture/bom/' + $scope.bomId + '?report=' + $scope.totalReport.join('&report='), '_blank');
                 } else {
                     services.showAlert('Falhou', 'Please select report type');
                 }
@@ -151,6 +151,6 @@ altamiraAppControllers.controller('BomViewCtrl',
                 $location.path('bom/component/update/' + $scope.bomId + '/' + itemId + '/' + partId);
             };
             $scope.goBack = function() {
-                $location.path('manufacturing/bom');
+                $location.path('manufacture/bom');
             };
         });

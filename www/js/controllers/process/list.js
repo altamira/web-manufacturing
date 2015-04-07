@@ -19,7 +19,7 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
             $scope.resetProcess();
             $scope.loadProcess = function() {
                 $scope.loading = true;
-                Restangular.one('manufacturing').one('process').get({search: sessionStorage.getItem('searchProcess'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
+                Restangular.one('manufacture').one('process').get({search: sessionStorage.getItem('searchProcess'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
                     if (response.data == '') {
                         $scope.loading = false;
                         if ((parseInt($scope.startPage) != 0))
@@ -130,13 +130,13 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                 }
             }
             $scope.newProcess = function() {
-                $location.url('/manufacturing/create/process');
+                $location.url('/manufacture/create/process');
             }
             $scope.goUpdate = function(processId) {
-                $location.url('/manufacturing/update/process/' + processId);
+                $location.url('/manufacture/update/process/' + processId);
             }
             $scope.createProcess = function(code, desc) {
-                $location.url('/manufacturing/create/process?code=' + code + '&desc=' + desc);
+                $location.url('/manufacture/create/process?code=' + code + '&desc=' + desc);
             }
 
 
