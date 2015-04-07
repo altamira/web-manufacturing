@@ -9,7 +9,7 @@ altamiraAppControllers.controller('ManufactureExecutionCtrl',
                 var temp = $scope.getObjects($scope.operationTypeData,'id',operationId);
                 sessionStorage.setItem('operationId', temp[0].id);
                 sessionStorage.setItem('operationType', temp[0].type);
-                sessionStorage.setItem('operationDesc', temp[0].description);
+                sessionStorage.setItem('operationDesc', temp[0].name);
                 $location.path('/manufacture/execution/list');
             }
             $scope.getObjects = function(obj, key, val) {
