@@ -91,7 +91,7 @@
                                             <th class="monthTitle" colspan="{{month.days.length}}" ng-repeat="month in monthDays">{{month.name}}</th>
                                         </tr>
                                         <tr>
-                                            <th ng-repeat="day in days track by $index" ng-if='viewWeekly == false'>{{getDay(day)}} {{getMonthName(day)}}</th>
+                                            <th style="cursor: pointer" ng-repeat="day in days track by $index" ng-if='viewWeekly == false' class="date-head" data-day='{{day}}'>{{getDay(day)}} {{getMonthName(day)}}</th>
                                             <th ng-repeat="day in days track by $index" ng-if='viewWeekly == true'>{{getWeekDayShort(day)}}</th>
                                         </tr>
                                         <tr>

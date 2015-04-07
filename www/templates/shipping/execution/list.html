@@ -18,6 +18,7 @@
                             <button class="button fa-plus" ng-click="createPackingListPage()"></button>
                         </div>
                     </ion-header-bar>
+
                 </div>
             </ion-nav-bar>
             <ion-nav-view name="menuContent" class="view-container">
@@ -44,9 +45,6 @@
                                     <a class="button button-bar-unselected button-bar-selected fa-th" ng-click="gridView()" id="gridShowBtn" style="overflow: visible"></a>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row planning-col">
-                            <div class="col tableTitle align-right">Hoje : {{today}}</div>
                         </div>
                         <div class="row">
                             <div id="form_view" class="planning-detail width-100">
@@ -90,7 +88,7 @@
                                             <th class="monthTitle" colspan="{{month.days.length}}" ng-repeat="month in monthDays">{{month.name}}</th>
                                         </tr>
                                         <tr>
-                                            <th ng-repeat="day in days track by $index" ng-if='viewWeekly == false'>{{getDay(day)}}</th>
+                                            <th style="cursor: pointer" ng-repeat="day in days track by $index" ng-if='viewWeekly == false' class="date-head" data-day='{{day}}'>{{getDay(day)}}</th>
                                             <th ng-repeat="day in days track by $index" ng-if='viewWeekly == true'>{{getWeekDayShort(day)}}</th>
                                         </tr>
                                         <tr>

@@ -236,9 +236,14 @@ altamiraApp.directive('gridDate', function() {
                 },
                 onSelect: function(dateText) {
                     scope.setGridDate(moment(dateText, 'DD/MM/YYYY').format('D_M_YYYY'));
+                    scope.selectDate = dateText;
                     scope.$apply(function() {
+                        scope.selectDate = dateText;
+                        sessionStorage.setItem('selectDate', dateText);
                         ngModel.$setViewValue(dateText);
+                        console.log(JSON.stringify(scope.selectDate));
                     });
+
                 }
             });
         }

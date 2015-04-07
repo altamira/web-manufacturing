@@ -228,15 +228,45 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                     scrollbarPosition: "outside"
                 });
                 $('.prev-btn').on('click', function(e) {
-                    var val = 1000;
+                    var oldDate = sessionStorage.getItem('selectDate');
+                    var newDate = $('.' + moment(oldDate, 'DD/MM/YYYY').format('D_M_YYYY')).prev().data('day');
+                    $scope.$apply(function() {
+                        $scope.selectDate = moment(newDate, 'D_M_YYYY').format('DD/MM/YYYY');
+                        $('#select_date').val($scope.selectDate);
+                        sessionStorage.setItem('selectDate', moment(newDate, 'D_M_YYYY').format('DD/MM/YYYY'));
+                    });
+                    var val = 150;
                     $('.mainRow').mCustomScrollbar("scrollTo", "+=" + val);
                 });
                 $('.next-btn').on('click', function(e) {
-                    var val = 1000;
+                    var oldDate = sessionStorage.getItem('selectDate');
+                    var newDate = $('.' + moment(oldDate, 'DD/MM/YYYY').format('D_M_YYYY')).next().data('day');
+                    $scope.$apply(function() {
+                        $scope.selectDate = moment(newDate, 'D_M_YYYY').format('DD/MM/YYYY');
+                        $('#select_date').val($scope.selectDate);
+                        sessionStorage.setItem('selectDate', moment(newDate, 'D_M_YYYY').format('DD/MM/YYYY'));
+                    });
+                    var val = 150;
                     $('.mainRow').mCustomScrollbar("scrollTo", "-=" + val);
                 });
                 $(".mainRow").mCustomScrollbar("scrollTo", $('.' + moment().format('D_M_YYYY')));
                 setTimeout(function() {
+                    $('.date-head').on('click', function(e) {
+                        var newDate = $(this).data('day');
+                        $scope.$apply(function() {
+                            $scope.selectDate = moment(newDate, 'D_M_YYYY').format('DD/MM/YYYY');
+                            $('#select_date').val($scope.selectDate);
+                            sessionStorage.setItem('selectDate', moment(newDate, 'D_M_YYYY').format('DD/MM/YYYY'));
+                        });
+                    });
+                    $('.makeDroppable').on('click', function(e) {
+                        var newDate = $(this).data('day');
+                        $scope.$apply(function() {
+                            $scope.selectDate = moment(newDate, 'D_M_YYYY').format('DD/MM/YYYY');
+                            $('#select_date').val($scope.selectDate);
+                            sessionStorage.setItem('selectDate', moment(newDate, 'D_M_YYYY').format('DD/MM/YYYY'));
+                        });
+                    });
                     var w = ($(window).width() / 2) - 100;
                     $(".mainRow").mCustomScrollbar("scrollTo", '+=' + w)
                 }, 1000);

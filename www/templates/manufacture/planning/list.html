@@ -36,15 +36,15 @@
                             <div class="col col-50"  ng-if="viewtype == 'grid'">
                                 <button type="button" class="button button-calm prev-btn" style="float: left"> <i class="icon fa-arrow-left-grid"></i> </button>
                                 <div class="grid-date-sel">
-                                    <input type="text" name="selectDate" ng-model="selectDate" class="grid-sel-date" grid-date>
+                                    <input type="text" ng-model="selectDate" class="grid-sel-date" grid-date id="select_date">
                                 <i class="icon fa-calender-grid"></i>
                                 </div>
                                 <button type="button" class="button button-calm next-btn" style="float: left"> <i class="icon fa-arrow-right-grid"></i> </button>
                             </div>
                             <div class="col col-50 top-switch-bar"  ng-if="viewtype == 'grid'">
                                 <div class="button-bar bar-calm" style="float: right;width: 140px;">
-                                    <a class="button top-switch-btn topBtnRadius fa-list-alt" ng-click="formView()" id="formShowBtn"></a>
-                                    <a class="button top-switch-btn fa-th month" ng-click="gridView()" id="gridShowBtn"></a>
+                                    <a class="button top-switch-btn topBtnRadius fa-list-alt month" ng-click="formView()" id="formShowBtn"></a>
+                                    <a class="button top-switch-btn fa-th" ng-click="gridView()" id="gridShowBtn"></a>
                                 </div>
                             </div>
                         </div>
@@ -118,7 +118,7 @@
                                                 <th class="monthTitle" style="line-height: 26px; border-left:1px solid #fff; border-top:1px solid #fff; border-bottom:1px solid #666; " colspan="{{month.days.length}}" ng-repeat="month in monthDays">{{month.name}}</th>
                                             </tr>
                                             <tr>
-                                                <th style="line-height: 26px;" ng-repeat="day in days track by $index" ng-if='viewWeekly == false'>{{getWeekDayShort(day)}}</th>
+                                                <th style="line-height: 26px;cursor: pointer" ng-repeat="day in days track by $index" ng-if='viewWeekly == false' class="date-head" data-day='{{day}}'>{{getWeekDayShort(day)}}</th>
                                             </tr>
                                             <tr ng-repeat="order in gridArr" class="{{order.id}}" ng-if="checkYear(BOM.delivery) <= maxYear" ng-class-odd="'odd'" ng-class-even="'even'">
                                                 <td ng-repeat="day in days track by $index" id="{{order.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components != ''">

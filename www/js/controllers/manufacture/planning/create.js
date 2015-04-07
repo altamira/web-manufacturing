@@ -731,7 +731,7 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                                                             $scope.produceData.quantity = {};
                                                             $scope.produceData.quantity.value = parseFloat($(remaining_temp).val());
                                                             $scope.produceData.quantity.unit = $scope.operationData[n].bom[j].item[k].component[l].quantity.unit;
-                                                            Restangular.all('manufacture').one('planning', res.data.id).all('produce').post($scope.produceData).then(function(res) {
+                                                            Restangular.all('manufacture').one('planning', res.data.id).all('produce').post($scope.produceData).then(function(resp) {
                                                                 $scope.tempOperationId = $scope.operationIdArr[i];
                                                                 i++;
                                                                 if (i < $scope.operationIdArr.length)
@@ -741,15 +741,16 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                                                                 else
                                                                 {
                                                                     $scope.loading = false;
-                                                                    services.showAlert('Successo', 'Material Order created !').then(function(res) {
-                                                                        if ($scope.viewtype == 'form')
-                                                                        {
-                                                                            $scope.getLatetComponentData();
-                                                                        }
-                                                                        if ($scope.viewtype == 'list')
-                                                                        {
-                                                                            $scope.loadOperationComponents($scope.tempOperationId);
-                                                                        }
+                                                                    services.showAlert('Successo', 'Material Order created !').then(function(r) {
+                                                                        $location.path('manufacture/planning/edit/' + res.data.id);
+//                                                                        if ($scope.viewtype == 'form')
+//                                                                        {
+//                                                                            $scope.getLatetComponentData();
+//                                                                        }
+//                                                                        if ($scope.viewtype == 'list')
+//                                                                        {
+//                                                                            $scope.loadOperationComponents($scope.tempOperationId);
+//                                                                        }
                                                                     });
                                                                 }
                                                             }, function() {
@@ -1011,11 +1012,25 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
 
 
                 $('.prev-btn').on('click', function(e) {
-                    var val = 1000;
+                    var oldDate = sessionStorage.getItem('selectDate');
+                    var newDate = $('.' + moment(oldDate, 'DD/MM/YYYY').format('D_M_YYYY')).prev().data('day');
+                    $scope.$apply(function() {
+                        $scope.selectDate = moment(newDate, 'D_M_YYYY').format('DD/MM/YYYY');
+                        $('#select_date').val($scope.selectDate);
+                        sessionStorage.setItem('selectDate', moment(newDate, 'D_M_YYYY').format('DD/MM/YYYY'));
+                    });
+                    var val = 150;
                     $('.mainRow').mCustomScrollbar("scrollTo", "+=" + val);
                 });
                 $('.next-btn').on('click', function(e) {
-                    var val = 1000;
+                    var oldDate = sessionStorage.getItem('selectDate');
+                    var newDate = $('.' + moment(oldDate, 'DD/MM/YYYY').format('D_M_YYYY')).next().data('day');
+                    $scope.$apply(function() {
+                        $scope.selectDate = moment(newDate, 'D_M_YYYY').format('DD/MM/YYYY');
+                        $('#select_date').val($scope.selectDate);
+                        sessionStorage.setItem('selectDate', moment(newDate, 'D_M_YYYY').format('DD/MM/YYYY'));
+                    });
+                    var val = 150;
                     $('.mainRow').mCustomScrollbar("scrollTo", "-=" + val);
                 });
 
@@ -1024,7 +1039,22 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                     $scope.$apply();
                 });
                 setTimeout(function() {
-
+                    $('.date-head').on('click', function(e) {
+                        var newDate = $(this).data('day');
+                        $scope.$apply(function() {
+                            $scope.selectDate = moment(newDate, 'D_M_YYYY').format('DD/MM/YYYY');
+                            $('#select_date').val($scope.selectDate);
+                            sessionStorage.setItem('selectDate', moment(newDate, 'D_M_YYYY').format('DD/MM/YYYY'));
+                        });
+                    });
+                    $('.makeDroppable').on('click', function(e) {
+                        var newDate = $(this).data('day');
+                        $scope.$apply(function() {
+                            $scope.selectDate = moment(newDate, 'D_M_YYYY').format('DD/MM/YYYY');
+                            $('#select_date').val($scope.selectDate);
+                            sessionStorage.setItem('selectDate', moment(newDate, 'D_M_YYYY').format('DD/MM/YYYY'));
+                        });
+                    });
                     $(".dragDiv").draggable({
                         revert: 'invalid'
                     });
