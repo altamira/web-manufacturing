@@ -14,7 +14,9 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
             $scope.tempUnixTS = [];
             $scope.viewWeekly = false;
             $scope.currentYear = moment().format('YYYY');
+            $scope.selectDate = moment().format('DD/MM/YYYY');
             $scope.validYears = [parseInt($scope.currentYear) - 1, parseInt($scope.currentYear), parseInt($scope.currentYear) + 1];
+            $scope.viewtype = 'form';
             $scope.formView = function() {
                 $scope.viewtype = 'form';
                 $('#form_view').show();
@@ -225,12 +227,27 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                     scrollButtons: {enable: true},
                     scrollbarPosition: "outside"
                 });
-                $(".mainRow").mCustomScrollbar("scrollTo",$('.'+moment().format('D_M_YYYY')));
+                $('.prev-btn').on('click', function(e) {
+                    var val = 1000;
+                    $('.mainRow').mCustomScrollbar("scrollTo", "+=" + val);
+                });
+                $('.next-btn').on('click', function(e) {
+                    var val = 1000;
+                    $('.mainRow').mCustomScrollbar("scrollTo", "-=" + val);
+                });
+                $(".mainRow").mCustomScrollbar("scrollTo", $('.' + moment().format('D_M_YYYY')));
                 setTimeout(function() {
-                    var w = ($( window ).width()/2)-100;
-                    $(".mainRow").mCustomScrollbar("scrollTo",'+='+w)
+                    var w = ($(window).width() / 2) - 100;
+                    $(".mainRow").mCustomScrollbar("scrollTo", '+=' + w)
                 }, 1000);
-//                $(".mainRow").mCustomScrollbar("scrollTo",'-=100');
+            }
+            $scope.setGridDate = function(date)
+            {
+                $(".mainRow").mCustomScrollbar("scrollTo", $('.' + date));
+                setTimeout(function() {
+                    var w = ($(window).width() / 2) - 100;
+                    $(".mainRow").mCustomScrollbar("scrollTo", '+=' + w);
+                }, 1500);
             }
             $scope.makeCalender = function() {
                 $scope.days = [];

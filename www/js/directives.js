@@ -224,6 +224,26 @@ altamiraApp.directive('calendar', function() {
         }
     };
 })
+altamiraApp.directive('gridDate', function() {
+    return {
+        require: 'ngModel',
+        link: function(scope, el, attr, ngModel) {
+            $(el).datepicker({
+                dateFormat: 'dd/mm/yy',
+                beforeShowDay: function(date) {
+                    var day = date.getDay();
+                    return [day == 1 || day == 2 || day == 3 || day == 4 || day == 5, ''];
+                },
+                onSelect: function(dateText) {
+                    scope.setGridDate(moment(dateText, 'DD/MM/YYYY').format('D_M_YYYY'));
+                    scope.$apply(function() {
+                        ngModel.$setViewValue(dateText);
+                    });
+                }
+            });
+        }
+    };
+})
 altamiraApp.directive('fromDate', function() {
     return {
         require: 'ngModel',

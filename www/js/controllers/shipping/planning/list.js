@@ -14,7 +14,9 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
             $scope.viewWeekly = false;
             $scope.setToday = 'yes';
             $scope.currentYear = moment().format('YYYY');
+            $scope.selectDate = moment().format('DD/MM/YYYY');
             $scope.validYears = [parseInt($scope.currentYear) - 1, parseInt($scope.currentYear), parseInt($scope.currentYear) + 1];
+            $scope.viewtype = 'form';
             $scope.formView = function() {
                 $scope.viewtype = 'form';
                 $scope.setToday = 'yes'
@@ -347,8 +349,14 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         $scope.setToday = 'no';
                     }, 1000);
                 }
-
-
+                $('.prev-btn').on('click', function(e) {
+                    var val = 1000;
+                    $('.mainRow').mCustomScrollbar("scrollTo", "+=" + val);
+                });
+                $('.next-btn').on('click', function(e) {
+                    var val = 1000;
+                    $('.mainRow').mCustomScrollbar("scrollTo", "-=" + val);
+                });
                 $('.dragDiv').on('dblclick', function(e) {
                     $location.path('shipping/planning/' + $(this).data('orderid'));
                     $scope.$apply();
@@ -385,8 +393,13 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     });
                 }, 100);
             }
-            $scope.setTodayGrid = function() {
-
+            $scope.setGridDate = function(date)
+            {
+                $(".mainRow").mCustomScrollbar("scrollTo", $('.' + date));
+                setTimeout(function() {
+                    var w = ($(window).width() / 2) - 100;
+                    $(".mainRow").mCustomScrollbar("scrollTo", '+=' + w);
+                }, 1500);
             }
             $scope.loadGrid = function() {
                 $scope.loading = true;

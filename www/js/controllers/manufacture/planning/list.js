@@ -16,7 +16,9 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
             $scope.inicialDate = true;
             $scope.finalDate = true;
             $scope.currentYear = moment().format('YYYY');
+            $scope.selectDate = moment().format('DD/MM/YYYY');
             $scope.validYears = [parseInt($scope.currentYear) - 1, parseInt($scope.currentYear), parseInt($scope.currentYear) + 1];
+            $scope.viewtype = 'form';
             $scope.formView = function() {
                 $scope.viewtype = 'form';
                 $scope.setToday = 'yes'
@@ -215,28 +217,6 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                         $(this).removeClass('fa-minus-square-o');
                     }
                 });
-//                $('.list_manage_button').click(function() {
-//                    var planningid = $(this).data('planningid');
-//                    console.log(JSON.stringify($(this).hasClass('fa-minus-square-o')));
-//                    if ($(this).hasClass('fa-minus-square-o')) {
-//                        $('.bom_' + planningid).hide('slow');
-//                        $(this).removeClass('fa-minus-square-o');
-//                    }
-//                    else
-//                    {
-//                        if ($('.bom_' + planningid).html() == undefined)
-//                        {
-//                            $scope.getOrders(planningid);
-//                            $(this).addClass('fa-minus-square-o');
-//                        }
-//                        else
-//                        {
-//                            $('.bom_' + planningid).show('slow');
-//                            $(this).addClass('fa-minus-square-o');
-//                        }
-//
-//                    }
-//                });
             }
             $scope.createPlanning = function() {
                 $scope.planning = {};
@@ -402,21 +382,15 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                     scrollButtons: {enable: true},
                     scrollbarPosition: "outside"
                 });
-                $(".planning-page").mCustomScrollbar({
-                    axis: "y",
-                    theme: "inset-3",
-                    scrollButtons: {enable: true},
-                    scrollbarPosition: "outside"
-                });
-//                if ($scope.setToday == 'yes')
-//                {
-//                    $(".mainRow").mCustomScrollbar("scrollTo", $('.' + moment().format('D_M_YYYY')));
-//                    setTimeout(function() {
-//                        var w = ($(window).width() / 2) - 100;
-//                        $(".mainRow").mCustomScrollbar("scrollTo", '+=' + w);
-//                        $scope.setToday = 'no';
-//                    }, 1000);
-//                }
+                if ($scope.setToday == 'yes')
+                {
+                    $(".mainRow").mCustomScrollbar("scrollTo", $('.' + moment().format('D_M_YYYY')));
+                    setTimeout(function() {
+                        var w = ($(window).width() / 2) - 350;
+                        $(".mainRow").mCustomScrollbar("scrollTo", '+=' + w);
+                        $scope.setToday = 'no';
+                    }, 1000);
+                }
 
                 $('.prev-btn').on('click', function(e) {
                     var val = 1000;
@@ -462,6 +436,14 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                     });
                     totalWeightCal();
                 }, 100);
+            }
+            $scope.setGridDate = function(date)
+            {
+                $(".mainRow").mCustomScrollbar("scrollTo", $('.' + date));
+                setTimeout(function() {
+                    var w = ($(window).width() / 2) - 350;
+                    $(".mainRow").mCustomScrollbar("scrollTo", '+=' + w);
+                }, 2800);
             }
 
             $scope.loadGrid = function() {

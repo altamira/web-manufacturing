@@ -19,22 +19,28 @@
     </ion-header-bar>
     <ion-content>
         <div class="row bar-calm-top">
-            <div class="col col-50" style="display: none">
-                <div class="button-bar bar-calm">
-                    <a class="button topBtnRadius month" ng-click='monthlyView()' id="monthlyShowBtn">Mensal</a>
-                    <a class="button" ng-click='weeklyView()' id="weeklyShowBtn">Semanal</a>
-                </div>
-            </div>
-            <div class="col col-50 col-offset-50" style="padding-right: 20px;">
+            <div class="col col-50 col-offset-50" style="padding-right: 20px;" ng-if="viewtype != 'grid'">
                 <div class="button-bar top-view-change-btn" style="float: right;width: 140px;">
                     <a class="button button-bar-unselected button-bar-selected fa-component-switch" ng-click="listView()" id="listShowBtn" style="overflow: visible"></a>
                     <a class="button button-bar-unselected fa-list-alt" ng-click="formView()" id="formShowBtn" style="overflow: visible"></a>
                     <a class="button button-bar-unselected fa-th" ng-click="gridView()" id="gridShowBtn" style="overflow: visible"></a>
                 </div>
             </div>
-        </div>
-        <div class="row planning-col">
-            <div class="col tableTitle align-right">Hoje : {{today}}</div>
+            <div class="col col-50" ng-if="viewtype == 'grid'">
+                <button type="button" class="button button-calm prev-btn" style="float: left"> <i class="icon fa-arrow-left-grid"></i> </button>
+                <div class="grid-date-sel">
+                    <input type="text" name="selectDate" ng-model="selectDate" class="grid-sel-date" grid-date>
+                    <i class="icon fa-calender-grid"></i>
+                </div>
+                <button type="button" class="button button-calm next-btn" style="float: left"> <i class="icon fa-arrow-right-grid"></i> </button>
+            </div>
+            <div class="col col-50" style="padding-right: 20px;" ng-if="viewtype == 'grid'">
+                <div class="button-bar top-view-change-btn" style="float: right;width: 140px;">
+                    <a class="button button-bar-unselected fa-component-switch" ng-click="listView()" id="listShowBtn" style="overflow: visible"></a>
+                    <a class="button button-bar-unselected fa-list-alt" ng-click="formView()" id="formShowBtn" style="overflow: visible"></a>
+                    <a class="button button-bar-unselected button-bar-selected fa-th" ng-click="gridView()" id="gridShowBtn" style="overflow: visible"></a>
+                </div>
+            </div>
         </div>
         <div id="list_view">
             <div class="row" ng-repeat="operation in operationData | orderBy : 'id'">
@@ -218,12 +224,6 @@
             </div>
         </div>
         <div id="grid_view" class="planning-detail width-100" style="display: none;"  ng-if="gridArr != ''">
-            <div class="row">
-                <div class="col col-75 col-offset-25">
-                    <button type="button" class="button button-calm prev-btn"> Prev </button>
-                    <button type="button" class="button button-calm next-btn"> Next </button>
-                </div>
-            </div>
             <div class="row manufacture-grid">
                 <div class="col-25 scroll-div dataRow">
                     <table class="dataTable">

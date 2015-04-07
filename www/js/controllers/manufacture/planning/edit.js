@@ -865,6 +865,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
             $scope.inicialDate = true;
             $scope.finalDate = true;
             $scope.currentYear = moment().format('YYYY');
+            $scope.selectDate = moment().format('DD/MM/YYYY');
             $scope.validYears = [parseInt($scope.currentYear) - 1, parseInt($scope.currentYear), parseInt($scope.currentYear) + 1];
 
 
@@ -1005,21 +1006,15 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                     scrollButtons: {enable: true},
                     scrollbarPosition: "outside"
                 });
-                $(".planning-page").mCustomScrollbar({
-                    axis: "y",
-                    theme: "inset-3",
-                    scrollButtons: {enable: true},
-                    scrollbarPosition: "outside"
-                });
-//                if ($scope.setToday == 'yes')
-//                {
-//                    $(".mainRow").mCustomScrollbar("scrollTo", $('.' + moment().format('D_M_YYYY')));
-//                    setTimeout(function() {
-//                        var w = ($(window).width() / 2) - 100;
-//                        $(".mainRow").mCustomScrollbar("scrollTo", '+=' + w);
-//                        $scope.setToday = 'no';
-//                    }, 1000);
-//                }
+                if ($scope.setToday == 'yes')
+                {
+                    $(".mainRow").mCustomScrollbar("scrollTo", $('.' + moment().format('D_M_YYYY')));
+                    setTimeout(function() {
+                        var w = ($(window).width() / 2) - 350;
+                        $(".mainRow").mCustomScrollbar("scrollTo", '+=' + w);
+                        $scope.setToday = 'no';
+                    }, 1500);
+                }
 
                 $('.prev-btn').on('click', function(e) {
                     var val = 1000;
@@ -1065,6 +1060,14 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                     });
                     totalWeightCal();
                 }, 100);
+            }
+            $scope.setGridDate = function(date)
+            {
+                $(".mainRow").mCustomScrollbar("scrollTo", $('.' + date));
+                setTimeout(function() {
+                    var w = ($(window).width() / 2) - 350;
+                    $(".mainRow").mCustomScrollbar("scrollTo", '+=' + w);
+                }, 2800);
             }
 
             $scope.loadGrid = function() {
