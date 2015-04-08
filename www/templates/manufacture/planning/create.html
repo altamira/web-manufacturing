@@ -66,10 +66,9 @@
                                             <th class="edit-item-title align-center width-10"><i class="fa-calender"></i> <span>Entrega</span></th>
                                             <th class="edit-item-title width-7">Pedido</th>
                                             <th class="edit-item-title width-10">Cliente</th>
-                                            <th class="edit-item-title width-30">Descricao</th>
+                                            <th class="edit-item-title width-40">Descricao</th>
                                             <th class="edit-item-title align-center width-10"><i class="fa-list-ol"></i> <span class="color">Quantidade</span></th>
                                             <th class="edit-item-title align-center width-10"><i class="fa-list-ol"></i> <span class="color">Produzir</span></th>
-                                            <th class="edit-item-title align-center width-10"><i class="fa-list-ol"></i> <span class="color">Saldo</span></th>
                                             <th class="edit-item-title align-center width-10"><i class="fa-tachometer"></i> <span class="color">Peso</span></th>
                                             <th class="edit-item-title align-center width-3">&nbsp;</th>
                                         </tr>
@@ -79,9 +78,8 @@
                                             <td class="edit-info align-center width-10 create-date">{{compo.component.delivery[0].delivery | getDate}}</td>
                                             <td class="edit-text width-7" style="font-weight: normal">{{compo.bomnumber}}</td>
                                             <td class="edit-text width-10" style="font-weight: normal">{{compo.bomcustomer}}</td>
-                                            <td class="edit-text width-30" style="font-weight: normal">{{compo.component.description}}</td>
+                                            <td class="edit-text width-40" style="font-weight: normal">{{compo.component.description}}</td>
                                             <td class="edit-info align-right width-10">{{compo.component.quantity.value}}<span style="margin-left: 5px;">{{compo.component.quantity.unit.symbol}}</span></td>
-                                            <td class="edit-info align-right width-10">{{compo.component.delivered.value | setDecimal:2}}<span style="margin-left: 5px;">{{compo.component.delivered.unit.symbol}}</span></td>
                                             <td class="edit-info align-right width-10">
                                                 <input type="number" id="remaining_{{compo.operationid}}_{{compo.bomid}}_{{compo.itemid}}_{{compo.component.id}}" value="{{compo.component.remaining.value}}" class="saldo" style="margin-bottom: 5px; text-align: right" ng-if="compo.component.remaining.value > 0">
                                                 <span ng-if="compo.component.remaining.value <= 0">{{compo.component.remaining.value}}<span style="margin-left: 5px;">{{compo.component.remaining.unit.symbol}}</span></span>
