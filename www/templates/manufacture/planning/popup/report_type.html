@@ -3,7 +3,7 @@
         <div class="buttons header-margin">
             <button type="button" class="button fa-arrow-left" ng-click="reportTypeModalClose()"></button>
             <span class="btn-separator"></span>
-            <h4 class="mf-page-titles">&nbsp;{{planningId}}&nbsp;</h4>
+            <h4 class="mf-page-titles">&nbsp;{{orderId}}&nbsp;</h4>
             <span class="btn-separator"></span>
             <button class="button fa-print-header" ng-click="genrateReport()"></button>
             <button class="button fa-check-square-o-header" ng-click="selectAllReport()"></button>
@@ -15,7 +15,7 @@
             <div class="col">
                 <div class="list list-inset listing-col" ng-repeat="report in reportData">
                     <a class="item-list item-icon-right">
-                        <div class="material-type-list" style="padding-left: 5px;">{{report.description}}</div>
+                        <div class="material-type-list" style="padding-left: 5px;">{{report.name}}</div>
                         <i class="icon plus-icon fa-square-o fa-check-square-o bom-report" report-toggle reportname="{{report.id}}"></i>
                     </a>
                 </div>

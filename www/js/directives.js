@@ -542,6 +542,29 @@ altamiraApp.directive('selectComponents', function(services) {
         });
     }
 });
+altamiraApp.directive('selectProduce', function(services) {
+    return function(scope, elm, attr) {
+        elm.bind('click', function() {
+            elm.toggleClass('fa-check-square-o');
+            if (elm.hasClass('fa-check-square-o'))
+            {
+                scope.produceArr.push(attr.operationid + ',' + attr.bomid + ',' + attr.itemid + ',' + attr.componentid + ',' + attr.produceid);
+            }
+            else
+            {
+                for (var i = 0; i < scope.produceArr.length; i++)
+                {
+                    var tempArr = scope.produceArr[i].split(',');
+                    if (parseInt(tempArr[4]) == parseInt(attr.produceid))
+                    {
+                        scope.produceArr.splice(i,1);
+                    }
+                }
+            }
+            console.log(JSON.stringify(scope.produceArr));
+        });
+    }
+});
 altamiraApp.directive('manageOperationcomponentsection', function(services) {
     return function(scope, elm, attr) {
         var operationid = attr.operationid;
@@ -567,13 +590,15 @@ altamiraApp.directive('manageOperationcomponentsection', function(services) {
 });
 altamiraApp.directive('manageComponentchildsection', function(services) {
     return function(scope, elm, attr) {
+        var operationid = attr.operationid;
+        var bomid = attr.bomid;
+        var itemid = attr.itemid;
         var componentid = attr.componentid;
         setTimeout(function() {
             $('.component_manage_button_' + componentid).click(function() {
                 if ($('.component_section_' + componentid).html() == undefined)
                 {
-//                    scope.loadOperationComponents(componentid);
-                    $(this).addClass('fa-minus-square-o');
+                    scope.loadComponentProduce(operationid, bomid, itemid, componentid);
                 } else if ($('.component_section_' + componentid).html() != undefined && $(this).hasClass('fa-minus-square-o') == false)
                 {
                     $('.component_section_' + componentid).show('slow');
