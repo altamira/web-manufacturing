@@ -784,12 +784,12 @@ altamiraApp.directive('leftsideMenu', function(services) {
                         <a href="#" style="text-decoration:none" title="Estatistics"><span class="fa-bar-chart"></span></a>\n\
                     </div>\n\
                 </div>\n\
-                <div class="row" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 10px; padding-top:4px; padding-bottom:4px;">\n\
+                <a href="#/manufacture/planning" style="text-decoration:none"><div class="row" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 10px; padding-top:4px; padding-bottom:4px;">\n\
                     <div class="col">\n\
                         <i style="margin-top:6px;" class="icon-side-play-2 fg-white"></i>\n\
                                 <span class="icon-title">O.S.</span>\n\
                     </div>\n\
-                </div>\n\
+                </a></div>\n\
                 <a href="#/manufacture/execution" style="text-decoration:none"><div class="row" style="background-color: #00ABA9;margin: auto;width: 95%;margin-bottom: 10px; padding-top:8px; padding-bottom:8px;">\n\
                     <div class="col">\n\
                         <i class="icon-side-checkbox fg-white"></i>\n\
