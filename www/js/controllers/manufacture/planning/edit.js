@@ -370,7 +370,8 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                         }
                     }
                 }
-                $scope.calculateTotalWeight();
+//                $scope.calculateTotalWeight();
+                calculateWeight();
             }
             $scope.uncheckAllOperationDelivery = function(operationId)
             {
@@ -443,7 +444,8 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
 
                     }
                 }
-                $scope.calculateTotalWeight();
+//                $scope.calculateTotalWeight();
+                calculateWeight();
             }
 
             $scope.checkAllBomDelivery = function(operationId, bomId)
@@ -483,7 +485,8 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                         }
                     }
                 }
-                $scope.calculateTotalWeight();
+//                $scope.calculateTotalWeight();
+                calculateWeight();
             }
             $scope.uncheckAllBomDelivery = function(operationId, bomId)
             {
@@ -517,7 +520,8 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                         }
                     }
                 }
-                $scope.calculateTotalWeight();
+//                $scope.calculateTotalWeight();
+                calculateWeight();
             }
 
             $scope.checkAllItemDelivery = function(operationId, bomId, itemId)
@@ -555,7 +559,8 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                         }
                     }
                 }
-                $scope.calculateTotalWeight();
+//                $scope.calculateTotalWeight();
+                calculateWeight();
             }
             $scope.uncheckAllItemDelivery = function(operationId, bomId, itemId)
             {
@@ -591,7 +596,8 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                         }
                     }
                 }
-                $scope.calculateTotalWeight();
+//                $scope.calculateTotalWeight();
+                calculateWeight();
             }
 
             $scope.checkAllDelivery = function()
@@ -615,7 +621,8 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                     }
                 });
                 $scope.expandAll();
-                $scope.calculateTotalWeight();
+//                $scope.calculateTotalWeight();
+                calculateWeight();
             }
 
             $scope.uncheckAllDelivery = function()
@@ -632,7 +639,8 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                         $(this).children().toggleClass('fa-check-square-o');
                     }
                 });
-                $scope.calculateTotalWeight();
+//                $scope.calculateTotalWeight();
+                calculateWeight();
             }
 
             $scope.expandAll = function()

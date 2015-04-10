@@ -532,13 +532,13 @@ altamiraApp.directive('selectComponents', function(services) {
                 scope.componentQunArr.splice(scope.componentQunArr.indexOf(parseInt(attr.componentqun)), 1);
                 scope.componentPesoArr.splice(scope.componentPesoArr.indexOf(parseInt(attr.componentpeso)), 1);
             }
-            console.log(JSON.stringify(scope.operationIdArr))
-            console.log(JSON.stringify(scope.bomIdArr))
-            console.log(JSON.stringify(scope.itemIdArr))
-            console.log(JSON.stringify(scope.componentIdArr))
-            console.log(JSON.stringify(scope.componentQunArr))
-            console.log(JSON.stringify(scope.componentPesoArr))
-            scope.calculateTotalWeight();
+//            console.log(JSON.stringify(scope.operationIdArr))
+//            console.log(JSON.stringify(scope.bomIdArr))
+//            console.log(JSON.stringify(scope.itemIdArr))
+//            console.log(JSON.stringify(scope.componentIdArr))
+//            console.log(JSON.stringify(scope.componentQunArr))
+//            console.log(JSON.stringify(scope.componentPesoArr))
+            calculateWeight();
         });
     }
 });
@@ -557,7 +557,7 @@ altamiraApp.directive('selectProduce', function(services) {
                     var tempArr = scope.produceArr[i].split(',');
                     if (parseInt(tempArr[4]) == parseInt(attr.produceid))
                     {
-                        scope.produceArr.splice(i,1);
+                        scope.produceArr.splice(i, 1);
                     }
                 }
             }
@@ -1022,4 +1022,21 @@ function makeDummyRowRight() {
         allCells.removeClass("hover");
     });
 
+}
+function calculateWeight()
+{
+    var totalWeight = 0;
+    var factor = "1" + Array(+(2 > 0 && 2 + 1)).join("0");
+    $('.delivery-table > tbody > tr > td:last-child').each(function() {
+        if ($(this).children().hasClass('fa-check-square-o') == true && $(this).children().hasClass('fa-ban') == false)
+        {
+            var remainW = parseFloat($('#remaining_' + $(this).children().attr('operationid') + '_' + $(this).children().attr('bomid') + '_' + $(this).children().attr('itemid') + '_' + $(this).children().attr('componentid')).val());
+            var weight = (parseFloat($(this).children().attr('componentpeso')) / parseFloat($(this).children().attr('componentqun'))) * remainW;
+            weight = Math.round(weight * factor) / factor;
+            $('#weight_' + $(this).children().attr('operationid') + '_' + $(this).children().attr('bomid') + '_' + $(this).children().attr('itemid') + '_' + $(this).children().attr('componentid')).text(weight);
+            totalWeight = totalWeight + weight;
+        }
+    });
+    totalWeight = Math.round(totalWeight * factor) / factor;
+    $('.total-weight').text(totalWeight);
 }
