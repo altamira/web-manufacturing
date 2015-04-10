@@ -61,7 +61,7 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                         } else
                         {
                             $scope.pageStack = [];
-                            services.showAlert('Aviso', 'Lista de Planning de Fabricação esta vazia.').then(function(res) {
+                            services.showAlert('Aviso', 'Nenhuma Ordem de Produção encontrada.').then(function(res) {
                             });
                         }
                     } else
@@ -117,7 +117,7 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                     }
                 }, function(response) {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
             $scope.loadPlanning();
@@ -196,7 +196,7 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                     }
                 }, function(response) {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             }
             $scope.manageSection = function()
@@ -521,7 +521,7 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
 //                        $scope.makeDummyRowR();
                     }, 100);
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             };
             $scope.getObjects = function(obj, key, val) {
