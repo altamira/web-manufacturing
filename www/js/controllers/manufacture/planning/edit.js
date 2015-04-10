@@ -722,7 +722,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                 }
                 else
                 {
-                    services.showAlert('Successo', 'Please select component').then(function(res) {
+                    services.showAlert('Successo', 'Selecione ao menos 1 componente.').then(function(res) {
                     });
                 }
             }
@@ -818,7 +818,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
             {
                 if ($scope.produceArr.length > 0)
                 {
-                    services.showConfirmBox('Confirmation', 'Confirmar uma produce ?').then(function(res) {
+                    services.showConfirmBox('Confirmação', 'Confirma exclusão dos items selecionados ?').then(function(res) {
                         if (res)
                         {
                             var i = 0;
@@ -836,7 +836,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                                     {
                                         $scope.loading = false;
                                         $scope.produceArr = [];
-                                        services.showAlert('Successo', 'Os componentes são removidos!').then(function(res) {
+                                        services.showAlert('Successo', 'Os items selecionados foram excluidos.').then(function(res) {
                                             $scope.loadOperationComponents($scope.tempOperationId);
                                         });
                                     }
@@ -851,7 +851,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                 }
                 else
                 {
-                    services.showConfirmBox('Confirmation', 'Confirmar uma ordem ?').then(function(res) {
+                    services.showConfirmBox('Confirmação', 'Confirma exclusão da Ordem de Produção inteira ?').then(function(res) {
                         if (res)
                         {
                             Restangular.one('manufacture').one('planning', $scope.orderId).remove().then(function(response) {
