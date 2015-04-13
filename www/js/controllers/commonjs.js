@@ -179,6 +179,7 @@ altamiraAppControllers.controller('CommonCtrl',
                     $scope.postData.version = 0;
                     $scope.postData.code = $scope.material.code;
                     $scope.postData.description = $scope.material.description;
+                    $scope.postData.process = $scope.material.process;
                     $scope.postData.component = [];
                     switch ($scope.materialTypeText) {
                         case 'product':

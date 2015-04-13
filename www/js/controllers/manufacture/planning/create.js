@@ -85,13 +85,13 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                         }
                     } else
                     {
-                        services.showAlert('Aviso', 'Nenhum Processo de fabricação encontrado.');
+                        services.showAlert('Message', 'No data found');
                     }
 
                     $scope.loading = false;
                 }, function(response) {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             }
             $scope.loadOperations();
@@ -135,12 +135,12 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                         }
                     } else
                     {
-                        services.showAlert('Aviso', 'Nenhum componente encontrado.');
+                        services.showAlert('Message', 'No data found');
                     }
                     $scope.loading = false;
                 }, function(response) {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             }
             $scope.getOperationBomData = function(operationId)
@@ -174,7 +174,7 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                     $scope.loading = false;
                 }, function(response) {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             }
 
@@ -210,7 +210,7 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                     $scope.loading = false;
                 }, function(response) {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             }
 
@@ -240,7 +240,7 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                     $scope.loading = false;
                 }, function(response) {
                     $scope.loading = false;
-                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             }
 
@@ -673,7 +673,7 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                 }
                 else
                 {
-                    services.showAlert('Aviso', 'Selecione ao menos 1 componente.').then(function(res) {
+                    services.showAlert('Successo', 'Please select component').then(function(res) {
                     });
                 }
             }
@@ -752,7 +752,7 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                                                                 else
                                                                 {
                                                                     $scope.loading = false;
-                                                                    services.showAlert('Successo', 'Ordem de Produção criada para os componentes selecionados !').then(function(r) {
+                                                                    services.showAlert('Successo', 'Material Order created !').then(function(r) {
                                                                         $location.path('manufacture/planning/edit/' + res.data.id);
 //                                                                        if ($scope.viewtype == 'form')
 //                                                                        {
@@ -833,7 +833,7 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                             }
                         }, function(response) {
                             $scope.loading = false;
-                            services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
+                            services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                         });
                     }
                     else
@@ -1148,7 +1148,7 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                         $scope.makeDummyRowR();
                     }, 100);
                 }, function(response) {
-                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
                 });
             };
             $scope.getObjects = function(obj, key, val) {
@@ -1228,5 +1228,151 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
             }
             $scope.goBack = function() {
                 $location.path('manufacture/planning');
+            }
+
+            $ionicModal.fromTemplateUrl('templates/manufacture/planning/popup/process_list.html', {
+                scope: $scope,
+                animation: 'fade-in'
+            }).then(function(modal) {
+                $scope.processListModal = modal;
+            });
+            $scope.processListModalShow = function()
+            {
+                $scope.processListModal.show();
+                $scope.loadProcess();
+            }
+            $scope.processListModalHide = function()
+            {
+                $scope.processListModal.hide();
+            }
+            $scope.resetProcess = function() {
+                $scope.startPage = 0;
+                $scope.maxRecord = 10;
+                $scope.processes = '';
+                $scope.processesArray = [];
+                $scope.nextButton = true;
+            };
+            $scope.resetProcess();
+            $scope.searchText = sessionStorage.getItem('searchProcess');
+            $scope.tempSearch = '';
+            $scope.isDataSearch = '';
+
+            $scope.loadProcess = function() {
+                $scope.loading = true;
+                Restangular.one('manufacture').one('process').get({search: sessionStorage.getItem('searchProcess'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
+                    if (response.data == '') {
+                        $scope.loading = false;
+                        if ((parseInt($scope.startPage) != 0))
+                        {
+                            $scope.nextButton = false;
+                            $scope.startPage = (parseInt($scope.startPage) - 1);
+                            $scope.loadProcess();
+                        } else
+                        {
+                            $scope.pageStack = [];
+                            services.showAlert('Aviso', 'Lista de Processos de Fabricação esta vazia.').then(function(res) {
+                            });
+                        }
+                    } else
+                    {
+                        if ($scope.processes.length <= 0 && $scope.isDataSearch == '')
+                        {
+                            $scope.processes = response.data;
+                            $scope.processesArray = response.data;
+                            if ($scope.searchText != '')
+                            {
+                                $scope.isDataSearch = 'yes';
+                            }
+                            else
+                            {
+                                $scope.isDataSearch = '';
+                            }
+                        }
+                        else
+                        {
+                            if ($scope.nextButton != false)
+                            {
+                                $scope.temp = response.data;
+                                angular.forEach($scope.temp, function(value, key) {
+                                    $scope.processesArray.push(value);
+                                });
+                                $scope.pageProcesses();
+                            }
+                        }
+                        $scope.loading = false;
+                        $scope.range();
+                    }
+                }, function(response) {
+                    $scope.loading = false;
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                });
+            };
+
+            $scope.pageProcesses = function() {
+                $scope.processes = [];
+                $scope.start = $scope.startPage * $scope.maxRecord;
+                $scope.end = ($scope.startPage * $scope.maxRecord) + $scope.maxRecord;
+                for (var i = $scope.start; i < $scope.end; i++)
+                {
+                    if ($scope.processesArray[i])
+                    {
+                        $scope.processes.push($scope.processesArray[i]);
+                    }
+                }
+                if ($scope.processes.length != $scope.maxRecord)
+                {
+                    $scope.nextButton = false;
+                }
+            };
+
+            $scope.searchProcess = function(text) {
+                if (text != '')
+                {
+                    $scope.resetProcess();
+                    sessionStorage.setItem('searchProcess', text);
+                } else
+                {
+                    sessionStorage.setItem('searchProcess', '');
+                    $scope.resetProcess();
+                }
+                $scope.loadProcess();
+            };
+            $scope.range = function() {
+                $scope.pageStack = [];
+                var start = parseInt($scope.startPage) + 1;
+                for (var i = 1; i <= start; i++) {
+                    $scope.pageStack.push(i);
+                }
+            };
+            $scope.nextPage = function(len) {
+                var nextPage = parseInt(len);
+                $scope.startPage = nextPage;
+                $scope.loadProcess();
+
+            }
+            $scope.prevPage = function(nextPage) {
+                $scope.startPage = nextPage;
+                $scope.loadProcess();
+            }
+            $scope.goPage = function(pageNumber) {
+                var nextPage = parseInt(pageNumber) - 1;
+                $scope.startPage = nextPage;
+                if ($scope.processesArray.length > 0)
+                {
+                    if ($scope.searchText == '' || ($scope.searchText != '' && $scope.isDataSearch != ''))
+                    {
+                        $scope.pageProcesses();
+                    }
+                }
+                else
+                {
+                    $scope.loadProcess();
+                }
+            }
+
+            $scope.changeProcess = function(id, name)
+            {
+                console.log(JSON.stringify(id));
+                console.log(JSON.stringify(name));
             }
         });

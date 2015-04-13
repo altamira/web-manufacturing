@@ -12,7 +12,7 @@
             <div ng-if="materialTypeText == 'product' || materialTypeText == 'component'">
                 <div class="row">
                     <div class="col">
-                        <div class="list list-row">
+                        <div class="list" style="margin-bottom: 0px">
                             <span class="input-label text-bold">Código</span>
                             <label class="item item-input input-box-extra">
                                 <input type="text" name="code" ng-model="material.code" required ng-minlength='6' />
@@ -20,13 +20,20 @@
                             <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.required">Codigo é obrigatório.</label>
                             <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.minlength">Tamanho mínimo 6 caracteres.</label>
                         </div>
-                        <div class="list list-row">
+                        <div class="list" style="margin-bottom: 0px">
                             <span class="input-label text-bold">Descrição</span>
                             <label class="item item-input input-box-extra">
                                 <input type="text" name="description" ng-model="material.description" required ng-minlength='5'/>
                             </label>
                             <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.required">Descrição é obrigatório.</label>
                             <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.minlength">Tamanho mínimo 5 caracteres.</label>
+                        </div>
+                        <div class="list" style="margin-bottom: 0px">
+                            <span class="input-label text-bold">Process</span>
+                            <label class="item item-input input-box-extra">
+                                <input type="text" name="process" ng-model="material.process" required/>
+                            </label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.process.$error.required">Process é obrigatório.</label>
                         </div>
                     </div>
                 </div>
@@ -180,7 +187,7 @@
             <div  ng-if="materialTypeText == 'material'">
                 <div class="row">
                     <div class="col">
-                        <div class="list list-row">
+                        <div class="list" style="margin-bottom: 0px">
                             <span class="input-label text-bold">Código</span>
                             <label class="item item-input input-box-extra">
                                 <input type="text" name="code" ng-model="material.code" required ng-minlength='6' />
@@ -188,7 +195,7 @@
                             <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.required">Código é obrigatório.</label>
                             <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.minlength">Tamanho mínimo 6 caracteres.</label>
                         </div>
-                        <div class="list list-row">
+                        <div class="list" style="margin-bottom: 0px">
                             <span class="input-label text-bold">Descrição</span>
                             <label class="item item-input input-box-extra">
                                 <input type="text" name="description" ng-model="material.description" required ng-minlength='5'/>
@@ -196,7 +203,14 @@
                             <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.required">Descrição é obrigatório.</label>
                             <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.minlength">Tamanho mínimo 5 caracteres.</label>
                         </div>
-                        <div class="list list-row">
+                        <div class="list" style="margin-bottom: 0px">
+                            <span class="input-label text-bold">Process</span>
+                            <label class="item item-input input-box-extra">
+                                <input type="text" name="process" ng-model="material.process" required/>
+                            </label>
+                            <label class="extra-error" ng-show="submitted && materialCreateForm.process.$error.required">Process é obrigatório.</label>
+                        </div>
+                        <div class="list" style="margin-bottom: 0px">
                             <span class="input-label text-bold">Lamination</span>
                             <label class="item item-input input-box-extra">
                                 <input type="text" name="lamination" ng-model="material.lamination" required ng-minlength='2'/>
@@ -204,7 +218,7 @@
                             <label class="extra-error" ng-show="submitted && materialCreateForm.lamination.$error.required">Laminação é obrigatório.</label>
                             <label class="extra-error" ng-show="submitted && materialCreateForm.lamination.$error.minlength">Tamanho mínimo 2 caracteres.</label>
                         </div>
-                        <div class="list list-row">
+                        <div class="list" style="margin-bottom: 0px">
                             <span class="input-label text-bold">Tratamento</span>
                             <label class="item item-input input-box-extra">
                                 <input type="text" name="treatment" ng-model="material.treatment" required ng-minlength='2'/>
@@ -313,7 +327,7 @@
             </div>
             <div class="row" ng-if="materialTypeText == 'inputs' || materialTypeText == 'ink' || materialTypeText == 'machine' || materialTypeText == 'tooling'">
                 <div class="col">
-                    <div class="list list-row">
+                    <div class="list" style="margin-bottom: 0px">
                         <span class="input-label text-bold">Código</span>
                         <label class="item item-input input-box-extra">
                             <input type="text" name="code" ng-model="material.code" required ng-minlength='6' />
@@ -321,13 +335,20 @@
                         <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.required">Código é obrigatório.</label>
                         <label class="extra-error" ng-show="submitted && materialCreateForm.code.$error.minlength">Tamanho mínimo 6 caracteres.</label>
                     </div>
-                    <div class="list list-row">
+                    <div class="list" style="margin-bottom: 0px">
                         <span class="input-label text-bold">Descrição</span>
                         <label class="item item-input input-box-extra">
                             <input type="text" name="description" ng-model="material.description" required ng-minlength='5'/>
                         </label>
                         <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.required">Descrição é obrigatório.</label>
                         <label class="extra-error" ng-show="submitted && materialCreateForm.description.$error.minlength">Tamanho mínimo 5 caracteres.</label>
+                    </div>
+                    <div class="list" style="margin-bottom: 0px">
+                        <span class="input-label text-bold">Process</span>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="process" ng-model="material.process" required/>
+                        </label>
+                        <label class="extra-error" ng-show="submitted && materialCreateForm.process.$error.required">Process é obrigatório.</label>
                     </div>
                 </div>
             </div>

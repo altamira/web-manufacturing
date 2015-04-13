@@ -23,6 +23,7 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                 $scope.material.version = response.data.version;
                 $scope.material.code = response.data.code;
                 $scope.material.description = response.data.description;
+                $scope.material.process = response.data.process;
                 switch ($scope.materialTypeText) {
                     case 'Product':
                         $scope.materialBaseUrl = Restangular.all('sales').one('product', $scope.materialId);
@@ -93,6 +94,7 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                     $scope.postData.version = $scope.material.version;
                     $scope.postData.code = $scope.material.code;
                     $scope.postData.description = $scope.material.description;
+                    $scope.postData.process = $scope.material.process;
                     $scope.postData.component = [];
                     switch ($scope.materialTypeText) {
                         case 'Product':

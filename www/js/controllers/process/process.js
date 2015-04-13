@@ -3,12 +3,14 @@ altamiraAppControllers.controller('ManufacturingProcessCreateCtrl',
             $scope.processData = {};
             $scope.postdata = {};
             $scope.processData.code = $routeParams.code;
-            $scope.processData.description = $routeParams.desc
+            $scope.processData.description = $routeParams.desc;
+            $scope.processData.name = 'MATERIAL NAO PRODUTIVO';
             $scope.submitCreateProcess = function(isValid) {
                 if (isValid) {
                     $scope.loading = true;
                     $scope.postdata.code = $scope.processData.code;
                     $scope.postdata.description = $scope.processData.description;
+                    $scope.postdata.name = $scope.processData.name;
 
                     Restangular.all('manufacture/process').post($scope.postdata).then(function(response) {
                         $scope.loading = false;
@@ -113,6 +115,7 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl',
                     $scope.postdata.version = $scope.processData.version;
                     $scope.postdata.code = $scope.processData.code;
                     $scope.postdata.description = $scope.processData.description;
+                    $scope.postdata.name = $scope.processData.name;
                     Restangular.one('manufacture/process', $scope.processId).get().then(function(response1) {
                         $scope.postdata.version = response1.data.version;
                         Restangular.one('manufacture/process', $scope.processId).customPUT($scope.postdata).then(function(response) {
