@@ -427,5 +427,4 @@ altamiraAppControllers.controller('MaterialListCtrl',
                     services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                 });
             }
-
         });

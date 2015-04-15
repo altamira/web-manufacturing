@@ -1,0 +1,46 @@
+<div class="modal">
+    <ion-header-bar class="bar-calm">
+        <div class="buttons header-margin">
+            <button type="button" class="button fa-arrow-left" ng-click="processListModalHide()"></button>
+            <span class="btn-separator"></span>
+            <h4 class="mf-page-titles">&nbsp;Process List&nbsp;</h4>
+<!--            <span class="btn-separator"></span>
+            <button class="button fa-print-header" ng-click="genrateReport()"></button>
+            <button class="button fa-check-square-o-header" ng-click="selectAllReport()"></button>
+            <button class="button fa-square-o-header" ng-click="UnSelectAllReport()"></button>-->
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <div class="row">
+            <div class="col">
+                <div class="list">
+                    <div class="item item-input-search">
+                        <label class="input-search-wrapper">
+                            <i class="icon fa-small-search"></i>
+                            <input type="text" class="input-box" placeholder="search" ng-model="searchText">
+                        </label>
+                    </div>
+                    <i class="icon fa-search search-icon" ng-click="searchProcess(searchText)"></i>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="list list-inset listing-col" ng-repeat="process in processes">
+                    <a class="item-list item-icon-right" ng-click="selectProcess(process.id, process.code)">
+                        <span class="text-center-middle"><span class="font-grey">{{process.code}}</span> {{process.name}}</span>
+                        <i class="icon fa-arrow-right arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="pagination">
+                <a ng-repeat="n in pageStackProcess" ng-click="goPageProcess(n)">
+                    <span class="page" ng-class="{'active':n == startPage + 1}">{{n}}</span>
+                </a>
+                <a class="page fa-arrow-right next-arrow" ng-show='nextButton' ng-click="nextPageProcess(pageStackProcess.length)" ng-if="pageStackProcess.length > 0"></a>
+            </div>
+        </div>
+    </ion-content>
+</div>

@@ -67,7 +67,7 @@ altamiraAppControllers.controller('BomEditCtrl',
                 $location.path('/bom/item/update/' + $scope.bomId + '/' + itemId);
             };
             $scope.reportBOM = function() {
-                window.open(sessionStorage.getItem('reportBaseUrl') + '/report/manufacture/bom/' + $scope.bomId + '/checklist', '_blank');
+                window.open(sessionStorage.getItem('reportBaseUrl') + '/report/manufacture/bom/' + $scope.bomId + '/checklist' + '?token=' + sessionStorage.getItem('token'), '_blank');
             };
             $scope.removeBom = function() {
                 services.showConfirmBox('Confirmation', 'Confirma a exclusão desta Lista de Material ?').then(function(res) {
@@ -146,7 +146,7 @@ altamiraAppControllers.controller('BomEditCtrl',
             $scope.genrateReport = function() {
                 if ($scope.totalReport.length > 0) {
                     $scope.reportTypeModalClose();
-                    window.open(sessionStorage.getItem('reportBaseUrl') + '/report/manufacture/bom/' + $scope.bomId + '?report=' + $scope.totalReport.join('&report='), '_blank');
+                    window.open(sessionStorage.getItem('reportBaseUrl') + '/report/manufacture/bom/' + $scope.bomId + '?report=' + $scope.totalReport.join('&report=') + '&token=' + sessionStorage.getItem('token'), '_blank');
                 } else {
                     services.showAlert('Falhou', 'Escolha Tipo Relatório');
                 }

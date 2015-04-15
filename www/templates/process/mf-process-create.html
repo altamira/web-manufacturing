@@ -24,17 +24,15 @@
                         <label class="extra-error" ng-show="submitted && processCreateForm.code.$error.required">Codigo é obrigatório.</label>
                     </div>
                     <div class="list" style="margin-bottom: 0px">
-                        <span class="input-label text-bold">Descrição</span>
-                        <textarea name="description" ng-model="processData.description" required ng-minlength='10' class="textarea-extra" required ></textarea>
-                        <label class="extra-error" ng-show="submitted && processCreateForm.description.$error.required">Descrição é obrigatório.</label>
-                        <label class="extra-error" ng-show="submitted && processCreateForm.description.$error.minlength">Temanho mínimo 10 caracteres.</label>
-                    </div>
-                    <div class="list" style="margin-bottom: 0px">
-                        <span class="input-label text-bold">Process</span>
+                        <span class="input-label text-bold">Nome</span>
                         <label class="item item-input input-box-extra">
                             <input type="text" name="name" ng-model="processData.name" required />
                         </label>
                         <label class="extra-error" ng-show="submitted && processCreateForm.name.$error.required">Process é obrigatório.</label>
+                    </div>
+                    <div class="list" style="margin-bottom: 0px">
+                        <span class="input-label text-bold">Descrição</span>
+                        <textarea name="description" ng-model="processData.description" class="textarea-extra"></textarea>
                     </div>
                 </div>
             </div>

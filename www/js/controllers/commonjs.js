@@ -161,7 +161,7 @@ altamiraAppControllers.controller('CommonCtrl',
                 {
                     $scope.produceData.code = code;
                     $scope.produceData.description = desc;
-                }else if ($scope.operationType == 'bom')
+                } else if ($scope.operationType == 'bom')
                 {
                     $scope.partData.code = code;
                     $scope.partData.description = desc;
@@ -303,7 +303,6 @@ altamiraAppControllers.controller('CommonCtrl',
                             materialBaseUrl = Restangular.all('manufacture').all('tooling');
                             break;
                     }
-                    console.log(JSON.stringify($scope.postData));
                     materialBaseUrl.post($scope.postData).then(function(response) {
                         $scope.loading = false;
                         if (response.status == 201) {
@@ -328,4 +327,155 @@ altamiraAppControllers.controller('CommonCtrl',
                     });
                 }
             };
+            $ionicModal.fromTemplateUrl('templates/popup/process_list.html', {
+                scope: $scope,
+                animation: 'fade-in'
+            }).then(function(modal) {
+                $scope.processListModal = modal;
+            });
+            $scope.processListModalShow = function()
+            {
+                $scope.materialCreate.hide();
+                $scope.processListModal.show();
+                $scope.loadProcess();
+            }
+            $scope.processListModalHide = function()
+            {
+                $scope.processListModal.hide();
+                $scope.materialCreate.show();
+            }
+            $scope.resetProcess = function() {
+                $scope.startProcessPage = 0;
+                $scope.maxProcessRecord = 10;
+                $scope.processes = '';
+                $scope.processesArray = [];
+                $scope.nextProcessButton = true;
+            };
+            $scope.resetProcess();
+            $scope.searchProcessText = sessionStorage.getItem('searchProcess');
+            $scope.isDataSearchProcess = '';
+
+            $scope.loadProcess = function() {
+                $scope.loading = true;
+                Restangular.one('manufacture').one('process').get({search: sessionStorage.getItem('searchProcess'), start: $scope.startProcessPage, max: $scope.maxProcessRecord}).then(function(response) {
+                    if (response.data == '') {
+                        $scope.loading = false;
+                        if ((parseInt($scope.startProcessPage) != 0))
+                        {
+                            $scope.nextProcessButton = false;
+                            $scope.startProcessPage = (parseInt($scope.startProcessPage) - 1);
+                            $scope.loadProcess();
+                        } else
+                        {
+                            $scope.pageStackProcess = [];
+                            services.showAlert('Aviso', 'Lista de Processos de Fabricação esta vazia.').then(function(res) {
+                            });
+                        }
+                    } else
+                    {
+                        if ($scope.processes.length <= 0 && $scope.isDataSearchProcess == '')
+                        {
+                            $scope.processes = response.data;
+                            $scope.processesArray = response.data;
+                            if ($scope.searchProcessText != '')
+                            {
+                                $scope.isDataSearchProcess = 'yes';
+                            }
+                            else
+                            {
+                                $scope.isDataSearchProcess = '';
+                            }
+                        }
+                        else
+                        {
+                            if ($scope.nextProcessButton != false)
+                            {
+                                $scope.temp = response.data;
+                                angular.forEach($scope.temp, function(value, key) {
+                                    $scope.processesArray.push(value);
+                                });
+                                $scope.pageProcesses();
+                            }
+                        }
+                        $scope.loading = false;
+                        $scope.rangeProcess();
+                    }
+                }, function(response) {
+                    $scope.loading = false;
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                });
+            };
+
+            $scope.pageProcesses = function() {
+                $scope.processes = [];
+                $scope.start = $scope.startProcessPage * $scope.maxProcessRecord;
+                $scope.end = ($scope.startProcessPage * $scope.maxProcessRecord) + $scope.maxProcessRecord;
+                for (var i = $scope.start; i < $scope.end; i++)
+                {
+                    if ($scope.processesArray[i])
+                    {
+                        $scope.processes.push($scope.processesArray[i]);
+                    }
+                }
+                if ($scope.processes.length != $scope.maxProcessRecord)
+                {
+                    $scope.nextProcessButton = false;
+                }
+            };
+
+            $scope.searchProcess = function(text) {
+                if (text != '')
+                {
+                    $scope.resetProcess();
+                    sessionStorage.setItem('searchProcess', text);
+                } else
+                {
+                    sessionStorage.setItem('searchProcess', '');
+                    $scope.resetProcess();
+                }
+                $scope.loadProcess();
+            };
+            $scope.rangeProcess = function() {
+                $scope.pageStackProcess = [];
+                var start = parseInt($scope.startProcessPage) + 1;
+                for (var i = 1; i <= start; i++) {
+                    $scope.pageStackProcess.push(i);
+                }
+            };
+            $scope.nextPageProcess = function(len) {
+                var nextPage = parseInt(len);
+                $scope.startProcessPage = nextPage;
+                $scope.loadProcess();
+
+            }
+            $scope.prevPageProcess = function(prevPage) {
+                $scope.startProcessPage = prevPage;
+                $scope.loadProcess();
+            }
+            $scope.goPageProcess = function(pageNumber) {
+                var nextPage = parseInt(pageNumber) - 1;
+                $scope.startProcessPage = nextPage;
+                if ($scope.processesArray.length > 0)
+                {
+                    if ($scope.searchProcessText == '' || ($scope.searchProcessText != '' && $scope.isDataSearchProcess != ''))
+                    {
+                        $scope.pageProcesses();
+                    }
+                }
+                else
+                {
+                    $scope.loadProcess();
+                }
+            }
+
+            $scope.selectProcess = function(id, name)
+            {
+                $scope.material.processId = id;
+                $scope.material.process = name;
+                $scope.processListModalHide();
+            }
+            $scope.goProcessUpdate = function()
+            {
+                $location.url('/manufacture/update/process/' + $scope.material.processId);
+            }
         });

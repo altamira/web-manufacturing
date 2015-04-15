@@ -42,13 +42,13 @@
                                 <div class="list list-inset listing-col" ng-repeat="process in processes">
                                     <div ng-if="process.id != ''">
                                         <a class="item-list item-icon-right" ng-click="goUpdate(process.id)">
-                                            <span class="text-center-middle"><span class="font-grey">{{process.code}}</span> {{process.description}}</span>
+                                            <span class="text-center-middle"><span class="font-grey">{{process.code}}</span> {{process.name}}</span>
                                             <i class="icon fa-arrow-right arrow-right"></i>
                                         </a>
                                     </div>
                                     <div ng-if="process.id == 0">
                                         <a class="item-list item-icon-right" ng-click="createProcess(process.code,process.description)">
-                                            <span class="text-center-middle"><span class="font-grey">{{process.code}}</span> {{process.description}}</span>
+                                            <span class="text-center-middle"><span class="font-grey">{{process.code}}</span> {{process.name}}</span>
                                             <i class="icon fa-arrow-right arrow-right"></i>
                                         </a>
                                     </div>
