@@ -10,6 +10,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
             $scope.bomIdArr = [];
             $scope.itemIdArr = [];
             $scope.componentIdArr = [];
+            $scope.materialIdArr = [];
             $scope.componentQunArr = [];
             $scope.componentPesoArr = [];
             $scope.produceArr = [];
@@ -73,6 +74,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                 $scope.bomIdArr = [];
                 $scope.itemIdArr = [];
                 $scope.componentIdArr = [];
+                $scope.materialIdArr = [];
                 $scope.componentQunArr = [];
                 $scope.componentPesoArr = [];
                 $scope.operationData = [];
@@ -109,6 +111,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                 $scope.bomIdArr = [];
                 $scope.itemIdArr = [];
                 $scope.componentIdArr = [];
+                $scope.materialIdArr = [];
                 $scope.componentQunArr = [];
                 $scope.componentPesoArr = [];
                 Restangular.one('manufacture').one('planning').one('process', processId).one('component').get().then(function(response) {
@@ -318,6 +321,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                                         $scope.bomIdArr.push(parseInt($(this).children().attr('bomid')));
                                         $scope.itemIdArr.push(parseInt($(this).children().attr('itemid')));
                                         $scope.componentIdArr.push(parseInt($(this).children().attr('componentid')));
+                                        $scope.materialIdArr.push(parseInt($(this).children().attr('materialid')));
                                         $scope.componentQunArr.push(parseFloat($(this).children().attr('componentqun')));
                                         $scope.componentPesoArr.push(parseFloat($(this).children().attr('componentpeso')));
                                         $(this).children().toggleClass('fa-check-square-o');
@@ -357,6 +361,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                                                         $scope.bomIdArr.push(parseInt($(this).children().attr('bomid')));
                                                         $scope.itemIdArr.push(parseInt($(this).children().attr('itemid')));
                                                         $scope.componentIdArr.push(parseInt($(this).children().attr('componentid')));
+                                                        $scope.materialIdArr.push(parseInt($(this).children().attr('materialid')));
                                                         $scope.componentQunArr.push(parseFloat($(this).children().attr('componentqun')));
                                                         $scope.componentPesoArr.push(parseFloat($(this).children().attr('componentpeso')));
                                                         $(this).children().toggleClass('fa-check-square-o');
@@ -390,6 +395,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                                         $scope.bomIdArr.splice($scope.bomIdArr.indexOf(parseInt($(this).children().attr('bomid'))), 1);
                                         $scope.itemIdArr.splice($scope.itemIdArr.indexOf(parseInt($(this).children().attr('itemid'))), 1);
                                         $scope.componentIdArr.splice($scope.componentIdArr.indexOf(parseInt($(this).children().attr('componentid'))), 1);
+                                        $scope.materialIdArr.splice($scope.materialIdArr.indexOf(parseInt($(this).children().attr('materialid'))), 1);
                                         $scope.componentQunArr.splice($scope.componentQunArr.indexOf(parseFloat($(this).children().attr('componentqun'))), 1);
                                         $scope.componentPesoArr.splice($scope.componentPesoArr.indexOf(parseFloat($(this).children().attr('componentpeso'))), 1);
                                         $(this).children().toggleClass('fa-check-square-o');
@@ -430,6 +436,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                                                         $scope.bomIdArr.splice($scope.bomIdArr.indexOf(parseInt($(this).children().attr('bomid'))), 1);
                                                         $scope.itemIdArr.splice($scope.itemIdArr.indexOf(parseInt($(this).children().attr('itemid'))), 1);
                                                         $scope.componentIdArr.splice($scope.componentIdArr.indexOf(parseInt($(this).children().attr('componentid'))), 1);
+                                                        $scope.materialIdArr.splice($scope.materialIdArr.indexOf(parseInt($(this).children().attr('materialid'))), 1);
                                                         $scope.componentQunArr.splice($scope.componentQunArr.indexOf(parseFloat($(this).children().attr('componentqun'))), 1);
                                                         $scope.componentPesoArr.splice($scope.componentPesoArr.indexOf(parseFloat($(this).children().attr('componentpeso'))), 1);
                                                         $(this).children().toggleClass('fa-check-square-o');
@@ -474,6 +481,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                                                 $scope.bomIdArr.push(parseInt($(this).children().attr('bomid')));
                                                 $scope.itemIdArr.push(parseInt($(this).children().attr('itemid')));
                                                 $scope.componentIdArr.push(parseInt($(this).children().attr('componentid')));
+                                                $scope.materialIdArr.push(parseInt($(this).children().attr('materialid')));
                                                 $scope.componentQunArr.push(parseFloat($(this).children().attr('componentqun')));
                                                 $scope.componentPesoArr.push(parseFloat($(this).children().attr('componentpeso')));
                                                 $(this).children().toggleClass('fa-check-square-o');
@@ -509,6 +517,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                                                 $scope.bomIdArr.splice($scope.bomIdArr.indexOf(parseInt($(this).children().attr('bomid'))), 1);
                                                 $scope.itemIdArr.splice($scope.itemIdArr.indexOf(parseInt($(this).children().attr('itemid'))), 1);
                                                 $scope.componentIdArr.splice($scope.componentIdArr.indexOf(parseInt($(this).children().attr('componentid'))), 1);
+                                                $scope.materialIdArr.splice($scope.materialIdArr.indexOf(parseInt($(this).children().attr('materialid'))), 1);
                                                 $scope.componentQunArr.splice($scope.componentQunArr.indexOf(parseFloat($(this).children().attr('componentqun'))), 1);
                                                 $scope.componentPesoArr.splice($scope.componentPesoArr.indexOf(parseFloat($(this).children().attr('componentpeso'))), 1);
                                                 $(this).children().toggleClass('fa-check-square-o');
@@ -548,6 +557,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                                                 $scope.bomIdArr.push(parseInt($(this).children().attr('bomid')));
                                                 $scope.itemIdArr.push(parseInt($(this).children().attr('itemid')));
                                                 $scope.componentIdArr.push(parseInt($(this).children().attr('componentid')));
+                                                $scope.materialIdArr.push(parseInt($(this).children().attr('materialid')));
                                                 $scope.componentQunArr.push(parseFloat($(this).children().attr('componentqun')));
                                                 $scope.componentPesoArr.push(parseFloat($(this).children().attr('componentpeso')));
                                                 $(this).children().toggleClass('fa-check-square-o');
@@ -585,6 +595,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                                                 $scope.bomIdArr.splice($scope.bomIdArr.indexOf(parseInt($(this).children().attr('bomid'))), 1);
                                                 $scope.itemIdArr.splice($scope.itemIdArr.indexOf(parseInt($(this).children().attr('itemid'))), 1);
                                                 $scope.componentIdArr.splice($scope.componentIdArr.indexOf(parseInt($(this).children().attr('componentid'))), 1);
+                                                $scope.materialIdArr.splice($scope.materialIdArr.indexOf(parseInt($(this).children().attr('materialid'))), 1);
                                                 $scope.componentQunArr.splice($scope.componentQunArr.indexOf(parseFloat($(this).children().attr('componentqun'))), 1);
                                                 $scope.componentPesoArr.splice($scope.componentPesoArr.indexOf(parseFloat($(this).children().attr('componentpeso'))), 1);
                                                 $(this).children().toggleClass('fa-check-square-o');
@@ -606,6 +617,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                 $scope.bomIdArr = [];
                 $scope.itemIdArr = [];
                 $scope.componentIdArr = [];
+                $scope.materialIdArr = [];
                 $scope.componentQunArr = [];
                 $scope.componentPesoArr = [];
                 $('.delivery-table > tbody > tr > td:last-child').each(function() {
@@ -615,6 +627,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                         $scope.bomIdArr.push(parseInt($(this).children().attr('bomid')));
                         $scope.itemIdArr.push(parseInt($(this).children().attr('itemid')));
                         $scope.componentIdArr.push(parseInt($(this).children().attr('componentid')));
+                        $scope.materialIdArr.push(parseInt($(this).children().attr('materialid')));
                         $scope.componentQunArr.push(parseFloat($(this).children().attr('componentqun')));
                         $scope.componentPesoArr.push(parseFloat($(this).children().attr('componentpeso')));
                         $(this).children().toggleClass('fa-check-square-o');
@@ -631,6 +644,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                 $scope.bomIdArr = [];
                 $scope.itemIdArr = [];
                 $scope.componentIdArr = [];
+                $scope.materialIdArr = [];
                 $scope.componentQunArr = [];
                 $scope.componentPesoArr = [];
                 $('.delivery-table > tbody > tr > td:last-child').each(function() {
@@ -916,6 +930,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                                 $scope.bomIdArr = [];
                                 $scope.itemIdArr = [];
                                 $scope.componentIdArr = [];
+                                $scope.materialIdArr = [];
                                 $scope.componentQunArr = [];
                                 $scope.componentPesoArr = [];
                                 $scope.totalWeight = 0;
@@ -939,6 +954,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                             $scope.bomIdArr = [];
                             $scope.itemIdArr = [];
                             $scope.componentIdArr = [];
+                            $scope.materialIdArr = [];
                             $scope.componentQunArr = [];
                             $scope.componentPesoArr = [];
                             $scope.totalWeight = 0;
@@ -1340,7 +1356,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
             $scope.genrateReport = function() {
                 if ($scope.totalReport.length > 0) {
                     $scope.reportTypeModalClose();
-                    window.open(sessionStorage.getItem('reportBaseUrl') + '/report/manufacture/planning/' + $scope.orderId + '?op=' + $scope.totalReport.join('&op=')  + '&token=' + sessionStorage.getItem('token'), '_blank');
+                    window.open(sessionStorage.getItem('reportBaseUrl') + '/report/manufacture/planning/' + $scope.orderId + '?op=' + $scope.totalReport.join('&op=') + '&token=' + sessionStorage.getItem('token'), '_blank');
                 } else {
                     services.showAlert('Falhou', 'Escolha Tipo Relatório');
                 }
@@ -1371,5 +1387,193 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
             }
             $scope.goBack = function() {
                 $location.path('manufacture/planning');
+            }
+
+            $ionicModal.fromTemplateUrl('templates/manufacture/planning/popup/process_list.html', {
+                scope: $scope,
+                animation: 'fade-in'
+            }).then(function(modal) {
+                $scope.processListModal = modal;
+            });
+            $scope.processListModalShow = function()
+            {
+                if ($scope.materialIdArr.length > 0)
+                {
+                    $scope.processListModal.show();
+                    $scope.loadProcess();
+                } else
+                {
+                    services.showAlert('Error', 'Please select component!');
+                }
+
+            }
+            $scope.processListModalHide = function()
+            {
+                $scope.processListModal.hide();
+            }
+            $scope.resetProcess = function() {
+                $scope.startPage = 0;
+                $scope.maxRecord = 10;
+                $scope.processes = '';
+                $scope.processesArray = [];
+                $scope.nextButton = true;
+            };
+            $scope.resetProcess();
+            $scope.searchText = sessionStorage.getItem('searchProcess');
+            $scope.tempSearch = '';
+            $scope.isDataSearch = '';
+
+            $scope.loadProcess = function() {
+                $scope.loading = true;
+                Restangular.one('manufacture').one('process').get({search: sessionStorage.getItem('searchProcess'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
+                    if (response.data == '') {
+                        $scope.loading = false;
+                        if ((parseInt($scope.startPage) != 0))
+                        {
+                            $scope.nextButton = false;
+                            $scope.startPage = (parseInt($scope.startPage) - 1);
+                            $scope.loadProcess();
+                        } else
+                        {
+                            $scope.pageStack = [];
+                            services.showAlert('Aviso', 'Lista de Processos de Fabricação esta vazia.').then(function(res) {
+                            });
+                        }
+                    } else
+                    {
+                        if ($scope.processes.length <= 0 && $scope.isDataSearch == '')
+                        {
+                            $scope.processes = response.data;
+                            $scope.processesArray = response.data;
+                            if ($scope.searchText != '')
+                            {
+                                $scope.isDataSearch = 'yes';
+                            }
+                            else
+                            {
+                                $scope.isDataSearch = '';
+                            }
+                        }
+                        else
+                        {
+                            if ($scope.nextButton != false)
+                            {
+                                $scope.temp = response.data;
+                                angular.forEach($scope.temp, function(value, key) {
+                                    $scope.processesArray.push(value);
+                                });
+                                $scope.pageProcesses();
+                            }
+                        }
+                        $scope.loading = false;
+                        $scope.range();
+                    }
+                }, function(response) {
+                    $scope.loading = false;
+                    services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                });
+            };
+
+            $scope.pageProcesses = function() {
+                $scope.processes = [];
+                $scope.start = $scope.startPage * $scope.maxRecord;
+                $scope.end = ($scope.startPage * $scope.maxRecord) + $scope.maxRecord;
+                for (var i = $scope.start; i < $scope.end; i++)
+                {
+                    if ($scope.processesArray[i])
+                    {
+                        $scope.processes.push($scope.processesArray[i]);
+                    }
+                }
+                if ($scope.processes.length != $scope.maxRecord)
+                {
+                    $scope.nextButton = false;
+                }
+            };
+
+            $scope.searchProcess = function(text) {
+                if (text != '')
+                {
+                    $scope.resetProcess();
+                    sessionStorage.setItem('searchProcess', text);
+                } else
+                {
+                    sessionStorage.setItem('searchProcess', '');
+                    $scope.resetProcess();
+                }
+                $scope.loadProcess();
+            };
+            $scope.range = function() {
+                $scope.pageStack = [];
+                var start = parseInt($scope.startPage) + 1;
+                for (var i = 1; i <= start; i++) {
+                    $scope.pageStack.push(i);
+                }
+            };
+            $scope.nextPage = function(len) {
+                var nextPage = parseInt(len);
+                $scope.startPage = nextPage;
+                $scope.loadProcess();
+
+            }
+            $scope.prevPage = function(nextPage) {
+                $scope.startPage = nextPage;
+                $scope.loadProcess();
+            }
+            $scope.goPage = function(pageNumber) {
+                var nextPage = parseInt(pageNumber) - 1;
+                $scope.startPage = nextPage;
+                if ($scope.processesArray.length > 0)
+                {
+                    if ($scope.searchText == '' || ($scope.searchText != '' && $scope.isDataSearch != ''))
+                    {
+                        $scope.pageProcesses();
+                    }
+                }
+                else
+                {
+                    $scope.loadProcess();
+                }
+            }
+
+            $scope.changeProcess = function(id, name)
+            {
+                $scope.processListModalHide();
+                console.log(JSON.stringify(id));
+                console.log(JSON.stringify(name));
+                console.log(JSON.stringify($scope.operationIdArr))
+                console.log(JSON.stringify($scope.bomIdArr))
+                console.log(JSON.stringify($scope.itemIdArr))
+                console.log(JSON.stringify($scope.componentIdArr))
+                console.log(JSON.stringify($scope.materialIdArr))
+                console.log(JSON.stringify($scope.componentQunArr))
+                console.log(JSON.stringify($scope.componentPesoArr))
+                var i = 0;
+                $scope.changeMaterialProcess = function()
+                {
+                    $scope.loading = true;
+                    $scope.postdata = {};
+                    $scope.postdata.id = $scope.operationIdArr[i];
+                    Restangular.all('common').one('material', $scope.materialIdArr[i]).all('process').post($scope.postdata).then(function(response) {
+
+                        i++;
+                        if (i < $scope.materialIdArr.length)
+                        {
+                            $scope.changeMaterialProcess();
+                        }
+                        else
+                        {
+                            $scope.loading = false;
+                            services.showAlert('Success', 'Process changed successfully for selected material!').then(function(res) {
+                                $scope.loadOperationComponents($scope.operationIdArr[0]);
+                            });
+
+                        }
+                    }, function(response) {
+                        $scope.loading = false;
+                        services.showAlert('Falhou', 'Tente Novamente UO Entre em Contato com o Suporte Técnico.');
+                    });
+                }
+                $scope.changeMaterialProcess();
             }
         });

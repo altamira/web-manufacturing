@@ -11,8 +11,8 @@
             <span class="btn-separator"></span>
             <h4 style="color: #ffffff;margin-top: 5px;">&nbsp;Ordem Producao&nbsp;</h4>
             <span class="btn-separator"></span>
-            <button class="button fa-check" ng-click="openStartDateModal()" ></button>
-            <button class="button fa-random-header" ng-click="processListModalShow()"></button>
+            <button type="button" class="button fa-check" ng-click="openStartDateModal()" ></button>
+            <button type="button" class="button fa-random-header" ng-click="processListModalShow()"></button>
         </div>
         <div class="header-col-right"><span class="total-weight">0</span> kg</div>
     </ion-header-bar>
@@ -87,7 +87,7 @@
                                             </td>
                                             <td class="edit-info align-right width-10"><span class="weight" id="weight_{{compo.operationid}}_{{compo.bomid}}_{{compo.itemid}}_{{compo.component.id}}">{{((compo.component.weight.value/compo.component.quantity.value) * compo.component.remaining.value) | setDecimal:2}}</span><span style="margin-left: 5px;">{{compo.component.weight.unit.symbol}}</span></td>
                                             <td class="edit-text align-center width-3 td_{{compo.operationid}}_{{compo.bomid}}_{{compo.itemid}}_{{compo.component.id}}" style="font-weight: normal">
-                                                <i class="icon plus-icon fa-square-o" select-components operationid="{{compo.operationid}}" bomid="{{compo.bomid}}" itemid="{{compo.itemid}}" componentid="{{compo.component.id}}" componentqun="{{compo.component.quantity.value}}" componentpeso="{{compo.component.weight.value}}"  ng-if="compo.component.remaining.value > 0"></i>
+                                                <i class="icon plus-icon fa-square-o" select-components operationid="{{compo.operationid}}" bomid="{{compo.bomid}}" itemid="{{compo.itemid}}" componentid="{{compo.component.id}}" materialid="{{compo.component.material.id}}" componentqun="{{compo.component.quantity.value}}" componentpeso="{{compo.component.weight.value}}"  ng-if="compo.component.remaining.value > 0"></i>
                                                 <i class="icon plus-icon fa-ban" operationid="{{compo.operationid}}" bomid="{{compo.bomid}}" itemid="{{compo.itemid}}" componentid="{{compo.component.id}}" componentqun="{{compo.component.quantity.value}}" componentpeso="{{compo.component.weight.value}}" ng-if="compo.component.remaining.value <= 0"></i>
                                             </td>
                                         </tr>
@@ -168,7 +168,7 @@
                                                 </td>
                                                 <td class="edit-info align-right width-11"><span class="weight" id="weight_{{operation.id}}_{{bom.id}}_{{item.id}}_{{component.id}}">{{((component.weight.value/component.quantity.value) * component.remaining.value) | setDecimal:2}}</span><span style="margin-left: 5px;">{{component.weight.unit.symbol}}</span></td>
                                                 <td class="edit-text align-center width-3 td_{{operation.id}}_{{bom.id}}_{{item.id}}_{{component.id}}" style="font-weight: normal">
-                                                    <i class="icon plus-icon fa-square-o" select-components operationid="{{operation.id}}" bomid="{{bom.id}}" itemid="{{item.id}}" componentid="{{component.id}}" componentqun="{{component.quantity.value}}" componentpeso="{{component.weight.value}}"  ng-if="component.remaining.value > 0"></i>
+                                                    <i class="icon plus-icon fa-square-o" select-components operationid="{{operation.id}}" bomid="{{bom.id}}" itemid="{{item.id}}" componentid="{{component.id}}" materialid="{{component.material.id}}" componentqun="{{component.quantity.value}}" componentpeso="{{component.weight.value}}"  ng-if="component.remaining.value > 0"></i>
                                                     <i class="icon plus-icon fa-ban" operationid="{{operation.id}}" bomid="{{bom.id}}" itemid="{{item.id}}" componentid="{{component.id}}" componentqun="{{component.quantity.value}}" componentpeso="{{component.weight.value}}" ng-if="component.remaining.value <= 0"></i>
                                                 </td>
                                             </tr>

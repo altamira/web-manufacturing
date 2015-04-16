@@ -520,6 +520,7 @@ altamiraApp.directive('selectComponents', function(services) {
                 scope.bomIdArr.push(parseInt(attr.bomid));
                 scope.itemIdArr.push(parseInt(attr.itemid));
                 scope.componentIdArr.push(parseInt(attr.componentid));
+                scope.materialIdArr.push(parseInt(attr.materialid));
                 scope.componentQunArr.push(parseFloat(attr.componentqun));
                 scope.componentPesoArr.push(parseFloat(attr.componentpeso));
             }
@@ -529,6 +530,7 @@ altamiraApp.directive('selectComponents', function(services) {
                 scope.bomIdArr.splice(scope.bomIdArr.indexOf(parseInt(attr.bomid)), 1);
                 scope.itemIdArr.splice(scope.itemIdArr.indexOf(parseInt(attr.itemid)), 1);
                 scope.componentIdArr.splice(scope.componentIdArr.indexOf(parseInt(attr.componentid)), 1);
+                scope.materialIdArr.splice(scope.materialIdArr.indexOf(parseInt(attr.materialid)), 1);
                 scope.componentQunArr.splice(scope.componentQunArr.indexOf(parseInt(attr.componentqun)), 1);
                 scope.componentPesoArr.splice(scope.componentPesoArr.indexOf(parseInt(attr.componentpeso)), 1);
             }
