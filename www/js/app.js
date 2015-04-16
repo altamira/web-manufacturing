@@ -180,14 +180,19 @@ altamiraApp.config(function(RestangularProvider) {
         RestangularProvider.setDefaultRequestParams({token: sessionStorage.getItem('token')})
     }
     RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
+        var extractedData;
+        extractedData = data;
+        return extractedData;
+    });
+    RestangularProvider.setErrorInterceptor(function(response, deferred, responseHandler) {
         if (response.status === 401)
         {
-            window.location = 'http://localhost/altamira_main/www/#/blacktheme/login';
-        } else
-        {
-            var extractedData;
-            extractedData = data;
-            return extractedData;
+            var r = confirm("Você não ter permissão para acessar este recurso!");
+            if (r == true) {
+                window.location = 'http://localhost/altamira_main/www/#/blacktheme/login';
+            } else {
+                location.reload();
+            }
         }
     });
 });
