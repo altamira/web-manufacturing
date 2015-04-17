@@ -207,14 +207,17 @@
                                 <div class="mouse-pointer">
                                     <div class="text-wrap1" ng-if="history.status.code == 1">
                                         <span class="history_date">{{history.date | getDate}}</span>
+                                        <span class="history_date created-name">{{history.createdBy.firstName}} {{history.createdBy.lastName}}</span>
                                         <span class="history_desc">{{history.comment}}</span>
                                     </div>
                                     <div class="text-wrap2" ng-if="history.status.code == 3">
                                         <span class="history_date">{{history.date | getDate}}</span>
+                                        <span class="history_date created-name">{{history.createdBy.firstName}} {{history.createdBy.lastName}}</span>
                                         <span class="history_desc">{{history.comment}}</span>
                                     </div>
                                     <div class="text-wrap3" ng-if="history.status.code == 2">
                                         <span class="history_date">{{history.date | getDate}}</span>
+                                        <span class="history_date created-name">{{history.createdBy.firstName}} {{history.createdBy.lastName}}</span>
                                         <span class="history_desc">{{history.comment}}</span>
                                     </div>
                                 </div>

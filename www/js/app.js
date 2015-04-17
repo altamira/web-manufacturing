@@ -179,12 +179,12 @@ altamiraApp.config(function(RestangularProvider) {
     {
         RestangularProvider.setDefaultRequestParams({token: sessionStorage.getItem('token')})
     } else {
-        function getQueryStringValue (key) {  
-            return unescape(window.location.hash.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));  
-        }  
+        function getQueryStringValue (key) {
+            return unescape(window.location.hash.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+    }
 
-        // Would write the value of the QueryString-variable called name to the console  
-        RestangularProvider.setDefaultRequestParams({token: getQueryStringValue("token")}); 
+        // Would write the value of the QueryString-variable called name to the console
+        RestangularProvider.setDefaultRequestParams({token: getQueryStringValue("token")});
     }
     RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
         var extractedData;

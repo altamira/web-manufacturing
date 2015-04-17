@@ -2934,3 +2934,9 @@
                 padding-left: 5px !important;
                 width: 90px;
 }
+.created-name{
+    margin-left: 10px;
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
