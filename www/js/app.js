@@ -179,9 +179,9 @@ altamiraApp.config(function(RestangularProvider) {
     {
         RestangularProvider.setDefaultRequestParams({token: sessionStorage.getItem('token')})
     } else {
-        function getQueryStringValue (key) {
+        function getQueryStringValue(key) {
             return unescape(window.location.hash.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
-    }
+        }
 
         // Would write the value of the QueryString-variable called name to the console
         RestangularProvider.setDefaultRequestParams({token: getQueryStringValue("token")});
@@ -194,13 +194,29 @@ altamiraApp.config(function(RestangularProvider) {
     RestangularProvider.setErrorInterceptor(function(response, deferred, responseHandler) {
         if (response.status === 401)
         {
-            var r = confirm("Você não ter permissão para acessar este recurso!");
-            if (r == true) {
-                window.location = 'http://localhost/altamira_main/www/#/blacktheme/login';
-            } else {
-                location.reload();
+            if (response.data.message == "Invalid Token")
+            {
+                var r = confirm("Você não ter permissão para acessar este recurso!");
+                if (r == true) {
+                    window.location = 'http://localhost/altamira_main/www/#/blacktheme/login';
+                } else {
+                    location.reload();
+                }
+            } else
+            {
+                alert('Access denied!');
             }
+
         }
+//        if (response.status === 400)
+//        {
+//            var r = confirm("Você não ter permissão para acessar este recurso!");
+//            if (r == true) {
+//                window.location = 'http://localhost/altamira_main/www/#/blacktheme/login';
+//            } else {
+//                location.reload();
+//            }
+//        }
     });
 });
 
@@ -210,5 +226,12 @@ altamiraApp.factory('IntegrationRestangular', function(Restangular) {
         RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json; charset=iso-8859-1'});
         RestangularProvider.setFullResponse(true);
     });
+});
+altamiraApp.factory('resourceInterceptor', function() {
+    return {
+        response: function(response) {
+            console.log('response intercepted: ', response);
+        }
+    }
 });
 var altamiraAppControllers = angular.module('altamiraAppControllers', []);

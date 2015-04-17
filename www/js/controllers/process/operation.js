@@ -14,19 +14,24 @@ altamiraAppControllers.controller('ManufacturingProcessCreateOperationCtrl',
                 if (isValid) {
                     $scope.loading = true;
                     $scope.postdata = {};
+                    $scope.postdata.id = 0;
+                    $scope.postdata.version = 0;
+                    $scope.postdata.type = "br.com.altamira.data.model.manufacture.process.Operation";
                     $scope.postdata.sequence = parseInt($scope.operationData.sequence);
-                    $scope.postdata.name = $scope.operationData.name;
                     $scope.postdata.description = $scope.operationData.description;
                     $scope.postdata.sketch = {
+                        "id": 0,
                         "version": 0,
-                        "format": $scope.operationData.format,
-                        "filename": $scope.operationData.filename,
-                        "extension": $scope.operationData.filetype,
-                        "image": $scope.operationData.sketch
+                        "type": "br.com.altamira.data.model.manufacture.process.Sketch",
+                        "format": null,
+                        "filename": null,
+                        "extension": null,
+                        "image": null
                     };
                     $scope.postdata.use = [];
                     $scope.postdata.consume = [];
                     $scope.postdata.produce = [];
+                    console.log(JSON.stringify($scope.postdata));
                     Restangular.one('manufacture/process', $scope.processId).all('operation').post($scope.postdata).then(function(response) {
                         $scope.loading = false;
                         if (response.status == 201) {

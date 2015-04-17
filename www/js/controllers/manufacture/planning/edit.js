@@ -782,6 +782,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                                                         $scope.postData.type = "br.com.altamira.data.model.manufacture.planning.Produce";
                                                         $scope.postData.order = {};
                                                         $scope.postData.order.id = $scope.orderData.id;
+                                                        $scope.postData.order.version = 0;
                                                         $scope.postData.order.type = $scope.orderData.type;
                                                         $scope.postData.order.createdDate = $scope.orderData.createdDate;
                                                         $scope.postData.order.startDate = $scope.orderData.startDate;
@@ -798,6 +799,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                                                         $scope.postData.quantity = {};
                                                         $scope.postData.quantity.value = parseFloat($(remaining_temp).val());
                                                         $scope.postData.quantity.unit = $scope.operationData[n].bom[j].item[k].component[l].quantity.unit;
+                                                        console.log(JSON.stringify($scope.postData));
                                                         Restangular.all('manufacture').one('planning', $scope.orderId).one('bom', $scope.operationData[n].bom[j].id).one('item', $scope.operationData[n].bom[j].item[k].id).one('component', $scope.operationData[n].bom[j].item[k].component[l].id).all('produce').post($scope.postData).then(function(res) {
                                                             $scope.tempOperationId = $scope.operationIdArr[i];
                                                             i++;
