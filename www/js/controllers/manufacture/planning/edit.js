@@ -849,7 +849,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                             $scope.removeProduce = function()
                             {
                                 var tempArr = $scope.produceArr[i].split(',');
-                                Restangular.all('manufacture').one('planning', tempArr[0]).one('bom', tempArr[1]).one('item', tempArr[2]).one('component', tempArr[3]).one('produce', tempArr[4]).remove().then(function(response) {
+                                Restangular.all('manufacture').one('planning', $scope.orderId).one('bom', tempArr[1]).one('item', tempArr[2]).one('component', tempArr[3]).one('produce', tempArr[4]).remove().then(function(response) {
                                     $scope.tempOperationId = tempArr[0];
                                     i++;
                                     if (i < $scope.produceArr.length)
@@ -875,7 +875,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                 }
                 else
                 {
-                    services.showConfirmBox('Confirmation', 'Confirmar uma ordem ?').then(function(res) {
+                    services.showConfirmBox('Confirmation', 'A Ordem de Produção tem items. Deseja remover a Ordem de Produção e todos os items ?').then(function(res) {
                         if (res)
                         {
                             Restangular.one('manufacture').one('planning', $scope.orderId).remove().then(function(response) {
