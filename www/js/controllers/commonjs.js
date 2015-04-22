@@ -179,7 +179,8 @@ altamiraAppControllers.controller('CommonCtrl',
                     $scope.postData.version = 0;
                     $scope.postData.code = $scope.material.code;
                     $scope.postData.description = $scope.material.description;
-                    $scope.postData.process = $scope.material.process;
+                    $scope.postData.process = {};
+                    $scope.postData.process.id = $scope.material.processId;
                     $scope.postData.component = [];
                     switch ($scope.materialTypeText) {
                         case 'product':
@@ -303,6 +304,7 @@ altamiraAppControllers.controller('CommonCtrl',
                             materialBaseUrl = Restangular.all('manufacture').all('tooling');
                             break;
                     }
+                    console.log(JSON.stringify($scope.postData));
                     materialBaseUrl.post($scope.postData).then(function(response) {
                         $scope.loading = false;
                         if (response.status == 201) {

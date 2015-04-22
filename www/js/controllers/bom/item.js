@@ -131,7 +131,7 @@ altamiraAppControllers.controller('BomItemUpdateCtrl',
                 services.showConfirmBox('Confirmation', 'Are you sure to remove this Part?').then(function(res) {
                     if (res) {
                         $scope.loading = true;
-                        Restangular.one('manufacture/bom', $scope.bomId).one('item', $scope.itemId).one('part', PartId).remove().then(function() {
+                        Restangular.one('manufacture/bom', $scope.bomId).one('item', $scope.itemId).one('component', PartId).remove().then(function() {
                             $scope.loading = false;
                             services.showAlert('A Part - ' + PartId + ' removed successfully.').then(function(res) {
                                 if (res) {

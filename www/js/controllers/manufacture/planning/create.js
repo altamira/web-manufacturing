@@ -752,6 +752,9 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                                                             $scope.produceData.quantity = {};
                                                             $scope.produceData.quantity.value = parseFloat($(remaining_temp).val());
                                                             $scope.produceData.quantity.unit = $scope.operationData[n].bom[j].item[k].component[l].quantity.unit;
+                                                            $scope.produceData.weight = {};
+                                                            $scope.produceData.weight.value = 0;
+                                                            $scope.produceData.weight.unit = $scope.operationData[n].bom[j].item[k].component[l].weight.unit;
                                                             console.log(JSON.stringify($scope.produceData));
                                                             Restangular.all('manufacture').one('planning', res.data.id).one('bom', $scope.operationData[n].bom[j].id).one('item', $scope.operationData[n].bom[j].item[k].id).one('component', $scope.operationData[n].bom[j].item[k].component[l].id).all('produce').post($scope.produceData).then(function(resp) {
                                                                 $scope.tempOperationId = $scope.operationIdArr[i];

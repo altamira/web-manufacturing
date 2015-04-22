@@ -23,6 +23,7 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                 $scope.material.version = response.data.version;
                 $scope.material.code = response.data.code;
                 $scope.material.description = response.data.description;
+                $scope.material.processId = response.data.process.id;
                 $scope.material.process = response.data.process.name;
                 switch ($scope.materialTypeText) {
                     case 'Product':
@@ -94,7 +95,8 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                     $scope.postData.version = $scope.material.version;
                     $scope.postData.code = $scope.material.code;
                     $scope.postData.description = $scope.material.description;
-                    $scope.postData.process = $scope.material.process;
+                    $scope.postData.process = {};
+                    $scope.postData.process.id = $scope.material.processId;
                     $scope.postData.component = [];
                     switch ($scope.materialTypeText) {
                         case 'Product':
@@ -212,6 +214,7 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
 
                             break;
                     }
+                    console.log(JSON.stringify($scope.postData));
                     $scope.materialBaseUrl.customPUT($scope.postData).then(function(response) {
                         $scope.loading = false;
                         services.showAlert('Success', 'Processo foi gravado com sucesso !').then(function(res) {
