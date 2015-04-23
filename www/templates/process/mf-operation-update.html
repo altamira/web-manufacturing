@@ -28,22 +28,13 @@
                         <label class="extra-error" ng-show="submitted && operationForm.sequence.$error.required">Sequencia é obrigatório.</label>
                         <label class="extra-error" ng-show="submitted && operationForm.sequence.$error.number">Somente numeros.</label>
                     </div>
-                    <div class="list list-row">
+                    <div class="list">
                         <span class="input-label text-bold">Operação</span>
-                        <div class="select-box-hide"></div>
-                        <label class="item item-select item-select-box">
-                            <select name="operation" ng-model="operationData.name" class="select-box">
-                                <option value="PRENSA">PRENSA</option>
-                                <option value="GUILHOTINA">GUILHOTINA</option>
-                                <option value="PERFILADEIRA">PERFILADEIRA</option>
-                                <option value="SOLDA">SOLDA</option>
-                                <option value="DOBRA">DOBRA</option>
-                                <option value="SERRA">SERRA</option>
-                                <option value="PINTURA">PINTURA</option>
-                                <option value="MONTAGEM">MONTAGEM</option>
-                                <option value="EMBALAGEM">EMBALAGEM</option>
-                            </select>
+                        <label class="item item-input input-box-extra">
+                            <input type="text" name="operation" ng-model="operationData.operation" readonly="readonly" required/>
                         </label>
+                        <i class="icon ion-ios7-search fa-md-search extra-search" ng-click="operationListModalShow()"></i>
+                        <label class="extra-error" ng-show="submitted && operationData.operation.$error.required">Operação é obrigatório.</label>
                     </div>
                     <div class="list list-row">
                         <span class="input-label text-bold">Descrição</span>

@@ -7,7 +7,7 @@ altamiraAppControllers.controller('ManufactureExecutionPackingCtrl',
                 $scope.itemId = [];
                 $scope.itemPartIdArr = [];
                 $scope.itemPartDeliveryArr = [];
-                Restangular.one('shipping/execution', orderId).get().then(function(response) {
+                Restangular.one('manufacture/execution', orderId).get().then(function(response) {
                     $scope.loading = false;
                     $scope.orderData = response.data;
                     $scope.finalList = [];
@@ -59,7 +59,7 @@ altamiraAppControllers.controller('ManufactureExecutionPackingCtrl',
                     {
                         var i = 0;
                         $scope.updateRemainingQtn = function() {
-                            Restangular.all('shipping').one('execution', $scope.executionId).one('item', $("[datadelivery='" + $scope.remainingQtnArr[i] + "']").attr('dataitem')).one('component', $("[datadelivery='" + $scope.remainingQtnArr[i] + "']").attr('datapart')).get().then(function(response) {
+                            Restangular.all('manufacture').one('execution', $scope.executionId).one('item', $("[datadelivery='" + $scope.remainingQtnArr[i] + "']").attr('dataitem')).one('component', $("[datadelivery='" + $scope.remainingQtnArr[i] + "']").attr('datapart')).get().then(function(response) {
                                 $scope.postData = {};
                                 $scope.postData.id = 0;
                                 $scope.postData.version = 0;

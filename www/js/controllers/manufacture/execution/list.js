@@ -20,7 +20,7 @@ altamiraAppControllers.controller('ManufactureExecutionListCtrl',
             $scope.resetPackingList();
             $scope.loadPackingList = function() {
                 $scope.loading = true;
-                Restangular.one('shipping/execution').get({search: sessionStorage.getItem('searchPackingList'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
+                Restangular.one('manufacture/execution').get({search: sessionStorage.getItem('searchPackingList'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
                     if (response.data == '') {
                         $scope.loading = false;
                         if ((parseInt($scope.startPage) != 0))
