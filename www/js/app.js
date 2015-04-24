@@ -194,18 +194,25 @@ altamiraApp.config(function(RestangularProvider) {
     RestangularProvider.setErrorInterceptor(function(response, deferred, responseHandler) {
         if (response.status === 401)
         {
-            if (response.data.message == "Invalid Token")
-            {
-                var r = confirm("Você não ter permissão para acessar este recurso!");
-                if (r == true) {
-                    window.location = 'http://localhost/altamira_main/www/#/blacktheme/login';
-                } else {
-                    location.reload();
-                }
-            } else
-            {
-                alert('Access denied!');
+            sessionStorage.setItem('token', '');
+            var r = confirm("Você não ter permissão para acessar este recurso!");
+            if (r == true) {
+                window.location = 'http://localhost/altamira_main/www/#/blacktheme/login';
+            } else {
+                location.reload();
             }
+//            if (response.data.message == "Invalid Token")
+//            {
+//                var r = confirm("Você não ter permissão para acessar este recurso!");
+//                if (r == true) {
+//                    window.location = 'http://localhost/altamira_main/www/#/blacktheme/login';
+//                } else {
+//                    location.reload();
+//                }
+//            } else
+//            {
+//                alert('Access denied!');
+//            }
 
         }
 //        if (response.status === 400)
