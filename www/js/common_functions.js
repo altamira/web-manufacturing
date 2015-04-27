@@ -24,10 +24,10 @@ altamiraApp.factory('CommonFun', ['$http', 'Restangular', function($http, Restan
                 return moment.utc(date, 'DD/MM/YYYY').valueOf();
             },
             getFullDate: function(timestamp) {
-                return moment(timestamp).format('DD/MM/YYYY');
+                return moment.utc(timestamp).format('DD/MM/YYYY');
             },
             setDefaultDateFormat: function(dateString, format) {
-                return moment(dateString, format).format('DD/MM/YYYY');
+                return moment.utc(dateString, format).format('DD/MM/YYYY');
             },
         }
 

@@ -235,7 +235,7 @@ altamiraApp.directive('gridDate', function() {
                     return [day == 1 || day == 2 || day == 3 || day == 4 || day == 5, ''];
                 },
                 onSelect: function(dateText) {
-                    scope.setGridDate(moment(dateText, 'DD/MM/YYYY').format('D_M_YYYY'));
+                    scope.setGridDate(moment.utc(dateText, 'DD/MM/YYYY').format('D_M_YYYY'));
                     scope.selectDate = dateText;
                     scope.$apply(function() {
                         scope.selectDate = dateText;

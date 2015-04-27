@@ -110,7 +110,7 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                 $scope.divideData.quantity2 = '';
                 if ($scope.itemPartIdArr.length == 1)
                 {
-                    var tempVar = $scope.getObjects($scope.orderData.item, 'id', $scope.itemId);
+                    var tempVar = $scope.getObjects($scope.orderData.item, 'id', $scope.itemId[0]);
                     var part;
                     var partDelivery;
                     part = $scope.getObjects(tempVar[0].component, 'id', $scope.itemPartIdArr[0]);
@@ -217,8 +217,8 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                     {
                         if ($scope.itemPartDeliveryArr.length > 1)
                         {
-                            $scope.itemId = unique_arr($scope.itemId);
-                            var tempVar = $scope.getObjects($scope.orderData.item, 'id', $scope.itemId);
+//                            $scope.itemId = unique_arr($scope.itemId);
+                            var tempVar = $scope.getObjects($scope.orderData.item, 'id', $scope.itemId[0]);
                             $scope.joinData.chnDateParts = [];
                             var part;
                             var delivery;
@@ -382,7 +382,7 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                 $scope.historyModal.hide();
             }
             $scope.openHistoryModal = function() {
-                $scope.historyData.date = moment().format('DD/MM/YYYY');
+                $scope.historyData.date = moment.utc().format('DD/MM/YYYY');
                 $scope.historyData.comment = '';
                 $scope.historyData.statusDescription = '';
                 $scope.historyModalShow();
@@ -514,7 +514,7 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                         $scope.chgDeliveryData.id = response.data.id;
                         $scope.chgDeliveryData.version = response.data.version;
                         $scope.chgDeliveryData.type = response.data.type;
-                        $scope.chgDeliveryData.delivery = moment($scope.partData.delivery, 'DD/MM/YYYY').format('YYYY-MM-DD');
+                        $scope.chgDeliveryData.delivery = moment.utc($scope.partData.delivery, 'DD/MM/YYYY').format('YYYY-MM-DD');
                         $scope.chgDeliveryData.quantity = response.data.quantity;
                         $scope.chgDeliveryData.delivered = response.data.delivered;
                         $scope.chgDeliveryData.remaining = response.data.remaining;
@@ -575,7 +575,7 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                             $scope.chgDeliveryData.id = response.data.id;
                             $scope.chgDeliveryData.version = response.data.version;
                             $scope.chgDeliveryData.type = response.data.type;
-                            $scope.chgDeliveryData.delivery = moment($scope.partData.delivery, 'DD/MM/YYYY').format('YYYY-MM-DD');
+                            $scope.chgDeliveryData.delivery = moment.utc($scope.partData.delivery, 'DD/MM/YYYY').format('YYYY-MM-DD');
                             $scope.chgDeliveryData.quantity = response.data.quantity;
                             $scope.chgDeliveryData.delivered = response.data.delivered;
                             $scope.chgDeliveryData.remaining = response.data.remaining;

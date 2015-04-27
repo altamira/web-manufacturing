@@ -88,7 +88,7 @@ altamiraAppControllers.controller('ShippingExecutionPackingCtrl',
                                 }
 
                                 $scope.postData.quantity.unit = response.data.quantity.unit;
-                                $scope.postData.delivery = moment().valueOf();
+                                $scope.postData.delivery = moment.utc().valueOf();
                                 Restangular.all('shipping').one('execution', $scope.executionId).one('packinglist', $scope.packingId).all('delivered').post($scope.postData).then(function(response) {
                                     i++
                                     if (i < $scope.remainingQtnArr.length) {
