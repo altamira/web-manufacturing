@@ -217,6 +217,7 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                     {
                         if ($scope.itemPartDeliveryArr.length > 1)
                         {
+                            $scope.itemId = unique_arr($scope.itemId);
                             var tempVar = $scope.getObjects($scope.orderData.item, 'id', $scope.itemId);
                             $scope.joinData.chnDateParts = [];
                             var part;
@@ -331,13 +332,21 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                 }
             };
             $scope.checkComponents = function() {
-                $scope.itemId = unique_arr($scope.itemId);
-                $scope.itemPartIdArr = unique_arr($scope.itemPartIdArr);
-                $scope.itemMaterialArr = unique_arr($scope.itemMaterialArr);
-                $scope.itemPartDeliveryArr = unique_arr($scope.itemPartDeliveryArr);
-                if ($scope.itemId.length == 1) {
+                $scope.tempItemId = $scope.itemId
+                $scope.tempItemId = unique_arr($scope.tempItemId);
+
+                $scope.tempItemPartIdArr = $scope.itemPartIdArr;
+                $scope.tempItemPartIdArr = unique_arr($scope.tempItemPartIdArr);
+
+                $scope.tempItemMaterialArr = $scope.itemMaterialArr;
+                $scope.tempItemMaterialArr = unique_arr($scope.tempItemMaterialArr);
+
+                $scope.tempItemPartDeliveryArr = $scope.itemPartDeliveryArr;
+                $scope.tempItemPartDeliveryArr = unique_arr($scope.tempItemPartDeliveryArr);
+
+                if ($scope.tempItemId.length == 1) {
                     $scope.validDelivery = 2;
-                    if ($scope.itemMaterialArr.length > 1)
+                    if ($scope.tempItemMaterialArr.length > 1)
                     {
                         $scope.validDelivery = 3; // not a same material
                     }

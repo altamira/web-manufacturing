@@ -507,6 +507,10 @@ altamiraApp.directive('selectDelivery', function(services) {
                 scope.itemMaterialArr.splice(scope.itemMaterialArr.indexOf(parseInt(attr.datamaterial)), 1);
                 scope.itemPartDeliveryArr.splice(scope.itemPartDeliveryArr.indexOf(parseInt(attr.datadelivery)), 1);
             }
+            console.log(JSON.stringify(scope.itemId));
+            console.log(JSON.stringify(scope.itemPartIdArr));
+            console.log(JSON.stringify(scope.itemMaterialArr));
+            console.log(JSON.stringify(scope.itemPartDeliveryArr));
         });
     }
 });
