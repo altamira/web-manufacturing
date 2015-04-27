@@ -13,7 +13,7 @@ altamiraAppControllers.filter('setDecimal',
 altamiraAppControllers.filter('getDate',
         function() {
             return function(input) {
-                return moment(input).format('DD/MM/YYYY');
+                return moment.utc(input).format('DD/MM/YYYY');
             };
         });
 altamiraAppControllers.filter('getFullTimeStamp',
