@@ -223,7 +223,7 @@ altamiraAppControllers.controller('BomListCtrl',
                             onTap: function(res) {
                                 $scope.loading = true;
                                 //get data from api
-                                IntegrationRestangular.one('v0.9.0/manufacture/bom/index.aspx?number=' + $scope.orderData.ordernumber).get().then(function(response) {
+                                IntegrationRestangular.one('manufacture/bom?' + $scope.orderData.ordernumber).get().then(function(response) {
                                     Restangular.all('manufacture/bom').post(response.data).then(function(res) {
                                         $scope.loading = false;
                                         if (res.status == 201) {

@@ -195,35 +195,35 @@ altamiraApp.config(function(RestangularProvider) {
         if (response.status === 401)
         {
             sessionStorage.setItem('token', '');
+            if (response.data.message.indexOf("Invalid Token") >= 0)
+            {
+                var r = confirm("Invalid token!");
+                if (r == true) {
+                    window.location = 'http://localhost/altamira_main/www/#/blacktheme/login';
+                } else {
+                    location.reload();
+                }
+            } else
+            {
+                sessionStorage.setItem('token', '');
+                var r = confirm("Access denied!");
+                if (r == true) {
+                    window.location = 'http://localhost/altamira_main/www/#/blacktheme/login';
+                } else {
+                    location.reload();
+                }
+            }
+
+        }
+        if (response.status === 400)
+        {
             var r = confirm("Você não ter permissão para acessar este recurso!");
             if (r == true) {
                 window.location = 'http://localhost/altamira_main/www/#/blacktheme/login';
             } else {
                 location.reload();
             }
-//            if (response.data.message == "Invalid Token")
-//            {
-//                var r = confirm("Você não ter permissão para acessar este recurso!");
-//                if (r == true) {
-//                    window.location = 'http://localhost/altamira_main/www/#/blacktheme/login';
-//                } else {
-//                    location.reload();
-//                }
-//            } else
-//            {
-//                alert('Access denied!');
-//            }
-
         }
-//        if (response.status === 400)
-//        {
-//            var r = confirm("Você não ter permissão para acessar este recurso!");
-//            if (r == true) {
-//                window.location = 'http://localhost/altamira_main/www/#/blacktheme/login';
-//            } else {
-//                location.reload();
-//            }
-//        }
     });
 });
 
