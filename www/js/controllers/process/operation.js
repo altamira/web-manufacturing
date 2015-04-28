@@ -267,6 +267,9 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                         $scope.postdata.version = response1.data.version;
                         Restangular.one('manufacture/process', $scope.processId).one('operation', $scope.operationId).customPUT($scope.postdata).then(function(response) {
                             $scope.loading = false;
+                            services.showAlert('sucesso', 'Operação atualizado com sucesso').then(function(res) {
+                                $location.path('manufacture/update/process/' + $scope.processId);
+                            });
                         }, function(response) {
                             $scope.loading = false;
                             services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
