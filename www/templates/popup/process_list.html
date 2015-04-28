@@ -4,10 +4,6 @@
             <button type="button" class="button fa-arrow-left" ng-click="processListModalHide()"></button>
             <span class="btn-separator"></span>
             <h4 class="mf-page-titles">&nbsp;Process List&nbsp;</h4>
-<!--            <span class="btn-separator"></span>
-            <button class="button fa-print-header" ng-click="genrateReport()"></button>
-            <button class="button fa-check-square-o-header" ng-click="selectAllReport()"></button>
-            <button class="button fa-square-o-header" ng-click="UnSelectAllReport()"></button>-->
         </div>
     </ion-header-bar>
     <ion-content>
@@ -39,7 +35,7 @@
                 <a ng-repeat="n in pageStackProcess" ng-click="goPageProcess(n)">
                     <span class="page" ng-class="{'active':n == startPage + 1}">{{n}}</span>
                 </a>
-                <a class="page fa-arrow-right next-arrow" ng-show='nextButton' ng-click="nextPageProcess(pageStackProcess.length)" ng-if="pageStackProcess.length > 0"></a>
+                <a class="page fa-arrow-right next-arrow" ng-show='nextProcessButton' ng-click="nextPageProcess(pageStackProcess.length)" ng-if="pageStackProcess.length > 0"></a>
             </div>
         </div>
     </ion-content>
