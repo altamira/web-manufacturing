@@ -71,7 +71,7 @@ altamiraAppControllers.controller('ManufactureExecutionPackingCtrl',
                                 $scope.postData.quantity = {};
                                 $scope.postData.quantity.value = $('#remaining_' + $scope.remainingQtnArr[i]).val();
                                 $scope.postData.quantity.unit = response.data.quantity.unit;
-                                $scope.postData.delivery = moment.utc().valueOf();
+                                $scope.postData.delivery = CommonFun.toDayTimeStamp();
                                 Restangular.all('manufacture/execution').one('component', $("[datadelivery='" + $scope.remainingQtnArr[i] + "']").attr('datapart')).all('delivered').post($scope.postData).then(function(response) {
                                     i++
                                     if (i < $scope.remainingQtnArr.length) {

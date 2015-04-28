@@ -93,7 +93,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="grid_view" class="planning-detail width-100" style="display: none;" ng-controller='ManufacturePlanningGridCtrl'>
+                            <div id="grid_view" class="planning-detail width-100" style="display: none;">
                                 <div class="row manufacture-grid" ng-if="gridArr != ''">
 
                                     <div class="col-25 scroll-div dataRow">
@@ -123,7 +123,7 @@
                                             <tr ng-repeat="order in gridArr" class="{{order.id}}" ng-if="checkYear(BOM.delivery) <= maxYear" ng-class-odd="'odd'" ng-class-even="'even'">
                                                 <td ng-repeat="day in days track by $index" id="{{order.id}}" data-day='{{day}}' class='{{day}}' ng-class="(getWeekDay(day) == 'Sunday' || getWeekDay(day) == 'Saturday')? 'holiday':'makeDroppable'" ng-if="BOM.components != ''">
                                                     <div id="{{day}}" ng-repeat="produce in order.produce" ng-class="getCellColor(produce.startDate,produce.quantity.value)" ng-if="(checkDay(produce.startDate) == getDay(day)) && (checkMonth(produce.startDate) == getMonth(day)) && (checkYear(produce.startDate) == getYear(day))" data-weight='{{produce.quantity.value}}'>
-                                                        {{produce.quantity.value | setDecimal:1}}
+                                                        {{produce.quantity.value | setDecimal:3}}
                                                     </div>
                                                 </td>
                                             </tr>

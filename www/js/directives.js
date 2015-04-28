@@ -241,7 +241,6 @@ altamiraApp.directive('gridDate', function() {
                         scope.selectDate = dateText;
                         sessionStorage.setItem('selectDate', dateText);
                         ngModel.$setViewValue(dateText);
-                        console.log(JSON.stringify(scope.selectDate));
                     });
 
                 }
@@ -1032,7 +1031,7 @@ function makeDummyRowRight() {
 function calculateWeight()
 {
     var totalWeight = 0;
-    var factor = "1" + Array(+(2 > 0 && 2 + 1)).join("0");
+    var factor = "1" + Array(+(3 > 0 && 3 + 1)).join("0");
     $('.delivery-table > tbody > tr > td:last-child').each(function() {
         if ($(this).children().hasClass('fa-check-square-o') == true && $(this).children().hasClass('fa-ban') == false)
         {

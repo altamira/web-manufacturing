@@ -789,7 +789,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                                                         $scope.postData.order.endDate = $scope.orderData.endDate;
                                                         $scope.postData.component = {};
                                                         $scope.postData.component.id = comp_temp_id;
-                                                        $scope.postData.startDate = moment.utc($scope.planningStartDate.startDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+                                                        $scope.postData.startDate = CommonFun.formatDate($scope.planningStartDate.startDate, 'DD/MM/YYYY', 'YYYY-MM-DD');
                                                         $scope.postData.produced = {};
                                                         $scope.postData.produced.value = 0;
                                                         $scope.postData.produced.unit = $scope.operationData[n].bom[j].item[k].component[l].quantity.unit;
@@ -802,7 +802,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                                                         $scope.postData.weight = {};
                                                         $scope.postData.weight.value = 0;
                                                         $scope.postData.weight.unit = $scope.operationData[n].bom[j].item[k].component[l].weight.unit;
-                                                        console.log(JSON.stringify($scope.postData));
+
                                                         Restangular.all('manufacture').one('planning', $scope.orderId).one('bom', $scope.operationData[n].bom[j].id).one('item', $scope.operationData[n].bom[j].item[k].id).one('component', $scope.operationData[n].bom[j].item[k].component[l].id).all('produce').post($scope.postData).then(function(res) {
                                                             $scope.tempOperationId = $scope.operationIdArr[i];
                                                             i++;
@@ -971,63 +971,58 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
             }
 
 
-            var pt = moment().locale('pt-br');
-            $scope.today = pt.format('dddd, LL');
-            moment.locale('pt-br');
-            var month = moment.months();
+            $scope.today = CommonFun.toDay();
+            var month = CommonFun.months();
             moment.locale('en');
             $scope.tempUnixTS = [];
             $scope.viewWeekly = false;
             $scope.setToday = 'yes';
             $scope.inicialDate = true;
             $scope.finalDate = true;
-            $scope.currentYear = moment.utc().format('YYYY');
-            $scope.selectDate = moment.utc().format('DD/MM/YYYY');
-            $scope.validYears = [parseInt($scope.currentYear) - 1, parseInt($scope.currentYear), parseInt($scope.currentYear) + 1];
+            $scope.currentYear = CommonFun.currentYear();
+            $scope.selectDate = CommonFun.selectDate();
+            $scope.validYears = CommonFun.validYears();
             $scope.getCellColor = function(st, weight) {
-                if (st < moment.utc().valueOf() || (parseInt(weight) > 30))
+                if (st < CommonFun.toDayTimeStamp() || (parseInt(weight) > 30))
                 {
                     return 'red';
                 }
             }
             $scope.checkDay = function(st) {
-                return moment.utc(st).format('D');
+                return CommonFun.checkDay(st);
             }
             $scope.checkMonth = function(st) {
-                return moment.utc(st).format('M');
+                return CommonFun.checkMonth(st);
             }
             $scope.checkYear = function(st) {
-                return moment.utc(st).format('YYYY');
+                return CommonFun.checkYear(st);
             }
             $scope.getWeekDay = function(date) {
-                return moment.utc(date, "D_M_YYYY").format('dddd');
+                return CommonFun.getWeekDay(date);
             }
             $scope.getWeekDayShort = function(date) {
-                return moment.utc(date, "D_M_YYYY").locale('pt-br').format('ddd');
+                return CommonFun.getWeekDayShort(date);
             }
             $scope.getDay = function(date) {
-                return parseInt(moment.utc(date, "D_M_YYYY").format('D'));
+                return CommonFun.getDay(date);
             }
             $scope.getMonth = function(date) {
-                return parseInt(moment.utc(date, "D_M_YYYY").format('M'));
+                return CommonFun.getMonth(date);
             }
             $scope.getMonthName = function(date) {
-                moment.locale('pt-br');
-                var month = moment.utc(date, "D_M_YYYY").format('MMMM')
-                moment.locale('en');
-                return month;
+                return CommonFun.getMonthName(date);
             }
             $scope.getYear = function(date) {
-                return moment.utc(date, "D_M_YYYY").format('YYYY')
+                return CommonFun.getYear(date);
             }
 
             $scope.makeCalender = function() {
                 $scope.days = [];
                 $scope.monthDays = [];
-                var startMonth = parseInt(moment.utc($scope.tempUnixTS[$scope.tempUnixTS.length - 1]).format('M'));
-                var startYear = parseInt(moment.utc($scope.tempUnixTS[$scope.tempUnixTS.length - 1]).format('YYYY'));
-                var endMonth = parseInt(moment.utc($scope.tempUnixTS[0]).format('M'));
-                var endYear = parseInt(moment.utc($scope.tempUnixTS[0]).format('YYYY'));
+                var startMonth = CommonFun.startMonth($scope.tempUnixTS);
+                var startYear = CommonFun.startYear($scope.tempUnixTS);
+                var endMonth = CommonFun.endMonth($scope.tempUnixTS);
+                var endYear = CommonFun.endYear($scope.tempUnixTS);
                 $scope.maxYear = endYear;
                 $scope.subCalander = function(stMonth, year) {
                     for (var i = stMonth; i <= 12; i++)
@@ -1038,16 +1033,16 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                             {
                                 var arrTemp = {};
                                 arrTemp.name = month[i - 1] + ',' + year;
-                                arrTemp.days = range(1, daysInMonth(i, year));
-                                createDaysArray(arrTemp.days, i, year);
+                                arrTemp.days = CommonFun.range(1, CommonFun.daysInMonth(i, year));
+                                $scope.createDaysArray(arrTemp.days, i, year);
                                 $scope.monthDays.push(arrTemp);
                             }
                         } else
                         {
                             var arrTemp = {};
                             arrTemp.name = month[i - 1] + ',' + year;
-                            arrTemp.days = range(1, daysInMonth(i, year));
-                            createDaysArray(arrTemp.days, i, year);
+                            arrTemp.days = CommonFun.range(1, CommonFun.daysInMonth(i, year));
+                            $scope.createDaysArray(arrTemp.days, i, year);
                             $scope.monthDays.push(arrTemp);
                         }
                         if (i == 12)
@@ -1061,24 +1056,13 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                 }
                 $scope.subCalander(startMonth, startYear);
             };
-            function createDaysArray(daysArray, m, y)
-            {
+
+            $scope.createDaysArray = function(daysArray, m, y) {
                 for (var j = 0; j < daysArray.length; j++) {
                     $scope.days.push(daysArray[j] + '_' + m + '_' + y);
                 }
             }
-            function daysInMonth(month, year) {
-                return moment.utc(month + "-" + year, "M-YYYY").daysInMonth();
-            }
-            function range(a, b, step) {
-                var A = [];
-                A[0] = a;
-                step = step || 1;
-                while (a + step <= b) {
-                    A[A.length] = a += step;
-                }
-                return A;
-            }
+
             $scope.decorateTable = function() {
                 var dragging = false;
                 $('#dragbar').mousedown(function(e) {
@@ -1119,7 +1103,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                 });
                 if ($scope.setToday == 'yes')
                 {
-                    $(".mainRow").mCustomScrollbar("scrollTo", $('.' + moment.utc().format('D_M_YYYY')));
+                    $(".mainRow").mCustomScrollbar("scrollTo", $('.' + CommonFun.gridToday()));
                     setTimeout(function() {
                         var w = ($(window).width() / 2) - 350;
                         $(".mainRow").mCustomScrollbar("scrollTo", '+=' + w);
@@ -1129,26 +1113,41 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
 
                 $('.prev-btn').on('click', function(e) {
                     var oldDate = sessionStorage.getItem('selectDate');
-                    var newDate = $('.' + moment.utc(oldDate, 'DD/MM/YYYY').format('D_M_YYYY')).prev().data('day');
-                    $scope.$apply(function() {
-                        $scope.selectDate = moment.utc(newDate, 'D_M_YYYY').format('DD/MM/YYYY');
-                        $('#select_date').val($scope.selectDate);
-                        sessionStorage.setItem('selectDate', moment.utc(newDate, 'D_M_YYYY').format('DD/MM/YYYY'));
-                    });
-                    var val = 150;
-                    $('.mainRow').mCustomScrollbar("scrollTo", "+=" + val);
+                    var newDate = $('.' + CommonFun.formatDate(oldDate, 'DD/MM/YYYY', 'D_M_YYYY')).prev().data('day');
+                    if (newDate != undefined && newDate != '' && $('.manufactureTable > tbody > tr > td').hasClass(newDate) == true)
+                    {
+                        $scope.$apply(function() {
+                            $scope.selectDate = CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY');
+                            $('#select_date').val($scope.selectDate);
+                            sessionStorage.setItem('selectDate', CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY'));
+                        });
+                        var val = 150;
+                        $('.mainRow').mCustomScrollbar("scrollTo", "+=" + val);
+                    } else
+                    {
+                        services.showAlert('Notice', "Grid reached to it's minimum limit");
+                    }
+
                 });
                 $('.next-btn').on('click', function(e) {
                     var oldDate = sessionStorage.getItem('selectDate');
-                    var newDate = $('.' + moment.utc(oldDate, 'DD/MM/YYYY').format('D_M_YYYY')).next().data('day');
-                    $scope.$apply(function() {
-                        $scope.selectDate = moment.utc(newDate, 'D_M_YYYY').format('DD/MM/YYYY');
-                        $('#select_date').val($scope.selectDate);
-                        sessionStorage.setItem('selectDate', moment.utc(newDate, 'D_M_YYYY').format('DD/MM/YYYY'));
-                    });
-                    var val = 150;
-                    $('.mainRow').mCustomScrollbar("scrollTo", "-=" + val);
+                    var newDate = $('.' + CommonFun.formatDate(oldDate, 'DD/MM/YYYY', 'D_M_YYYY')).next().data('day');
+
+                    if (newDate != undefined && newDate != '' && $('.manufactureTable > tbody > tr > td').hasClass(newDate) == true)
+                    {
+                        $scope.$apply(function() {
+                            $scope.selectDate = CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY');
+                            $('#select_date').val($scope.selectDate);
+                            sessionStorage.setItem('selectDate', CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY'));
+                        });
+                        var val = 150;
+                        $('.mainRow').mCustomScrollbar("scrollTo", "-=" + val);
+                    } else
+                    {
+                        services.showAlert('Notice', "Grid reached to it's maximum limit");
+                    }
                 });
+
                 $('.dragDiv').on('dblclick', function(e) {
                     $location.path('shipping/planning/' + $(this).data('orderid'));
                     $scope.$apply();
@@ -1157,17 +1156,17 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                     $('.date-head').on('click', function(e) {
                         var newDate = $(this).data('day');
                         $scope.$apply(function() {
-                            $scope.selectDate = moment.utc(newDate, 'D_M_YYYY').format('DD/MM/YYYY');
+                            $scope.selectDate = CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY');
                             $('#select_date').val($scope.selectDate);
-                            sessionStorage.setItem('selectDate', moment.utc(newDate, 'D_M_YYYY').format('DD/MM/YYYY'));
+                            sessionStorage.setItem('selectDate', CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY'));
                         });
                     });
                     $('.makeDroppable').on('click', function(e) {
                         var newDate = $(this).data('day');
                         $scope.$apply(function() {
-                            $scope.selectDate = moment.utc(newDate, 'D_M_YYYY').format('DD/MM/YYYY');
+                            $scope.selectDate = CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY');
                             $('#select_date').val($scope.selectDate);
-                            sessionStorage.setItem('selectDate', moment.utc(newDate, 'D_M_YYYY').format('DD/MM/YYYY'));
+                            sessionStorage.setItem('selectDate', CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY'));
                         });
                     });
                     $(".dragDiv").draggable({
@@ -1202,11 +1201,18 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
             }
             $scope.setGridDate = function(date)
             {
-                $(".mainRow").mCustomScrollbar("scrollTo", $('.' + date));
-                setTimeout(function() {
-                    var w = ($(window).width() / 2) - 350;
-                    $(".mainRow").mCustomScrollbar("scrollTo", '+=' + w);
-                }, 2800);
+                if ($('.manufactureTable > tbody > tr > td').hasClass(date) == true)
+                {
+                    $(".mainRow").mCustomScrollbar("scrollTo", $('.' + date));
+                    setTimeout(function() {
+                        var w = ($(window).width() / 2) - 350;
+                        $(".mainRow").mCustomScrollbar("scrollTo", '+=' + w);
+                    }, 1000);
+                }
+                else
+                {
+                    services.showAlert('Notice', "Sorry no date found in grid");
+                }
             }
 
             $scope.loadGrid = function() {

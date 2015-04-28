@@ -382,7 +382,7 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                 $scope.historyModal.hide();
             }
             $scope.openHistoryModal = function() {
-                $scope.historyData.date = moment.utc().format('DD/MM/YYYY');
+                $scope.historyData.date = CommonFun.toDayString();
                 $scope.historyData.comment = '';
                 $scope.historyData.statusDescription = '';
                 $scope.historyModalShow();
@@ -514,7 +514,7 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                         $scope.chgDeliveryData.id = response.data.id;
                         $scope.chgDeliveryData.version = response.data.version;
                         $scope.chgDeliveryData.type = response.data.type;
-                        $scope.chgDeliveryData.delivery = moment.utc($scope.partData.delivery, 'DD/MM/YYYY').format('YYYY-MM-DD');
+                        $scope.chgDeliveryData.delivery = CommonFun.formatDate($scope.partData.delivery, 'DD/MM/YYYY', 'YYYY-MM-DD');
                         $scope.chgDeliveryData.quantity = response.data.quantity;
                         $scope.chgDeliveryData.delivered = response.data.delivered;
                         $scope.chgDeliveryData.remaining = response.data.remaining;
@@ -575,11 +575,10 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                             $scope.chgDeliveryData.id = response.data.id;
                             $scope.chgDeliveryData.version = response.data.version;
                             $scope.chgDeliveryData.type = response.data.type;
-                            $scope.chgDeliveryData.delivery = moment.utc($scope.partData.delivery, 'DD/MM/YYYY').format('YYYY-MM-DD');
+                            $scope.chgDeliveryData.delivery = CommonFun.formatDate($scope.partData.delivery, 'DD/MM/YYYY', 'YYYY-MM-DD');
                             $scope.chgDeliveryData.quantity = response.data.quantity;
                             $scope.chgDeliveryData.delivered = response.data.delivered;
                             $scope.chgDeliveryData.remaining = response.data.remaining;
-                            console.log(JSON.stringify($scope.chgDeliveryData));
                             Restangular.all('shipping').one('planning', $scope.planningId).one('item', $scope.itemId[i]).one('component', $scope.itemPartIdArr[i]).one('delivery', $scope.itemPartDeliveryArr[i]).customPUT($scope.chgDeliveryData).then(function(response) {
                                 i++;
                                 if (i < $scope.itemId.length)
