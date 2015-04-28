@@ -11,8 +11,8 @@
             <span class="btn-separator"></span>
             <h4 style="color: #ffffff;margin-top: 5px;">&nbsp;Ordem Producao&nbsp;</h4>
             <span class="btn-separator"></span>
-            <button type="button" class="button fa-check" ng-click="openStartDateModal()" ></button>
-            <button type="button" class="button fa-random-header" ng-click="processListModalShow()"></button>
+            <button type="button" class="button fa-check" ng-click="openStartDateModal()" ng-if="viewtype != 'grid'"></button>
+            <button type="button" class="button fa-random-header" ng-click="processListModalShow()" ng-if="viewtype != 'grid'"></button>
         </div>
         <div class="header-col-right"><span class="total-weight">0</span> kg</div>
     </ion-header-bar>
@@ -28,7 +28,7 @@
             <div class="col col-50" ng-if="viewtype == 'grid'">
                 <button type="button" class="button button-calm prev-btn" style="float: left"> <i class="icon fa-arrow-left-grid"></i> </button>
                 <div class="grid-date-sel">
-                    <input type="text" name="selectDate" ng-model="selectDate" class="grid-sel-date" grid-date>
+                    <input type="text" name="selectDate" id="select_date" ng-model="selectDate" class="grid-sel-date" grid-date>
                     <i class="icon fa-calender-grid"></i>
                 </div>
                 <button type="button" class="button button-calm next-btn" style="float: left"> <i class="icon fa-arrow-right-grid"></i> </button>

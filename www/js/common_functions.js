@@ -125,6 +125,13 @@ altamiraApp.factory('CommonFun', ['$http', 'Restangular', function($http, Restan
                 }
                 return A;
             },
+            setGridDate: function(date) {
+                $(".mainRow").mCustomScrollbar("scrollTo", $('.' + date));
+                setTimeout(function() {
+                    var w = ($(window).width() / 2) - 100;
+                    $(".mainRow").mCustomScrollbar("scrollTo", '+=' + w);
+                }, 2000);
+            },
         }
 
     }]);

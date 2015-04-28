@@ -378,7 +378,7 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                 $('.prev-btn').on('click', function(e) {
                     var oldDate = sessionStorage.getItem('selectDate');
                     var newDate = $('.' + CommonFun.formatDate(oldDate, 'DD/MM/YYYY', 'D_M_YYYY')).prev().data('day');
-                    if (newDate != undefined && newDate != '' && $('.manufactureTable > tbody > tr > td').hasClass(newDate) == true)
+                    if (newDate != undefined && newDate != '')
                     {
                         $scope.$apply(function() {
                             $scope.selectDate = CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY');
@@ -397,7 +397,7 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                     var oldDate = sessionStorage.getItem('selectDate');
                     var newDate = $('.' + CommonFun.formatDate(oldDate, 'DD/MM/YYYY', 'D_M_YYYY')).next().data('day');
 
-                    if (newDate != undefined && newDate != '' && $('.manufactureTable > tbody > tr > td').hasClass(newDate) == true)
+                    if (newDate != undefined && newDate != '')
                     {
                         $scope.$apply(function() {
                             $scope.selectDate = CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY');
@@ -467,18 +467,11 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
             }
             $scope.setGridDate = function(date)
             {
-                if ($('.manufactureTable > tbody > tr > td').hasClass(date) == true)
-                {
-                    $(".mainRow").mCustomScrollbar("scrollTo", $('.' + date));
-                    setTimeout(function() {
-                        var w = ($(window).width() / 2) - 350;
-                        $(".mainRow").mCustomScrollbar("scrollTo", '+=' + w);
-                    }, 1000);
-                }
-                else
-                {
-                    services.showAlert('Notice', "Sorry no date found in grid");
-                }
+                $(".mainRow").mCustomScrollbar("scrollTo", $('.' + date));
+                setTimeout(function() {
+                    var w = ($(window).width() / 2) - 350;
+                    $(".mainRow").mCustomScrollbar("scrollTo", '+=' + w);
+                }, 1000);
             }
 
             $scope.loadGrid = function() {

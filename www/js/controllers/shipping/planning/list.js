@@ -14,6 +14,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
             $scope.currentYear = CommonFun.currentYear();
             $scope.selectDate = CommonFun.selectDate();
             $scope.validYears = CommonFun.validYears();
+            sessionStorage.setItem('selectDate', $scope.selectDate);
             $scope.viewtype = 'form';
             $scope.formView = function() {
                 $scope.viewtype = 'form';
@@ -324,8 +325,9 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 }
                 $('.prev-btn').on('click', function(e) {
                     var oldDate = sessionStorage.getItem('selectDate');
+                    console.log(JSON.stringify(sessionStorage.getItem('selectDate')));
                     var newDate = $('.' + CommonFun.formatDate(oldDate, 'DD/MM/YYYY', 'D_M_YYYY')).prev().data('day');
-                    if (newDate != undefined && newDate != '' && $('.manufactureTable > tbody > tr > td').hasClass(newDate) == true)
+                    if (newDate != undefined && newDate != '')
                     {
                         $scope.$apply(function() {
                             $scope.selectDate = CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY');
@@ -343,8 +345,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 $('.next-btn').on('click', function(e) {
                     var oldDate = sessionStorage.getItem('selectDate');
                     var newDate = $('.' + CommonFun.formatDate(oldDate, 'DD/MM/YYYY', 'D_M_YYYY')).next().data('day');
-
-                    if (newDate != undefined && newDate != '' && $('.manufactureTable > tbody > tr > td').hasClass(newDate) == true)
+                    if (newDate != undefined && newDate != '')
                     {
                         $scope.$apply(function() {
                             $scope.selectDate = CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY');
@@ -411,18 +412,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
             }
             $scope.setGridDate = function(date)
             {
-                if ($('.manufactureTable > tbody > tr > td').hasClass(date) == true)
-                {
-                    $(".mainRow").mCustomScrollbar("scrollTo", $('.' + date));
-                    setTimeout(function() {
-                        var w = ($(window).width() / 2) - 350;
-                        $(".mainRow").mCustomScrollbar("scrollTo", '+=' + w);
-                    }, 1000);
-                }
-                else
-                {
-                    services.showAlert('Notice', "Sorry no date found in grid");
-                }
+                CommonFun.setGridDate(date);
             }
             $scope.loadGrid = function() {
                 $scope.loading = true;
