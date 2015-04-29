@@ -159,7 +159,19 @@ altamiraApp.config(['$routeProvider',
             templateUrl: 'templates/manufacture/main.html',
             controller: 'ManufacturingMainCtrl'
         })
-                /* Material pages  End */
+                .when('/manufacture/operation', {
+            templateUrl: 'templates/operation/list.html',
+            controller: 'ManufacturingOperationCtrl'
+        })
+                .when('/manufacture/operation/create', {
+            templateUrl: 'templates/operation/create.html',
+            controller: 'ManufacturingOperationCreateCtrl'
+        })
+                .when('/manufacture/operation/edit/:operationId', {
+            templateUrl: 'templates/operation/edit.html',
+            controller: 'ManufacturingOperationEditCtrl'
+        })
+
 
                 .otherwise({
             redirectTo: '/manufacture/process'

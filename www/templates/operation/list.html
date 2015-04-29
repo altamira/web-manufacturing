@@ -1,0 +1,70 @@
+<div class="loding_div" ng-show="loading">
+    <div id="loadingProgressG">
+        <div id="loadingProgressG_1" class="loadingProgressG">
+        </div>
+    </div>
+</div>
+<ion-nav-view class="view-container">
+    <ion-side-menus>
+        <ion-side-menu-content>
+            <ion-nav-bar class="bar-positive">
+                <div class="nav-bar-block" nav-bar="active">
+                    <ion-header-bar class="bar-calm">
+                        <div class="buttons header-margin">
+                            <button class="button fa-bars" menu-toggle="left"></button>
+                            <span class="btn-separator"></span>
+                            <h4 class="mf-page-titles">&nbsp;Lista de Operation&nbsp;</h4>
+                            <span class="btn-separator"></span>
+                            <button class="button fa-plus" ng-click="newOperation()"></button>
+                        </div>
+                    </ion-header-bar>
+                </div>
+            </ion-nav-bar>
+            <ion-nav-view name="menuContent" class="view-container">
+                <ion-view class="pane" nav-view="active">
+                    <ion-content class="padding scroll-content ionic-scroll  has-header">
+                        <div class="row">
+                            <div class="col">
+                                <div class="list">
+                                    <div class="item item-input-search">
+                                        <label class="input-search-wrapper">
+                                            <i class="icon fa-small-search"></i>
+                                            <input type="text" class="input-box" placeholder="search" ng-model="searchText">
+                                        </label>
+                                    </div>
+                                    <i class="icon fa-search search-icon" ng-click="searchOperation(searchText)"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bom-list">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="item-list1 item-icon-right" ng-repeat="item in operation">
+                                        <p class="text-center-middle1" ng-click="goUpdate(item.id)">{{item.name}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="pagination">
+                                <a ng-repeat="n in pageStack" ng-click="goPage(n)">
+                                    <span class="page" ng-class="{'active':n == startPage + 1}">{{n}}</span>
+                                </a>
+                                <a class="page fa-arrow-right next-arrow" ng-show='nextButton' ng-click="nextPage(pageStack.length)" ng-if="pageStack.length > 0"></a>
+                            </div>
+                        </div>
+                    </ion-content>
+                </ion-view>
+            </ion-nav-view>
+        </ion-side-menu-content>
+        <ion-side-menu side="left" class="sidemenu-bg">
+                <ion-content class="scroll-content ionic-scroll">
+                    <div class="scroll" leftside-menu style="padding: 0px !important">
+                    </div>
+                    <div class="scroll-bar scroll-bar-v">
+                        <div class="scroll-bar-indicator scroll-bar-fade-out"></div>
+                    </div>
+                </ion-content>
+        </ion-side-menu>
+    </ion-side-menus>
+</ion-nav-view>

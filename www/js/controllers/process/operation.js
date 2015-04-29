@@ -181,6 +181,10 @@ altamiraAppControllers.controller('ManufacturingProcessCreateOperationCtrl',
                 $location.path('manufacture/update/process/' + $scope.processId);
             };
 
+            $scope.goOperationUpdate = function() {
+                $location.path('/manufacture/operation/edit/' + $scope.operationData.operationId);
+            };
+
         });
 
 altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
@@ -422,6 +426,11 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                 $scope.operationData.operationDesc = desc;
                 $scope.operationListModalClose();
             }
+
+            $scope.goOperationUpdate = function() {
+                $location.path('/manufacture/operation/edit/' + $scope.operationData.operationId);
+            }
+
             $scope.uploadSketch = function() {
                 $scope.postdataSketch = {};
                 $scope.postdataSketch = {

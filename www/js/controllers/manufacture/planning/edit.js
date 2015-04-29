@@ -813,6 +813,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                                                             else
                                                             {
                                                                 $scope.loading = false;
+                                                                $('.total-weight').text('0');
                                                                 services.showAlert('Successo', 'Material Order created !').then(function(res) {
                                                                     if ($scope.viewtype == 'form')
                                                                     {

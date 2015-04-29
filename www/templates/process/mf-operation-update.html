@@ -10,7 +10,7 @@
             <div class="buttons header-margin">
                 <button type="button" class="button fa-arrow-left" ng-click="goBack()"></button>
                 <span class="btn-separator"></span>
-                <h4 class="mf-page-titles">&nbsp;{{operationData.sequence}} - {{operationData.name}}&nbsp;</h4>
+                <h4 class="mf-page-titles">&nbsp;{{operationData.operation}}&nbsp;</h4>
                 <span class="btn-separator"></span>
                 <button class="button fa-check" ng-click="submitted=true" ></button>
                 <button type="button" class="button fa-remove-header" ng-click="removeOperation()" ></button>
@@ -18,7 +18,7 @@
         </ion-header-bar>
         <ion-content>
             <div class="row">
-                <div class="col">
+                <div class="col col-20">
                     <input type="text" name="operationVersion" ng-model="operationData.operationVersion" ng-hide='true'>
                     <div class="list list-row">
                         <span class="input-label text-bold">Sequencia</span>
@@ -28,14 +28,21 @@
                         <label class="extra-error" ng-show="submitted && operationForm.sequence.$error.required">Sequencia é obrigatório.</label>
                         <label class="extra-error" ng-show="submitted && operationForm.sequence.$error.number">Somente numeros.</label>
                     </div>
-                    <div class="list">
+                </div>
+                <div class="col col-80">
+                    <div class="list list-row">
                         <span class="input-label text-bold">Operação</span>
                         <label class="item item-input input-box-extra">
                             <input type="text" name="operation" ng-model="operationData.operation" readonly="readonly" required/>
                         </label>
+                        <i class="icon ion-ios7-search fa-md-arrow-right extra-search" ng-click="goOperationUpdate()" ng-if='operationData.operation'></i>
                         <i class="icon ion-ios7-search fa-md-search extra-search" ng-click="operationListModalShow()"></i>
                         <label class="extra-error" ng-show="submitted && operationData.operation.$error.required">Operação é obrigatório.</label>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
                     <div class="list list-row">
                         <span class="input-label text-bold">Descrição</span>
                         <textarea name="description" ng-model="operationData.description" class="textarea-extra" required></textarea>
