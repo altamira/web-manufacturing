@@ -137,7 +137,7 @@
                         </div>
                         <div class="edit-item" ng-if="data.delivery != ''">
                             <div class="col row">
-                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="delivery-table">
                                     <tr>
                                         <td class="edit-item-title align-center width-9"><i class="fa-calender"></i> <span>Entrega</span></td>
                                         <td class="edit-item-title align-center width-9"><i class="fa-list-ol"></i> <span>Quantidade</span></td>
@@ -153,14 +153,14 @@
                                         <td class="edit-info align-right width-9">{{component.delivery.quantity.value}}<span style="margin-left: 5px;">{{component.quantityType}}</span></td>
                                         <td class="edit-info align-right width-9">{{component.delivery.delivered.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
                                         <td class="edit-info align-right width-9">
-                                            <input type="number" id="remaining_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value > 0">
+                                            <input type="number" id="remaining_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value > 0" onchange="calculateShippingExecutionWeight()">
                                             <input type="number" id="remaining_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value < 1" readonly>
                                         </td>
                                         <td class="edit-text width-42" ng-click='updatePart(orderData.id,data.id,component.componentId)'  style="cursor: pointer;">{{component.description}}</td>
                                         <td class="edit-text align-center width-10">{{component.color}}</td>
-                                        <td class="edit-info align-right width-9">{{component.weight * component.delivery.quantity.value | setDecimal:3}}<span style="margin-left: 5px;">{{component.weightType}}</span></td>
+                                        <td class="edit-info align-right width-9"><span class="weight" id="weight_{{component.delivery.id}}">{{(component.weight/component.delivery.quantity.value)*component.delivery.remaining.value | setDecimal:3}}</span><span style="margin-left: 5px;">{{component.weightType}}</span></td>
                                         <td class="edit-text align-center width-3">
-                                            <i class="icon plus-icon fa-square-o" change-remaining-quantity dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}" ng-if="component.delivery.remaining.value > 0"></i>
+                                            <i class="icon plus-icon fa-square-o" change-remaining-quantity dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}" compoweight="{{component.weight}}" compoquantity="{{component.delivery.quantity.value}}" ng-if="component.delivery.remaining.value > 0"></i>
                                             <i class="icon plus-icon fa-square-o" dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}" ng-if="component.delivery.remaining.value < 1" style="cursor: not-allowed"></i>
                                         </td>
                                     </tr>

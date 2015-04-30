@@ -133,7 +133,7 @@ altamiraApp.factory('CommonFun', ['$http', 'Restangular', function($http, Restan
                 }, 2000);
             },
             setDecimal: function(value) {
-                var precision = 2,
+                var precision = 3,
                         power = Math.pow(10, precision),
                         absValue = Math.abs(Math.round(value * power)),
                         result = (value < 0 ? '-' : '') + String(Math.floor(absValue / power));

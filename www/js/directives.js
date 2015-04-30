@@ -718,6 +718,7 @@ altamiraApp.directive('changeRemainingQuantity', function(services) {
             {
                 scope.remainingQtnArr.splice(scope.remainingQtnArr.indexOf(parseInt(attr.datadelivery)), 1);
             }
+            calculateShippingExecutionWeight();
         });
     }
 });
@@ -957,17 +958,17 @@ function totalWeightCal() {
                 tempTotalWeight += parseFloat($(this).children().data('weight'));
             }
         });
-        var precision = 2,
-                power = Math.pow(10, precision),
-                absValue = Math.abs(Math.round(tempTotalWeight * power)),
-                result = (tempTotalWeight < 0 ? '-' : '') + String(Math.floor(absValue / power));
-
-        if (precision > 0) {
-            var fraction = String(absValue % power),
-                    padding = new Array(Math.max(precision - fraction.length, 0) + 1).join('0');
-            result += '.' + padding + fraction;
-        }
-        tempTotalWeight = result;
+//        var precision = 3,
+//                power = Math.pow(10, precision),
+//                absValue = Math.abs(Math.round(tempTotalWeight * power)),
+//                result = (tempTotalWeight < 0 ? '-' : '') + String(Math.floor(absValue / power));
+//
+//        if (precision > 0) {
+//            var fraction = String(absValue % power),
+//                    padding = new Array(Math.max(precision - fraction.length, 0) + 1).join('0');
+//            result += '.' + padding + fraction;
+//        }
+//        tempTotalWeight = result;
         if (tempTotalWeight != 0)
         {
             $th.addClass('totalWeightShow');
@@ -1056,4 +1057,19 @@ function calculateWeight()
     });
     totalWeight = Math.round(totalWeight * factor) / factor;
     $('.total-weight').text(totalWeight);
+}
+function calculateShippingExecutionWeight()
+{
+    var totalWeight = 0;
+    var factor = "1" + Array(+(3 > 0 && 3 + 1)).join("0");
+    $('.delivery-table > tbody > tr > td:last-child').each(function() {
+        if ($(this).children().hasClass('fa-check-square-o') == true && $(this).children().hasClass('fa-ban') == false)
+        {
+            var remainW = parseFloat($('#remaining_' + $(this).children().attr('datadelivery')).val());
+            var weight = (parseFloat($(this).children().attr('compoweight')) / parseFloat($(this).children().attr('compoquantity'))) * remainW;
+            weight = Math.round(weight * factor) / factor;
+            $('#weight_' + $(this).children().attr('datadelivery')).text(weight);
+            totalWeight = totalWeight + weight;
+        }
+    });
 }
