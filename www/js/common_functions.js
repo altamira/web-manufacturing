@@ -132,6 +132,19 @@ altamiraApp.factory('CommonFun', ['$http', 'Restangular', function($http, Restan
                     $(".mainRow").mCustomScrollbar("scrollTo", '+=' + w);
                 }, 2000);
             },
+            setDecimal: function(value) {
+                var precision = 2,
+                        power = Math.pow(10, precision),
+                        absValue = Math.abs(Math.round(value * power)),
+                        result = (value < 0 ? '-' : '') + String(Math.floor(absValue / power));
+
+                if (precision > 0) {
+                    var fraction = String(absValue % power),
+                            padding = new Array(Math.max(precision - fraction.length, 0) + 1).join('0');
+                    result += '.' + padding + fraction;
+                }
+                return result;
+            },
         }
 
     }]);

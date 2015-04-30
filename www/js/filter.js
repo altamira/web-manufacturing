@@ -1,7 +1,8 @@
 altamiraAppControllers.filter('setDecimal',
         function($filter) {
             return function(value, precision) {
-                var precision = precision || 0,
+//                var precision = precision || 0,
+                var precision = 2,
                         power = Math.pow(10, precision),
                         absValue = Math.abs(Math.round(value * power)),
                         result = (value < 0 ? '-' : '') + String(Math.floor(absValue / power));

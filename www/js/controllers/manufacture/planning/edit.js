@@ -96,7 +96,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                     {
                         services.showAlert('Message', 'No data found');
                     }
-
+                    console.log(JSON.stringify($scope.operationData));
                     $scope.loading = false;
                 }, function(response) {
                     $scope.loading = false;
@@ -802,7 +802,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                                                         $scope.postData.weight = {};
                                                         $scope.postData.weight.value = 0;
                                                         $scope.postData.weight.unit = $scope.operationData[n].bom[j].item[k].component[l].weight.unit;
-
+                                                        console.log(JSON.stringify($scope.postData));
                                                         Restangular.all('manufacture').one('planning', $scope.orderId).one('bom', $scope.operationData[n].bom[j].id).one('item', $scope.operationData[n].bom[j].item[k].id).one('component', $scope.operationData[n].bom[j].item[k].component[l].id).all('produce').post($scope.postData).then(function(res) {
                                                             $scope.tempOperationId = $scope.operationIdArr[i];
                                                             i++;
@@ -1545,22 +1545,22 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
             $scope.changeProcess = function(id, name)
             {
                 $scope.processListModalHide();
-                console.log(JSON.stringify(id));
-                console.log(JSON.stringify(name));
-                console.log(JSON.stringify($scope.operationIdArr))
-                console.log(JSON.stringify($scope.bomIdArr))
-                console.log(JSON.stringify($scope.itemIdArr))
-                console.log(JSON.stringify($scope.componentIdArr))
-                console.log(JSON.stringify($scope.materialIdArr))
-                console.log(JSON.stringify($scope.componentQunArr))
-                console.log(JSON.stringify($scope.componentPesoArr))
+//                console.log(JSON.stringify(id));
+//                console.log(JSON.stringify(name));
+//                console.log(JSON.stringify($scope.operationIdArr))
+//                console.log(JSON.stringify($scope.bomIdArr))
+//                console.log(JSON.stringify($scope.itemIdArr))
+//                console.log(JSON.stringify($scope.componentIdArr))
+//                console.log(JSON.stringify($scope.materialIdArr))
+//                console.log(JSON.stringify($scope.componentQunArr))
+//                console.log(JSON.stringify($scope.componentPesoArr))
                 var i = 0;
                 $scope.changeMaterialProcess = function()
                 {
                     $scope.loading = true;
                     $scope.postdata = {};
-                    $scope.postdata.id = $scope.operationIdArr[i];
-                    Restangular.all('common').one('material', $scope.materialIdArr[i]).all('process').post($scope.postdata).then(function(response) {
+                    $scope.postdata.id = $scope.materialIdArr[i];
+                    Restangular.all('common').one('material', id).all('process').post($scope.postdata).then(function(response) {
 
                         i++;
                         if (i < $scope.materialIdArr.length)

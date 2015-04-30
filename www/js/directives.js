@@ -953,13 +953,25 @@ function totalWeightCal() {
         $('.' + $th.data('date')).each(function(f) {
             if ($(this).children().data('weight') != undefined && $(this).children().data('weight') != '')
             {
-                tempTotalWeight += Math.ceil(parseFloat($(this).children().data('weight')));
+//                tempTotalWeight += Math.ceil(parseFloat($(this).children().data('weight')));
+                tempTotalWeight += parseFloat($(this).children().data('weight'));
             }
         });
+        var precision = 2,
+                power = Math.pow(10, precision),
+                absValue = Math.abs(Math.round(tempTotalWeight * power)),
+                result = (tempTotalWeight < 0 ? '-' : '') + String(Math.floor(absValue / power));
+
+        if (precision > 0) {
+            var fraction = String(absValue % power),
+                    padding = new Array(Math.max(precision - fraction.length, 0) + 1).join('0');
+            result += '.' + padding + fraction;
+        }
+        tempTotalWeight = result;
         if (tempTotalWeight != 0)
         {
             $th.addClass('totalWeightShow');
-            $th.html(Math.ceil(tempTotalWeight));
+            $th.html(tempTotalWeight);
             if (tempTotalWeight > 30)
             {
                 $th.addClass('red');

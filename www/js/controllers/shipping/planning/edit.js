@@ -120,7 +120,7 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                     $scope.partDelivery = partDelivery[0];
                     $scope.divideData.chnDateTotalQuantity = partDelivery[0].quantity.value;
                     $scope.divideData.chnDateTotalQuantityUnit = partDelivery[0].quantity.unit.symbol;
-                    $scope.divideData.pesoTotal = partDelivery[0].quantity.value * part[0].weight.value;
+                    $scope.divideData.pesoTotal = CommonFun.setDecimal(partDelivery[0].quantity.value * part[0].weight.value);
                     $scope.divideData.chnDateItem = {};
                     $scope.divideData.chnDateItem.id = tempVar[0].id;
                     $scope.divideData.chnDateItem.version = tempVar[0].version;
@@ -236,8 +236,8 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                                     if (delivery != '')
                                     {
                                         $scope.joinData.chnDateParts[i].deliveryArr.push(delivery[0]);
-                                        chnDateTotalQuantity = chnDateTotalQuantity + parseInt(delivery[0].quantity.value);
-                                        pesoTotal = pesoTotal + (parseInt(delivery[0].quantity.value) * parseInt(part[0].weight.value));
+                                        chnDateTotalQuantity = chnDateTotalQuantity + parseFloat(delivery[0].quantity.value);
+                                        pesoTotal = pesoTotal + (parseFloat(delivery[0].quantity.value) * parseFloat(part[0].weight.value));
                                     }
                                     chnDateUnit = part[0].weight.unit;
                                 }
@@ -247,7 +247,7 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                             $scope.joinData.chnDateTotalQuantity = chnDateTotalQuantity;
                             $scope.joinData.chnDateTotalQuantityUnit = $scope.joinData.chnDateParts[0].quantity.unit.symbol;
                             $scope.joinData.chnDateUnit = chnDateUnit;
-                            $scope.joinData.pesoTotal = pesoTotal;
+                            $scope.joinData.pesoTotal = CommonFun.setDecimal(pesoTotal);
                             $scope.joinData.chnDateItem = {};
                             $scope.joinData.chnDateItem.id = tempVar[0].id;
                             $scope.joinData.chnDateItem.version = tempVar[0].version;

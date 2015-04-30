@@ -15,12 +15,12 @@
                     <div class="list list-row">
                         <span class="input-label text-bold">Data Entrega</span>
                         <label class="item item-input input-box-extra">
-                            <input type="text" name="date" ng-model="historyData.date" required ng-click="showdate=false">
+                            <input type="text" name="date" ng-model="historyData.date" required ng-click="showdate=false" readonly="readonly">
                             <i class="icon ion-ios7-search fa-calender" style="margin-right: 10px;"></i>
                         </label>
                         <label class="extra-error" ng-show="submitted && historyForm.date.$error.required">Data Entrega é obrigatório.</label>
                     </div>
-                    <div history-date ng-hide="showdate"></div>
+                    <!--<div history-date ng-hide="showdate"></div>-->
                 </div>
                 <div class="col-50">
                     <div class="list list-row">
