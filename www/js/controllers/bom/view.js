@@ -117,7 +117,8 @@ altamiraAppControllers.controller('BomViewCtrl',
             $scope.genrateReport = function() {
                 if ($scope.totalReport.length > 0) {
                     $scope.reportTypeModalClose();
-                    window.open(sessionStorage.getItem('reportBaseUrl') + '/report/manufacture/bom/' + $scope.bomId + '?report=' + $scope.totalReport.join('&report=') + '&token=' + sessionStorage.getItem('token'), '_blank');
+                    var token = sessionStorage.getItem('token');
+                    window.open(sessionStorage.getItem('reportBaseUrl') + '/report/manufacture/bom/' + $scope.bomId + '?report=' + $scope.totalReport.join('&report=') + '&token=' + token, '_blank');
                 } else {
                     services.showAlert('Falhou', 'Please select report type');
                 }
