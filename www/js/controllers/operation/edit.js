@@ -39,6 +39,10 @@ altamiraAppControllers.controller('ManufacturingOperationEditCtrl',
                         services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                     });
                 }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
+                }
             };
 
             $scope.removeOperation = function() {
@@ -59,7 +63,7 @@ altamiraAppControllers.controller('ManufacturingOperationEditCtrl',
                     }
                 });
             };
-            
+
             $scope.goBack = function() {
                 $location.path('manufacture/operation');
             };

@@ -205,6 +205,10 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                         });
                     });
                 }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
+                }
             }
             $scope.desideQun2 = function() {
                 $scope.divideData.quantity2 = parseInt($scope.divideData.chnDateTotalQuantity) - parseInt($scope.divideData.quantity1);
@@ -330,6 +334,10 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                         });
                     });
                 }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
+                }
             };
             $scope.checkComponents = function() {
                 $scope.tempItemId = $scope.itemId
@@ -367,6 +375,10 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                         $scope.loading = false;
                         services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
+                }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
                 }
             };
             $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/history.html', {
@@ -440,6 +452,10 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                         $scope.loading = false;
                         services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
+                }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
                 }
             };
             $scope.updatePart = function(bomId, itemId, partId, deliveryid) {
@@ -540,6 +556,10 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                         services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
                 }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
+                }
             };
             $scope.updateMultiplePart = function() {
                 $ionicModal.fromTemplateUrl('templates/shipping/planning/popup/multiplepart.html', {
@@ -604,6 +624,10 @@ altamiraAppControllers.controller('ShippingPlanningEditCtrl',
                         });
                     }
                     $scope.changeDeliveryDate();
+                }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
                 }
             }
             $scope.checkAllDelivery = function() {

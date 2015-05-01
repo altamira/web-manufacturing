@@ -83,6 +83,10 @@ altamiraAppControllers.controller('MaterialComponentCtrl',
                         services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
                 }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
+                }
             };
             Restangular.one('manufacturing/bom', $scope.bomId).get().then(function(response1) {
                 $scope.postdata.version = response1.data.version;

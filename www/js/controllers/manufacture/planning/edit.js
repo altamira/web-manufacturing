@@ -840,6 +840,10 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                     }
                     $scope.createProduce();
                 }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
+                }
             }
 
             $scope.removeOrder = function()

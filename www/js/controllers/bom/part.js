@@ -167,6 +167,10 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
                         services.showAlert('Falhou', 'Material não localizado, verifique o código.');
                     });
                 }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
+                }
             }
             $scope.goMaterialUpdate = function() {
                 Restangular.one('common/material').get({code: $scope.partData.code}).then(function(response) {
@@ -516,81 +520,6 @@ altamiraAppControllers.controller('BomPartUpdateCtrl',
                 });
             };
             $scope.loadPart();
-//            $scope.submitPartForm = function(isValid) {
-//                if (isValid) {
-//                    $scope.loading = true;
-//                    Restangular.one('common/material').get({code: $scope.partData.code}).then(function(response) {
-//
-//                        if (response.data != '')
-//                        {
-//                            $scope.postData = {};
-//                            $scope.postData.id = $scope.partId;
-//                            $scope.postData.code = $scope.partData.code;
-//                            $scope.postData.description = $scope.partData.description;
-//
-//                            Restangular.one('common/color', $scope.partData.color).get({max: 0}).then(function(response) {
-//                                $scope.postData.color = {};
-//                                $scope.postData.color.id = response.data.id;
-//                                $scope.postData.color.version = response.data.version;
-//                                $scope.postData.color.code = response.data.code;
-//                                $scope.postData.color.name = response.data.name;
-//
-//                                $scope.postData.quantity = {};
-//                                $scope.postData.quantity.value = parseFloat($scope.partData.quantity);
-//                                $scope.postData.quantity.unit = {};
-//                                $scope.postData.quantity.unit.id = $scope.partData.quantityType;
-//
-//                                $scope.postData.width = {};
-//                                $scope.postData.width.value = parseFloat($scope.partData.width);
-//                                $scope.postData.width.unit = {};
-//                                $scope.postData.width.unit.id = $scope.partData.widthType;
-//
-//                                $scope.postData.height = {};
-//                                $scope.postData.height.value = parseFloat($scope.partData.height);
-//                                $scope.postData.height.unit = {};
-//                                $scope.postData.height.unit.id = $scope.partData.heightType;
-//
-//                                $scope.postData.length = {};
-//                                $scope.postData.length.value = parseFloat($scope.partData.length);
-//                                $scope.postData.length.unit = {};
-//                                $scope.postData.length.unit.id = $scope.partData.lengthType;
-//
-//                                $scope.postData.weight = {};
-//                                $scope.postData.weight.value = parseFloat($scope.partData.weight);
-//                                $scope.postData.weight.unit = {};
-//                                $scope.postData.weight.unit.id = $scope.partData.weightType;
-//                                console.log(JSON.stringify($scope.postData));
-//                                Restangular.one('manufacture/bom', $scope.bomId).one('item', $scope.itemId).one('component', $scope.partId).get().then(function(response1) {
-//                                    $scope.postData.version = response1.data.version;
-//                                    Restangular.one('manufacture/bom', $scope.bomId).one('item', $scope.itemId).one('component', $scope.partId).customPUT($scope.postData).then(function(response) {
-//                                        $scope.loading = false;
-//                                        $location.path('/bom/item/update/' + $scope.bomId + '/' + $scope.itemId);
-//                                    }, function(response) {
-//                                        $scope.loading = false;
-//                                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
-//                                    });
-//                                }, function(response1) {
-//                                    $scope.loading = false;
-//                                    services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
-//                                });
-//                            }, function(response) {
-//                                services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
-//                            });
-//                        }
-//                        else
-//                        {
-//                            services.showAlert('Error', 'O codigo do Material não foi encontrado, verifique.').then(function(res) {
-//                                return false;
-//                            });
-//                        }
-//                    }, function(response) {
-//                        $scope.loading = false;
-//                        services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
-//                    });
-//
-//
-//                }
-//            }
 
             $scope.removePart = function() {
                 services.showConfirmBox('Confirmation', 'Tem certeza de remover este componente ?').then(function(res) {
@@ -850,6 +779,10 @@ altamiraAppControllers.controller('BomPartUpdateCtrl',
                         $scope.loading = false;
                         services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
+                }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
                 }
             };
 

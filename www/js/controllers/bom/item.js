@@ -21,6 +21,10 @@ altamiraAppControllers.controller('BomItemCreateCtrl',
                         services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
                 }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
+                }
             };
             $scope.goBack = function() {
                 $location.path('bom/edit/' + $scope.bomId);
@@ -97,7 +101,10 @@ altamiraAppControllers.controller('BomItemUpdateCtrl',
                         services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
                 }
-
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
+                }
             };
 
             $scope.removeItem = function() {

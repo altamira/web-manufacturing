@@ -121,6 +121,10 @@ altamiraAppControllers.controller('ManufacturingProcessOperationProduceCtrl',
                         services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
                 }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
+                }
             };
 
             $scope.goMaterialUpdate = function() {

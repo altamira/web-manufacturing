@@ -399,6 +399,10 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         });
                     });
                 }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
+                }
             }
             $scope.desideQun2 = function() {
                 $scope.divideData.quantity2 = parseInt($scope.divideData.chnDateTotalQuantity) - parseInt($scope.divideData.quantity1);
@@ -520,6 +524,10 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         });
                     });
                 }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
+                }
             }
 
             $scope.updatePart = function(bomId, itemId, partId, deliveryid) {
@@ -632,6 +640,10 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         $scope.loading = false;
                         services.showAlert('Falhou', 'Error in GET request');
                     });
+                }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
                 }
             }
 

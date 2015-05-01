@@ -328,6 +328,10 @@ altamiraAppControllers.controller('CommonCtrl',
                         services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
                 }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
+                }
             };
             $ionicModal.fromTemplateUrl('templates/popup/process_list.html', {
                 scope: $scope,

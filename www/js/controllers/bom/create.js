@@ -22,13 +22,17 @@ altamiraAppControllers.controller('BomCreateCtrl',
                         $scope.loading = false;
                         if (response.status == 201) {
                             services.showAlert('Successo', 'Lista de Material criada com sucesso !').then(function(res) {
-                                $location.path('/bom/edit/'+response.data.id);
+                                $location.path('/bom/edit/' + response.data.id);
                             });
                         }
                     }, function(response1) {
                         $scope.loading = false;
                         services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
+                }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
                 }
             };
             $scope.goBack = function() {

@@ -59,6 +59,10 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                     $scope.createManPlanningModalHide();
 //                    $location.path('manufacture/planning/create');
                 }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
+                }
             };
             $scope.loadOperations = function()
             {
@@ -796,6 +800,10 @@ altamiraAppControllers.controller('ManufacturePlanningCreateCtrl',
                         $scope.loading = false;
                         services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
+                }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
                 }
             }
 

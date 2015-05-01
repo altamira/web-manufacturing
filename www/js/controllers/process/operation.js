@@ -34,6 +34,10 @@ altamiraAppControllers.controller('ManufacturingProcessCreateOperationCtrl',
                         services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
                 }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
+                }
             };
 
             $scope.resetOperation = function() {
@@ -253,19 +257,6 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                     $scope.postdata.operation.name = $scope.operationData.operation;
                     $scope.postdata.operation.description = $scope.operationData.operationDesc;
                     $scope.postdata.description = $scope.operationData.description;
-//                    $scope.postdata.sketch = {};
-//                    $scope.postdata.sketch = {
-//                        "version": parseInt($scope.operationData.sketchVersion),
-//                        "format": $scope.operationData.format,
-//                        "filename": $scope.operationData.filename,
-//                        "extension": $scope.operationData.filetype,
-//                        "image": $scope.operationData.sketch
-//                    };
-//
-//                    if ($scope.operationData.sketchId != '' && $scope.operationData.sketch != "")
-//                    {
-//                        $scope.postdata.sketch.id = parseInt($scope.operationData.sketchId);
-//                    }
 
                     Restangular.one('manufacture/process', $scope.processId).one('operation', $scope.operationId).get().then(function(response1) {
                         $scope.postdata.version = response1.data.version;
@@ -282,7 +273,10 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                         $scope.loading = false;
                         services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');
                     });
-
+                }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
                 }
             };
             $scope.resetOperation = function() {

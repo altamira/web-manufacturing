@@ -240,6 +240,10 @@ altamiraAppControllers.controller('ManufacturePlanningCtrl',
                     $scope.createManPlanningModalHide();
                     $location.path('manufacture/planning/create');
                 }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
+                }
             };
             $scope.goEdit = function(planningId) {
                 $location.path('manufacture/planning/edit/' + planningId);

@@ -59,6 +59,10 @@ altamiraAppControllers.controller('BomEditCtrl',
                         services.showAlert('Falhou', 'Tente novamente ou entre em contato com o suporte técnico.');
                     });
                 }
+                else
+                {
+                    services.showAlert('Falhou', 'Você perdeu alguma coisa. Por favor, verifique as mensagens de erro.');
+                }
             };
             $scope.createItem = function() {
                 $location.path('/bom/item/create/' + $scope.bomId);
