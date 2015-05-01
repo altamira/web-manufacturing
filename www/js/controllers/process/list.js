@@ -1,9 +1,9 @@
 altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
         function($scope, $location, $routeParams, $localStorage, $ionicPopup, Restangular, services, $route, $window) {
 
-            if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && sessionStorage.getItem('token') == '')
+            if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && localStorage.getItem('token') == '' && localStorage.getItem('token') == null)
             {
-                sessionStorage.setItem('token', $routeParams.token);
+                localStorage.setItem('token', $routeParams.token);
                 $window.location.reload();
             }
             $scope.resetProcess = function() {
@@ -13,13 +13,13 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                 $scope.processesArray = [];
                 $scope.nextButton = true;
             };
-            $scope.searchText = sessionStorage.getItem('searchProcess');
+            $scope.searchText = localStorage.getItem('searchProcess');
             $scope.tempSearch = '';
             $scope.isDataSearch = '';
             $scope.resetProcess();
             $scope.loadProcess = function() {
                 $scope.loading = true;
-                Restangular.one('manufacture').one('process').get({search: sessionStorage.getItem('searchProcess'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
+                Restangular.one('manufacture').one('process').get({search: localStorage.getItem('searchProcess'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
                     if (response.data == '') {
                         $scope.loading = false;
                         if ((parseInt($scope.startPage) != 0))
@@ -89,10 +89,10 @@ altamiraAppControllers.controller('ManufacturingProcsSearchCtrl',
                 if (text != '')
                 {
                     $scope.resetProcess();
-                    sessionStorage.setItem('searchProcess', text);
+                    localStorage.setItem('searchProcess', text);
                 } else
                 {
-                    sessionStorage.setItem('searchProcess', '');
+                    localStorage.setItem('searchProcess', '');
                     $scope.resetProcess();
                 }
                 $scope.loadProcess();

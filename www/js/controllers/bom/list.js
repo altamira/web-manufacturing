@@ -1,8 +1,8 @@
 altamiraAppControllers.controller('BomListCtrl',
         function($scope, $http, $location, $route, $routeParams, $ionicPopup, $ionicLoading, $timeout, $state, Restangular, IntegrationRestangular, $ionicSideMenuDelegate, services, $window) {
-            if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && sessionStorage.getItem('token') == '')
+            if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && localStorage.getItem('token') == '' && localStorage.getItem('token') == null)
             {
-                sessionStorage.setItem('token', $routeParams.token);
+                localStorage.setItem('token', $routeParams.token);
                 $window.location.reload();
             }
             $scope.checked = {
@@ -82,17 +82,17 @@ altamiraAppControllers.controller('BomListCtrl',
                 $scope.bomArray = [];
                 $scope.nextButton = true;
             };
-            $scope.searchText = sessionStorage.getItem('searchBOM');
+            $scope.searchText = localStorage.getItem('searchBOM');
             $scope.isDataSearch = '';
             $scope.resetBOM();
             $scope.loadBOM = function() {
                 $scope.loading = true;
-                if (sessionStorage.getItem('searchBOM') == null || sessionStorage.getItem('searchBOM') == "")
+                if (localStorage.getItem('searchBOM') == null || localStorage.getItem('searchBOM') == "")
                 {
                     var request = Restangular.one('manufacture').one('bom').get({checked: 'false', start: $scope.startPage, max: $scope.maxRecord});
                 } else
                 {
-                    var request = Restangular.one('manufacture').one('bom').get({search: sessionStorage.getItem('searchBOM'), start: $scope.startPage, max: $scope.maxRecord});
+                    var request = Restangular.one('manufacture').one('bom').get({search: localStorage.getItem('searchBOM'), start: $scope.startPage, max: $scope.maxRecord});
                 }
                 request.then(function(response) {
                     if (response.data == '') {
@@ -164,10 +164,10 @@ altamiraAppControllers.controller('BomListCtrl',
                 if (text != '')
                 {
                     $scope.resetBOM();
-                    sessionStorage.setItem('searchBOM', text);
+                    localStorage.setItem('searchBOM', text);
                 } else
                 {
-                    sessionStorage.setItem('searchBOM', '');
+                    localStorage.setItem('searchBOM', '');
                     $scope.resetBOM();
                 }
                 $scope.loadBOM();

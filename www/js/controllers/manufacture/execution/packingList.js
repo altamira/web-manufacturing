@@ -65,9 +65,9 @@ altamiraAppControllers.controller('ManufactureExecutionPackingCtrl',
                                 $scope.postData.version = 0;
                                 $scope.postData.type = 'br.com.altamira.data.model.shipping.execution.Delivered';
                                 $scope.postData.operation = {};
-                                $scope.postData.operation.id = sessionStorage.getItem('operationId');
-                                $scope.postData.operation.type = sessionStorage.getItem('operationType');
-                                $scope.postData.operation.description = sessionStorage.getItem('operationDesc');
+                                $scope.postData.operation.id = localStorage.getItem('operationId');
+                                $scope.postData.operation.type = localStorage.getItem('operationType');
+                                $scope.postData.operation.description = localStorage.getItem('operationDesc');
                                 $scope.postData.quantity = {};
                                 $scope.postData.quantity.value = $('#remaining_' + $scope.remainingQtnArr[i]).val();
                                 $scope.postData.quantity.unit = response.data.quantity.unit;
@@ -105,6 +105,6 @@ altamiraAppControllers.controller('ManufactureExecutionPackingCtrl',
                 });
             }
             $scope.printReport = function() {
-                window.open(sessionStorage.getItem('reportBaseUrl') + "/report/shipping/execution/packinglist/" + $scope.executionId + '?token=' + sessionStorage.getItem('token'), '_blank');
+                window.open(localStorage.getItem('reportBaseUrl') + "/report/shipping/execution/packinglist/" + $scope.executionId + '?token=' + localStorage.getItem('token'), '_blank');
             }
         });

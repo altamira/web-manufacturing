@@ -52,8 +52,8 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
             }).then(function(modal) {
                 $scope.createManPlanningModal = modal;
                 $scope.planning = {}
-                $scope.planning.inicial = sessionStorage.getItem('createOrderFormInicial');
-                $scope.planning.final = sessionStorage.getItem('createOrderFormFinal');
+                $scope.planning.inicial = localStorage.getItem('createOrderFormInicial');
+                $scope.planning.final = localStorage.getItem('createOrderFormFinal');
                 $scope.createManPlanningModalShow = function() {
                     $scope.createManPlanningModal.show();
                 }
@@ -983,7 +983,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
             $scope.currentYear = CommonFun.currentYear();
             $scope.selectDate = CommonFun.selectDate();
             $scope.validYears = CommonFun.validYears();
-            sessionStorage.setItem('selectDate', $scope.selectDate);
+            localStorage.setItem('selectDate', $scope.selectDate);
             $scope.getCellColor = function(st, weight) {
                 if (st < CommonFun.toDayTimeStamp() || (parseInt(weight) > 30))
                 {
@@ -1114,14 +1114,14 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                 }
 
                 $('.prev-btn').on('click', function(e) {
-                    var oldDate = sessionStorage.getItem('selectDate');
+                    var oldDate = localStorage.getItem('selectDate');
                     var newDate = $('.' + CommonFun.formatDate(oldDate, 'DD/MM/YYYY', 'D_M_YYYY')).prev().data('day');
                     if (newDate != undefined && newDate != '')
                     {
                         $scope.$apply(function() {
                             $scope.selectDate = CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY');
                             $('#select_date').val($scope.selectDate);
-                            sessionStorage.setItem('selectDate', CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY'));
+                            localStorage.setItem('selectDate', CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY'));
                         });
                         var val = 150;
                         $('.mainRow').mCustomScrollbar("scrollTo", "+=" + val);
@@ -1132,7 +1132,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
 
                 });
                 $('.next-btn').on('click', function(e) {
-                    var oldDate = sessionStorage.getItem('selectDate');
+                    var oldDate = localStorage.getItem('selectDate');
                     var newDate = $('.' + CommonFun.formatDate(oldDate, 'DD/MM/YYYY', 'D_M_YYYY')).next().data('day');
 
                     if (newDate != undefined && newDate != '')
@@ -1140,7 +1140,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                         $scope.$apply(function() {
                             $scope.selectDate = CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY');
                             $('#select_date').val($scope.selectDate);
-                            sessionStorage.setItem('selectDate', CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY'));
+                            localStorage.setItem('selectDate', CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY'));
                         });
                         var val = 150;
                         $('.mainRow').mCustomScrollbar("scrollTo", "-=" + val);
@@ -1160,7 +1160,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                         $scope.$apply(function() {
                             $scope.selectDate = CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY');
                             $('#select_date').val($scope.selectDate);
-                            sessionStorage.setItem('selectDate', CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY'));
+                            localStorage.setItem('selectDate', CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY'));
                         });
                     });
                     $('.makeDroppable').on('click', function(e) {
@@ -1168,7 +1168,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                         $scope.$apply(function() {
                             $scope.selectDate = CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY');
                             $('#select_date').val($scope.selectDate);
-                            sessionStorage.setItem('selectDate', CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY'));
+                            localStorage.setItem('selectDate', CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY'));
                         });
                     });
                     $(".dragDiv").draggable({
@@ -1362,7 +1362,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
             $scope.genrateReport = function() {
                 if ($scope.totalReport.length > 0) {
                     $scope.reportTypeModalClose();
-                    window.open(sessionStorage.getItem('reportBaseUrl') + '/report/manufacture/planning/' + $scope.orderId + '?op=' + $scope.totalReport.join('&op=') + '&token=' + sessionStorage.getItem('token'), '_blank');
+                    window.open(localStorage.getItem('reportBaseUrl') + '/report/manufacture/planning/' + $scope.orderId + '?op=' + $scope.totalReport.join('&op=') + '&token=' + localStorage.getItem('token'), '_blank');
                 } else {
                     services.showAlert('Falhou', 'Escolha Tipo Relatório');
                 }
@@ -1425,13 +1425,13 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                 $scope.nextButton = true;
             };
             $scope.resetProcess();
-            $scope.searchText = sessionStorage.getItem('searchProcess');
+            $scope.searchText = localStorage.getItem('searchProcess');
             $scope.tempSearch = '';
             $scope.isDataSearch = '';
 
             $scope.loadProcess = function() {
                 $scope.loading = true;
-                Restangular.one('manufacture').one('process').get({search: sessionStorage.getItem('searchProcess'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
+                Restangular.one('manufacture').one('process').get({search: localStorage.getItem('searchProcess'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
                     if (response.data == '') {
                         $scope.loading = false;
                         if ((parseInt($scope.startPage) != 0))
@@ -1501,10 +1501,10 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                 if (text != '')
                 {
                     $scope.resetProcess();
-                    sessionStorage.setItem('searchProcess', text);
+                    localStorage.setItem('searchProcess', text);
                 } else
                 {
-                    sessionStorage.setItem('searchProcess', '');
+                    localStorage.setItem('searchProcess', '');
                     $scope.resetProcess();
                 }
                 $scope.loadProcess();

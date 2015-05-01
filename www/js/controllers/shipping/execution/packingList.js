@@ -122,6 +122,6 @@ altamiraAppControllers.controller('ShippingExecutionPackingCtrl',
                 });
             }
             $scope.printReport = function() {
-                window.open(sessionStorage.getItem('reportBaseUrl') + "/report/shipping/execution/packinglist/" + $scope.packingId + '?token=' + sessionStorage.getItem('token'), '_blank');
+                window.open(localStorage.getItem('reportBaseUrl') + "/report/shipping/execution/packinglist/" + $scope.packingId + '?token=' + localStorage.getItem('token'), '_blank');
             }
         });

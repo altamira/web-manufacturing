@@ -191,6 +191,6 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateCtrl',
                 });
             };
             $scope.printReport = function() {
-                window.open(sessionStorage.getItem('reportBaseUrl') + "/report/manufacture/process/" + $scope.processId + '?token=' + sessionStorage.getItem('token'), '_blank');
+                window.open(localStorage.getItem('reportBaseUrl') + "/report/manufacture/process/" + $scope.processId + '?token=' + localStorage.getItem('token'), '_blank');
             }
         });

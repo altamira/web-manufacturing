@@ -1,12 +1,12 @@
 altamiraAppControllers.controller('ShippingExecutionCtrl',
         function($scope, $location, $route, Restangular, services, $ionicModal, CommonFun, $ionicSideMenuDelegate, $routeParams) {
 
-            if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && sessionStorage.getItem('token') == '')
+            if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && localStorage.getItem('token') == '')
             {
-                sessionStorage.setItem('token', $routeParams.token);
+                localStorage.setItem('token', $routeParams.token);
                 $window.location.reload();
             }
-            $scope.operationType = sessionStorage.getItem('operationDesc');
+            $scope.operationType = localStorage.getItem('operationDesc');
             $scope.resetPackingList = function() {
                 $scope.startPage = 0;
                 $scope.maxRecord = 10;
@@ -14,13 +14,13 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                 $scope.packingDataArray = [];
                 $scope.nextButton = true;
             };
-            $scope.searchText = sessionStorage.getItem('searchPackingList');
+            $scope.searchText = localStorage.getItem('searchPackingList');
             $scope.tempSearch = '';
             $scope.isDataSearch = '';
             $scope.resetPackingList();
             $scope.loadPackingList = function() {
                 $scope.loading = true;
-                Restangular.one('shipping/execution').get({search: sessionStorage.getItem('searchPackingList'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
+                Restangular.one('shipping/execution').get({search: localStorage.getItem('searchPackingList'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
                     if (response.data == '') {
                         $scope.loading = false;
                         if ((parseInt($scope.startPage) != 0))
@@ -89,10 +89,10 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                 if (text != '')
                 {
                     $scope.resetPackingList();
-                    sessionStorage.setItem('searchPackingList', text);
+                    localStorage.setItem('searchPackingList', text);
                 } else
                 {
-                    sessionStorage.setItem('searchPackingList', '');
+                    localStorage.setItem('searchPackingList', '');
                     $scope.resetPackingList();
                 }
                 $scope.loadPackingList();

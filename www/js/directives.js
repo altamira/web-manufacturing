@@ -239,7 +239,7 @@ altamiraApp.directive('gridDate', function() {
                     scope.selectDate = dateText;
                     scope.$apply(function() {
                         scope.selectDate = dateText;
-                        sessionStorage.setItem('selectDate', dateText);
+                        localStorage.setItem('selectDate', dateText);
                         ngModel.$setViewValue(dateText);
                     });
 
@@ -726,7 +726,7 @@ altamiraApp.directive('leftsideMenu', function(services) {
     return function(scope, elm, attr) {
         elm.html('<div class="row">\n\
                     <div class="col" style="color: white;text-align: center">\n\
-                        <a href="' + sessionStorage.getItem('MainRestangular') + '" style="text-decoration: none;color: #ffffff">\n\
+                        <a href="' + localStorage.getItem('MainRestangular') + '" style="text-decoration: none;color: #ffffff">\n\
                             <span class="logo-side-menu"></span>\n\
                             <span style="font-size: 30px; float:left; padding-top:16px; padding-left:10px; font-family: Open Sans">Altamira</span>\n\
                         </a>\n\

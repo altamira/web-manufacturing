@@ -7,9 +7,9 @@ altamiraAppControllers.controller('ManufactureExecutionCtrl',
             });
             $scope.selectOperationType = function(operationId) {
                 var temp = $scope.getObjects($scope.operationTypeData,'id',operationId);
-                sessionStorage.setItem('operationId', temp[0].id);
-                sessionStorage.setItem('operationType', temp[0].type);
-                sessionStorage.setItem('operationDesc', temp[0].name);
+                localStorage.setItem('operationId', temp[0].id);
+                localStorage.setItem('operationType', temp[0].type);
+                localStorage.setItem('operationDesc', temp[0].name);
                 $location.path('/manufacture/execution/list');
             }
             $scope.getObjects = function(obj, key, val) {

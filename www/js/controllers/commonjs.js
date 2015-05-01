@@ -354,12 +354,12 @@ altamiraAppControllers.controller('CommonCtrl',
                 $scope.nextProcessButton = true;
             };
             $scope.resetProcess();
-            $scope.searchProcessText = sessionStorage.getItem('searchProcess');
+            $scope.searchProcessText = localStorage.getItem('searchProcess');
             $scope.isDataSearchProcess = '';
 
             $scope.loadProcess = function() {
                 $scope.loading = true;
-                Restangular.one('manufacture').one('process').get({search: sessionStorage.getItem('searchProcess'), start: $scope.startProcessPage, max: $scope.maxProcessRecord}).then(function(response) {
+                Restangular.one('manufacture').one('process').get({search: localStorage.getItem('searchProcess'), start: $scope.startProcessPage, max: $scope.maxProcessRecord}).then(function(response) {
                     if (response.data == '') {
                         $scope.loading = false;
                         if ((parseInt($scope.startProcessPage) != 0))
@@ -429,10 +429,10 @@ altamiraAppControllers.controller('CommonCtrl',
                 if (text != '')
                 {
                     $scope.resetProcess();
-                    sessionStorage.setItem('searchProcess', text);
+                    localStorage.setItem('searchProcess', text);
                 } else
                 {
-                    sessionStorage.setItem('searchProcess', '');
+                    localStorage.setItem('searchProcess', '');
                     $scope.resetProcess();
                 }
                 $scope.loadProcess();

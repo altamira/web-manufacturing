@@ -11,17 +11,17 @@ altamiraAppControllers.controller('ManufacturingOperationCtrl',
                 $scope.operationArray = [];
                 $scope.nextButton = true;
             };
-            $scope.searchText = sessionStorage.getItem('searchOperation');
+            $scope.searchText = localStorage.getItem('searchOperation');
             $scope.isDataSearch = '';
             $scope.resetOperation();
             $scope.loadOperation = function() {
                 $scope.loading = true;
-                if (sessionStorage.getItem('searchOperation') == null || sessionStorage.getItem('searchOperation') == "")
+                if (localStorage.getItem('searchOperation') == null || localStorage.getItem('searchOperation') == "")
                 {
                     var request = Restangular.one('manufacture').one('operation').get({start: $scope.startPage, max: $scope.maxRecord});
                 } else
                 {
-                    var request = Restangular.one('manufacture').one('operation').get({search: sessionStorage.getItem('searchOperation'), start: $scope.startPage, max: $scope.maxRecord});
+                    var request = Restangular.one('manufacture').one('operation').get({search: localStorage.getItem('searchOperation'), start: $scope.startPage, max: $scope.maxRecord});
                 }
                 request.then(function(response) {
                     if (response.data == '') {
@@ -93,10 +93,10 @@ altamiraAppControllers.controller('ManufacturingOperationCtrl',
                 if (text != '')
                 {
                     $scope.resetOperation();
-                    sessionStorage.setItem('searchOperation', text);
+                    localStorage.setItem('searchOperation', text);
                 } else
                 {
-                    sessionStorage.setItem('searchOperation', '');
+                    localStorage.setItem('searchOperation', '');
                     $scope.resetOperation();
                 }
                 $scope.loadOperation();

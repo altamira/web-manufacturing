@@ -16,7 +16,7 @@ altamiraApp.factory('CommonFun', ['$http', 'Restangular', function($http, Restan
             getDefaultColor: 1016,
             getColorBox: function() {
                 Restangular.one('common/color').get({max: 0}).then(function(response) {
-                    sessionStorage.setItem('colorBoxData', response.data);
+                    localStorage.setItem('colorBoxData', response.data);
                 });
 //                return $http.get(Restangular.configuration.baseUrl + '/common/color');
             },

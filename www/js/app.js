@@ -180,16 +180,16 @@ altamiraApp.config(['$routeProvider',
 
 altamiraApp.config(function(RestangularProvider) {
     RestangularProvider.setBaseUrl('http://data.altamira.com.br/data-rest-0.9.0-SNAPSHOT');
-    sessionStorage.setItem('reportBaseUrl', 'http://data.altamira.com.br/manufacture-report-0.9.0-SNAPSHOT');
-    sessionStorage.setItem('MainRestangular', 'http://localhost/altamira_main/www/#/blacktheme/home');
+    localStorage.setItem('reportBaseUrl', 'http://data.altamira.com.br/manufacture-report-0.9.0-SNAPSHOT');
+    localStorage.setItem('MainRestangular', 'http://localhost/main/www/#/blacktheme/home');
     RestangularProvider.setFullResponse(true);
     RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json; charset=iso-8859-1'});
     RestangularProvider.setRestangularFields({
         id: "id"
     });
-    if (sessionStorage.getItem('token') != null && sessionStorage.getItem('token') != '')
+    if (localStorage.getItem('token') != null && localStorage.getItem('token') != '')
     {
-        RestangularProvider.setDefaultRequestParams({token: sessionStorage.getItem('token')})
+        RestangularProvider.setDefaultRequestParams({token: localStorage.getItem('token')})
     } else {
         function getQueryStringValue(key) {
             return unescape(window.location.hash.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
@@ -206,21 +206,21 @@ altamiraApp.config(function(RestangularProvider) {
     RestangularProvider.setErrorInterceptor(function(response, deferred, responseHandler) {
         if (response.status === 401)
         {
-            sessionStorage.setItem('token', '');
+            localStorage.clear();
             if (response.data.message.indexOf("Invalid Token") >= 0)
             {
                 var r = confirm("Invalid token!");
                 if (r == true) {
-                    window.location = 'http://localhost/altamira_main/www/#/blacktheme/login';
+                    window.location = 'http://localhost/main/www/#/blacktheme/login';
                 } else {
                     location.reload();
                 }
             } else
             {
-                sessionStorage.setItem('token', '');
+                localStorage.clear();
                 var r = confirm("Access denied!");
                 if (r == true) {
-                    window.location = 'http://localhost/altamira_main/www/#/blacktheme/login';
+                    window.location = 'http://localhost/main/www/#/blacktheme/login';
                 } else {
                     location.reload();
                 }
@@ -231,7 +231,7 @@ altamiraApp.config(function(RestangularProvider) {
         {
             var r = confirm("Você não ter permissão para acessar este recurso!");
             if (r == true) {
-                window.location = 'http://localhost/altamira_main/www/#/blacktheme/login';
+                window.location = 'http://localhost/main/www/#/blacktheme/login';
             } else {
                 location.reload();
             }

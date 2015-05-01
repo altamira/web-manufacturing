@@ -1,9 +1,9 @@
 altamiraAppControllers.controller('MaterialListCtrl',
         function($scope, IntegrationRestangular, $http, $location, $route, $routeParams, $ionicPopup, $ionicModal, $ionicLoading, $timeout, $state, Restangular, services, $window) {
 
-            if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && sessionStorage.getItem('token') == '')
+            if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && localStorage.getItem('token') == '' && localStorage.getItem('token') == null)
             {
-                sessionStorage.setItem('token', $routeParams.token);
+                localStorage.setItem('token', $routeParams.token);
                 $window.location.reload();
             }
             $scope.operationType = 'material';
@@ -14,13 +14,13 @@ altamiraAppControllers.controller('MaterialListCtrl',
                 $scope.itemArray = [];
                 $scope.nextButton = true;
             };
-            $scope.searchText = sessionStorage.getItem('searchMaterial');
+            $scope.searchText = localStorage.getItem('searchMaterial');
             $scope.tempSearch = '';
             $scope.isDataSearch = '';
             $scope.resetMaterial();
             $scope.loadMaterial = function() {
                 $scope.loading = true;
-                Restangular.one('common/material').get({search: sessionStorage.getItem('searchMaterial'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
+                Restangular.one('common/material').get({search: localStorage.getItem('searchMaterial'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
                     if (response.data == '') {
                         $scope.loading = false;
                         if ((parseInt($scope.startPage) != 0))
@@ -88,10 +88,10 @@ altamiraAppControllers.controller('MaterialListCtrl',
                 if (text != '')
                 {
                     $scope.resetMaterial();
-                    sessionStorage.setItem('searchMaterial', text);
+                    localStorage.setItem('searchMaterial', text);
                 } else
                 {
-                    sessionStorage.setItem('searchMaterial', '');
+                    localStorage.setItem('searchMaterial', '');
                     $scope.resetMaterial();
                 }
                 $scope.loadMaterial();

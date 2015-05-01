@@ -43,13 +43,13 @@ altamiraAppControllers.controller('ManufacturingProcessCreateOperationCtrl',
                 $scope.itemArray = [];
                 $scope.nextButton = true;
             };
-            $scope.searchText = sessionStorage.getItem('searchOperation');
+            $scope.searchText = localStorage.getItem('searchOperation');
             $scope.tempSearch = '';
             $scope.isDataSearch = '';
             $scope.resetOperation();
             $scope.loadOperation = function() {
                 $scope.loading = true;
-                Restangular.one('manufacture/operation').get({search: sessionStorage.getItem('searchOperation'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
+                Restangular.one('manufacture/operation').get({search: localStorage.getItem('searchOperation'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
                     if (response.data == '') {
                         $scope.loading = false;
                         if ((parseInt($scope.startPage) != 0))
@@ -116,10 +116,10 @@ altamiraAppControllers.controller('ManufacturingProcessCreateOperationCtrl',
                 if (text != '')
                 {
                     $scope.resetOperation();
-                    sessionStorage.setItem('searchOperation', text);
+                    localStorage.setItem('searchOperation', text);
                 } else
                 {
-                    sessionStorage.setItem('searchOperation', '');
+                    localStorage.setItem('searchOperation', '');
                     $scope.resetOperation();
                 }
                 $scope.loadOperation();
@@ -292,13 +292,13 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                 $scope.itemArray = [];
                 $scope.nextButton = true;
             };
-            $scope.searchText = sessionStorage.getItem('searchOperation');
+            $scope.searchText = localStorage.getItem('searchOperation');
             $scope.tempSearch = '';
             $scope.isDataSearch = '';
             $scope.resetOperation();
             $scope.loadOperation = function() {
                 $scope.loading = true;
-                Restangular.one('manufacture/operation').get({search: sessionStorage.getItem('searchOperation'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
+                Restangular.one('manufacture/operation').get({search: localStorage.getItem('searchOperation'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
                     if (response.data == '') {
                         $scope.loading = false;
                         if ((parseInt($scope.startPage) != 0))
@@ -365,10 +365,10 @@ altamiraAppControllers.controller('ManufacturingProcessUpdateOperationCtrl',
                 if (text != '')
                 {
                     $scope.resetOperation();
-                    sessionStorage.setItem('searchOperation', text);
+                    localStorage.setItem('searchOperation', text);
                 } else
                 {
-                    sessionStorage.setItem('searchOperation', '');
+                    localStorage.setItem('searchOperation', '');
                     $scope.resetOperation();
                 }
                 $scope.loadOperation();

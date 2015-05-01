@@ -25,13 +25,13 @@ altamiraAppControllers.controller('ShippingExecutionPackingCreateCtrl',
                 $scope.packingDataArray = [];
                 $scope.nextButton = true;
             };
-            $scope.searchText = sessionStorage.getItem('searchPackingList');
+            $scope.searchText = localStorage.getItem('searchPackingList');
             $scope.tempSearch = '';
             $scope.isDataSearch = '';
 
             $scope.loadPackingList = function() {
                 $scope.loading = true;
-                Restangular.one('shipping/execution').get({search: sessionStorage.getItem('searchPackingList'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
+                Restangular.one('shipping/execution').get({search: localStorage.getItem('searchPackingList'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
                     $scope.OrderListModalShow();
                     if (response.data == '') {
                         $scope.loading = false;
@@ -101,10 +101,10 @@ altamiraAppControllers.controller('ShippingExecutionPackingCreateCtrl',
                 if (text != '')
                 {
                     $scope.resetPackingList();
-                    sessionStorage.setItem('searchPackingList', text);
+                    localStorage.setItem('searchPackingList', text);
                 } else
                 {
-                    sessionStorage.setItem('searchPackingList', '');
+                    localStorage.setItem('searchPackingList', '');
                     $scope.resetPackingList();
                 }
                 $scope.loadPackingList();

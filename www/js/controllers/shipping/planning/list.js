@@ -1,8 +1,8 @@
 altamiraAppControllers.controller('ShippingPlanningCtrl',
         function($scope, $location, $route, Restangular, services, $ionicModal, CommonFun, $ionicSideMenuDelegate, $routeParams) {
-            if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && sessionStorage.getItem('token') == '')
+            if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && localStorage.getItem('token') == '' && localStorage.getItem('token') == null)
             {
-                sessionStorage.setItem('token', $routeParams.token);
+                localStorage.setItem('token', $routeParams.token);
                 $window.location.reload();
             }
             $scope.today = CommonFun.toDay();
@@ -14,7 +14,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
             $scope.currentYear = CommonFun.currentYear();
             $scope.selectDate = CommonFun.selectDate();
             $scope.validYears = CommonFun.validYears();
-            sessionStorage.setItem('selectDate', $scope.selectDate);
+            localStorage.setItem('selectDate', $scope.selectDate);
             $scope.viewtype = 'form';
             $scope.formView = function() {
                 $scope.viewtype = 'form';
@@ -53,13 +53,13 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 $scope.orderDataArray = [];
                 $scope.nextButton = true;
             };
-            $scope.searchText = sessionStorage.getItem('searchOrderList');
+            $scope.searchText = localStorage.getItem('searchOrderList');
             $scope.tempSearch = '';
             $scope.isDataSearch = '';
             $scope.resetOrderList();
             $scope.loadOrderList = function() {
                 $scope.loading = true;
-                Restangular.one('shipping/planning').get({search: sessionStorage.getItem('searchOrderList'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
+                Restangular.one('shipping/planning').get({search: localStorage.getItem('searchOrderList'), start: $scope.startPage, max: $scope.maxRecord}).then(function(response) {
                     if (response.data == '') {
                         $scope.loading = false;
                         if ((parseInt($scope.startPage) != 0))
@@ -159,10 +159,10 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 if (text != '')
                 {
                     $scope.resetOrderList();
-                    sessionStorage.setItem('searchOrderList', text);
+                    localStorage.setItem('searchOrderList', text);
                 } else
                 {
-                    sessionStorage.setItem('searchOrderList', '');
+                    localStorage.setItem('searchOrderList', '');
                     $scope.resetOrderList();
                 }
                 $scope.loadOrderList();
@@ -324,15 +324,15 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                     }, 1000);
                 }
                 $('.prev-btn').on('click', function(e) {
-                    var oldDate = sessionStorage.getItem('selectDate');
-                    console.log(JSON.stringify(sessionStorage.getItem('selectDate')));
+                    var oldDate = localStorage.getItem('selectDate');
+                    console.log(JSON.stringify(localStorage.getItem('selectDate')));
                     var newDate = $('.' + CommonFun.formatDate(oldDate, 'DD/MM/YYYY', 'D_M_YYYY')).prev().data('day');
                     if (newDate != undefined && newDate != '')
                     {
                         $scope.$apply(function() {
                             $scope.selectDate = CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY');
                             $('#select_date').val($scope.selectDate);
-                            sessionStorage.setItem('selectDate', CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY'));
+                            localStorage.setItem('selectDate', CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY'));
                         });
                         var val = 150;
                         $('.mainRow').mCustomScrollbar("scrollTo", "+=" + val);
@@ -343,14 +343,14 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
 
                 });
                 $('.next-btn').on('click', function(e) {
-                    var oldDate = sessionStorage.getItem('selectDate');
+                    var oldDate = localStorage.getItem('selectDate');
                     var newDate = $('.' + CommonFun.formatDate(oldDate, 'DD/MM/YYYY', 'D_M_YYYY')).next().data('day');
                     if (newDate != undefined && newDate != '')
                     {
                         $scope.$apply(function() {
                             $scope.selectDate = CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY');
                             $('#select_date').val($scope.selectDate);
-                            sessionStorage.setItem('selectDate', CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY'));
+                            localStorage.setItem('selectDate', CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY'));
                         });
                         var val = 150;
                         $('.mainRow').mCustomScrollbar("scrollTo", "-=" + val);
@@ -369,7 +369,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         $scope.$apply(function() {
                             $scope.selectDate = CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY');
                             $('#select_date').val($scope.selectDate);
-                            sessionStorage.setItem('selectDate', CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY'));
+                            localStorage.setItem('selectDate', CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY'));
                         });
                     });
                     $('.makeDroppable').on('click', function(e) {
@@ -377,7 +377,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         $scope.$apply(function() {
                             $scope.selectDate = CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY');
                             $('#select_date').val($scope.selectDate);
-                            sessionStorage.setItem('selectDate', CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY'));
+                            localStorage.setItem('selectDate', CommonFun.formatDate(newDate, 'D_M_YYYY', 'DD/MM/YYYY'));
                         });
                     });
                     $(".dragDiv").draggable({
