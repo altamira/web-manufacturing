@@ -1525,6 +1525,12 @@
     font-size: 24px;
     color: #ffffff;
 }
+.fa-caret-square-o-up:before{
+    font-family: "fontawesome";
+    content: "\f151";
+    font-size: 24px;
+    color: #ffffff;
+}
 .fa-plus-square-o:before{
     font-family: "fontawesome";
     content: "\f196";

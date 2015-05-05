@@ -109,6 +109,7 @@ altamiraAppControllers.controller('BomViewCtrl',
                 });
                 $scope.reportTypeModalShow = function() {
                     $scope.reportType.show();
+                    $scope.token = sessionStorage.getItem('token');
                 };
                 $scope.reportTypeModalClose = function() {
                     $scope.reportType.hide();
@@ -117,8 +118,8 @@ altamiraAppControllers.controller('BomViewCtrl',
             $scope.genrateReport = function() {
                 if ($scope.totalReport.length > 0) {
                     $scope.reportTypeModalClose();
-                    var token = localStorage.getItem('token');
-                    window.open(localStorage.getItem('reportBaseUrl') + '/report/manufacture/bom/' + $scope.bomId + '?report=' + $scope.totalReport.join('&report=') + '&token=' + token, '_blank');
+//                    var token = localStorage.getItem('token');
+                    window.open(localStorage.getItem('reportBaseUrl') + '/report/manufacture/bom/' + $scope.bomId + '?report=' + $scope.totalReport.join('&report=') + '&token=' + $scope.token, '_blank');
                 } else {
                     services.showAlert('Falhou', 'Please select report type');
                 }

@@ -1,5 +1,5 @@
 altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
-        function($scope, $location, $route, Restangular, services, $ionicModal, CommonFun, $ionicSideMenuDelegate, $routeParams) {
+        function($scope, $location, $route, Restangular, services, $ionicModal, CommonFun, $ionicScrollDelegate, $routeParams) {
             $scope.orderId = $routeParams.planningId;
             $scope.inicialDate = true;
             $scope.finalDate = true;
@@ -16,6 +16,13 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
             $scope.produceArr = [];
             $scope.totalWeight = 0;
             $scope.viewtype = 'list';
+//            $scope.scrollTo = function(id) {
+//                $location.hash(id);
+//                $ionicScrollDelegate.anchorScroll();
+//            };
+            $scope.scrollTo = function() {
+                $ionicScrollDelegate.scrollTop();
+            };
             $scope.listView = function() {
                 $scope.viewtype = 'list';
                 $('#grid_view').hide();
