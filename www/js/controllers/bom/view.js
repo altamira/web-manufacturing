@@ -1,6 +1,7 @@
 altamiraAppControllers.controller('BomViewCtrl',
         function($scope, $location, $route, $routeParams, Restangular, services, $ionicModal) {
             $scope.bomId = $routeParams.bomId;
+            console.log(JSON.stringify("Token=>"+sessionStorage.getItem('token')));
             $scope.project = '';
             $scope.bomData = {};
             $scope.bomData.checked = '';
@@ -106,11 +107,11 @@ altamiraAppControllers.controller('BomViewCtrl',
                     $scope.reportType.show();
                     $scope.totalReport = [];
                     $scope.totalReport.push('checklist');
+                    $scope.token = sessionStorage.getItem('token');
+                    console.log(JSON.stringify($scope.token));
                 });
                 $scope.reportTypeModalShow = function() {
                     $scope.reportType.show();
-                    $scope.token = sessionStorage.getItem('token');
-                    console.log(JSON.stringify($scope.token));
                 };
                 $scope.reportTypeModalClose = function() {
                     $scope.reportType.hide();
@@ -119,6 +120,7 @@ altamiraAppControllers.controller('BomViewCtrl',
             $scope.genrateReport = function() {
                 if ($scope.totalReport.length > 0) {
                     $scope.reportTypeModalClose();
+                    console.log(JSON.stringify(localStorage.getItem('reportBaseUrl') + '/report/manufacture/bom/' + $scope.bomId + '?report=' + $scope.totalReport.join('&report=') + '&token=' + $scope.token));
                     window.open(localStorage.getItem('reportBaseUrl') + '/report/manufacture/bom/' + $scope.bomId + '?report=' + $scope.totalReport.join('&report=') + '&token=' + $scope.token, '_blank');
                 } else {
                     services.showAlert('Falhou', 'Please select report type');
