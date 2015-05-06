@@ -1,7 +1,7 @@
 altamiraAppControllers.controller('BomEditCtrl',
         function($scope, $http, $location, $route, $routeParams, $ionicPopup, Restangular, services, CommonFun, $ionicModal) {
             $scope.bomId = $routeParams.bomId;
-            console.log(JSON.stringify("Token=>"+sessionStorage.getItem('token')));
+            console.log(JSON.stringify("Token=>"+localStorage.getItem('token')));
             $scope.project = '';
             $scope.bomData = {};
             $scope.bomData.number = '';
@@ -140,7 +140,7 @@ altamiraAppControllers.controller('BomEditCtrl',
                     $scope.reportType.show();
                     $scope.totalReport = [];
                     $scope.totalReport.push('checklist');
-                    $scope.token = sessionStorage.getItem('token');
+                    $scope.token = localStorage.getItem('token');
                     console.log(JSON.stringify($scope.token));
                 });
                 $scope.reportTypeModalShow = function() {
