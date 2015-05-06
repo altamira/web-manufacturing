@@ -3,7 +3,7 @@ altamiraAppControllers.controller('BomListCtrl',
             console.log(JSON.stringify("Start=>"+localStorage.getItem('token')));
             console.log(JSON.stringify($routeParams.token));
             console.log(JSON.stringify(localStorage.getItem('token')));
-            if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && localStorage.getItem('token') == '' && localStorage.getItem('token') == null)
+            if ($routeParams.token != null && $routeParams.token != undefined && localStorage.getItem('token') == null)
             {
                 localStorage.setItem('token', $routeParams.token);
                 $window.location.reload();
