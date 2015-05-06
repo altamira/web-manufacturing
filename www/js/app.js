@@ -180,7 +180,7 @@ altamiraApp.config(['$routeProvider',
 
 altamiraApp.config(function(RestangularProvider) {
     RestangularProvider.setBaseUrl('http://data.altamira.com.br/data-rest-0.9.0-SNAPSHOT');
-    localStorage.setItem('reportBaseUrl', 'http://data.altamira.com.br/manufacture-report-0.9.0-SNAPSHOT');
+    localStorage.setItem('reportBaseUrl', 'manufacture-report-0.9.0.Final');
     localStorage.setItem('MainRestangular', 'http://localhost/main/www/#/blacktheme/home');
     RestangularProvider.setFullResponse(true);
     RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json; charset=iso-8859-1'});
