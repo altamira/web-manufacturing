@@ -110,6 +110,7 @@ altamiraAppControllers.controller('BomViewCtrl',
                 $scope.reportTypeModalShow = function() {
                     $scope.reportType.show();
                     $scope.token = sessionStorage.getItem('token');
+                    console.log(JSON.stringify($scope.token));
                 };
                 $scope.reportTypeModalClose = function() {
                     $scope.reportType.hide();
