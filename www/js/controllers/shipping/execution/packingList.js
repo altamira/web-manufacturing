@@ -3,6 +3,8 @@ altamiraAppControllers.controller('ShippingExecutionPackingCtrl',
             $scope.loading = true;
             $scope.executionId = $routeParams.executionId;
             $scope.packingId = $routeParams.packingId;
+            $scope.token = localStorage.getItem('token');
+            $scope.reportURL = localStorage.getItem('reportBaseUrl');
             $scope.getPackingDetail = function() {
                 Restangular.one('shipping/execution', $scope.executionId).one('packinglist', $scope.packingId).get().then(function(response) {
                     $scope.loading = false;
@@ -122,6 +124,6 @@ altamiraAppControllers.controller('ShippingExecutionPackingCtrl',
                 });
             }
             $scope.printReport = function() {
-                window.open(localStorage.getItem('reportBaseUrl') + "/report/shipping/execution/packinglist/" + $scope.packingId + '?token=' + localStorage.getItem('token'), '_blank');
+                window.open($scope.reportURL + "/report/shipping/execution/packinglist/" + $scope.packingId + '?token=' + $scope.token, '_blank');
             }
         });

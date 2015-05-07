@@ -1,6 +1,6 @@
 altamiraAppControllers.controller('ManufacturePlanningCtrl',
         function($scope, $location, $route, Restangular, services, $ionicModal, CommonFun, $ionicSideMenuDelegate, $routeParams) {
-            if ($routeParams.token != null && $routeParams.token != '' && $routeParams.token != undefined && localStorage.getItem('token') == '' && localStorage.getItem('token') == null)
+            if ($routeParams.token != null && $routeParams.token != undefined && localStorage.getItem('token') == null)
             {
                 localStorage.setItem('token', $routeParams.token);
                 $window.location.reload();

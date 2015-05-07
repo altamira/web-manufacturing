@@ -1357,6 +1357,8 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
             };
             $scope.reportBOM = function() {
                 $scope.loading = true;
+                $scope.token = localStorage.getItem('token');
+                $scope.reportURL = localStorage.getItem('reportBaseUrl');
                 Restangular.one('manufacture').one('planning', $scope.orderId).one('operation').get().then(function(response) {
                     $scope.reportData = response.data;
                     for (var i = 0; i < $scope.reportData.length; i++)
@@ -1373,7 +1375,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
             $scope.genrateReport = function() {
                 if ($scope.totalReport.length > 0) {
                     $scope.reportTypeModalClose();
-                    window.open(localStorage.getItem('reportBaseUrl') + '/report/manufacture/planning/' + $scope.orderId + '?op=' + $scope.totalReport.join('&op=') + '&token=' + localStorage.getItem('token'), '_blank');
+                    window.open($scope.reportURL + '/report/manufacture/planning/' + $scope.orderId + '?op=' + $scope.totalReport.join('&op=') + '&token=' + $scope.token, '_blank');
                 } else {
                     services.showAlert('Falhou', 'Escolha Tipo Relatório');
                 }
