@@ -16,10 +16,6 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
             $scope.produceArr = [];
             $scope.totalWeight = 0;
             $scope.viewtype = 'list';
-//            $scope.scrollTo = function(id) {
-//                $location.hash(id);
-//                $ionicScrollDelegate.anchorScroll();
-//            };
             $scope.scrollTo = function() {
                 $ionicScrollDelegate.scrollTop();
             };
