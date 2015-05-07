@@ -1415,6 +1415,7 @@ altamiraAppControllers.controller('ManufacturePlanningEditCtrl',
                 if ($scope.materialIdArr.length > 0)
                 {
                     $scope.processListModal.show();
+                    $scope.resetProcess();
                     $scope.loadProcess();
                 } else
                 {
