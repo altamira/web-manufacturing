@@ -10,7 +10,7 @@ altamiraApp.directive('imageConvert', function() {
                 var FR = new FileReader();
                 var allowedFileType = ["jpg", "jpeg", "png", "gif"];
                 var filetype = this.files[0].type.split('/');
-                if ($.inArray(filetype, allowedFileType) >= 0)
+                if ($.inArray(filetype[1], allowedFileType) >= 0)
                 {
                     var imagename = this.files[0].name;
                     FR.onload = function(e) {

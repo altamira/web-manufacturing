@@ -179,7 +179,8 @@ altamiraApp.config(['$routeProvider',
     }]);
 
 altamiraApp.config(function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('http://data.altamira.com.br/data-rest-0.9.0-SNAPSHOT');
+//    RestangularProvider.setBaseUrl('http://data.altamira.com.br/data-rest-0.9.0-SNAPSHOT');
+    RestangularProvider.setBaseUrl('http://ec2-54-94-134-111.sa-east-1.compute.amazonaws.com/data-rest-0.9.0.Final');
     localStorage.setItem('reportBaseUrl', 'manufacture-report-0.9.0.Final');
     localStorage.setItem('MainRestangular', 'http://localhost/main/www/#/blacktheme/home');
     RestangularProvider.setFullResponse(true);
