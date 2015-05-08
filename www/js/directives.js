@@ -8,39 +8,42 @@ altamiraApp.directive('imageConvert', function() {
         elm.bind('change', function() {
             if (this.files && this.files[0]) {
                 var FR = new FileReader();
+                var allowedFileType = ["jpg", "jpeg", "png", "gif"];
                 var filetype = this.files[0].type.split('/');
-                var imagename = this.files[0].name;
-                FR.onload = function(e) {
+                if ($.inArray(filetype, allowedFileType) >= 0)
+                {
+                    var imagename = this.files[0].name;
+                    FR.onload = function(e) {
 
-                    document.getElementById("img").src = '';
-                    if (document.getElementById("img").src = e.target.result)
-                    {
-                        document.getElementById("img").style.width = 'auto';
-                        setTimeout(function() {
-                            if (document.getElementById("img").clientWidth > 1024)
-                            {
-                                document.getElementById("img").style.width = '100%';
-                            }
-                        }, 500);
+                        document.getElementById("img").src = '';
+                        if (document.getElementById("img").src = e.target.result)
+                        {
+                            document.getElementById("img").style.width = 'auto';
+                            setTimeout(function() {
+                                if (document.getElementById("img").clientWidth > 1024)
+                                {
+                                    document.getElementById("img").style.width = '100%';
+                                }
+                            }, 500);
+                        }
+                        document.getElementById("uploadedImg").style.display = 'block';
+                        document.getElementById("img").style.display = 'inline-block';
+                        document.getElementById("removeBtn").style.display = 'block';
+                        document.getElementById("removeBtn1").style.display = 'block';
+                        document.getElementById("uploadBtn").style.display = 'none';
+                        document.getElementById("removeBtn").style.display = 'block';
+                        var base64string = e.target.result.split(',');
 
-                    }
-                    document.getElementById("uploadedImg").style.display = 'block';
-                    document.getElementById("img").style.display = 'inline-block';
-                    document.getElementById("removeBtn").style.display = 'block';
-                    document.getElementById("removeBtn1").style.display = 'block';
-                    document.getElementById("uploadBtn").style.display = 'none';
-                    document.getElementById("removeBtn").style.display = 'block';
-                    var base64string = e.target.result.split(',');
-
-                    scope.$apply(function() {
-                        scope.operationData.format = base64string[0];
-                        scope.operationData.sketch = base64string[1];
-                        scope.operationData.filename = imagename;
-                        scope.operationData.filetype = filetype[1];
-                        scope.uploadSketch();
-                    });
-                };
-                FR.readAsDataURL(this.files[0]);
+                        scope.$apply(function() {
+                            scope.operationData.format = base64string[0];
+                            scope.operationData.sketch = base64string[1];
+                            scope.operationData.filename = imagename;
+                            scope.operationData.filetype = filetype[1];
+                            scope.uploadSketch();
+                        });
+                    };
+                    FR.readAsDataURL(this.files[0]);
+                }
             }
         });
 
