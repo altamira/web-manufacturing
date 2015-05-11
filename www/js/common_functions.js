@@ -143,7 +143,7 @@ altamiraApp.factory('CommonFun', ['$http', 'Restangular', function($http, Restan
                             padding = new Array(Math.max(precision - fraction.length, 0) + 1).join('0');
                     result += '.' + padding + fraction;
                 }
-                return result;
+                return parseFloat(result);
             },
         }
 

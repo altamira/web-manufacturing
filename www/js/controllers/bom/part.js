@@ -55,15 +55,15 @@ altamiraAppControllers.controller('BomPartOperationCtrl',
                     $scope.partData.code = data.material.code;
                     $scope.partData.description = data.material.description;
                     $scope.partData.color = data.color.id;
-                    $scope.partData.quantity = data.quantity.value;
+                    $scope.partData.quantity = CommonFun.setDecimal(data.quantity.value);
                     $scope.partData.quantityType = data.quantity.unit.id;
-                    $scope.partData.width = data.width.value;
+                    $scope.partData.width = CommonFun.setDecimal(data.width.value);
                     $scope.partData.widthType = data.width.unit.id;
-                    $scope.partData.height = data.height.value;
+                    $scope.partData.height = CommonFun.setDecimal(data.height.value);
                     $scope.partData.heightType = data.height.unit.id;
-                    $scope.partData.length = data.length.value;
+                    $scope.partData.length = CommonFun.setDecimal(data.length.value);
                     $scope.partData.lengthType = data.length.unit.id;
-                    $scope.partData.weight = data.weight.value;
+                    $scope.partData.weight = CommonFun.setDecimal(data.weight.value);
                     $scope.partData.weightType = data.weight.unit.id;
                 }, function(response) {
                     services.showAlert('Falhou', 'Tente novamente ou entre em contato com o Suporte Técnico.');

@@ -215,6 +215,8 @@
                         <label class="item item-input input-box-extra">
                             <input type="text" name="process" ng-model="material.process" required/>
                         </label>
+                        <i class="icon ion-ios7-search fa-md-arrow-right extra-search" ng-click="goProcessUpdate()" ng-if='material.process'></i>
+                        <i class="icon ion-ios7-search fa-md-search extra-search" ng-click="processListModalShow()"></i>
                         <label class="extra-error" ng-show="submitted && materialUpdateForm.process.$error.required">Process é obrigatório.</label>
                     </div>
                     <div class="list" style="margin-bottom: 0px">
@@ -331,6 +333,8 @@
                     <label class="item item-input input-box-extra">
                         <input type="text" name="process" ng-model="material.process" required/>
                     </label>
+                    <i class="icon ion-ios7-search fa-md-arrow-right extra-search" ng-click="goProcessUpdate()" ng-if='material.process'></i>
+                    <i class="icon ion-ios7-search fa-md-search extra-search" ng-click="processListModalShow()"></i>
                     <label class="extra-error" ng-show="submitted && materialUpdateForm.process.$error.required">Process é obrigatório.</label>
                 </div>
             </div>

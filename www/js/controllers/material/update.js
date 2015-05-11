@@ -102,76 +102,74 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                         case 'Product':
                             $scope.postData.type = "br.com.altamira.data.model.sales.Product";
                             $scope.postData.width = {};
-                            $scope.postData.width.expression = $scope.material.width;
+                            $scope.postData.width.expression = parseFloat($scope.material.width);
                             $scope.postData.width.unit = {};
                             $scope.postData.width.unit.id = $scope.material.widthType;
 
                             $scope.postData.height = {};
-                            $scope.postData.height.expression = $scope.material.height;
+                            $scope.postData.height.expression = parseFloat($scope.material.height);
                             $scope.postData.height.unit = {};
                             $scope.postData.height.unit.id = $scope.material.heightType;
 
                             $scope.postData.length = {};
-                            $scope.postData.length.expression = $scope.material.length;
+                            $scope.postData.length.expression = parseFloat($scope.material.length);
                             $scope.postData.length.unit = {};
                             $scope.postData.length.unit.id = $scope.material.lengthType;
 
                             $scope.postData.area = {};
-                            $scope.postData.area.expression = 0;
-                            $scope.postData.area.expression = $scope.material.area;
+                            $scope.postData.area.expression = parseFloat($scope.material.area);
                             $scope.postData.area.unit = {};
                             $scope.postData.area.unit.id = $scope.material.areaType;
 
                             $scope.postData.weight = {};
-                            $scope.postData.weight.expression = $scope.material.weight;
+                            $scope.postData.weight.expression = parseFloat($scope.material.weight);
                             $scope.postData.weight.unit = {};
                             $scope.postData.weight.unit.id = $scope.material.weightType;
 
                             $scope.postData.depth = {};
-                            $scope.postData.depth.expression = $scope.material.depth;
+                            $scope.postData.depth.expression = parseFloat($scope.material.depth);
                             $scope.postData.depth.unit = {};
                             $scope.postData.depth.unit.id = $scope.material.depthType;
 
                             $scope.postData.area = {};
-                            $scope.postData.area.expression = $scope.material.area;
+                            $scope.postData.area.expression = parseFloat($scope.material.area);
                             $scope.postData.area.unit = {};
                             $scope.postData.area.unit.id = $scope.material.areaType;
                             break;
                         case 'Component':
                             $scope.postData.type = "br.com.altamira.data.model.sales.Component";
                             $scope.postData.width = {};
-                            $scope.postData.width.expression = $scope.material.width;
+                            $scope.postData.width.expression = parseFloat($scope.material.width);
                             $scope.postData.width.unit = {};
                             $scope.postData.width.unit.id = $scope.material.widthType;
 
                             $scope.postData.height = {};
-                            $scope.postData.height.expression = $scope.material.height;
+                            $scope.postData.height.expression = parseFloat($scope.material.height);
                             $scope.postData.height.unit = {};
                             $scope.postData.height.unit.id = $scope.material.heightType;
 
                             $scope.postData.length = {};
-                            $scope.postData.length.expression = $scope.material.length;
+                            $scope.postData.length.expression = parseFloat($scope.material.length);
                             $scope.postData.length.unit = {};
                             $scope.postData.length.unit.id = $scope.material.lengthType;
 
                             $scope.postData.area = {};
-                            $scope.postData.area.expression = 0;
-                            $scope.postData.area.expression = $scope.material.area;
+                            $scope.postData.area.expression = parseFloat($scope.material.area);
                             $scope.postData.area.unit = {};
-                            $scope.postData.area.unit.id = $scope.material.areaType;
+                            $scope.postData.area.unit.id = parseFloat($scope.material.areaType);
 
                             $scope.postData.weight = {};
                             $scope.postData.weight.expression = $scope.material.weight;
                             $scope.postData.weight.unit = {};
-                            $scope.postData.weight.unit.id = $scope.material.weightType;
+                            $scope.postData.weight.unit.id = parseFloat($scope.material.weightType);
 
                             $scope.postData.depth = {};
-                            $scope.postData.depth.expression = $scope.material.depth;
+                            $scope.postData.depth.expression = parseFloat($scope.material.depth);
                             $scope.postData.depth.unit = {};
                             $scope.postData.depth.unit.id = $scope.material.depthType;
 
                             $scope.postData.area = {};
-                            $scope.postData.area.expression = $scope.material.area;
+                            $scope.postData.area.expression = parseFloat($scope.material.area);
                             $scope.postData.area.unit = {};
                             $scope.postData.area.unit.id = $scope.material.areaType;
                             break;
@@ -181,23 +179,23 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
                             $scope.postData.treatment = $scope.material.treatment;
 
                             $scope.postData.thickness = {};
-                            $scope.postData.thickness.expression = $scope.material.thickness;
+                            $scope.postData.thickness.expression = parseFloat($scope.material.thickness);
                             $scope.postData.thickness.unit = {};
                             $scope.postData.thickness.unit.id = $scope.material.widthType;
 
                             $scope.postData.width = {};
-                            $scope.postData.width.expression = $scope.material.width;
+                            $scope.postData.width.expression = parseFloat($scope.material.width);
                             $scope.postData.width.unit = {};
                             $scope.postData.width.unit.id = $scope.material.widthType;
 
                             $scope.postData.length = {};
-                            $scope.postData.length.expression = $scope.material.length;
+                            $scope.postData.length.expression = parseFloat($scope.material.length);
                             $scope.postData.length.unit = {};
                             $scope.postData.length.unit.id = $scope.material.lengthType;
 
                             $scope.postData.weight = {};
                             $scope.postData.weight.expression = 0;
-                            $scope.postData.weight.expression = $scope.material.weight;
+                            $scope.postData.weight.expression = parseFloat($scope.material.weight);
                             $scope.postData.weight.unit = {};
                             $scope.postData.weight.unit.id = $scope.material.weightType;
                             break;
@@ -262,6 +260,7 @@ altamiraAppControllers.controller('MaterialUpdateCtrl',
             $scope.processListModalShow = function()
             {
                 $scope.processListModal.show();
+                $scope.resetProcess();
                 $scope.loadProcess();
             }
             $scope.processListModalHide = function()
