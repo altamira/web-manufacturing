@@ -11,8 +11,10 @@
             <span class="btn-separator"></span>
             <button type="button" class="button fa-check" ng-click="changeRemainingQun()"></button>
             <button type="button" class="button fa-remove-header"></button>
-            <!--<button type="button" class="button fa-print-header" ng-click="printReport()"></button>-->
+            <button type="button" class="button fa-check-square-o-header" ng-click="checkAllDelivery()"></button>
+            <button type="button" class="button fa-square-o-header" ng-click="uncheckAllDelivery()"></button>
         </div>
+        <div class="header-col-right"><span class="total-weight">0</span> kg</div>
     </ion-header-bar>
     <ion-content>
         <div class="view-content">
@@ -118,34 +120,47 @@
                     </div>
                     <div class="edit-item" ng-if="data.delivery != ''">
                         <div class="col row">
-                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                <tr>
-                                    <td class="edit-item-title align-center width-9"><i class="fa-calender"></i> <span>Entrega</span></td>
-                                    <td class="edit-item-title align-center width-9"><i class="fa-list-ol"></i> <span>Quantidade</span></td>
-                                    <td class="edit-item-title align-center width-9"><i class="fa-list-ol"></i> <span>Entregue</span></td>
-                                    <td class="edit-item-title align-center width-9"><i class="fa-list-ol"></i> <span>Saldo</span></td>
-                                    <td class="edit-item-title align-center width-42"> Descricao</td>
-                                    <td class="edit-item-title align-center width-10"><i class="fa-pencil"></i> <span>Cor</span></td>
-                                    <td class="edit-item-title align-center width-9"><i class="fa-tachometer"></i> <span>Peso</span></td>
-                                    <td class="edit-item-title align-center width-3">&nbsp;</td>
-                                </tr>
-                                <tr ng-repeat='component in data.delivery' id="{{component.delivery.id}}" data-itemId="{{data.id}}">
-                                    <td class="edit-info align-center width-9">{{ component.delivery.delivery | getDate }}</td>
-                                    <td class="edit-info align-right width-9">{{component.delivery.quantity.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
-                                    <td class="edit-info align-right width-9">{{component.delivery.delivered.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
-                                    <td class="edit-info align-right width-9">
-                                        <input type="number" id="remaining_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value > 0">
-                                        <input type="number" id="remaining_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value < 1" readonly>
-                                    </td>
-                                    <td class="edit-text width-42" ng-click='updatePart(orderData.id,data.id,component.componentId)'  style="cursor: pointer;">{{component.description}}</td>
-                                    <td class="edit-text align-center width-10">{{component.color}}</td>
-                                    <td class="edit-info align-right width-9" ng-if='component.weight > 0'>{{(component.weight / component.quantity) * component.remainingQuantity | setDecimal:3}}<span style="margin-left: 5px;">{{component.weightType}}</span></td>
-                                    <td class="edit-info align-right width-9" ng-if='component.weight == 0'>0</td>
-                                    <td class="edit-text align-center width-3">
-                                        <i class="icon plus-icon fa-square-o" change-remaining-quantity dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}" ng-if="component.delivery.remaining.value > 0"></i>
-                                        <i class="icon plus-icon fa-square-o" dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}" ng-if="component.delivery.remaining.value < 1" style="cursor: not-allowed"></i>
-                                    </td>
-                                </tr>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="delivery-table">
+                                <thead>
+                                    <tr>
+                                        <td class="edit-item-title align-center width-9"><i class="fa-calender"></i> <span>Entrega</span></td>
+                                        <td class="edit-item-title align-center width-9"><i class="fa-list-ol"></i> <span>Quantidade</span></td>
+                                        <td class="edit-item-title align-center width-9"><i class="fa-list-ol"></i> <span>Entregue</span></td>
+                                        <td class="edit-item-title align-center width-9"><i class="fa-list-ol"></i> <span>Saldo</span></td>
+                                        <td class="edit-item-title align-center width-42"> Descricao</td>
+                                        <td class="edit-item-title align-center width-10"><i class="fa-pencil"></i> <span>Cor</span></td>
+                                        <td class="edit-item-title align-center width-9"><i class="fa-tachometer"></i> <span>Peso</span></td>
+                                        <td class="edit-item-title align-center width-3">&nbsp;</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat='component in data.delivery' id="{{component.delivery.id}}" data-itemId="{{data.id}}">
+                                        <td class="edit-info align-center width-9">{{ component.delivery.delivery | getDate }}</td>
+                                        <td class="edit-info align-right width-9">{{component.delivery.quantity.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
+                                        <td class="edit-info align-right width-9">{{component.delivery.delivered.value}}<span style="margin-left: 5px;">{{component.delivery.quantity.unit.symbol}}</span></td>
+                                        <td class="edit-info align-right width-9">
+                                            <input type="number" id="remaining_{{data.id}}_{{component.componentId}}_{{component.materialId}}_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value > 0"  onchange="calculateManExecutionWeight()">
+                                            <input type="number" id="remaining_{{data.id}}_{{component.componentId}}_{{component.materialId}}_{{component.delivery.id}}" value="{{component.delivery.remaining.value}}" class="saldo" style="margin-bottom: 5px;" ng-if="component.delivery.remaining.value < 1" readonly>
+                                        </td>
+                                        <td class="edit-text width-42" ng-click='updatePart(orderData.id,data.id,component.componentId)'  style="cursor: pointer;">{{component.description}}</td>
+                                        <td class="edit-text align-center width-10">{{component.color}}</td>
+                                        <td class="edit-info align-right width-9">
+                                            <span class="weight" id="weight_{{data.id}}_{{component.componentId}}_{{component.materialId}}_{{component.delivery.id}}">
+                                                <span ng-if="component.quantity > 0">
+                                                    {{(component.weight / component.quantity) * component.delivery.remaining.value | setDecimal:3}}
+                                                </span>
+                                                <span ng-if="component.quantity <= 0">
+                                                    {{ 0 | setDecimal:3 }}
+                                                </span>
+                                            </span>
+                                            <span style="margin-left: 5px;">{{component.weightType}}</span>
+                                        </td>
+                                        <td class="edit-text align-center width-3">
+                                            <i class="icon plus-icon fa-square-o" dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}" componentpeso="{{component.weight}}" componentqun="{{component.quantity}}" ng-if="component.delivery.remaining.value > 0" exe-change-remaining-quantity></i>
+                                            <i class="icon plus-icon fa-ban" dataitem="{{data.id}}" datapart="{{component.componentId}}" datamaterial="{{component.materialId}}" datadelivery="{{component.delivery.id}}" componentpeso="{{component.weight}}" componentqun="{{component.quantity}}" ng-if="component.delivery.remaining.value < 1" style="cursor: not-allowed"></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>

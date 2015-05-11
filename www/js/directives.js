@@ -725,6 +725,22 @@ altamiraApp.directive('changeRemainingQuantity', function(services) {
         });
     }
 });
+altamiraApp.directive('exeChangeRemainingQuantity', function(services) {
+    return function(scope, elm, attr) {
+        elm.bind('click', function() {
+            elm.toggleClass('fa-check-square-o');
+            if (elm.hasClass('fa-check-square-o'))
+            {
+                scope.remainingQtnArr.push(parseInt(attr.datadelivery));
+            }
+            else
+            {
+                scope.remainingQtnArr.splice(scope.remainingQtnArr.indexOf(parseInt(attr.datadelivery)), 1);
+            }
+            calculateManExecutionWeight();
+        });
+    }
+});
 altamiraApp.directive('leftsideMenu', function(services) {
     return function(scope, elm, attr) {
         elm.html('<div class="row">\n\
@@ -1055,6 +1071,24 @@ function calculateWeight()
             var weight = (parseFloat($(this).children().attr('componentpeso')) / parseFloat($(this).children().attr('componentqun'))) * remainW;
             weight = Math.round(weight * factor) / factor;
             $('#weight_' + $(this).children().attr('operationid') + '_' + $(this).children().attr('bomid') + '_' + $(this).children().attr('itemid') + '_' + $(this).children().attr('componentid')).text(weight);
+            totalWeight = totalWeight + weight;
+        }
+    });
+    totalWeight = Math.round(totalWeight * factor) / factor;
+    $('.total-weight').text(totalWeight);
+}
+function calculateManExecutionWeight()
+{
+    var totalWeight = 0;
+    var factor = "1" + Array(+(3 > 0 && 3 + 1)).join("0");
+    $('.delivery-table > tbody > tr > td:last-child').each(function() {
+        if ($(this).children().hasClass('fa-check-square-o') == true && $(this).children().hasClass('fa-ban') == false)
+        {
+
+            var remainW = parseFloat($('#remaining_' + $(this).children().attr('dataitem') + '_' + $(this).children().attr('datapart') + '_' + $(this).children().attr('datamaterial') + '_' + $(this).children().attr('datadelivery')).val());
+            var weight = (parseFloat($(this).children().attr('componentpeso')) / parseFloat($(this).children().attr('componentqun'))) * remainW;
+            weight = Math.round(weight * factor) / factor;
+            $('#weight_' + $(this).children().attr('dataitem') + '_' + $(this).children().attr('datapart') + '_' + $(this).children().attr('datamaterial') + '_' + $(this).children().attr('datadelivery')).text(weight);
             totalWeight = totalWeight + weight;
         }
     });

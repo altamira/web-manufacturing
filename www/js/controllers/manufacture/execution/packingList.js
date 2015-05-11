@@ -104,6 +104,35 @@ altamiraAppControllers.controller('ManufactureExecutionPackingCtrl',
                     }
                 });
             }
+
+            $scope.checkAllDelivery = function()
+            {
+                $scope.remainingQtnArr = [];
+                $('.delivery-table > tbody > tr > td:last-child').each(function() {
+                    if ($(this).children().hasClass('fa-ban') == false)
+                    {
+                        $scope.remainingQtnArr.push(parseFloat($(this).children().attr('datadelivery')));
+                    }
+                    if ($(this).children().hasClass('fa-check-square-o') == false && $(this).children().hasClass('fa-ban') == false)
+                    {
+                        $(this).children().toggleClass('fa-check-square-o');
+                    }
+                });
+                calculateManExecutionWeight();
+            }
+
+            $scope.uncheckAllDelivery = function()
+            {
+                $scope.remainingQtnArr = [];
+                $('.delivery-table > tbody > tr > td:last-child').each(function() {
+                    if ($(this).children().hasClass('fa-check-square-o') == true && $(this).children().hasClass('fa-ban') == false)
+                    {
+                        $(this).children().toggleClass('fa-check-square-o');
+                    }
+                });
+                calculateManExecutionWeight();
+            }
+
             $scope.printReport = function() {
                 window.open(localStorage.getItem('reportBaseUrl') + "/report/shipping/execution/packinglist/" + $scope.executionId + '?token=' + localStorage.getItem('token'), '_blank');
             }
