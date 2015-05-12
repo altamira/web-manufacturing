@@ -77,7 +77,6 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                     } else
                     {
                         $scope.loading = false;
-//                        console.log(JSON.stringify($scope.packingResponse));
                         angular.forEach(response.data, function(value, key) {
                             $scope.packingResponse.push(value);
                         });
@@ -90,98 +89,6 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         {
                             $scope.isDataSearch = '';
                         }
-//                        $scope.tarray = [];
-//                        for (var i = 0; i < $scope.packingResponse.length; i++)
-//                        {
-//                            if ($scope.tarray.indexOf(parseInt($scope.packingResponse[i].delivery)) < 0)
-//                            {
-//                                $scope.tarray.push(parseInt($scope.packingResponse[i].delivery));
-//                            }
-//
-//                        }
-//                        $scope.tarray = unique_arr($scope.tarray);
-//                        $scope.packingData = [];
-//                        $scope.packingDataArray = [];
-//                        for (var i = 0; i < $scope.tarray.length; i++)
-//                        {
-//                            $scope.tempArray = {};
-//                            $scope.tempArray.delivery = $scope.tarray[i];
-//                            $scope.tempArray.planningData = [];
-//                            angular.forEach($scope.packingResponse, function(value, key) {
-//                                if (value.delivery == $scope.tarray[i])
-//                                {
-//                                    $scope.tempArray.planningData.push(value);
-//                                }
-//                            });
-//                            $scope.packingDataArray.push($scope.tempArray);
-//                        }
-
-//                        console.log(JSON.stringify($scope.packingData));
-//                        if ($scope.packingData.length <= 0 && $scope.isDataSearch == '')
-//                        {
-//                            $scope.packingResponse = response.data;
-//                            $scope.tarray = [];
-//                            for (var i = 0; i < $scope.packingResponse.length; i++)
-//                            {
-//                                if ($scope.tarray.indexOf(parseInt($scope.packingResponse[i].delivery)) < 0)
-//                                {
-//                                    $scope.tarray.push(parseInt($scope.packingResponse[i].delivery));
-//                                }
-//                            }
-//                            $scope.tarray = unique_arr($scope.tarray);
-//                            $scope.packingData = [];
-//                            $scope.packingDataArray = [];
-//                            for (var i = 0; i < $scope.tarray.length; i++)
-//                            {
-//                                $scope.tempArray = {};
-//                                $scope.tempArray.delivery = $scope.tarray[i];
-//                                $scope.tempArray.planningData = [];
-//                                angular.forEach($scope.packingResponse, function(value, key) {
-//                                    if (value.delivery == $scope.tarray[i])
-//                                    {
-//                                        $scope.tempArray.planningData.push(value);
-//                                    }
-//                                });
-//                                $scope.packingDataArray.push($scope.tempArray);
-//                            }
-//                            $scope.packingData = $scope.packingDataArray;
-
-//                        }
-//                        else
-//                        {
-//                            if ($scope.nextButton != false)
-//                            {
-//                                angular.forEach(response.data, function(value, key) {
-//                                    $scope.packingResponse.push(value);
-//                                });
-//                                $scope.tarray = [];
-//                                for (var i = 0; i < $scope.packingResponse.length; i++)
-//                                {
-//                                    if ($scope.tarray.indexOf(parseInt($scope.packingResponse[i].delivery)) < 0)
-//                                    {
-//                                        $scope.tarray.push(parseInt($scope.packingResponse[i].delivery));
-//                                    }
-//
-//                                }
-//                                $scope.tarray = unique_arr($scope.tarray);
-//                                for (var i = 0; i < $scope.tarray.length; i++)
-//                                {
-//                                    $scope.tempArray = {};
-//                                    $scope.tempArray.delivery = $scope.tarray[i];
-//                                    $scope.tempArray.planningData = [];
-//                                    angular.forEach($scope.packingResponse, function(value, key) {
-//                                        if (value.delivery == $scope.tarray[i])
-//                                        {
-//                                            $scope.tempArray.planningData.push(value);
-//                                        }
-//                                    });
-//                                    $scope.packingDataArray.push($scope.tempArray);
-//                                }
-//                                $scope.pagePackingListes();
-//                            }
-//                        }
-//                        console.log(JSON.stringify($scope.tarray));
-
                         $scope.range();
                     }
                 }, function(response) {
@@ -196,20 +103,26 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                 $scope.tarray = [];
                 for (var i = $scope.start; i < $scope.end; i++)
                 {
-                    if ($scope.tarray.indexOf(parseInt($scope.packingResponse[i].delivery)) < 0)
+                    if ($scope.packingResponse[i] != undefined)
                     {
-                        $scope.tarray.push(parseInt($scope.packingResponse[i].delivery));
-                        $scope.tempArray = {};
-                        $scope.tempArray.delivery = parseInt($scope.packingResponse[i].delivery);
-                        $scope.tempArray.planningData = [];
-                        for (var j = $scope.start; j < $scope.end; j++)
+                        if ($scope.tarray.indexOf(parseInt($scope.packingResponse[i].delivery)) < 0)
                         {
-                            if ($scope.packingResponse[j] != undefined && parseInt($scope.packingResponse[j].delivery) == parseInt($scope.packingResponse[i].delivery))
+                            $scope.tarray.push(parseInt($scope.packingResponse[i].delivery));
+                            $scope.tempArray = {};
+                            $scope.tempArray.delivery = parseInt($scope.packingResponse[i].delivery);
+                            $scope.tempArray.planningData = [];
+                            for (var j = $scope.start; j < $scope.end; j++)
                             {
-                                $scope.tempArray.planningData.push($scope.packingResponse[j]);
+                                if ($scope.packingResponse[j] != undefined)
+                                {
+                                    if (parseInt($scope.packingResponse[j].delivery) == parseInt($scope.packingResponse[i].delivery))
+                                    {
+                                        $scope.tempArray.planningData.push($scope.packingResponse[j]);
+                                    }
+                                }
                             }
+                            $scope.packingData.push($scope.tempArray);
                         }
-                        $scope.packingData.push($scope.tempArray);
                     }
                 }
             };

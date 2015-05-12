@@ -51,6 +51,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                 $scope.maxRecord = 10;
                 $scope.orderData = '';
                 $scope.orderDataArray = [];
+                $scope.orderResponse = [];
                 $scope.nextButton = true;
             };
             $scope.searchText = localStorage.getItem('searchOrderList');
@@ -75,62 +76,19 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
                         }
                     } else
                     {
-                        if ($scope.orderData.length <= 0 && $scope.isDataSearch == '')
+                        $scope.loading = false;
+                        angular.forEach(response.data, function(value, key) {
+                            $scope.orderResponse.push(value);
+                        });
+                        $scope.pageOrderListes();
+                        if ($scope.searchText != '')
                         {
-                            $scope.orderResponse = response.data;
-                            $scope.tarray = [];
-                            for (var i = 0; i < $scope.orderResponse.length; i++)
-                            {
-                                if ($scope.tarray.indexOf(parseInt($scope.orderResponse[i].delivery)) < 0)
-                                {
-                                    $scope.tarray.push(parseInt($scope.orderResponse[i].delivery));
-                                }
-
-                            }
-                            $scope.orderData = [];
-                            $scope.orderDataArray = [];
-                            for (var i = 0; i < $scope.tarray.length; i++)
-                            {
-                                $scope.tempArray = {};
-                                $scope.tempArray.delivery = $scope.tarray[i];
-                                $scope.tempArray.planningData = $scope.getObjects($scope.orderResponse, 'delivery', $scope.tarray[i]);
-                                $scope.orderDataArray.push($scope.tempArray);
-                            }
-                            $scope.orderData = $scope.orderDataArray;
-                            if ($scope.searchText != '')
-                            {
-                                $scope.isDataSearch = 'yes';
-                            }
-                            else
-                            {
-                                $scope.isDataSearch = '';
-                            }
+                            $scope.isDataSearch = 'yes';
                         }
                         else
                         {
-                            if ($scope.nextButton != false)
-                            {
-                                $scope.orderResponse = response.data;
-                                $scope.tarray = [];
-                                for (var i = 0; i < $scope.orderResponse.length; i++)
-                                {
-                                    if ($scope.tarray.indexOf(parseInt($scope.orderResponse[i].delivery)) < 0)
-                                    {
-                                        $scope.tarray.push(parseInt($scope.orderResponse[i].delivery));
-                                    }
-
-                                }
-                                for (var i = 0; i < $scope.tarray.length; i++)
-                                {
-                                    $scope.tempArray = {};
-                                    $scope.tempArray.delivery = $scope.tarray[i];
-                                    $scope.tempArray.planningData = $scope.getObjects($scope.orderResponse, 'delivery', $scope.tarray[i]);
-                                    $scope.orderDataArray.push($scope.tempArray);
-                                }
-                                $scope.pageOrderListes();
-                            }
+                            $scope.isDataSearch = '';
                         }
-                        $scope.loading = false;
                         $scope.range();
                     }
                 }, function(response) {
@@ -141,17 +99,31 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
             $scope.pageOrderListes = function() {
                 $scope.orderData = [];
                 $scope.start = $scope.startPage * $scope.maxRecord;
-                $scope.end = ($scope.startPage * $scope.maxRecord) + $scope.maxRecord;
+                $scope.end = $scope.start + $scope.maxRecord;
+                $scope.tarray = [];
                 for (var i = $scope.start; i < $scope.end; i++)
                 {
-                    if ($scope.orderDataArray[i])
+                    if ($scope.orderResponse[i] != undefined)
                     {
-                        $scope.orderData.push($scope.orderDataArray[i]);
+                        if ($scope.tarray.indexOf(parseInt($scope.orderResponse[i].delivery)) < 0)
+                        {
+                            $scope.tarray.push(parseInt($scope.orderResponse[i].delivery));
+                            $scope.tempArray = {};
+                            $scope.tempArray.delivery = parseInt($scope.orderResponse[i].delivery);
+                            $scope.tempArray.planningData = [];
+                            for (var j = $scope.start; j < $scope.end; j++)
+                            {
+                                if ($scope.orderResponse[j] != undefined)
+                                {
+                                    if (parseInt($scope.orderResponse[j].delivery) == parseInt($scope.orderResponse[i].delivery))
+                                    {
+                                        $scope.tempArray.planningData.push($scope.orderResponse[j]);
+                                    }
+                                }
+                            }
+                            $scope.orderData.push($scope.tempArray);
+                        }
                     }
-                }
-                if ($scope.orderData.length != $scope.maxRecord)
-                {
-                    $scope.nextButton = false;
                 }
             };
 
@@ -187,7 +159,7 @@ altamiraAppControllers.controller('ShippingPlanningCtrl',
             $scope.goPage = function(pageNumber) {
                 var nextPage = parseInt(pageNumber) - 1;
                 $scope.startPage = nextPage;
-                if ($scope.orderDataArray.length > 0)
+                if ($scope.orderResponse.length > 0)
                 {
                     if ($scope.searchText == '' || ($scope.searchText != '' && $scope.isDataSearch != ''))
                     {
