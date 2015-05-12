@@ -63,15 +63,32 @@
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <div class="list list-inset listing-col" ng-repeat="packing in packingData | filter: searchText">
-                                            <a class="item-list item-icon-right" ng-click="newPackingList({{packing.id}}, {{packing.delivery}})">
-                                                <span class="text-center-middle">
-                                                    {{packing.delivery | getDate}} {{packing.number}} {{packing.customer}}</span>
-                                                <i class="icon fa-arrow-right arrow-right"></i>
-                                            </a>
+                                        <div ng-repeat="planning in packingData">
+                                            <div class="list-date">{{planning.delivery | getDate}}</div>
+                                            <div class="list list-inset listing-col" ng-repeat="planData in planning.planningData" ng-if="planData.customer != ''">
+                                                <a class="item-list item-icon-right" ng-click="newPackingList({{planData.id}}, {{planning.delivery}})">
+                                                    <span class="text-center-middle">
+                                                        {{planData.number}} {{planData.customer}}</span>
+                                                    <i class="icon green_signal arrow-right" ng-if="planData.status.code == 1"></i>
+                                                    <i class="icon yellow_signal arrow-right" ng-if="planData.status.code == 2"></i>
+                                                    <i class="icon red_signal arrow-right" ng-if="planData.status.code == 3"></i>
+                                                </a>
+                                            </div>
                                         </div>
+
                                     </div>
                                 </div>
+                                <!--                                <div class="row">
+                                                                    <div class="col">
+                                                                        <div class="list list-inset listing-col" ng-repeat="packing in packingData | filter: searchText">
+                                                                            <a class="item-list item-icon-right" ng-click="newPackingList({{packing.id}}, {{packing.delivery}})">
+                                                                                <span class="text-center-middle">
+                                                                                    {{packing.delivery | getDate}} {{packing.number}} {{packing.customer}}</span>
+                                                                                <i class="icon fa-arrow-right arrow-right"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>-->
                                 <div class="row">
                                     <div class="pagination">
                                         <a ng-repeat="n in pageStack" ng-click="goPage(n)">

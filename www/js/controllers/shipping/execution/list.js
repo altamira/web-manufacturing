@@ -1,6 +1,5 @@
 altamiraAppControllers.controller('ShippingExecutionCtrl',
         function($scope, $location, $route, Restangular, services, $ionicModal, CommonFun, $ionicSideMenuDelegate, $routeParams) {
-
             if ($routeParams.token != null && $routeParams.token != undefined && localStorage.getItem('token') == null)
             {
                 localStorage.setItem('token', $routeParams.token);
@@ -32,6 +31,20 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                 $('#gridShowBtn').removeClass('month');
                 $scope.loadGrid();
             }
+
+            $scope.getObjects = function(obj, key, val) {
+                var objects = [];
+                for (var i in obj) {
+                    if (!obj.hasOwnProperty(i))
+                        continue;
+                    if (typeof obj[i] == 'object') {
+                        objects = objects.concat($scope.getObjects(obj[i], key, val));
+                    } else if (i == key && obj[key] == val) {
+                        objects.push(obj);
+                    }
+                }
+                return objects;
+            };
             $scope.operationType = localStorage.getItem('operationDesc');
             $scope.resetPackingList = function() {
                 $scope.startPage = 0;
@@ -64,8 +77,33 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                     {
                         if ($scope.packingData.length <= 0 && $scope.isDataSearch == '')
                         {
-                            $scope.packingData = response.data;
-                            $scope.packingDataArray = response.data;
+                            $scope.packingResponse = response.data;
+                            $scope.tarray = [];
+                            for (var i = 0; i < $scope.packingResponse.length; i++)
+                            {
+                                if ($scope.tarray.indexOf(parseInt($scope.packingResponse[i].delivery)) < 0)
+                                {
+                                    $scope.tarray.push(parseInt($scope.packingResponse[i].delivery));
+                                }
+
+                            }
+
+                            $scope.packingData = [];
+                            $scope.packingDataArray = [];
+                            for (var i = 0; i < $scope.tarray.length; i++)
+                            {
+                                $scope.tempArray = {};
+                                $scope.tempArray.delivery = $scope.tarray[i];
+                                $scope.tempArray.planningData = [];
+                                angular.forEach($scope.packingResponse, function(value, key) {
+                                    if (value.delivery == $scope.tarray[i])
+                                    {
+                                        $scope.tempArray.planningData.push(value);
+                                    }
+                                });
+                                $scope.packingDataArray.push($scope.tempArray);
+                            }
+                            $scope.packingData = $scope.packingDataArray;
                             if ($scope.searchText != '')
                             {
                                 $scope.isDataSearch = 'yes';
@@ -79,11 +117,40 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         {
                             if ($scope.nextButton != false)
                             {
-                                $scope.temp = response.data;
-                                angular.forEach($scope.temp, function(value, key) {
-                                    $scope.packingDataArray.push(value);
+                                angular.forEach(response.data, function(value, key) {
+                                    if (value.delivery == $scope.tarray[i])
+                                    {
+                                        $scope.packingResponse.push(value);
+                                    }
                                 });
+                                $scope.tarray = [];
+                                for (var i = 0; i < $scope.packingResponse.length; i++)
+                                {
+                                    if ($scope.tarray.indexOf(parseInt($scope.packingResponse[i].delivery)) < 0)
+                                    {
+                                        $scope.tarray.push(parseInt($scope.packingResponse[i].delivery));
+                                    }
+
+                                }
+                                for (var i = 0; i < $scope.tarray.length; i++)
+                                {
+                                    $scope.tempArray = {};
+                                    $scope.tempArray.delivery = $scope.tarray[i];
+                                    $scope.tempArray.planningData = [];
+                                    angular.forEach($scope.packingResponse, function(value, key) {
+                                        if (value.delivery == $scope.tarray[i])
+                                        {
+                                            $scope.tempArray.planningData.push(value);
+                                        }
+                                    });
+                                    $scope.packingDataArray.push($scope.tempArray);
+                                }
                                 $scope.pagePackingListes();
+//                                $scope.temp = response.data;
+//                                angular.forEach($scope.temp, function(value, key) {
+//                                    $scope.packingDataArray.push(value);
+//                                });
+//                                $scope.pagePackingListes();
                             }
                         }
                         $scope.loading = false;
@@ -107,7 +174,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                 }
                 if ($scope.packingData.length != $scope.maxRecord)
                 {
-                    $scope.nextButton = false;
+//                    $scope.nextButton = false;
                 }
             };
 
@@ -124,6 +191,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                 $scope.loadPackingList();
             };
             $scope.range = function() {
+                console.log(JSON.stringify($scope.packingDataArray.length));
                 $scope.pageStack = [];
                 var start = parseInt($scope.startPage) + 1;
                 for (var i = 1; i <= start; i++) {
@@ -172,19 +240,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
             $scope.createPackingListPage = function() {
                 $location.path('/shipping/execution/packinglist/create');
             }
-            $scope.getObjects = function(obj, key, val) {
-                var objects = [];
-                for (var i in obj) {
-                    if (!obj.hasOwnProperty(i))
-                        continue;
-                    if (typeof obj[i] == 'object') {
-                        objects = objects.concat($scope.getObjects(obj[i], key, val));
-                    } else if (i == key && obj[key] == val) {
-                        objects.push(obj);
-                    }
-                }
-                return objects;
-            };
+
             $scope.getCellColor = CommonFun.getCellColor();
             $scope.checkDay = function(st) {
                 return CommonFun.checkDay(st);
