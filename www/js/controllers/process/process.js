@@ -4,7 +4,7 @@ altamiraAppControllers.controller('ManufacturingProcessCreateCtrl',
             $scope.postdata = {};
             $scope.processData.code = $routeParams.code;
             $scope.processData.description = $routeParams.desc;
-            $scope.processData.name = 'MATERIAL NAO PRODUTIVO';
+            $scope.processData.name = '';
             $scope.submitCreateProcess = function(isValid) {
                 if (isValid) {
                     $scope.loading = true;

@@ -17,10 +17,10 @@ altamiraApp.service('services', function($ionicPopup, $window, $state, $statePar
             return alertPopup;
         },
         goToProcessUpdateForm: function(id) {
-            $location.path('manufacturing/update/process/' + id);
+            $location.path('manufacture/update/process/' + id);
         },
         goToOperationUpdateForm: function(processId, operationId) {
-            $location.path('/manufacturing/process/operation/update/' + processId + '/' + operationId);
+            $location.path('/manufacture/process/operation/update/' + processId + '/' + operationId);
         },
     };
 });

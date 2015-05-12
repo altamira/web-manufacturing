@@ -37,7 +37,7 @@
                         </label>
                         <i class="icon ion-ios7-search fa-md-arrow-right extra-search" ng-click="goOperationUpdate()" ng-if='operationData.operation'></i>
                         <i class="icon ion-ios7-search fa-md-search extra-search" ng-click="operationListModalShow()"></i>
-                        <label class="extra-error" ng-show="submitted && operationData.operation.$error.required">Operação é obrigatório.</label>
+                        <label class="extra-error" ng-show="submitted && operationForm.operation.$error.required">Operação é obrigatório.</label>
                     </div>
                 </div>
             </div>
