@@ -51,6 +51,7 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                 $scope.maxRecord = 10;
                 $scope.packingData = '';
                 $scope.packingDataArray = [];
+                $scope.packingResponse = [];
                 $scope.nextButton = true;
             };
             $scope.searchText = localStorage.getItem('searchPackingList');
@@ -75,85 +76,112 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                         }
                     } else
                     {
-                        if ($scope.packingData.length <= 0 && $scope.isDataSearch == '')
+                        $scope.loading = false;
+//                        console.log(JSON.stringify($scope.packingResponse));
+                        angular.forEach(response.data, function(value, key) {
+                            $scope.packingResponse.push(value);
+                        });
+                        $scope.pagePackingListes();
+                        if ($scope.searchText != '')
                         {
-                            $scope.packingResponse = response.data;
-                            $scope.tarray = [];
-                            for (var i = 0; i < $scope.packingResponse.length; i++)
-                            {
-                                if ($scope.tarray.indexOf(parseInt($scope.packingResponse[i].delivery)) < 0)
-                                {
-                                    $scope.tarray.push(parseInt($scope.packingResponse[i].delivery));
-                                }
-
-                            }
-
-                            $scope.packingData = [];
-                            $scope.packingDataArray = [];
-                            for (var i = 0; i < $scope.tarray.length; i++)
-                            {
-                                $scope.tempArray = {};
-                                $scope.tempArray.delivery = $scope.tarray[i];
-                                $scope.tempArray.planningData = [];
-                                angular.forEach($scope.packingResponse, function(value, key) {
-                                    if (value.delivery == $scope.tarray[i])
-                                    {
-                                        $scope.tempArray.planningData.push(value);
-                                    }
-                                });
-                                $scope.packingDataArray.push($scope.tempArray);
-                            }
-                            $scope.packingData = $scope.packingDataArray;
-                            if ($scope.searchText != '')
-                            {
-                                $scope.isDataSearch = 'yes';
-                            }
-                            else
-                            {
-                                $scope.isDataSearch = '';
-                            }
+                            $scope.isDataSearch = 'yes';
                         }
                         else
                         {
-                            if ($scope.nextButton != false)
-                            {
-                                angular.forEach(response.data, function(value, key) {
-                                    if (value.delivery == $scope.tarray[i])
-                                    {
-                                        $scope.packingResponse.push(value);
-                                    }
-                                });
-                                $scope.tarray = [];
-                                for (var i = 0; i < $scope.packingResponse.length; i++)
-                                {
-                                    if ($scope.tarray.indexOf(parseInt($scope.packingResponse[i].delivery)) < 0)
-                                    {
-                                        $scope.tarray.push(parseInt($scope.packingResponse[i].delivery));
-                                    }
-
-                                }
-                                for (var i = 0; i < $scope.tarray.length; i++)
-                                {
-                                    $scope.tempArray = {};
-                                    $scope.tempArray.delivery = $scope.tarray[i];
-                                    $scope.tempArray.planningData = [];
-                                    angular.forEach($scope.packingResponse, function(value, key) {
-                                        if (value.delivery == $scope.tarray[i])
-                                        {
-                                            $scope.tempArray.planningData.push(value);
-                                        }
-                                    });
-                                    $scope.packingDataArray.push($scope.tempArray);
-                                }
-                                $scope.pagePackingListes();
-//                                $scope.temp = response.data;
-//                                angular.forEach($scope.temp, function(value, key) {
-//                                    $scope.packingDataArray.push(value);
-//                                });
-//                                $scope.pagePackingListes();
-                            }
+                            $scope.isDataSearch = '';
                         }
-                        $scope.loading = false;
+//                        $scope.tarray = [];
+//                        for (var i = 0; i < $scope.packingResponse.length; i++)
+//                        {
+//                            if ($scope.tarray.indexOf(parseInt($scope.packingResponse[i].delivery)) < 0)
+//                            {
+//                                $scope.tarray.push(parseInt($scope.packingResponse[i].delivery));
+//                            }
+//
+//                        }
+//                        $scope.tarray = unique_arr($scope.tarray);
+//                        $scope.packingData = [];
+//                        $scope.packingDataArray = [];
+//                        for (var i = 0; i < $scope.tarray.length; i++)
+//                        {
+//                            $scope.tempArray = {};
+//                            $scope.tempArray.delivery = $scope.tarray[i];
+//                            $scope.tempArray.planningData = [];
+//                            angular.forEach($scope.packingResponse, function(value, key) {
+//                                if (value.delivery == $scope.tarray[i])
+//                                {
+//                                    $scope.tempArray.planningData.push(value);
+//                                }
+//                            });
+//                            $scope.packingDataArray.push($scope.tempArray);
+//                        }
+
+//                        console.log(JSON.stringify($scope.packingData));
+//                        if ($scope.packingData.length <= 0 && $scope.isDataSearch == '')
+//                        {
+//                            $scope.packingResponse = response.data;
+//                            $scope.tarray = [];
+//                            for (var i = 0; i < $scope.packingResponse.length; i++)
+//                            {
+//                                if ($scope.tarray.indexOf(parseInt($scope.packingResponse[i].delivery)) < 0)
+//                                {
+//                                    $scope.tarray.push(parseInt($scope.packingResponse[i].delivery));
+//                                }
+//                            }
+//                            $scope.tarray = unique_arr($scope.tarray);
+//                            $scope.packingData = [];
+//                            $scope.packingDataArray = [];
+//                            for (var i = 0; i < $scope.tarray.length; i++)
+//                            {
+//                                $scope.tempArray = {};
+//                                $scope.tempArray.delivery = $scope.tarray[i];
+//                                $scope.tempArray.planningData = [];
+//                                angular.forEach($scope.packingResponse, function(value, key) {
+//                                    if (value.delivery == $scope.tarray[i])
+//                                    {
+//                                        $scope.tempArray.planningData.push(value);
+//                                    }
+//                                });
+//                                $scope.packingDataArray.push($scope.tempArray);
+//                            }
+//                            $scope.packingData = $scope.packingDataArray;
+
+//                        }
+//                        else
+//                        {
+//                            if ($scope.nextButton != false)
+//                            {
+//                                angular.forEach(response.data, function(value, key) {
+//                                    $scope.packingResponse.push(value);
+//                                });
+//                                $scope.tarray = [];
+//                                for (var i = 0; i < $scope.packingResponse.length; i++)
+//                                {
+//                                    if ($scope.tarray.indexOf(parseInt($scope.packingResponse[i].delivery)) < 0)
+//                                    {
+//                                        $scope.tarray.push(parseInt($scope.packingResponse[i].delivery));
+//                                    }
+//
+//                                }
+//                                $scope.tarray = unique_arr($scope.tarray);
+//                                for (var i = 0; i < $scope.tarray.length; i++)
+//                                {
+//                                    $scope.tempArray = {};
+//                                    $scope.tempArray.delivery = $scope.tarray[i];
+//                                    $scope.tempArray.planningData = [];
+//                                    angular.forEach($scope.packingResponse, function(value, key) {
+//                                        if (value.delivery == $scope.tarray[i])
+//                                        {
+//                                            $scope.tempArray.planningData.push(value);
+//                                        }
+//                                    });
+//                                    $scope.packingDataArray.push($scope.tempArray);
+//                                }
+//                                $scope.pagePackingListes();
+//                            }
+//                        }
+//                        console.log(JSON.stringify($scope.tarray));
+
                         $scope.range();
                     }
                 }, function(response) {
@@ -164,17 +192,25 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
             $scope.pagePackingListes = function() {
                 $scope.packingData = [];
                 $scope.start = $scope.startPage * $scope.maxRecord;
-                $scope.end = ($scope.startPage * $scope.maxRecord) + $scope.maxRecord;
+                $scope.end = $scope.start + $scope.maxRecord;
+                $scope.tarray = [];
                 for (var i = $scope.start; i < $scope.end; i++)
                 {
-                    if ($scope.packingDataArray[i])
+                    if ($scope.tarray.indexOf(parseInt($scope.packingResponse[i].delivery)) < 0)
                     {
-                        $scope.packingData.push($scope.packingDataArray[i]);
+                        $scope.tarray.push(parseInt($scope.packingResponse[i].delivery));
+                        $scope.tempArray = {};
+                        $scope.tempArray.delivery = parseInt($scope.packingResponse[i].delivery);
+                        $scope.tempArray.planningData = [];
+                        for (var j = $scope.start; j < $scope.end; j++)
+                        {
+                            if ($scope.packingResponse[j] != undefined && parseInt($scope.packingResponse[j].delivery) == parseInt($scope.packingResponse[i].delivery))
+                            {
+                                $scope.tempArray.planningData.push($scope.packingResponse[j]);
+                            }
+                        }
+                        $scope.packingData.push($scope.tempArray);
                     }
-                }
-                if ($scope.packingData.length != $scope.maxRecord)
-                {
-//                    $scope.nextButton = false;
                 }
             };
 
@@ -191,7 +227,6 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                 $scope.loadPackingList();
             };
             $scope.range = function() {
-                console.log(JSON.stringify($scope.packingDataArray.length));
                 $scope.pageStack = [];
                 var start = parseInt($scope.startPage) + 1;
                 for (var i = 1; i <= start; i++) {
@@ -209,9 +244,8 @@ altamiraAppControllers.controller('ShippingExecutionCtrl',
                 $scope.loadPackingList();
             }
             $scope.goPage = function(pageNumber) {
-                var nextPage = parseInt(pageNumber) - 1;
-                $scope.startPage = nextPage;
-                if ($scope.packingDataArray.length > 0)
+                $scope.startPage = parseInt(pageNumber) - 1;
+                if ($scope.packingResponse.length > 0)
                 {
                     if ($scope.searchText == '' || ($scope.searchText != '' && $scope.isDataSearch != ''))
                     {

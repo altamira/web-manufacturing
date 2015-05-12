@@ -1110,3 +1110,8 @@ function calculateShippingExecutionWeight()
         }
     });
 }
+function unique_arr(array) {
+    return array.filter(function(el, index, arr) {
+        return index == arr.indexOf(el);
+    });
+}
